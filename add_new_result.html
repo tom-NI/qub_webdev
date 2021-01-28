@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="mystyles.css">
+    <title>Upload match result</title>
+</head>
+
+<body class="has-navbar-fixed-top is-family-sans-serif">
+    <!-- Full nav bar -->
+    <nav class="navbar is-fixed-top is-info" role="navigation">
+        <div class="navbar-brand">
+            <div class="my_image_maintain_aspect">
+                <img id="my_site_logo"
+                    src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/my_master_logo_small.png"
+                    alt="Premier League Logo" class="image navbar-item mt-3 mx-4">
+            </div>
+            <a role="button" id="nav_burger" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item my_nav_menu m-2" href="index.html">Home</a>
+                <a class="navbar-item my_nav_menu m-2" href="fixture_analysis.html">Analyse Fixtures</a>
+                <a class="navbar-item my_nav_menu m-2" href="advanced_search.html">Advanced Search</a>
+                <a class="navbar-item my_nav_menu m-2" href="add_new_result.html">Add Results</a>
+            </div>
+            <div class="navbar-end navbar-item has-dropdown is-hoverable pr-6">
+                <a href="" class="navbar-link">
+                    <span class="material-icons p-3">language</span>
+                    <span>Language</span>
+                </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">English</a>
+                    <a class="navbar-item">Français</a>
+                    <a class="navbar-item">Deutsche</a>
+                    <a class="navbar-item">Espanol</a>
+                    <a class="navbar-item">Nederlands</a>
+                    <a class="navbar-item">Italiano</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- banner at the top of the page! -->
+    <section class="hero is-info is-bold pt-6">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title mt-4">Add a Match Result</h1>
+                <p class="subtitle is-5 mt-2">Use this form to add certified Football Association Match Results to our
+                    database
+            </div>
+        </div>
+    </section>
+
+    <div class="has-text-centered master_site_width container columns" id="my_upload_result_form">
+        <div class="column is-8 is-offset-2">
+            <div class="field">
+                <form action="POST">
+                    <div class="mt-5 p-5 my_info_colour">
+                        <div>
+                            <h2 class="title is-size-4 my_info_colour">Match Details:</h2>
+                        </div>
+                        <div class="mt-4">
+                            <div class="my_match_metadata has-text-right">
+                                <p class="my_small_form_item">Current Season : 2020-2021</p>
+                            </div>
+
+                        </div>
+                        <div>
+                            <div class="my_match_metadata control has-text-right">
+                                <label for="match_date" class="my_small_form_item">Match Date:</label>
+                            </div>
+                            <div class="my_match_metadata">
+                                <input type="date" id="users_match_date_entry"
+                                    class="my_small_form_item my-1 input is-info" name="match_date">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="my_match_metadata has-text-right">
+                                <label for="kick_off_time" class="my_small_form_item">Kick Off Time:</label>
+                            </div>
+                            <div class="my_match_metadata">
+                                <input type="time" class="my_small_form_item my-1 input is-info" name="kickoff_time">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="my_match_metadata has-text-right">
+                                <label for="referee" class="my_small_form_item ">Referee:</label>
+                            </div>
+                            <div class="my_match_metadata">
+                                <div class="select is-info my_small_form_item">
+                                    <select class="my_small_form_item" name="select_ref" id="select_ref">
+                                        <option value="placeholder_ref_name_1">Referee 1</option>
+                                        <option value="placeholder_ref_name_2">Referee 2</option>
+                                        <option value="placeholder_ref_name_3">Referee 3</option>
+                                        <option value="placeholder_ref_name_4">Referee 4</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="mt-5">If the season needs to be changed, or the list of referees does not contain
+                                the relevent referee, please submit a request to have the lists updated below</p>
+                            <div class="my_inline_divs">
+                                <a
+                                    href="mailto:tkilpatrick01@qub.ac.uk?subject=StatFinder Website - Referee Change Request &body=Dear Admin, Could the following referee be add/removed from the database as they now officiate / no longer officiate at Premier League Matches, Many thanks">
+                                    <button class="button is-danger m-3 is-rounded">Referee
+                                        Change Request</button>
+                                </a>
+                                <a
+                                    href="mailto:tkilpatrick01@qub.ac.uk?subject=StatFinder Website - New Season Request &body=Dear Admin, Can a new Season be added to the statfinder website so new season match results can be added, Many thanks">
+                                    <button class="button is-danger m-3 is-rounded my-3">Request
+                                        New Season</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field p-4 pt-5 mt-5 my_grey_highlight_para">
+                        <div class="field">
+                            <h2 class="title is-size-4 my_grey_highlight_para">Select Teams:</h2>
+                        </div>
+                        <div class="my_inline_divs m-1 mt-4">
+                            <label class="is-size-5 mx-3" id="ht_selector_text" for="ht_selector"><b>Home
+                                    Team</b></label>
+                            <div class="select is-success">
+                                <select class=" my_small_form_item mx-2 " name="ht_selector" id="ht_selector">
+                                    <option value="placeholder_team_b">Team B</option>
+                                    <option value="placeholder_team_a">Team A</option>
+                                    <option value="placeholder_team_c">Team C</option>
+                                    <option value="placeholder_team_d">Team D</option>
+                                    <option value="placeholder_team_e">Team E</option>
+                                    <option value="placeholder_team_f">Team F</option>
+                                    <option value="placeholder_team_g">Team G</option>
+                                    <option value="placeholder_team_h">Team H</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="my_inline_divs m-1 mt-4">
+                            <div class="select is-danger">
+                                <select class="my_small_form_item mx-2" name="at_selector" id="at_selector">
+                                    <option value="placeholder_team_a">Team A</option>
+                                    <option value="placeholder_team_b">Team B</option>
+                                    <option value="placeholder_team_c">Team C</option>
+                                    <option value="placeholder_team_d">Team D</option>
+                                    <option value="placeholder_team_e">Team E</option>
+                                    <option value="placeholder_team_f">Team F</option>
+                                    <option value="placeholder_team_g">Team G</option>
+                                    <option value="placeholder_team_h">Team H</option>
+                                </select>
+                            </div>
+                            <label class="is-size-5 mx-3" id="at_selector_text" for="at_selector"><b>Away
+                                    Team</b></label>
+                        </div>
+                        <div>
+                            <p class="mt-4">If a current Premier League club is not listed for match entry, please
+                                request a club change below:
+                            </p>
+                            <a
+                                href="mailto:tkilpatrick01@qub.ac.uk?subject=StatFinder Website - Club Change Request &body=Dear Admin, Can i request the following club to be added/removed from the site club listing as they have been promoted/relegated from the Premier League, Many thanks">
+                                <button class="button is-danger is-rounded mt-4 mb-3">Request
+                                    Club Change</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="field ">
+                        <div class="field">
+                            <h2 class="title is-size-4 mt-6">Enter Match statistics:</h2>
+                        </div>
+                        <p>Half Time Goals:</p>
+                        <div class="my_inline_divs m-1 p-1">
+                            <input required class="my_small_num_entry input is-success" type="number" placeholder="0"
+                                min="0" max="50" id="ht_half_time_goals" name="ht_ht_goals">
+                        </div>
+                        <div class="my_inline_divs m-1 p-1">
+                            <input class="my_small_num_entry input is-danger" type="number" required placeholder="0"
+                                min="0" max="50" id="at_half_time_goals" name="at_ht_goals">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <p>Full Time Goals:</p>
+                        <div class="my_inline_divs m-1 p-1">
+                            <input type="number" class="my_small_num_entry input is-success" required placeholder="0"
+                                min="0" max="50" id="ht_full_time_goals" name="ht_ft_goals">
+                        </div>
+                        <div class="my_inline_divs m-1 p-1">
+                            <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
+                                min="0" max="50" id="at_full_time_goals" name="at_ft_goals">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <p>Total Shots:</p>
+                        <div>
+                            <div class="my_inline_divs m-1 p-1">
+                                <input type="number" class="my_small_num_entry input is-success" required
+                                    placeholder="0" min="0" max="50" id="ht_total_shots" name="ht_total_shots">
+                            </div>
+                            <div class="my_inline_divs m-1 p-1">
+                                <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
+                                    min="0" max="50" name="at_total_shots" id="at_total_shots">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <p>Shots on Target:</p>
+                        <div>
+                            <div class="my_inline_divs m-1 p-1">
+                                <input type="number" class="my_small_num_entry input is-success" required
+                                    placeholder="0" min="0" max="50" id="ht_shots_on_target" name="ht_shots_on_target">
+                            </div>
+                            <div class="my_inline_divs m-1 p-1">
+                                <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
+                                    min="0" max="50" id="at_shots_on_target" name="at_shots_on_target">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <p>Corners:</p>
+                        <div>
+                            <div class="my_inline_divs m-1 p-1">
+                                <input type="number" class="my_small_num_entry input is-success" required
+                                    placeholder="0" min="0" max="200" id="ht_corners" name="ht_corners">
+                            </div>
+                            <div class="my_inline_divs m-1 p-1">
+                                <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
+                                    min="0" max="200" id="at_corners" name="at_corners">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <p>Total Fouls:</p>
+                        <div class="my_inline_divs m-1 p-1">
+                            <input type="number" class="my_small_num_entry input is-success" required placeholder="0"
+                                min="0" max="100" name="ht_total_fouls" id="ht_total_fouls">
+                        </div>
+                        <div class="my_inline_divs m-1 p-1">
+                            <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
+                                min="0" max="100" name="at_total_fouls" id="at_total_fouls">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <p>Yellow Cards:</p>
+                        <div class="my_inline_divs m-1 p-1">
+                            <input type="number" class="my_small_num_entry input is-success" required placeholder="0"
+                                min="0" max="22" name="" id="ht_yellow_cards" name="ht_yellow_cards">
+                        </div>
+                        <div class="my_inline_divs m-1 p-1">
+                            <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
+                                min="0" max="22" name="" id="at_yellow_cards" name="at_yellow_cards">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <p>Red Cards:</p>
+                        <div class="my_inline_divs m-1 p-1">
+                            <input type="number" class="my_small_num_entry input is-success" required placeholder="0"
+                                min="0" max="5" name="" id="ht_red_cards" name="ht_red_cards">
+                        </div>
+                        <div class="my_inline_divs m-1 p-1">
+                            <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
+                                min="0" max="5" name="" id="at_red_cards" name="at_red_cards">
+                        </div>
+                    </div>
+                    <div class="my_grey_highlight_para p-3">
+                        <p>I have checked the data for correctness prior to submitting</p>
+                        <input required type="radio" id="yes_radio" name="confirmed_accurate"
+                            class="control my_inline_divs ml-5 my-3 my_radio_button">
+                        <label class="my_inline_divs ml-1 my_radio_button" for="yes_radio">Yes</label>
+                        <input checked type="radio" id="no_radio" name="confirmed_accurate"
+                            class="control my_inline_divs ml-5 my-3 my_radio_button">
+                        <label class="my_inline_divs ml-1 my_radio_button" for="no_radio">No</label>
+                    </div>
+                    <div class="field is-grouped is-grouped-centered mt-2 mb-4">
+                        <button type="reset" id="new_match_reset_button"
+                            class="button m-2 is-rounded is-info is-outlined">Reset Form</button>
+                        <button type="submit" disabled id="new_match_submit_button"
+                            class="button m-2 is-rounded is-info">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="level master_site_width mt-6">
+        <div class="p-3">
+            <div class="my_inline_divs mr-5 level-item">
+                <p>Follow us on social media:</p>
+            </div>
+            <div class="my_inline_divs mr-5 level-item my_social_media_icon">
+                <a href="https://www.facebook.com/" target="_blank">
+                    <i class="fab fa-facebook fa-2x"></i>
+                </a>
+            </div>
+            <div class="my_inline_divs mr-5 level-item my_social_media_icon">
+                <a href="https://www.youtube.com/" target="_blank">
+                    <i class="fab fa-youtube fa-2x"></i>
+                </a>
+            </div>
+            <div class="my_inline_divs mr-5 level-item my_social_media_icon">
+                <a href="https://twitter.com/" target="_blank">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a>
+            </div>
+            <div class="my_inline_divs mr-5 level-item my_social_media_icon">
+                <a href="https://www.instagram.com/" target="_blank">
+                    <i class="fab fa-instagram fa-2x"></i>
+                </a>
+            </div>
+        </div>
+        <div class="my_inline_divs mr-5 ">
+            <button class="button is-rounded is-dark" id="back_to_top_button">
+                <span class="icon is-left">
+                    <i class="material-icons">arrow_upward</i>
+                </span>
+                <span>Back to Top</span>
+            </button>
+        </div>
+    </div>
+    <footer class="footer pb-6">
+        <div class="content master_site_width">
+            <div class="has-text-centered">
+                <p id="footer_text" class="mt-3">© All Content Copyright EPL Match Statistic Finder</p>
+                <p><a href="">About us</a></p>
+                <p><a href="">Contact Us</a></p>
+                <p class="content m-4 subtitle is-7 mt-6">The English Premier League Match Stat Finder website rejects
+                    racism in
+                    all its forms</p>
+                <p class="content m-4 subtitle is-7">All statistics shown on this site are for the 2000-2001 league
+                    season onwards only.
+                    Earlier statistics are unavailable</p>
+                <p class="content m-4 subtitle is-7 ">All information provided on the English Premier League Match
+                    Statistic Finder
+                    (EPLMSF) site is provided for entertainment and discussion purposes only and may not be used to make
+                    informed decisions about the Premier League. Past performances are not a reliable indicator of
+                    future results. Any performance metric inferences are incidental and
+                    are not designed to offend.</p>
+            </div>
+    </footer>
+    <script src="my_script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,203 @@
+* {
+    text-align: center;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* problem todo - check master site width this is responsive - bulma column might be better? */
+.master_site_width {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+#my_site_logo {
+    height: 90px;
+}
+
+/* fixes a bug with the bulma "level" word wrap attribute */
+.my_level_wrap{
+    flex-shrink: 1
+}
+
+.my_dont_wrap_text {
+    white-space: nowrap;
+    overflow: auto;
+}
+
+.my_sticky_div {
+    position:-webkit-sticky;
+    position: sticky;
+    top: 100px;
+}
+
+.my_small_form_item {
+    min-width: 150px;
+    padding: 2px;
+}
+
+.my_small_num_entry {
+    display: inline-block;
+    width: 75px;
+    height: 30px;
+    font-size: 1rem;
+}
+
+.my_inline_divs{
+    display: inline-flex;
+    vertical-align: middle;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.my_match_metadata {
+    display: inline-block;
+    padding: 5px;
+    margin: 0 5px;
+    min-width: 200px;
+}
+
+.my_result_centre_stat_text {
+    min-width: 180px;
+    padding: 2px;
+}
+
+.result_box{
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    background-color: hsl(204, 86%, 53%);
+    font-weight: bold;
+    color: white;
+}
+
+.my_main_result_box {
+    width: 50px;
+    height: 50px;
+    background-color: hsl(204, 86%, 53%);
+    font-weight: bold;
+    color: white;
+    vertical-align: middle;
+}
+
+.my_filter_num_entry {
+    width: 2.5rem;
+    height: 2rem;
+    margin: auto 5px;
+}
+
+.my_image_maintain_aspect {
+    width:100%;
+    height: auto;
+}
+
+/* see if bulma can replace this */
+/* advanced search page - filtering */
+.my_filter_select_width {
+    width: 100px;
+}
+
+.my_send_to_front {
+    z-index: 100;
+}
+
+/* all hovering and pseudostates: */
+#master_result_card:hover, .my_nav_menu:hover, .my_social_media_icon:hover,
+.my_radio_button:hover, .my_carousel_buttons:hover{
+    cursor: pointer;
+    transform: scale(1.03);
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+/* my custom colours below */
+.my_box_border {
+    border: 2px hsl(204, 86%, 53%) solid;
+}
+
+.my_grey_border {
+    border:thin grey solid;
+}
+
+.my_grey_highlight_para {
+    background-color: lightgray;
+}
+
+.my_stat_font {
+    color: white;
+    font-weight: bold;
+}
+
+.material-icons.redicon { 
+    color: red; 
+}
+
+.material-icons.greenicon {
+     color: lightgreen; 
+}
+
+.team_a_colour {
+    background-color: hsl(141, 53%, 53%);
+    font-weight: bold;
+}
+
+.team_b_colour {
+    background-color: tomato;
+    font-weight: bold;
+}
+
+.team_a_name_colour {
+    color:  hsl(141, 53%, 53%);
+}
+
+.team_b_name_colour {
+    color: tomato;
+}
+
+.my_info_colour {
+    /* background-color:hsl(204, 86%, 53%); */
+    background-color:hsl(204, 86%, 53%)	;
+    color: white;
+}
+
+.my_fixture_stat_level {
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
+.fab{
+    color: black;
+}
+
+/* custom rules to reduce sizes for mobile */
+@media only screen and (max-width: 768px) {
+    .my_main_result_box {
+        width: 35px;
+        height: 35px;
+        background-color: hsl(204, 86%, 53%);
+        font-weight: bold;
+        color: white;
+        vertical-align: middle;
+    }
+
+    .result_box{
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        background-color: hsl(204, 86%, 53%);
+        font-weight: bold;
+        color: white;
+    }
+
+    #my_site_logo {
+        margin-left:0;
+        height: 70px;
+    }
+}
