@@ -82,17 +82,25 @@
         $kickOffTime = $dateTimearray[1];
 
         // // query the normalised tables to ensure entries are not duplicated on import
-        // $sqlQuerySeason = "SELECT * FROM seasons WHERE SeasonYears = $season;";
-        // $sqlInsertSeason = "INSERT INTO seasons (SeasonYears) VALUES ('$season');";
+        $sqlQuerySeason = "SELECT * FROM epl_seasons WHERE SeasonYears = `$season`;";
+        $sqlInsertSeason = "INSERT INTO epl_seasons (SeasonYears) VALUES ('$season');";
+        echo "<p>{$sqlQuerySeason}</p>";
+        echo "<p>{$sqlInsertSeason}</p>";
 
-        // $sqlQueryReferee = "SELECT * FROM referee WHERE RefereeName = $referee;";
-        // $sqlInsertReferee = "INSERT INTO referee (RefereeName) VALUES $referee;";
+        $sqlQueryReferee = "SELECT * FROM epl_referee WHERE RefereeName = `$referee`;";
+        $sqlInsertReferee = "INSERT INTO epl_referee (RefereeName) VALUES (`$referee`);";
+        echo "<p>{$sqlQueryReferee}</p>";
+        echo "<p>{$sqlInsertReferee}</p>";
 
-        // $sqlQueryHomeClubname = "SELECT * FROM club_names WHERE ClubName = $homeTeam;";
-        // $sqlInsertHomeClubname = "INSERT INTO club_names (ClubName) VALUES ($homeTeam);";
+        $sqlQueryHomeClubname = "SELECT * FROM epl_club_names WHERE ClubName = $homeTeam;";
+        $sqlInsertHomeClubname = "INSERT INTO epl_club_names (ClubName) VALUES ($homeTeam);";
+        echo "<p>{$sqlQueryHomeClubname}</p>";
+        echo "<p>{$sqlInsertHomeClubname}</p>";
 
-        // $sqlQueryAwayClubname = "SELECT * FROM club_names WHERE ClubName = $awayTeam;";
-        // $sqlInsertAwayClubname = "INSERT INTO club_names (ClubName) VALUES ($awayTeam);";
+        $sqlQueryAwayClubname = "SELECT * FROM `epl_club_names` WHERE ClubName = $awayTeam;";
+        $sqlInsertAwayClubname = "INSERT INTO epl_club_names (ClubName) VALUES ($awayTeam);";
+        echo "<p>{$sqlQueryAwayClubname}</p>";
+        echo "<p>{$sqlInsertAwayClubname}</p>";
         
         // avoidDuplicateEntries($sqlQuerySeason, $sqlInsertSeason);
         // avoidDuplicateEntries($sqlQueryReferee, $sqlInsertReferee);
@@ -100,34 +108,42 @@
         // avoidDuplicateEntries($sqlQueryAwayClubname, $sqlInsertAwayClubname);
 
         // // getseasonid for SQL query!
-        // $seasonIdQuery = "SELECT SeasonID FROM seasons WHERE SeasonYears = $season;";
+        $seasonIdQuery = "SELECT SeasonID FROM epl_seasons WHERE SeasonYears = `$season`;";
         // $seasonID = dbQueryAndReturnValue($seasonIdQuery);
+        echo "<p>{$seasonIdQuery}</p>";
 
         // // find and return clubs ID;
-        // $homeClubIDQuery = "SELECT ClubID FROM club_names WHERE ClubName = $homeTeam;";
-        // $awayClubIDQuery = "SELECT ClubID FROM club_names WHERE ClubName = $awayTeam;";
+        $homeClubIDQuery = "SELECT ClubID FROM epl_club_names WHERE ClubName = $homeTeam;";
+        $awayClubIDQuery = "SELECT ClubID FROM epl_club_names WHERE ClubName = $awayTeam;";
         // $homeClubID = dbQueryAndReturnValue($homeClubIDQuery);
         // $awayClubID = dbQueryAndReturnValue($awayClubIDQuery);
+        echo "<p>{$homeClubIDQuery}</p>";
+        echo "<p>{$awayClubIDQuery}</p>";
 
-        // $refereeIDQuery = "SELECT RefereeID FROM referee WHERE RefereeName = $referee;";
+        $refereeIDQuery = "SELECT RefereeID FROM epl_referee WHERE RefereeName = `$referee`;";
         // $refereeID = dbQueryAndReturnValue($refereeIDQuery);
+        echo "<p>{$refereeIDQuery}</p>";
         
         // // TODO - make sure all strings have the ' ' around all string names and NOT around ints!
-        // $sqlMatchInsertQuery = "INSERT INTO matches (SeasonID, MatchDate, KickOffTime, Referee, HomeClubID, AwayClubId, HalfTimeResult, FullTimeResult) 
-        //                     VALUES ($seasonID, $matchDate, $kickOffTime, $refereeID, $homeclubID, $awayclubID, $halfTimeResult, $fullTimeResult);";
+        $sqlMatchInsertQuery = "INSERT INTO epl_matches (SeasonID, MatchDate, KickOffTime, Referee, HomeClubID, AwayClubId, HalfTimeResult, FullTimeResult) 
+                            VALUES ($seasonID, $matchDate, $kickOffTime, $refereeID, $homeclubID, $awayclubID, $halfTimeResult, $fullTimeResult);";
         // dbInsertAndCheck($sqlMatchInsertQuery);
+        echo "<p>{$sqlMatchInsertQuery}</p>";
 
         // // TODO - CHECK THIS to get the current matchID
-        // $matchIDQuery = "SELECT MatchID FROM matches WHERE MatchDate = $matchDate AND KickOffTime = $kickOffTime AND HomeClubID = $homeclubID;";
+        $matchIDQuery = "SELECT MatchID FROM epl_matches WHERE MatchDate = $matchDate AND KickOffTime = $kickOffTime AND HomeClubID = $homeclubID;";
         // $matchID = dbQueryAndReturnValue($matchIDQuery);
+        echo "<p>{$matchIDQuery}</p>";
             
         // // todo - get matchID
-        // $sqlHomeTeamStatsInsertQuery = "INSERT INTO home_team_match_stats (MatchID, TotalGoals, HalfTimeGoals, Shots, ShotsOnTarget, Corners, Fouls, YellowCards, RedCards) 
-        //                     VALUES ($matchID, $fullTimeHomeGoals, $halfTimeHomeGoals, $homeShots, $homeShotsOnTarget, $homeCorners, $homeFouls, $homeYellowCards, $homeRedCards);";
+        $sqlHomeTeamStatsInsertQuery = "INSERT INTO epl_home_team_match_stats (MatchID, TotalGoals, HalfTimeGoals, Shots, ShotsOnTarget, Corners, Fouls, YellowCards, RedCards) 
+                            VALUES ($matchID, $fullTimeHomeGoals, $halfTimeHomeGoals, $homeShots, $homeShotsOnTarget, $homeCorners, $homeFouls, $homeYellowCards, $homeRedCards);";
         // dbInsertAndCheck($sqlHomeTeamStatsInsertQuery);
+        echo "<p>{$sqlHomeTeamStatsInsertQuery}</p>";
 
-        // $sqlAwayTeamStatsInsertQuery = "INSERT INTO home_team_match_stats (MatchID, TotalGoals, HalfTimeGoals, Shots, ShotsOnTarget, Corners, Fouls, YellowCards, RedCards) 
-        //                     VALUES ($matchID, $fullTimeAwayGoals, $halfTimeAwayGoals, $awayShots, $awayShotsOnTarget, $awayCorners, $awayFouls, $awayYellowCards, $awayRedCards);";
+        $sqlAwayTeamStatsInsertQuery = "INSERT INTO epl_away_team_match_stats (MatchID, TotalGoals, HalfTimeGoals, Shots, ShotsOnTarget, Corners, Fouls, YellowCards, RedCards) 
+                            VALUES ($matchID, $fullTimeAwayGoals, $halfTimeAwayGoals, $awayShots, $awayShotsOnTarget, $awayCorners, $awayFouls, $awayYellowCards, $awayRedCards);";
         // dbInsertAndCheck($sqlAwayTeamStatsInsertQuery); 
+        echo "<p>{$sqlAwayTeamStatsInsertQuery}</p>";
     }
 ?>
