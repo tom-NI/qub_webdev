@@ -122,4 +122,5 @@
                             VALUES ($matchID, $fullTimeAwayGoals, $halfTimeAwayGoals, $awayShots, $awayShotsOnTarget, $awayCorners, $awayFouls, $awayYellowCards, $awayRedCards);";
         dbInsertAndCheck($sqlAwayTeamStatsInsertQuery); 
     }
+    echo "<p>Upload to DB Successful</p>";
 ?>
