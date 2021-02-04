@@ -1,14 +1,4 @@
 <?php
-    // TODO - 
-    // GRAB FILE NAME
-    // DELETE HEADER ROW IN CSV FILE
-    // CHECK IF I CAN DELETE THE ROWS IN CSV FILE
-    // COMMENT OUT ALL LIVE DB UPDATE QUERIES AND ECHO THEM FIRST
-    // dummy echo out all lines from a dummy CSV file!
-
-    // CHECK ALL CHECKS
-    // SETUP AI PK'S TO START FROM 1000 - J BUSCH SEEMS TO LIKE THIS
-
     include("../dbconn.php");
 
     // get the file name!
@@ -31,7 +21,6 @@
     }
 
     // insert data and if it fails, print error message
-    // CHECK - IS THIS EVEN CORRECT LOL!
     function dbInsertAndCheck($query) {
         include("../dbconn.php");
         $value = $conn->query($query);
@@ -58,10 +47,10 @@
         $awayTeam = $line[3];
         $fullTimeHomeGoals = $line[4];
         $fullTimeAwayGoals = $line[5];
-        $fullTimeResult = $line[6];  // todo - do i really need this?
+        $fullTimeResult = $line[6]; 
         $halfTimeHomeGoals = $line[7];
         $halfTimeAwayGoals = $line[8];
-        $halfTimeResult = $line[9];  // todo do i need this?
+        $halfTimeResult = $line[9]; 
         $referee = $line[10];
         $homeShots = $line[11];
         $awayShots = $line[12];
