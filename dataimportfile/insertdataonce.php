@@ -33,37 +33,37 @@
     // query a db and if data doesnt exist, insert it and check its inserted
     function avoidDuplicateEntries($query, $insertQueryIfNull) {
         include("../dbconn.php");
-        $value = $conn->query($query);
-        if ($value->fetch_array()[0] == null) {
+        $databaseReturnedObject = $conn->query($query);
+        if (mysqli_num_rows($databaseReturnedObject) == 0) {
             dbInsertAndCheck($insertQueryIfNull);
         }
     }
 
     // loop thru full file, print out first item in each row!
     while ( ($line = fgetcsv($filepath)) !== FALSE ) {
-        $season = $line[0];
-        $dateTime = $line[1];
-        $homeTeam = $line[2];
-        $awayTeam = $line[3];
-        $fullTimeHomeGoals = $line[4];
-        $fullTimeAwayGoals = $line[5];
-        $fullTimeResult = $line[6]; 
-        $halfTimeHomeGoals = $line[7];
-        $halfTimeAwayGoals = $line[8];
-        $halfTimeResult = $line[9]; 
-        $referee = $line[10];
-        $homeShots = $line[11];
-        $awayShots = $line[12];
-        $homeShotsOnTarget = $line[13];
-        $awayShotsOnTarget = $line[14];
-        $homeCorners = $line[15];
-        $awayCorners = $line[16];
-        $homeFouls = $line[17];
-        $awayFouls = $line[18];
-        $homeYellowCards = $line[19];
-        $awayYellowCards = $line[20];
-        $homeRedCards = $line[21];
-        $awayRedCards = $line[22];
+        $season = real_escape_string($line[0]);
+        $dateTime = real_escape_string($line[1]);
+        $homeTeam = real_escape_string($line[2]);
+        $awayTeam = real_escape_string($line[3]);
+        $fullTimeHomeGoals = real_escape_string($line[4]);
+        $fullTimeAwayGoals = real_escape_string($line[5]);
+        $fullTimeResult = real_escape_string($line[6]);
+        $halfTimeHomeGoals = real_escape_string($line[7]);
+        $halfTimeAwayGoals = real_escape_string($line[8]);
+        $halfTimeResult = real_escape_string($line[9]);
+        $referee = real_escape_string($line[10]);
+        $homeShots = real_escape_string($line[11]);
+        $awayShots = real_escape_string($line[12]);
+        $homeShotsOnTarget = real_escape_string($line[13]);
+        $awayShotsOnTarget = real_escape_string($line[14]);
+        $homeCorners = real_escape_string($line[15]);
+        $awayCorners = real_escape_string($line[16]);
+        $homeFouls = real_escape_string($line[17]);
+        $awayFouls = real_escape_string($line[18]);
+        $homeYellowCards = real_escape_string($line[19]);
+        $awayYellowCards = real_escape_string($line[20]);
+        $homeRedCards = real_escape_string($line[21]);
+        $awayRedCards = real_escape_string($line[22]);
 
         // split the date and time for each row and assign into a var
         // used later on down the script to file the info into db match info!
@@ -77,10 +77,10 @@
         $kickOffTime = preg_replace($regex, '', $kaggleKickOffTime);
 
         // query the normalised tables to ensure entries are not duplicated on import
-        $sqlQuerySeason = "SELECT * FROM `epl_seasons` WHERE SeasonYears = '$season;'";
+        $sqlQuerySeason = "SELECT * FROM `epl_seasons` WHERE SeasonYears = '$season';";
         $sqlInsertSeason = "INSERT INTO `epl_seasons` (SeasonYears) VALUES ('$season');";
 
-        $sqlQueryReferee = "SELECT * FROM `epl_referees` WHERE RefereeName = '$referee;'";
+        $sqlQueryReferee = "SELECT * FROM `epl_referees` WHERE RefereeName = '$referee';";
         $sqlInsertReferee = "INSERT INTO `epl_referees` (RefereeName) VALUES ('$referee');";
 
         $sqlQueryHomeClubname = "SELECT * FROM `epl_club_names` WHERE ClubName = '$homeTeam';";
