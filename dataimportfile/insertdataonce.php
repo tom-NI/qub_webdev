@@ -74,39 +74,12 @@
         $homeRedCards = $line[21];
         $awayRedCards = $line[22];
 
-        echo "<p>season name {$season}</p>";
-        echo "<p>dateTime {$dateTime}</p>";
-        echo "<p>homeTeam {$homeTeam}</p>";
-        echo "<p>away team {$awayTeam}</p>";
-        echo "<p>fullTimeHomeGoals {$fullTimeHomeGoals}</p>";
-        echo "<p>fullTimeAwayGoals {$fullTimeAwayGoals}</p>";
-        echo "<p>fullTimeResult {$fullTimeResult}</p>";
-        echo "<p>halfTimeHomeGoals {$halfTimeHomeGoals}</p>";
-        echo "<p>halfTimeAwayGoals {$halfTimeAwayGoals}</p>";
-        echo "<p>halfTimeResult {$halfTimeResult}</p>";
-        echo "<p>referee {$referee}</p>";
-        echo "<p>homeShots {$homeShots}</p>";
-        echo "<p>awayShots {$awayShots}</p>";
-        echo "<p>homeShotsOnTarget {$homeShotsOnTarget}</p>";
-        echo "<p>awayShotsOnTarget {$awayShotsOnTarget}</p>";
-        echo "<p>homeCorners {$homeCorners}</p>";
-        echo "<p>awayCorners {$awayCorners}</p>";
-        echo "<p>homeFouls {$homeFouls}</p>";
-        echo "<p>awayFouls {$awayFouls}</p>";
-        echo "<p>homeYellowCards {$homeYellowCards}</p>";
-        echo "<p>awayYellowCards {$awayYellowCards}</p>";
-        echo "<p>homeRedCards {$homeRedCards}</p>";
-        echo "<p>awayRedCards {$awayRedCards}</p>";
-
         // split the {ate and time for each row and assign into a var
         // used later on down the script to file the info!
         trim($dateTime);
         $dateTimearray = explode("T", $dateTime);
         $matchDate = $dateTimearray[0];
         $kickOffTime = $dateTimearray[1];
-
-        echo "<p>split out date {$matchDate}</p>";
-        echo "<p>split pout time {$kickOffTime}</p>";
 
         // // query the normalised tables to ensure entries are not duplicated on import
         // $sqlQuerySeason = "SELECT * FROM seasons WHERE SeasonYears = $season;";
