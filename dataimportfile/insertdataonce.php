@@ -7,14 +7,12 @@
     // dummy echo out all lines from a dummy CSV file!
 
     // CHECK ALL CHECKS
-    // CHECK ALL VARCHAR TYPES ARE ENCLOSED IN '' AND INTS ARE NOT!
-    // SETUP MYSQL DATABASE FOR THE ROWS AND COLUMNS NAMES AND TABLES!
     // SETUP AI PK'S TO START FROM 1000 - J BUSCH SEEMS TO LIKE THIS
 
     include("../dbconn.php");
 
     // get the file name!
-    $file = "dummyresults2.csv";
+    $file = ".csv";
 
     // obtain and store the filepath
     $filepath = fopen($file, "r");
@@ -46,7 +44,6 @@
     // query a db and if data doesnt exist, insert it and check its inserted
     function avoidDuplicateEntries($query, $insertQueryIfNull) {
         include("../dbconn.php");
-        // CHECK top line of code
         $value = $conn->query($query);
         if ($value->fetch_array()[0] == null) {
             dbInsertAndCheck($insertQueryIfNull);
@@ -79,12 +76,16 @@
         $homeRedCards = $line[21];
         $awayRedCards = $line[22];
 
-        // split the {ate and time for each row and assign into a var
-        // used later on down the script to file the info!
+        // split the date and time for each row and assign into a var
+        // used later on down the script to file the info into db match info!
         trim($dateTime);
         $dateTimearray = explode("T", $dateTime);
         $matchDate = $dateTimearray[0];
-        $kickOffTime = $dateTimearray[1];
+
+        // save match time without the Z from csv
+        $regex = '/[Zz]/i';
+        $kaggleKickOffTime = $dateTimearray[1];
+        $kickOffTime = preg_replace($regex, '', $kaggleKickOffTime);
 
         // query the normalised tables to ensure entries are not duplicated on import
         $sqlQuerySeason = "SELECT * FROM `epl_seasons` WHERE SeasonYears = '$season;'";
@@ -113,8 +114,6 @@
         $awayClubIDQuery = "SELECT ClubID FROM `epl_club_names` WHERE ClubName = '$awayTeam';";
         $homeClubID = dbQueryAndReturnValue($homeClubIDQuery);
         $awayClubID = dbQueryAndReturnValue($awayClubIDQuery);
-        // echo "<p>{$homeClubID} is the home club id</p>";
-        // echo "<p>{$awayClubID} is the away club id</p>";
 
         $refereeIDQuery = "SELECT RefereeID FROM `epl_referees` WHERE RefereeName = '$referee';";
         $refereeID = dbQueryAndReturnValue($refereeIDQuery);
@@ -123,7 +122,6 @@
                             VALUES ($seasonID, '$matchDate', '$kickOffTime', $refereeID, $homeClubID, $awayClubID);";
         dbInsertAndCheck($sqlMatchInsertQuery);
 
-        // TODO - CHECK THIS to get the current matchID
         $matchIDQuery = "SELECT MatchID FROM `epl_matches` WHERE MatchDate = '$matchDate' AND KickOffTime = '$kickOffTime' AND HomeClubID = $homeClubID;";
         
         $matchID = dbQueryAndReturnValue($matchIDQuery);
