@@ -2,7 +2,7 @@
     include("../dbconn.php");
 
     // get the file name!
-    $file = ".csv";
+    $file = "resultsfinal.csv";
 
     // obtain and store the filepath
     $filepath = fopen($file, "r");
