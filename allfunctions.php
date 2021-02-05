@@ -1,5 +1,5 @@
 <?php
-    require("dbconn.php");  
+    require("dbconn.php");
 
     // query database for info and return the variable
     function dbQueryAndReturnIntValue($sqlQuery) {
