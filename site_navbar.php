@@ -1,4 +1,5 @@
 <?php
+    // site navigation bar, common to all pages
     echo
     "<nav class='navbar is-fixed-top is-info' role='navigation'>
         <div class='navbar-brand'>

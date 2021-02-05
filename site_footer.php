@@ -1,5 +1,5 @@
 <?php
-    // site footer and social media buttons, common to all pages
+    // site footer and social media buttons, common to all site pages
     echo 
         "<div class='level master_site_width mt-6'>
         <div class='p-3'>
