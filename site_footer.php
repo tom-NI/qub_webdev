@@ -55,5 +55,5 @@
                     future results. Any performance metric inferences are incidental and
                     are not designed to offend.</p>
             </div>
-    </footer>"
+    </footer>";
 ?>

@@ -1,3 +1,8 @@
+<?php
+    include("dbconn.php");
+    include("sqlqueries.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,22 +37,30 @@
                     <form class="level columns form">
                         <div class="column level-item">
                             <div class="select control is-expanded is-success">
-                                <select name="" id="fixture_ht_selector" class="">
-                                    <option default value="">Select Home Team</option>
-                                    <option value="">Team 1</option>
-                                    <option value="">Team 2</option>
-                                    <option value="">Team 3</option>
-                                </select>
+                                <?php
+                                    echo "<select name='fixture_ht_selector' id='fixture_ht_selector' class=''>";
+                                    echo "<option value='placeholder_team'>Select Home Team</option>";
+                                    $clubNameResult=$conn->query($clubNameQuery);
+
+                                    while ($row = $clubNameResult->fetch_assoc()) {
+                                        echo "<option value='{$row["ClubName"]}'>{$row["ClubName"]}</option>";
+                                    }
+                                    echo "</select>";
+                                ?>
                             </div>
                         </div>
                         <div class="column level-item">
                             <div class="select control is-expanded is-danger">
-                                <select name="" id="fixture_at_selector" class="">
-                                    <option default value="">Select Away Team</option>
-                                    <option value="">Team 1</option>
-                                    <option value="">Team 2</option>
-                                    <option value="">Team 3</option>
-                                </select>
+                                <?php
+                                    echo "<select name='fixture_at_selector' id='fixture_at_selector' class=''>";
+                                    echo "<option value='placeholder_team'>Select Away Team</option>";
+                                    $clubNameResult=$conn->query($clubNameQuery);
+                                    
+                                    while ($row = $clubNameResult->fetch_assoc()) {
+                                        echo "<option value='{$row["ClubName"]}'>{$row["ClubName"]}</option>";
+                                    }
+                                    echo "</select>";
+                                ?>
                             </div>
                         </div>
                         <div class="column is-centered mt-0 level-item">

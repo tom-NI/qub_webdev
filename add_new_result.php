@@ -1,3 +1,8 @@
+<?php
+    include("dbconn.php");
+    include("sqlqueries.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,12 +68,14 @@
                             </div>
                             <div class="my_match_metadata">
                                 <div class="select is-info my_small_form_item">
-                                    <select class="my_small_form_item" name="select_ref" id="select_ref">
-                                        <option value="placeholder_ref_name_1">Referee 1</option>
-                                        <option value="placeholder_ref_name_2">Referee 2</option>
-                                        <option value="placeholder_ref_name_3">Referee 3</option>
-                                        <option value="placeholder_ref_name_4">Referee 4</option>
-                                    </select>
+                                    <?php
+                                        echo "<select class='my_small_form_item' name='select_ref' id='select_ref'>";
+                                        $refereeResult=$conn->query($refereeNameQuery);
+                                        while ($row = $refereeResult->fetch_assoc()) {
+                                            echo "<option value='{$row["RefereeName"]}'>{$row["RefereeName"]}</option>";
+                                        }
+                                        echo "</select>";
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -98,30 +105,28 @@
                             <label class="is-size-5 mx-3" id="ht_selector_text" for="ht_selector"><b>Home
                                     Team</b></label>
                             <div class="select is-success">
-                                <select class=" my_small_form_item mx-2 " name="ht_selector" id="ht_selector">
-                                    <option value="placeholder_team_b">Team B</option>
-                                    <option value="placeholder_team_a">Team A</option>
-                                    <option value="placeholder_team_c">Team C</option>
-                                    <option value="placeholder_team_d">Team D</option>
-                                    <option value="placeholder_team_e">Team E</option>
-                                    <option value="placeholder_team_f">Team F</option>
-                                    <option value="placeholder_team_g">Team G</option>
-                                    <option value="placeholder_team_h">Team H</option>
-                                </select>
+                                <?php
+                                    echo "<select class=' my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>";
+                                    echo "<option value='placeholder_team'>Select Team</option>";
+                                    $clubNameResult=$conn->query($clubNameQuery);
+                                    while ($row = $clubNameResult->fetch_assoc()) {
+                                        echo "<option value='{$row["ClubName"]}'>{$row["ClubName"]}</option>";
+                                    }
+                                    echo "</select>";
+                                ?>
                             </div>
                         </div>
                         <div class="my_inline_divs m-1 mt-4">
                             <div class="select is-danger">
-                                <select class="my_small_form_item mx-2" name="at_selector" id="at_selector">
-                                    <option value="placeholder_team_a">Team A</option>
-                                    <option value="placeholder_team_b">Team B</option>
-                                    <option value="placeholder_team_c">Team C</option>
-                                    <option value="placeholder_team_d">Team D</option>
-                                    <option value="placeholder_team_e">Team E</option>
-                                    <option value="placeholder_team_f">Team F</option>
-                                    <option value="placeholder_team_g">Team G</option>
-                                    <option value="placeholder_team_h">Team H</option>
-                                </select>
+                                <?php
+                                    echo "<select class='my_small_form_item mx-2' name='at_selector' id='at_selector'>";
+                                    echo "<option value='placeholder_team'>Select Team</option>";
+                                    $clubNameResult=$conn->query($clubNameQuery);
+                                    while ($row = $clubNameResult->fetch_assoc()) {
+                                        echo "<option value='{$row["ClubName"]}'>{$row["ClubName"]}</option>";
+                                    }
+                                    echo "</select>";
+                                ?>
                             </div>
                             <label class="is-size-5 mx-3" id="at_selector_text" for="at_selector"><b>Away
                                     Team</b></label>

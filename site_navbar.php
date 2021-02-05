@@ -16,10 +16,10 @@
         </div>
         <div class='navbar-menu'>
             <div class='navbar-start'>
-                <a class='navbar-item my_nav_menu m-2' href='index.html'>Home</a>
-                <a class='navbar-item my_nav_menu m-2' href='fixture_analysis.html'>Analyse Fixtures</a>
-                <a class='navbar-item my_nav_menu m-2' href='advanced_search.html'>Advanced Search</a>
-                <a class='navbar-item my_nav_menu m-2' href='add_new_result.html'>Add Results</a>
+                <a class='navbar-item my_nav_menu m-2' href='index.php'>Home</a>
+                <a class='navbar-item my_nav_menu m-2' href='fixture_analysis.php'>Analyse Fixtures</a>
+                <a class='navbar-item my_nav_menu m-2' href='advanced_search.php'>Advanced Search</a>
+                <a class='navbar-item my_nav_menu m-2' href='add_new_result.php'>Add Results</a>
             </div>
             <div class='navbar-end navbar-item has-dropdown is-hoverable pr-6'>
                 <a href='' class='navbar-link'>
