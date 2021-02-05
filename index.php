@@ -55,7 +55,7 @@
             <!-- image carousel! -->
             <div class="my_image_maintain_aspect">
                 <figure>
-                    <img src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/a_mufc_lfc.jpg" alt=""
+                    <img src="https://i.imgur.com/Ok815ec.jpg" alt=""
                         class="box">
                     <caption>
                         Manchester United and Liverpool are neck and neck this season in the

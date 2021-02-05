@@ -5,7 +5,7 @@
 
             <div class='my_image_maintain_aspect'>
                 <img id='my_site_logo'
-                    src='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/my_master_logo_small.png'
+                    src='https://i.imgur.com/5kmYxaP.png'
                     alt='Premier League Logo' class='image navbar-item mt-3 mx-4'>
             </div>
             <a role='button' id='nav_burger' class='navbar-burger' aria-label='menu' aria-expanded='false'>
