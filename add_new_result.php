@@ -13,42 +13,7 @@
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
-    <nav class="navbar is-fixed-top is-info" role="navigation">
-        <div class="navbar-brand">
-            <div class="my_image_maintain_aspect">
-                <img id="my_site_logo"
-                    src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/my_master_logo_small.png"
-                    alt="Premier League Logo" class="image navbar-item mt-3 mx-4">
-            </div>
-            <a role="button" id="nav_burger" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-        <div class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item my_nav_menu m-2" href="index.html">Home</a>
-                <a class="navbar-item my_nav_menu m-2" href="fixture_analysis.html">Analyse Fixtures</a>
-                <a class="navbar-item my_nav_menu m-2" href="advanced_search.html">Advanced Search</a>
-                <a class="navbar-item my_nav_menu m-2" href="add_new_result.html">Add Results</a>
-            </div>
-            <div class="navbar-end navbar-item has-dropdown is-hoverable pr-6">
-                <a href="" class="navbar-link">
-                    <span class="material-icons p-3">language</span>
-                    <span>Language</span>
-                </a>
-                <div class="navbar-dropdown">
-                    <a class="navbar-item">English</a>
-                    <a class="navbar-item">Français</a>
-                    <a class="navbar-item">Deutsche</a>
-                    <a class="navbar-item">Espanol</a>
-                    <a class="navbar-item">Nederlands</a>
-                    <a class="navbar-item">Italiano</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php include("site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -289,61 +254,7 @@
         </div>
     </div>
 
-    <div class="level master_site_width mt-6">
-        <div class="p-3">
-            <div class="my_inline_divs mr-5 level-item">
-                <p>Follow us on social media:</p>
-            </div>
-            <div class="my_inline_divs mr-5 level-item my_social_media_icon">
-                <a href="https://www.facebook.com/" target="_blank">
-                    <i class="fab fa-facebook fa-2x"></i>
-                </a>
-            </div>
-            <div class="my_inline_divs mr-5 level-item my_social_media_icon">
-                <a href="https://www.youtube.com/" target="_blank">
-                    <i class="fab fa-youtube fa-2x"></i>
-                </a>
-            </div>
-            <div class="my_inline_divs mr-5 level-item my_social_media_icon">
-                <a href="https://twitter.com/" target="_blank">
-                    <i class="fab fa-twitter fa-2x"></i>
-                </a>
-            </div>
-            <div class="my_inline_divs mr-5 level-item my_social_media_icon">
-                <a href="https://www.instagram.com/" target="_blank">
-                    <i class="fab fa-instagram fa-2x"></i>
-                </a>
-            </div>
-        </div>
-        <div class="my_inline_divs mr-5 ">
-            <button class="button is-rounded is-dark" id="back_to_top_button">
-                <span class="icon is-left">
-                    <i class="material-icons">arrow_upward</i>
-                </span>
-                <span>Back to Top</span>
-            </button>
-        </div>
-    </div>
-    <footer class="footer pb-6">
-        <div class="content master_site_width">
-            <div class="has-text-centered">
-                <p id="footer_text" class="mt-3">© All Content Copyright EPL Match Statistic Finder</p>
-                <p><a href="">About us</a></p>
-                <p><a href="">Contact Us</a></p>
-                <p class="content m-4 subtitle is-7 mt-6">The English Premier League Match Stat Finder website rejects
-                    racism in
-                    all its forms</p>
-                <p class="content m-4 subtitle is-7">All statistics shown on this site are for the 2000-2001 league
-                    season onwards only.
-                    Earlier statistics are unavailable</p>
-                <p class="content m-4 subtitle is-7 ">All information provided on the English Premier League Match
-                    Statistic Finder
-                    (EPLMSF) site is provided for entertainment and discussion purposes only and may not be used to make
-                    informed decisions about the Premier League. Past performances are not a reliable indicator of
-                    future results. Any performance metric inferences are incidental and
-                    are not designed to offend.</p>
-            </div>
-    </footer>
+    <?php include("site_footer.php"); ?>
     <script src="my_script.js"></script>
 </body>
 
