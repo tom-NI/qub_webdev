@@ -1,43 +1,12 @@
 <?php
-    include("../dbconn.php");
+    require("../dbconn.php");
+    require("../allfunctions.php");
 
     // get the file name!
     $file = "resultsfinal.csv";
 
     // obtain and store the filepath
     $filepath = fopen($file, "r");
-
-    // query database for info and return the variable
-    function dbQueryAndReturnValue($query) {
-        include("../dbconn.php");
-        $value = $conn->query($query);
-        if (!$value) {
-            echo $conn->error;
-            die();
-        } else {
-            $int = (int) $value->fetch_array()[0];
-            return $int;
-        }
-    }
-
-    // insert data and if it fails, print error message
-    function dbInsertAndCheck($query) {
-        include("../dbconn.php");
-        $value = $conn->query($query);
-        if (!$value) {
-            echo $conn->error;
-            die();
-        }
-    }
-
-    // query a db and if data doesnt exist, insert it and check its inserted
-    function avoidDuplicateEntries($query, $insertQueryIfNull) {
-        include("../dbconn.php");
-        $databaseReturnedObject = $conn->query($query);
-        if (mysqli_num_rows($databaseReturnedObject) == 0) {
-            dbInsertAndCheck($insertQueryIfNull);
-        }
-    }
 
     // loop thru full file, print out first item in each row!
     while ( ($line = fgetcsv($filepath)) !== FALSE ) {
@@ -89,23 +58,23 @@
         $sqlQueryAwayClubname = "SELECT * FROM `epl_club_names` WHERE ClubName = '$awayTeam';";
         $sqlInsertAwayClubname = "INSERT INTO `epl_club_names` (ClubName) VALUES ('$awayTeam');";
         
-        avoidDuplicateEntries($sqlQuerySeason, $sqlInsertSeason);
-        avoidDuplicateEntries($sqlQueryReferee, $sqlInsertReferee);
-        avoidDuplicateEntries($sqlQueryHomeClubname, $sqlInsertHomeClubname);
-        avoidDuplicateEntries($sqlQueryAwayClubname, $sqlInsertAwayClubname);
+        insertAvoidingDuplicates($sqlQuerySeason, $sqlInsertSeason);
+        insertAvoidingDuplicates($sqlQueryReferee, $sqlInsertReferee);
+        insertAvoidingDuplicates($sqlQueryHomeClubname, $sqlInsertHomeClubname);
+        insertAvoidingDuplicates($sqlQueryAwayClubname, $sqlInsertAwayClubname);
 
         // getseasonid for SQL query!
         $seasonIdQuery = "SELECT SeasonID FROM `epl_seasons` WHERE SeasonYears = '$season';";
-        $seasonID = dbQueryAndReturnValue($seasonIdQuery);
+        $seasonID = dbQueryAndReturnIntValue($seasonIdQuery);
 
         // find and return clubs ID;
         $homeClubIDQuery = "SELECT ClubID FROM `epl_club_names` WHERE ClubName = '$homeTeam';";
         $awayClubIDQuery = "SELECT ClubID FROM `epl_club_names` WHERE ClubName = '$awayTeam';";
-        $homeClubID = dbQueryAndReturnValue($homeClubIDQuery);
-        $awayClubID = dbQueryAndReturnValue($awayClubIDQuery);
+        $homeClubID = dbQueryAndReturnIntValue($homeClubIDQuery);
+        $awayClubID = dbQueryAndReturnIntValue($awayClubIDQuery);
 
         $refereeIDQuery = "SELECT RefereeID FROM `epl_referees` WHERE RefereeName = '$referee';";
-        $refereeID = dbQueryAndReturnValue($refereeIDQuery);
+        $refereeID = dbQueryAndReturnIntValue($refereeIDQuery);
 
         $sqlMatchInsertQuery = "INSERT INTO `epl_matches` (SeasonID, MatchDate, KickOffTime, RefereeID, HomeClubID, AwayClubId) 
                             VALUES ($seasonID, '$matchDate', '$kickOffTime', $refereeID, $homeClubID, $awayClubID);";
@@ -113,7 +82,7 @@
 
         $matchIDQuery = "SELECT MatchID FROM `epl_matches` WHERE MatchDate = '$matchDate' AND KickOffTime = '$kickOffTime' AND HomeClubID = $homeClubID;";
         
-        $matchID = dbQueryAndReturnValue($matchIDQuery);
+        $matchID = dbQueryAndReturnIntValue($matchIDQuery);
         $sqlHomeTeamStatsInsertQuery = "INSERT INTO `epl_home_team_match_stats` (MatchID, TotalGoals, HalfTimeGoals, Shots, ShotsOnTarget, Corners, Fouls, YellowCards, RedCards) 
                             VALUES ($matchID, $fullTimeHomeGoals, $halfTimeHomeGoals, $homeShots, $homeShotsOnTarget, $homeCorners, $homeFouls, $homeYellowCards, $homeRedCards);";
         dbInsertAndCheck($sqlHomeTeamStatsInsertQuery);
