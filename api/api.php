@@ -1,9 +1,11 @@
 <?php
+    include("../dbconn.php");
     header('Content-Type: application/json');
     
     if (isset($_GET['2018'])) {
-        include("../dbconn.php");
-        $masterSqlQuery = "SELECT epl_matches.MatchID, epl_seasons.SeasonYears, epl_matches.MatchDate, epl_referees.RefereeName, epl_matches.HomeClubID, epl_matches.AwayClubID, epl_home_team_stats.HTTotalGoals, epl_home_team_stats.HTHalfTimeGoals, epl_home_team_stats.HTShots, epl_home_team_stats.HTShotsOnTarget, epl_home_team_stats.HTCorners, epl_home_team_stats.HTFouls, 
+        $masterSqlQuery = "SELECT epl_matches.MatchID, epl_seasons.SeasonYears, epl_matches.MatchDate, epl_referees.RefereeName, 
+        epl_matches.HomeClubID, epl_matches.AwayClubID, epl_home_team_stats.HTTotalGoals, epl_home_team_stats.HTHalfTimeGoals, 
+        epl_home_team_stats.HTShots, epl_home_team_stats.HTShotsOnTarget, epl_home_team_stats.HTCorners, epl_home_team_stats.HTFouls, 
         epl_home_team_stats.HTYellowCards, epl_home_team_stats.HTRedCards, epl_away_team_stats.ATTotalGoals, 
         epl_away_team_stats.ATHalfTimeGoals, epl_away_team_stats.ATShots, epl_away_team_stats.ATShotsOnTarget, 
         epl_away_team_stats.ATCorners, epl_away_team_stats.ATFouls, epl_away_team_stats.ATYellowCards, epl_away_team_stats.ATRedCards
@@ -13,7 +15,7 @@
         INNER JOIN epl_seasons ON epl_matches.SeasonID = epl_seasons.SeasonID
         INNER JOIN epl_referees ON epl_referees.RefereeID = epl_matches.RefereeID
         INNER JOIN epl_clubs ON epl_clubs.ClubID = epl_matches.HomeClubID
-        ORDER BY MatchID ASC;";
+        ORDER BY MatchID ASC";
 
         $mainQueryValue = $conn->query($masterSqlQuery);
         if (!$mainQueryValue) {
@@ -58,29 +60,29 @@
             $awayTeamURL = null;
 
             $match = array(
-                "Season Year" => $row["SeasonYears"],
-                "Match Date" => $row["MatchDate"],
-                "Referee Name" => $row["RefereeName"],
-                "Home Team" => $homeTeamName,
-                "Home Team Logo URL" => $homeTeamURL,
-                "Away Team" => $awayTeamName,
-                "Away Team Logo URL" => $awayTeamURL,
-                "Home Team Total Goals" => $row["HTTotalGoals"],
-                "Home Team Half Time Goals" => $row["HTHalfTimeGoals"],
-                "Home Team Shots" => $row["HTShots"],
-                "Home Team Shots On Target" => $row["HTShotsOnTarget"],
-                "Home Team Corners" => $row["HTCorners"],
-                "Home Team Fouls" => $row["HTFouls"],
-                "Home Team Yellow Cards" => $row["HTYellowCards"],
-                "Home Team Red Cards" => $row["HTRedCards"],
-                "Away Team Total Goals" => $row["ATTotalGoals"],
-                "Away Team Half Time Goals" => $row["ATHalfTimeGoals"],
-                "Away Team Shots" => $row["ATShots"],
-                "Away Team Shots On Target" => $row["ATShotsOnTarget"],
-                "Away Team Corners" => $row["ATCorners"],
-                "Away Team Fouls" => $row["ATFouls"],
-                "Away Team Yellow Cards" => $row["ATYellowCards"],
-                "Away Team Red Cards" => $row["ATRedCards"]
+                "season" => $row["SeasonYears"],
+                "matchdate" => $row["MatchDate"],
+                "referee" => $row["RefereeName"],
+                "hometeam" => $homeTeamName,
+                "hometeamlogourl" => $homeTeamURL,
+                "awayteam" => $awayTeamName,
+                "awayteamlogourl" => $awayTeamURL,
+                "hometeamtotalgoals" => $row["HTTotalGoals"],
+                "hometeamhalftimegoals" => $row["HTHalfTimeGoals"],
+                "hometeamshots" => $row["HTShots"],
+                "hometeamshotsontarget" => $row["HTShotsOnTarget"],
+                "hometeamcorners" => $row["HTCorners"],
+                "hometeamfouls" => $row["HTFouls"],
+                "hometeamyellowcards" => $row["HTYellowCards"],
+                "hometeamredcards" => $row["HTRedCards"],
+                "awayteamtotalgoals" => $row["ATTotalGoals"],
+                "awayteamhalftimegoals" => $row["ATHalfTimeGoals"],
+                "awayteamshots" => $row["ATShots"],
+                "awayteamshots On Target" => $row["ATShotsOnTarget"],
+                "awayteamcorners" => $row["ATCorners"],
+                "awayteamfouls" => $row["ATFouls"],
+                "awayteamyellowcards" => $row["ATYellowCards"],
+                "awayteamredcards" => $row["ATRedCards"]
             );
             $matchDataSet[] = $match;
         }
