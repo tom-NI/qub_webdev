@@ -1,6 +1,8 @@
 <?php
+    // must be deleted and called from the API
     $refereeNameQuery = "SELECT RefereeName FROM `epl_referees` ORDER BY RefereeName ASC;";
 
+    
     $clubNameQuery = "SELECT DISTINCT epl_clubs.ClubName FROM `epl_clubs` 
         INNER JOIN epl_matches ON epl_matches.HomeClubID = epl_clubs.ClubID
         INNER JOIN epl_seasons ON epl_matches.SeasonID = epl_seasons.SeasonID

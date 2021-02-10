@@ -17,12 +17,12 @@
     function insertAvoidingDuplicates($sqlQuery, $insertQueryIfNull) {
         $databaseReturnedObject = $conn->query($sqlQuery);
         if (mysqli_num_rows($databaseReturnedObject) == 0) {
-            dbInsertAndCheck($insertQueryIfNull);
+            dbQueryAndCheck($insertQueryIfNull);
         }
     }
 
     // insert data and if it fails, print error message
-    function dbInsertAndCheck($sqlQuery) {
+    function dbQueryAndCheck($sqlQuery) {
         $insertedValue = $conn->query($sqlQuery);
         if (!$insertedValue) {
             echo $conn->error;

@@ -78,18 +78,18 @@
 
         $sqlMatchInsertQuery = "INSERT INTO `epl_matches` (SeasonID, MatchDate, KickOffTime, RefereeID, HomeClubID, AwayClubId) 
                             VALUES ($seasonID, '$matchDate', '$kickOffTime', $refereeID, $homeClubID, $awayClubID);";
-        dbInsertAndCheck($sqlMatchInsertQuery);
+        dbQueryAndCheck($sqlMatchInsertQuery);
 
         $matchIDQuery = "SELECT MatchID FROM `epl_matches` WHERE MatchDate = '$matchDate' AND KickOffTime = '$kickOffTime' AND HomeClubID = $homeClubID;";
         
         $matchID = dbQueryAndReturnIntValue($matchIDQuery);
         $sqlHomeTeamStatsInsertQuery = "INSERT INTO `epl_home_team_match_stats` (MatchID, TotalGoals, HalfTimeGoals, Shots, ShotsOnTarget, Corners, Fouls, YellowCards, RedCards) 
                             VALUES ($matchID, $fullTimeHomeGoals, $halfTimeHomeGoals, $homeShots, $homeShotsOnTarget, $homeCorners, $homeFouls, $homeYellowCards, $homeRedCards);";
-        dbInsertAndCheck($sqlHomeTeamStatsInsertQuery);
+        dbQueryAndCheck($sqlHomeTeamStatsInsertQuery);
 
         $sqlAwayTeamStatsInsertQuery = "INSERT INTO `epl_away_team_match_stats` (MatchID, TotalGoals, HalfTimeGoals, Shots, ShotsOnTarget, Corners, Fouls, YellowCards, RedCards) 
                             VALUES ($matchID, $fullTimeAwayGoals, $halfTimeAwayGoals, $awayShots, $awayShotsOnTarget, $awayCorners, $awayFouls, $awayYellowCards, $awayRedCards);";
-        dbInsertAndCheck($sqlAwayTeamStatsInsertQuery); 
+        dbQueryAndCheck($sqlAwayTeamStatsInsertQuery); 
     }
     echo "<p>Upload to DB Successful</p>";
 ?>
