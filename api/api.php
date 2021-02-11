@@ -15,6 +15,7 @@
     // secure the create, update and delete using a SESSION and security?
 
     // the final dataset that any query will build (to be encoded into JSON)
+    // set here once!
     $finalDataSet = array();
 
     // if (!isset($_GET['list']) || !isset($_GET['matches'])) {
