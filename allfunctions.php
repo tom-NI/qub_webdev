@@ -30,4 +30,20 @@
         }
     }
 
+    function dbQueryCheckReturn($sqlQuery) {
+        $queriedValue = $conn->query($sqlQuery);
+        if (!$queriedValue) {
+            echo $conn->error;
+            die();
+        } else {
+            return $queriedValue;
+        }
+    }
+
+    function removeUnderScores($originalString) {
+        $regex = '/[_]/i';
+        $newString = preg_replace($regex, ' ', $originalString);
+        return $newString;
+    }
+
 ?>
