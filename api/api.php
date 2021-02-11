@@ -7,25 +7,10 @@
     // SECURE THE API
     // WRITE API QUERIES TO UPDATE A MATCH, USING A TRANSACTION
     // FINISH THE !ISSET PART OF THE IF/ELSE TREE
+    // UNDER MATCH_SUMMARY K:VALUE - SWITCH OUT THE CLUBNAMESANDURLQUERY FUNCTION
+    // CHANGE AUTOINCREMENTS INSIDE THE SQL DATABASE?
+    // TODO - try to get a function written for getting club names and URLs
 
-    // TODO - test this works and produces proper code
-    function clubsNamesAndURLSQuery($homeID, $awayID, $homeTeamName, $homeTeamURL, $awayTeamName, $awayTeamURL) {
-        $homeClubNameQuery = "SELECT epl_clubs.ClubName, epl_clubs.ClubLogoURL FROM `epl_clubs` WHERE ClubID = {$homeID}";
-        $awayClubNameQuery = "SELECT epl_clubs.ClubName, epl_clubs.ClubLogoURL FROM `epl_clubs` WHERE ClubID = {$awayID}";
-
-        $homeClubValue = dbQueryCheckReturn($homeClubNameQuery);
-        $awayClubValue = dbQueryCheckReturn($awayClubNameQuery);
-
-        while ($homeTeamRow = $homeClubValue->fetch_assoc()) {
-            $homeTeamName = $homeTeamRow["ClubName"];
-            $homeTeamURL = $homeTeamRow["ClubLogoURL"];
-        }
-
-        while ($awayTeamRow = $awayClubValue->fetch_assoc()) {
-            $awayTeamName = $awayTeamRow["ClubName"];
-            $awayTeamURL = $awayTeamRow["ClubLogoURL"];
-        }
-    }
     // the final dataset that any query will build (to be encoded into JSON)
     $finalDataSet = array();
 
@@ -90,10 +75,22 @@
         }
     } elseif (isset($_GET['matches'])) {
         $matchValue = $_GET['matches'];
-
-        if ($matchValue == "match_summary") { 
+        if ($matchValue == "match_summary") {
             $seasonID = null;
             $finalCount = null;
+
+            $mainQuery = "SELECT epl_matches.MatchID, epl_matches.MatchDate,
+            epl_matches.HomeClubID, epl_home_team_stats.HTTotalGoals, epl_away_team_stats.ATTotalGoals, epl_matches.AwayClubID
+            FROM epl_matches
+            INNER JOIN epl_home_team_stats ON epl_matches.MatchID = epl_home_team_stats.MatchID 
+            INNER JOIN epl_away_team_stats ON epl_matches.MatchID = epl_away_team_stats.MatchID
+            INNER JOIN epl_clubs ON epl_clubs.ClubID = epl_matches.HomeClubID";
+
+            $seasonQuery = "WHERE SeasonID = 1021";
+            $orderByQuery = "ORDER BY MatchID ASC";
+
+            $matchSummaryQuery = "{$mainQuery} {$orderByQuery}";
+
             if (isset($_GET['season'])) {
                 $seasonYear = $_GET["season"];
                 $seasonIdQuery = "SELECT SeasonID FROM epl_seasons WHERE SeasonYears LIKE '%{$seasonYear}%' LIMIT 1 ";
@@ -104,32 +101,41 @@
                 if ($seasonID == null) {
                     $seasonID = 1021;
                 }
-            } else {
-                $seasonID = 1021;
+                $seasonQuery = "WHERE SeasonID = {$seasonID}";
+            } 
+            // always include a recent season to narrow the scope of the request!
+            $matchSummaryQuery = "{$mainQuery} {$seasonQuery} {$orderByQuery}";
+
+            if (isset($_GET['usersearch'])) {
+                // wildcard search for main search bar!
+                $userEntry = $_GET['usersearch'];
+
+                // search database to check if club exists
+                $checkUserQuery = "SELECT ClubID FROM epl_clubs WHERE ClubName LIKE '%{$userEntry}%' ";
+                $checkUsersData = dbQueryCheckReturn($checkUserQuery);
+
+                if (mysqli_num_rows($checkUsersData) > 1) {
+                    echo "Ambiguous club, please narrow the search term";
+                } elseif (mysqli_num_rows($checkUsersData) > 0) {
+                    while ($row = $checkUsersData->fetch_assoc()) {
+                        $usersSearchedClubID = $row['ClubID'];
+                    }
+                    $userClubQuery = "WHERE HomeClubID = {$usersSearchedClubID} OR AwayClubId = {$usersSearchedClubID}";
+                } else {
+                    echo "no club found, please search again";
+                }
+                // remove season from the query if the user wants a wildcard search for a club
+                $matchSummaryQuery = "{$mainQuery} {$userClubQuery} {$orderByQuery}";
             }
-
-            $mainQuery = "SELECT epl_matches.MatchID, epl_matches.MatchDate,
-            epl_matches.HomeClubID, epl_home_team_stats.HTTotalGoals, epl_away_team_stats.ATTotalGoals, epl_matches.AwayClubID
-            FROM epl_matches
-            INNER JOIN epl_home_team_stats ON epl_matches.MatchID = epl_home_team_stats.MatchID 
-            INNER JOIN epl_away_team_stats ON epl_matches.MatchID = epl_away_team_stats.MatchID
-            INNER JOIN epl_clubs ON epl_clubs.ClubID = epl_matches.HomeClubID
-            WHERE SeasonID = {$seasonID}
-            ORDER BY MatchID ASC";
-
-            $matchSummaryQuery = $mainQuery;
-
             if (isset($_GET['count'])) {
                 $matchCount = (int) $_GET['count'];
                 if ($matchCount != 0 && $matchCount != null) {
                     $limitQuery = "LIMIT {$matchCount}";
-                    $matchSummaryQuery = "{$mainQuery} {$limitQuery}";
+                    $finalMatchSummaryQuery = "{$matchSummaryQuery} {$limitQuery}";
                 }
-            } else {
-                $matchSummaryQuery = $mainQuery;
             }
-    
-            $matchSummaryData = dbQueryCheckReturn($matchSummaryQuery);
+
+            $matchSummaryData = dbQueryCheckReturn($finalMatchSummaryQuery);
             while ($row = $matchSummaryData->fetch_assoc()) {
                 $homeClubID = $row["HomeClubID"];
                 $awayClubID = $row["AwayClubID"];
@@ -242,10 +248,10 @@
 
         // check id exists in DB before proceeding!
         $checkIdQuery = "SELECT MatchID FROM epl_matches WHERE MatchID = {$singleMatchID} ";
-        $MatchIDData = dbQueryCheckReturn($checkIdQuery);
+        $matchIDData = dbQueryCheckReturn($checkIdQuery);
 
-        if (mysqli_num_rows($MatchIDData) > 0) {
-            while ($row = $MatchIDData->fetch_assoc()) {
+        if (mysqli_num_rows($matchIDData) > 0) {
+            while ($row = $matchIDData->fetch_assoc()) {
                 $matchID = $row['MatchID'];
             }
 
@@ -256,13 +262,6 @@
                 $homeClubID = $row['HomeClubID'];
                 $awayClubId = $row['AwayClubID'];
             }
-
-            // get club names and logo URLS from the database
-            $homeTeamName;
-            $homeTeamURL;
-            $awayTeamName;
-            $awayTeamURL;
-            clubsNamesAndURLSQuery($homeClubID, $awayClubId, $homeTeamName, $homeTeamURL, $awayTeamName, $awayTeamURL);
 
             // TODO only half done
             $singleMatchQuery = "SELECT epl_matches.MatchId, epl_matches.MatchDate, epl_matches.KickOffTime, epl_referees.RefereeName, epl_matches.HomeClubID, epl_matches.AwayClubID, epl_home_team_stats.HTTotalGoals, epl_home_team_stats.HTHalfTimeGoals, epl_home_team_stats.HTShots, epl_home_team_stats.HTShotsOnTarget, epl_home_team_stats.HTCorners, epl_home_team_stats.HTFouls, 
@@ -280,7 +279,31 @@
 
             $singleMatchData = dbQueryCheckReturn($singleMatchQuery);           
 
+            // get club names and logo URLS from the database
             while ($row = $singleMatchData->fetch_assoc()) {
+                $homeClubID = $row["HomeClubID"];
+                $awayClubID = $row["AwayClubID"];
+    
+                $homeClubNameQuery = "SELECT epl_clubs.ClubName, epl_clubs.ClubLogoURL FROM `epl_clubs` WHERE ClubID = {$homeClubID}";
+                $awayClubNameQuery = "SELECT epl_clubs.ClubName, epl_clubs.ClubLogoURL FROM `epl_clubs` WHERE ClubID = {$awayClubID}";
+    
+                $homeClubValue = dbQueryCheckReturn($homeClubNameQuery);
+                $awayClubValue = dbQueryCheckReturn($awayClubNameQuery);
+                $homeTeamName;
+                $homeTeamURL;
+                $awayTeamName;
+                $awayTeamURL;
+    
+                while ($homeTeamRow = $homeClubValue->fetch_assoc()) {
+                    $homeTeamName = $homeTeamRow["ClubName"];
+                    $homeTeamURL = $homeTeamRow["ClubLogoURL"];
+                }
+    
+                while ($awayTeamRow = $awayClubValue->fetch_assoc()) {
+                    $awayTeamName = $awayTeamRow["ClubName"];
+                    $awayTeamURL = $awayTeamRow["ClubLogoURL"];
+                }
+                
                 $singlematch = array(
                     "matchdate" => $row["MatchDate"],
                     "kickofftime" => $row["KickOffTime"],
@@ -313,10 +336,9 @@
         }
     } elseif (isset($_GET['season'])) {
         // season = whatever!
+        
+    } elseif (isset($_GET['full_season'])) {
 
-    } elseif (isset($_GET['matchsummary'])) {
-        // matchsummary = amount!
     }
-
     echo json_encode($finalDataSet);
 ?>
