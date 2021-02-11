@@ -45,8 +45,15 @@
     }
 
     function removeUnderScores($originalString) {
-        $regex = '/[_]/i';
+        $regex = '/[ ]/i';
         $newString = preg_replace($regex, ' ', $originalString);
+        return $newString;
+    }
+
+    function addUnderScores($originalString) {
+        $trimmedString = trim($originalString);
+        $regex = '/[ ]/i';
+        $newString = preg_replace($regex, '_', $trimmedString);
         return $newString;
     }
 
