@@ -232,14 +232,14 @@
 
                 $orderQuery = "ORDER BY MatchID ASC;";
 
-                if (isset($_GET['inc_reverse'])) {
-                    $reverseFixtureBoolean = $_GET['inc_reverse'];
+                if (isset($_GET['strictteams'])) {
+                    $reverseFixtureBoolean = $_GET['strictteams'];
                     if ($reverseFixtureBoolean == true) {
-                        $teamQuery = "WHERE (epl_matches.HomeClubID = {$homeTeamID} AND epl_matches.AwayClubID = {$awayTeamID})
-                            OR (epl_matches.HomeClubID = {$awayTeamID} AND epl_matches.AwayClubID = {$homeTeamID})";
+                        $teamQuery = "WHERE epl_matches.HomeClubID = {$homeTeamID} AND epl_matches.AwayClubID = {$awayTeamID}";
                     }
                 } else {
-                    $teamQuery = "WHERE epl_matches.HomeClubID = {$homeTeamID} AND epl_matches.AwayClubID = {$awayTeamID}";
+                    $teamQuery = "WHERE (epl_matches.HomeClubID = {$homeTeamID} AND epl_matches.AwayClubID = {$awayTeamID})
+                            OR (epl_matches.HomeClubID = {$awayTeamID} AND epl_matches.AwayClubID = {$homeTeamID})";
                 }
 
                 $fixtureQuery = "{$mainQuery} {$teamQuery} {$orderQuery}";
