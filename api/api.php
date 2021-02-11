@@ -232,8 +232,8 @@
 
                 $orderQuery = "ORDER BY MatchID ASC;";
 
-                if (isset($_GET['strictteams'])) {
-                    $reverseFixtureBoolean = $_GET['strictteams'];
+                if (isset($_GET['strict'])) {
+                    $reverseFixtureBoolean = $_GET['strict'];
                     if ($reverseFixtureBoolean == true) {
                         $teamQuery = "WHERE epl_matches.HomeClubID = {$homeTeamID} AND epl_matches.AwayClubID = {$awayTeamID}";
                     }
