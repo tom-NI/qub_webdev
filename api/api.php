@@ -10,6 +10,8 @@
     // UNDER MATCH_SUMMARY K:VALUE - SWITCH OUT THE CLUBNAMESANDURLQUERY FUNCTION
     // CHANGE AUTOINCREMENTS INSIDE THE SQL DATABASE?
     // TODO - try to get a function written for getting club names and URLs
+    // TODO - UNDER THE "usersearch" branch, is the addUnderScores function in the correct place?
+    // todo - where do i add the call to real_escape_string
 
     // the final dataset that any query will build (to be encoded into JSON)
     $finalDataSet = array();
@@ -86,29 +88,32 @@
             INNER JOIN epl_away_team_stats ON epl_matches.MatchID = epl_away_team_stats.MatchID
             INNER JOIN epl_clubs ON epl_clubs.ClubID = epl_matches.HomeClubID";
 
-            $seasonQuery = "WHERE SeasonID = 1021";
             $orderByQuery = "ORDER BY MatchID ASC";
-
             $matchSummaryQuery = "{$mainQuery} {$orderByQuery}";
 
             if (isset($_GET['season'])) {
                 $seasonYear = $_GET["season"];
                 $seasonIdQuery = "SELECT SeasonID FROM epl_seasons WHERE SeasonYears LIKE '%{$seasonYear}%' LIMIT 1 ";
                 $seasonIdData = dbQueryCheckReturn($seasonIdQuery);
-                while ($row = $seasonIdData->fetch_assoc()) {
-                    $seasonID = $row['SeasonID'];
-                }
-                if ($seasonID == null) {
+                if (mysqli_num_rows($seasonIdData) == 0) {
                     $seasonID = 1021;
+                } else {
+                    while ($row = $seasonIdData->fetch_assoc()) {
+                        $seasonID = $row['SeasonID'];
+                    }
                 }
                 $seasonQuery = "WHERE SeasonID = {$seasonID}";
-            } 
+            } else {
+                $seasonQuery = "WHERE SeasonID = 1021";
+            }
             // always include a recent season to narrow the scope of the request!
             $matchSummaryQuery = "{$mainQuery} {$seasonQuery} {$orderByQuery}";
 
             if (isset($_GET['usersearch'])) {
                 // wildcard search for main search bar!
                 $userEntry = $_GET['usersearch'];
+                // TODO - DO I NEED TO ADD UNDERSCORES HERE OR ON THE UI?
+                // $parsedUserEntry = addUnderScores($userEntry);
 
                 // search database to check if club exists
                 $checkUserQuery = "SELECT ClubID FROM epl_clubs WHERE ClubName LIKE '%{$userEntry}%' ";
@@ -120,7 +125,12 @@
                     while ($row = $checkUsersData->fetch_assoc()) {
                         $usersSearchedClubID = $row['ClubID'];
                     }
-                    $userClubQuery = "WHERE HomeClubID = {$usersSearchedClubID} OR AwayClubId = {$usersSearchedClubID}";
+                    if (!isset($_GET['season'])) {
+                        $prepend = "WHERE";
+                    } else {
+                        $prepend = "AND";
+                    }
+                    $userClubQuery = "{$prepend} HomeClubID = {$usersSearchedClubID} OR AwayClubId = {$usersSearchedClubID}";
                 } else {
                     echo "no club found, please search again";
                 }
@@ -130,12 +140,19 @@
             if (isset($_GET['count'])) {
                 $matchCount = (int) $_GET['count'];
                 if ($matchCount != 0 && $matchCount != null) {
-                    $limitQuery = "LIMIT {$matchCount}";
-                    $finalMatchSummaryQuery = "{$matchSummaryQuery} {$limitQuery}";
+                    if (isset($_GET['startat'])) {
+                        $startFromNum = (int) $_GET['startat'];
+                        if ($startFromNum <= $matchCount) {
+                            $limitQuery = "LIMIT {$startFromNum}, {$matchCount}";
+                        }
+                    } else {
+                        $limitQuery = "LIMIT {$matchCount}";
+                    }
                 }
+                $matchSummaryQuery = "{$matchSummaryQuery} {$limitQuery}";                
             }
-
-            $matchSummaryData = dbQueryCheckReturn($finalMatchSummaryQuery);
+            
+            $matchSummaryData = dbQueryCheckReturn($matchSummaryQuery);
             while ($row = $matchSummaryData->fetch_assoc()) {
                 $homeClubID = $row["HomeClubID"];
                 $awayClubID = $row["AwayClubID"];
