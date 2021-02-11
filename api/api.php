@@ -11,8 +11,8 @@
     // CHANGE AUTOINCREMENTS INSIDE THE SQL DATABASE?
     // TODO - try to get a function written for getting club names and URLs
     // TODO - UNDER THE "usersearch" branch, is the addUnderScores function in the correct place?
-    // todo - where do i add the call to real_escape_string
-    // todo make the fixture return the opposite fixture!
+    // todo - where do i add the call to real_escape_string to prevent SQL injections?
+    // secure the create, update and delete using a SESSION and security?
 
     // the final dataset that any query will build (to be encoded into JSON)
     $finalDataSet = array();
@@ -219,9 +219,7 @@
                     $awayTeamName = $awayTeamRow["ClubName"];
                 }
 
-                $fixtureQuery = "SELECT epl_home_team_stats.HTTotalGoals, 
-                epl_home_team_stats.HTHalfTimeGoals, epl_home_team_stats.HTShots, epl_home_team_stats.HTShotsOnTarget, 
-                epl_home_team_stats.HTCorners, epl_home_team_stats.HTFouls, epl_home_team_stats.HTYellowCards, 
+                $mainQuery = "SELECT epl_matches.MatchID, epl_matches.MatchDate, epl_matches.HomeClubID, epl_matches.AwayClubID, epl_home_team_stats.HTTotalGoals, epl_home_team_stats.HTHalfTimeGoals, epl_home_team_stats.HTShots, epl_home_team_stats.HTShotsOnTarget, epl_home_team_stats.HTCorners, epl_home_team_stats.HTFouls, epl_home_team_stats.HTYellowCards, 
                 epl_home_team_stats.HTRedCards, epl_away_team_stats.ATTotalGoals, epl_away_team_stats.ATHalfTimeGoals, 
                 epl_away_team_stats.ATShots, epl_away_team_stats.ATShotsOnTarget, epl_away_team_stats.ATCorners, 
                 epl_away_team_stats.ATFouls, epl_away_team_stats.ATYellowCards, epl_away_team_stats.ATRedCards
@@ -230,15 +228,35 @@
                 INNER JOIN epl_away_team_stats ON epl_matches.MatchID = epl_away_team_stats.MatchID
                 INNER JOIN epl_seasons ON epl_matches.SeasonID = epl_seasons.SeasonID
                 INNER JOIN epl_referees ON epl_referees.RefereeID = epl_matches.RefereeID
-                INNER JOIN epl_clubs ON epl_clubs.ClubID = epl_matches.HomeClubID
-                WHERE epl_matches.HomeClubID = {$homeTeamID} AND
-                epl_matches.AwayClubID = {$awayTeamID};";
+                INNER JOIN epl_clubs ON epl_clubs.ClubID = epl_matches.HomeClubID";
+
+                $orderQuery = "ORDER BY MatchID ASC;";
+
+                if (isset($_GET['inc_reverse'])) {
+                    $reverseFixtureBoolean = $_GET['inc_reverse'];
+                    if ($reverseFixtureBoolean == true) {
+                        $teamQuery = "WHERE (epl_matches.HomeClubID = {$homeTeamID} AND epl_matches.AwayClubID = {$awayTeamID})
+                            OR (epl_matches.HomeClubID = {$awayTeamID} AND epl_matches.AwayClubID = {$homeTeamID})";
+                    }
+                } else {
+                    $teamQuery = "WHERE epl_matches.HomeClubID = {$homeTeamID} AND epl_matches.AwayClubID = {$awayTeamID}";
+                }
+
+                $fixtureQuery = "{$mainQuery} {$teamQuery} {$orderQuery}";
 
                 $fixtureQueryData = dbQueryCheckReturn($fixtureQuery);
                 while ($row = $fixtureQueryData->fetch_assoc()) {
+                    if ($row['HomeClubID'] == $homeTeamID && $row['AwayClubID'] == $awayTeamID) {
+                        $teamA = $homeTeamName;
+                        $teamB = $awayTeamName;
+                    } else {
+                        $teamA = $awayTeamName;
+                        $teamB = $homeTeamName;
+                    }
                     $fixture = array(
-                        "hometeam" => $homeTeamName,
-                        "awayteam" => $awayTeamName,
+                        "hometeam" => $teamA,
+                        "awayteam" => $teamB,
+                        "matchdate" => $row["MatchDate"],
                         "hometeamtotalgoals" => $row["HTTotalGoals"],
                         "hometeamhalftimegoals" => $row["HTHalfTimeGoals"],
                         "hometeamshots" => $row["HTShots"],
