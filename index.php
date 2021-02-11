@@ -35,7 +35,7 @@
                     <form action="" method="get">
                         <div class="field has-addons">
                             <div class="control is-expanded">
-                                <input class="input is-rounded" type="text" placeholder="Search for matches or clubs"
+                                <input class="input is-rounded" type="text" placeholder="Search for clubs to view results"
                                     name="main_page_search" id="main_page_search">
                             </div>
                             <div class="control">
