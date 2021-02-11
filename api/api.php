@@ -1,19 +1,20 @@
 <?php
     header('Content-Type: application/json');
     require("../allfunctions.php");
-    // query database and if it fails, print error message
 
-    // TODO - test this works and produces 
-    function clubsNamesAndURLSQuery($homeID, $awayID) {
+    // TODO 
+    // MOVE ALL FUNCTIONS OVER TO FUNCTIONS FILE
+    // SECURE THE API
+    // WRITE API QUERIES TO UPDATE A MATCH, USING A TRANSACTION
+    // FINISH THE !ISSET PART OF THE IF/ELSE TREE
+
+    // TODO - test this works and produces proper code
+    function clubsNamesAndURLSQuery($homeID, $awayID, $homeTeamName, $homeTeamURL, $awayTeamName, $awayTeamURL) {
         $homeClubNameQuery = "SELECT epl_clubs.ClubName, epl_clubs.ClubLogoURL FROM `epl_clubs` WHERE ClubID = {$homeID}";
         $awayClubNameQuery = "SELECT epl_clubs.ClubName, epl_clubs.ClubLogoURL FROM `epl_clubs` WHERE ClubID = {$awayID}";
 
         $homeClubValue = dbQueryCheckReturn($homeClubNameQuery);
         $awayClubValue = dbQueryCheckReturn($awayClubNameQuery);
-        $homeTeamName;
-        $homeTeamURL;
-        $awayTeamName;
-        $awayTeamURL;
 
         while ($homeTeamRow = $homeClubValue->fetch_assoc()) {
             $homeTeamName = $homeTeamRow["ClubName"];
@@ -46,8 +47,7 @@
                 );
                 $finalDataSet[] = $ref;
             }
-        } 
-        if ($listValue == "current_season") {
+        } elseif ($listValue == "current_season") {
             // most recent season query from the API
             $currentSeason = "SELECT SeasonYears FROM `epl_seasons` ORDER BY SeasonID DESC LIMIT 1";
             $currentSeasonQueryData = dbQueryCheckReturn($currentSeason);
@@ -57,8 +57,7 @@
                 );
                 $finalDataSet[] = $season;
             }
-        }
-        if ($listValue == "current_season_clubs") {
+        } elseif ($listValue == "current_season_clubs") {
             // query all current clubs from current season
     
             $currentSeasonIDquery = "SELECT SeasonID FROM `epl_seasons` ORDER BY SeasonID DESC LIMIT 1";
@@ -78,6 +77,15 @@
                     "clubname" => $row["ClubName"],
                 );
                 $finalDataSet[] = $clubnames;
+            }
+        } elseif ($listValue == "all_seasons_list") {
+            $seasonQuery = "SELECT SeasonYears FROM `epl_seasons` ORDER BY SeasonYears DESC;";
+            $seasonQueryData = dbQueryCheckReturn($seasonQuery);
+            while ($row = $seasonQueryData->fetch_assoc()) {
+                $season = array(
+                    "season" => $row["SeasonYears"],
+                );
+                $finalDataSet[] = $season;
             }
         }
     } elseif (isset($_GET['matches'])) {
@@ -230,12 +238,34 @@
         }
     } elseif (isset($_GET['singlematch'])) {
         // singlematch - one match, all details - by match id
-        $singleMatchID = $_GET['singlematch'];
-        $checkIdQuery = "SELECT MatchID FROM epl_matches WHERE MatchID = {$singleMatchID} ";
+        $singleMatchID = (int) $_GET['singlematch'];
 
-        if (mysqli_num_rows($singleMatchData) > 0) {
+        // check id exists in DB before proceeding!
+        $checkIdQuery = "SELECT MatchID FROM epl_matches WHERE MatchID = {$singleMatchID} ";
+        $MatchIDData = dbQueryCheckReturn($checkIdQuery);
+
+        if (mysqli_num_rows($MatchIDData) > 0) {
+            while ($row = $MatchIDData->fetch_assoc()) {
+                $matchID = $row['MatchID'];
+            }
+
+            // get both clubIDs from the match in question!
+            $clubIDQuery = "SELECT epl_matches.HomeClubID, epl_matches.AwayClubID FROM epl_matches WHERE MatchID = {$matchID};";
+            $clubIDData = dbQueryCheckReturn($clubIDQuery);
+            while ($row = $clubIDData->fetch_assoc()) {
+                $homeClubID = $row['HomeClubID'];
+                $awayClubId = $row['AwayClubID'];
+            }
+
+            // get club names and logo URLS from the database
+            $homeTeamName;
+            $homeTeamURL;
+            $awayTeamName;
+            $awayTeamURL;
+            clubsNamesAndURLSQuery($homeClubID, $awayClubId, $homeTeamName, $homeTeamURL, $awayTeamName, $awayTeamURL);
+
             // TODO only half done
-            $singleMatchQuery = "SELECT epl_matches.MatchDate, epl_matches.KickOffTime, epl_referees.RefereeName, epl_matches.HomeClubID, epl_matches.AwayClubID, epl_home_team_stats.HTTotalGoals, epl_home_team_stats.HTHalfTimeGoals, epl_home_team_stats.HTShots, epl_home_team_stats.HTShotsOnTarget, epl_home_team_stats.HTCorners, epl_home_team_stats.HTFouls, 
+            $singleMatchQuery = "SELECT epl_matches.MatchId, epl_matches.MatchDate, epl_matches.KickOffTime, epl_referees.RefereeName, epl_matches.HomeClubID, epl_matches.AwayClubID, epl_home_team_stats.HTTotalGoals, epl_home_team_stats.HTHalfTimeGoals, epl_home_team_stats.HTShots, epl_home_team_stats.HTShotsOnTarget, epl_home_team_stats.HTCorners, epl_home_team_stats.HTFouls, 
             epl_home_team_stats.HTYellowCards, epl_home_team_stats.HTRedCards, epl_away_team_stats.ATTotalGoals, 
             epl_away_team_stats.ATHalfTimeGoals, epl_away_team_stats.ATShots, epl_away_team_stats.ATShotsOnTarget, 
             epl_away_team_stats.ATCorners, epl_away_team_stats.ATFouls, epl_away_team_stats.ATYellowCards, epl_away_team_stats.ATRedCards
@@ -245,13 +275,13 @@
             INNER JOIN epl_seasons ON epl_matches.SeasonID = epl_seasons.SeasonID
             INNER JOIN epl_referees ON epl_referees.RefereeID = epl_matches.RefereeID
             INNER JOIN epl_clubs ON epl_clubs.ClubID = epl_matches.HomeClubID
+            WHERE epl_matches.MatchId = {$matchID}
             ORDER BY MatchID ASC;";
 
-            $singleMatchData = dbQueryCheckReturn($singleMatchQuery);
-            $finalDataSet = array();
+            $singleMatchData = dbQueryCheckReturn($singleMatchQuery);           
 
-            while ($row = $refereeQueryData->fetch_assoc()) {
-                $fixture = array(
+            while ($row = $singleMatchData->fetch_assoc()) {
+                $singlematch = array(
                     "matchdate" => $row["MatchDate"],
                     "kickofftime" => $row["KickOffTime"],
                     "refereename" => $row["RefereeName"],
@@ -276,8 +306,10 @@
                     "awayteamyellowcards" => $row["ATYellowCards"],
                     "awayteamredcards" => $row["ATRedCards"]
                 );
-                $fixtureDataSet[] = $fixture;
+                $finalDataSet[] = $singlematch;
             }
+        } else {
+            echo "no data";
         }
     } elseif (isset($_GET['season'])) {
         // season = whatever!
