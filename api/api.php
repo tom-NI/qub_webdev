@@ -12,6 +12,7 @@
     // TODO - try to get a function written for getting club names and URLs
     // TODO - UNDER THE "usersearch" branch, is the addUnderScores function in the correct place?
     // todo - where do i add the call to real_escape_string
+    // todo make the fixture return the opposite fixture!
 
     // the final dataset that any query will build (to be encoded into JSON)
     $finalDataSet = array();
@@ -88,8 +89,7 @@
             INNER JOIN epl_away_team_stats ON epl_matches.MatchID = epl_away_team_stats.MatchID
             INNER JOIN epl_clubs ON epl_clubs.ClubID = epl_matches.HomeClubID";
 
-            $orderByQuery = "ORDER BY MatchID ASC";
-            $matchSummaryQuery = "{$mainQuery} {$orderByQuery}";
+            $orderByQuery = "ORDER BY epl_matches.MatchID ASC";
 
             if (isset($_GET['season'])) {
                 $seasonYear = $_GET["season"];
@@ -126,16 +126,15 @@
                         $usersSearchedClubID = $row['ClubID'];
                     }
                     if (!isset($_GET['season'])) {
-                        $prepend = "WHERE";
+                        $userClubQuery = "WHERE HomeClubID = {$usersSearchedClubID} OR AwayClubId = {$usersSearchedClubID}";
+                        $matchSummaryQuery = "{$mainQuery} {$userClubQuery} {$orderByQuery}";
                     } else {
-                        $prepend = "AND";
+                        $userClubQuery = "AND (HomeClubID = {$usersSearchedClubID} OR AwayClubID = {$usersSearchedClubID})";
+                        $matchSummaryQuery = "{$mainQuery} {$seasonQuery} {$userClubQuery} {$orderByQuery}";
                     }
-                    $userClubQuery = "{$prepend} HomeClubID = {$usersSearchedClubID} OR AwayClubId = {$usersSearchedClubID}";
                 } else {
                     echo "no club found, please search again";
                 }
-                // remove season from the query if the user wants a wildcard search for a club
-                $matchSummaryQuery = "{$mainQuery} {$userClubQuery} {$orderByQuery}";
             }
             if (isset($_GET['count'])) {
                 $matchCount = (int) $_GET['count'];
@@ -151,6 +150,8 @@
                 }
                 $matchSummaryQuery = "{$matchSummaryQuery} {$limitQuery}";                
             }
+
+            echo "{$matchSummaryQuery}";
             
             $matchSummaryData = dbQueryCheckReturn($matchSummaryQuery);
             while ($row = $matchSummaryData->fetch_assoc()) {
