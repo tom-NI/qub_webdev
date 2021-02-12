@@ -75,6 +75,7 @@
     }
 
     // if all tests above pass, fairly sure the data is good, enter new match details;
+    // TODO do i need to add this to the API?
     $updateTransaction = "
         START TRANSACTION;
             INSERT INTO epl_matches (`SeasonID`, `MatchDate`, `KickOffTime`, `RefereeID`, `HomeClubID`, `AwayClubID`) 
