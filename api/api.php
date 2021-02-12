@@ -3,13 +3,13 @@
     require("../allfunctions.php");
 
     // TODO 
-    // MOVE ALL FUNCTIONS OVER TO FUNCTIONS FILE
-    // SECURE THE API
+    // MOVE ANY FUNCTIONS OVER TO FUNCTIONS FILE?
+    // SECURE THE API for Create update delete?
     // WRITE API QUERIES TO UPDATE A MATCH, USING A TRANSACTION
     // FINISH THE !ISSET PART OF THE IF/ELSE TREE
     // UNDER MATCH_SUMMARY K:VALUE - SWITCH OUT THE CLUBNAMESANDURLQUERY FUNCTION
-    // CHANGE AUTOINCREMENTS INSIDE THE SQL DATABASE?
     // TODO - try to get a function written for getting club names and URLs
+    // CHANGE AUTOINCREMENTS INSIDE THE SQL DATABASE?
     // TODO - UNDER THE "usersearch" branch, is the addUnderScores function in the correct place?
     // todo - where do i add the call to real_escape_string to prevent SQL injections?
     // secure the create, update and delete using a SESSION and security?
