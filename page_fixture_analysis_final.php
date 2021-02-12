@@ -1,5 +1,5 @@
 <?php
-    require("fixture_core_page.php");
+    require("page_fixture_core.php");
 
     // data and icons for each tile (to be looped thru)
     $keyTileTitles = array(
@@ -152,7 +152,7 @@
         </div>
     </div>
 
-    <?php require("site_footer.php"); ?>
+    <?php require("part_site_footer.php"); ?>
     <script src="my_script.js"></script>
 </body>
 

@@ -1,5 +1,17 @@
 <?php
     include("dbconn.php");
+
+    $sectionTitles = array(
+        "Half Time Goals:",
+        "Full Time Goals:",
+        "Total Shots:",
+        "Shots on Target:",
+        "Corners:",
+        "Total Fouls:",
+        "Yellow Cards:",
+        "Red Cards:"
+    );
+
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +29,7 @@
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
-    <?php include("site_navbar.php"); ?>
+    <?php include("part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -104,28 +116,20 @@
                             <label class="is-size-5 mx-3" id="ht_selector_text" for="ht_selector"><b>Home
                                     Team</b></label>
                             <div class="select is-success">
-                                <?php
-                                    echo "<select class=' my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>";
-                                    echo "<option value='placeholder_team'>Select Team</option>";
-                                    $clubNameResult=$conn->query($clubNameQuery);
-                                    while ($row = $clubNameResult->fetch_assoc()) {
-                                        echo "<option value='{$row["ClubName"]}'>{$row["ClubName"]}</option>";
-                                    }
-                                    echo "</select>";
-                                ?>
+                                    <select class='my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>
+                                        <?php
+                                            require("part_team_selector");
+                                        ?>
+                                    </select>
                             </div>
                         </div>
                         <div class="my_inline_divs m-1 mt-4">
                             <div class="select is-danger">
-                                <?php
-                                    echo "<select class='my_small_form_item mx-2' name='at_selector' id='at_selector'>";
-                                    echo "<option value='placeholder_team'>Select Team</option>";
-                                    $clubNameResult=$conn->query($clubNameQuery);
-                                    while ($row = $clubNameResult->fetch_assoc()) {
-                                        echo "<option value='{$row["ClubName"]}'>{$row["ClubName"]}</option>";
-                                    }
-                                    echo "</select>";
-                                ?>
+                                <select class='my_small_form_item mx-2' name='at_selector' id='at_selector'>
+                                    <?php
+                                        require("part_team_selector");
+                                    ?>
+                                </select>
                             </div>
                             <label class="is-size-5 mx-3" id="at_selector_text" for="at_selector"><b>Away
                                     Team</b></label>
@@ -258,7 +262,7 @@
         </div>
     </div>
 
-    <?php include("site_footer.php"); ?>
+    <?php include("part_site_footer.php"); ?>
     <script src="my_script.js"></script>
 </body>
 

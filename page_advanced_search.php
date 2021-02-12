@@ -13,7 +13,7 @@
 
 <body class="has-navbar-fixed-top is-family-sans-serif	">
     <!-- Full nav bar -->
-    <?php include("site_navbar.php"); ?>
+    <?php include("part_site_navbar.php"); ?>
 
     <!-- main  banner -->
     <section class="hero is-info is-bold pt-6">
@@ -81,7 +81,7 @@
             </div>
 
 
-            <a href="single_match_result.html">
+            <a href="page_single_match_result.php">
                 <div id="master_result_card" class="container box column is-centered my_box_border m-2 mb-5 mt-5 p-1">
                     <div>
                         <p class="is-size-6 mt-3 is-size-7-mobile">Match Date : 25 September
@@ -124,7 +124,7 @@
                     </div>
                 </div>
             </a>
-            <a href="single_match_result.html">
+            <a href="page_single_match_result.php">
                 <div id="master_result_card" class="container box column is-centered my_box_border m-2 mb-5 mt-5 p-1">
                     <div>
                         <p class="is-size-6 mt-3 is-size-7-mobile">Match Date : 25 September
@@ -167,7 +167,7 @@
                     </div>
                 </div>
             </a>
-            <a href="single_match_result.html">
+            <a href="page_single_match_result.php">
                 <div id="master_result_card" class="container box column is-centered my_box_border m-2 mb-5 mt-5 p-1">
                     <div>
                         <p class="is-size-6 mt-3 is-size-7-mobile">Match Date : 25 September
@@ -210,7 +210,7 @@
                     </div>
                 </div>
             </a>
-            <a href="single_match_result.html">
+            <a href="page_single_match_result.php">
                 <div id="master_result_card" class="container box column is-centered my_box_border m-2 mb-5 mt-5 p-1">
                     <div>
                         <p class="is-size-6 mt-3 is-size-7-mobile">Match Date : 25 September
@@ -253,7 +253,7 @@
                     </div>
                 </div>
             </a>
-            <a href="single_match_result.html">
+            <a href="page_single_match_result.php">
                 <div id="master_result_card" class="container box column is-centered my_box_border m-2 mb-5 mt-5 p-1">
                     <div>
                         <p class="is-size-6 mt-3 is-size-7-mobile">Match Date : 25 September
@@ -491,7 +491,7 @@
         </section>
     </div>
 
-    <?php include("site_footer.php"); ?>
+    <?php include("part_site_footer.php"); ?>
     <script src="my_script.js"></script>
 </body>
 

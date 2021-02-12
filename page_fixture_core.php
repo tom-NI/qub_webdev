@@ -1,10 +1,3 @@
-<?php
-    include("dbconn.php");
-    include("sqlqueries.php");
-    $teamAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season_clubs";
-    $teamAPIdata = file_get_contents($teamAPIpath);
-    $teamList = json_decode($teamAPIdata, true);
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +13,7 @@
 </head>
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
-    <?php include("site_navbar.php"); ?>
+    <?php include("part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -40,26 +33,20 @@
                     <form class="level columns form">
                         <div class="column level-item">
                             <div class="select control is-expanded is-success">
-                                <?php
-                                    echo "<select name='fixture_ht_selector' id='fixture_ht_selector' class=''>";
-                                    echo "<option value='default'>Select Home Team</option>";
-                                    foreach($teamList as $singleTeam) {
-                                        echo "<option value='{$singleTeam['clubname']}'>{$singleTeam['clubname']}</option>";
-                                    }
-                                    echo "</select>";
-                                ?>
+                                <select name='fixture_ht_selector' id='fixture_ht_selector' class=''>
+                                    <?php
+                                        require("part_team_selector");
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="column level-item">
                             <div class="select control is-expanded is-danger">
-                                <?php
-                                    echo "<select name='fixture_ht_selector' id='fixture_ht_selector' class=''>";
-                                    echo "<option value='default'>Select Away Team</option>";
-                                    foreach($teamList as $singleTeam) {
-                                        echo "<option value='{$singleTeam['clubname']}'>{$singleTeam['clubname']}</option>";
-                                    }
-                                    echo "</select>";
-                                ?>
+                                <select name='fixture_at_selector' id='fixture_at_selector' class=''>
+                                    <?php
+                                        require("part_team_selector");
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="column is-centered mt-0 level-item">

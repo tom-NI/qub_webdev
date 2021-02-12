@@ -14,7 +14,7 @@
 </head>
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
-    <?php include("site_navbar.php"); ?>
+    <?php include("part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <?php include("site_footer.php"); ?>
+    <?php include("part_site_footer.php"); ?>
     <script src="my_script.js"></script>
 </body>
 
