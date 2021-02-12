@@ -232,18 +232,22 @@
                 INNER JOIN epl_clubs ON epl_clubs.ClubID = epl_matches.HomeClubID";
 
                 $orderQuery = "ORDER BY MatchID ASC;";
+                $defaultTeamQuery = "WHERE (epl_matches.HomeClubID = {$homeTeamID} AND epl_matches.AwayClubID = {$awayTeamID})
+                OR (epl_matches.HomeClubID = {$awayTeamID} AND epl_matches.AwayClubID = {$homeTeamID})";
 
                 if (isset($_GET['strict'])) {
                     $reverseFixtureBoolean = $_GET['strict'];
-                    if ($reverseFixtureBoolean == true) {
+                    if ($reverseFixtureBoolean == "true") {
                         $teamQuery = "WHERE epl_matches.HomeClubID = {$homeTeamID} AND epl_matches.AwayClubID = {$awayTeamID}";
+                    } else {
+                        $teamQuery = $defaultTeamQuery;
                     }
                 } else {
-                    $teamQuery = "WHERE (epl_matches.HomeClubID = {$homeTeamID} AND epl_matches.AwayClubID = {$awayTeamID})
-                            OR (epl_matches.HomeClubID = {$awayTeamID} AND epl_matches.AwayClubID = {$homeTeamID})";
+                    $teamQuery = $defaultTeamQuery;
                 }
 
                 $fixtureQuery = "{$mainQuery} {$teamQuery} {$orderQuery}";
+                echo $fixtureQuery;
 
                 $fixtureQueryData = dbQueryCheckReturn($fixtureQuery);
                 while ($row = $fixtureQueryData->fetch_assoc()) {
