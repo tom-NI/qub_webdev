@@ -1,6 +1,49 @@
 <?php
     include("dbconn.php");
     include("sqlqueries.php");
+    $teamAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season_clubs";
+    $teamAPIdata = file_get_contents($teamAPIpath);
+    $teamList = json_decode($teamAPIdata, true);
+
+    // data and icons for each tile (to be looped thru)
+    $keyTileTitles = array(
+        "Past Meetings",
+        "Total Draws",
+        "Average total goals per game",
+        "Average total shots per game",
+        "Average total fouls per game"
+    );
+    $keyIcons = array(
+        "<i class='fas fa-user-friends'></i>",
+        "<i class='fas fa-equals'></i>",
+        "<i class='far fa-futbol'></i>",
+        "<i class='fas fa-bullseye'></i>",
+        "<span class='material-icons'>sports</span>"
+    );                     
+
+    $allTimeTileTitles = array(
+        "Goals Scored",
+        "Shots on Goal",
+        "Fouls",
+        "Yellow Cards",
+        "Red Cards"
+    );
+
+    $metricTileTitles = array(
+        "Percentage wins",
+        "Win count",
+        "% clean sheets",
+        "Games Won by Half Time",
+        "Goals per game",
+        "Shots per game",
+        "Shots on target",
+        "Clean Sheets",
+        "Average corners per game",
+        "Fouls per game",
+        "Yellow Cards per game",
+        "Red Cards per game"
+    );
+
 ?>
 
 <!DOCTYPE html>
@@ -39,11 +82,9 @@
                             <div class="select control is-expanded is-success">
                                 <?php
                                     echo "<select name='fixture_ht_selector' id='fixture_ht_selector' class=''>";
-                                    echo "<option value='placeholder_team'>Select Home Team</option>";
-                                    $clubNameResult=$conn->query($clubNameQuery);
-
-                                    while ($row = $clubNameResult->fetch_assoc()) {
-                                        echo "<option value='{$row["ClubName"]}'>{$row["ClubName"]}</option>";
+                                    echo "<option value='default'>Select Home Team</option>";
+                                    foreach($teamList as $singleTeam) {
+                                        echo "<option value='{$singleTeam['clubname']}'>{$singleTeam['clubname']}</option>";
                                     }
                                     echo "</select>";
                                 ?>
@@ -52,12 +93,10 @@
                         <div class="column level-item">
                             <div class="select control is-expanded is-danger">
                                 <?php
-                                    echo "<select name='fixture_at_selector' id='fixture_at_selector' class=''>";
-                                    echo "<option value='placeholder_team'>Select Away Team</option>";
-                                    $clubNameResult=$conn->query($clubNameQuery);
-                                    
-                                    while ($row = $clubNameResult->fetch_assoc()) {
-                                        echo "<option value='{$row["ClubName"]}'>{$row["ClubName"]}</option>";
+                                    echo "<select name='fixture_ht_selector' id='fixture_ht_selector' class=''>";
+                                    echo "<option value='default'>Select Away Team</option>";
+                                    foreach($teamList as $singleTeam) {
+                                        echo "<option value='{$singleTeam['clubname']}'>{$singleTeam['clubname']}</option>";
                                     }
                                     echo "</select>";
                                 ?>
@@ -65,32 +104,37 @@
                         </div>
                         <div class="column is-centered mt-0 level-item">
                             <div class="m-1">
+                                <input type="checkbox" id="strict_search_box" name="strict">
+                                <label for="strict_search_box">Include Reverse Fixtures</input>
                                 <button type="submit" id="fixture_search_btn" class="button is-rounded is-danger">Search</button>
                             </div>
+
                         </div>
                     </form>
                 </div>
             </div>
         </section>
+
+    <!-- sticky bar with clubnames! -->
         <div class="column is-8 is-offset-2 my_sticky_div">
             <div class="container column box is-centered my_sticky_div py-4 mx-5">
                 <div class="columns is-mobile is-vcentered is-centered">
                     <div class="column">
-                        <h4 class="is-size-4 is-size-5-mobile has-text-right team_a_name_colour"><b>Manchester
-                                United</b>
+                        <h4 class="is-size-4 is-size-5-mobile has-text-right team_a_name_colour"><b>Choose Team A</b>
                         </h4>
                     </div>
                     <div class="column level is-narrow mt-5">
                         <h4 class="level-item">vs.</h4>
                     </div>
                     <div class="column">
-                        <h4 class="is-size-4 is-size-5-mobile has-text-left team_b_name_colour"><b>Newcastle United</b>
+                        <h4 class="is-size-4 is-size-5-mobile has-text-left team_b_name_colour"><b>Choose Team B</b>
                         </h4>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- all tiles below -->
         <div class="master_site_width columns is-desktop ">
             <section class="column is-centered is-offset-one-fifth mx-5">
                 <!-- main stat section of the page -->
@@ -98,299 +142,80 @@
                     <h2 class="title is-4">Key Statistics:</h2>
                 </div>
 
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="image is-24x24 ml-5">
-                        <i class="fas fa-user-friends"></i>
-                    </div>
-                    <div class="column is-half">
-                        <p class="subtitle is-6 has-text-left ml-3">Past meetings</p>
-                    </div>
-                    <div class="column my_info_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-5 m-0 my_stat_font is-one-fifth" id="fixture_total_meets_amount"><b>87</b>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="image is-24x24 ml-5">
-                        <i class="fas fa-equals"></i>
-                    </div>
-                    <div class="column is-half">
-                        <p class="subtitle is-6 has-text-left ml-3">Total draws</p>
-                    </div>
-                    <div class="column my_info_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-5 m-0 my_stat_font is-one-fifth" id="fixture_total_meets_amount"><b>14</b>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="image is-24x24 ml-5">
-                        <i class="far fa-futbol"></i>
-                    </div>
-                    <div class="column is-half">
-                        <p class="subtitle is-6 has-text-left  ml-3">Average total goals per game</p>
-                    </div>
-                    <div class="column my_info_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-5 m-0 my_stat_font is-one-fifth" id="fixture_av_goals_amount"><b>2.8</b>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="image is-24x24 ml-5">
-                        <i class="fas fa-bullseye"></i>
-                    </div>
-                    <div class="column is-half">
-                        <p class="subtitle is-6 has-text-left ml-3">Average total shots per game</p>
-                    </div>
-                    <div class="column my_info_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-5 m-0 my_stat_font" id="fixture_av_goals_amount"><b>12.5</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="image is-24x24 ml-5">
-                        <span class="material-icons">sports</span>
-                    </div>
-                    <div class="column is-half">
-                        <p class="subtitle is-6 has-text-left ml-3">Average total fouls per game</p>
-                    </div>
-                    <div class="column my_info_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-5 m-0 my_stat_font" id="fixture_av_goals_amount"><b>23.5</b></p>
-                    </div>
-                </div>
-
+                <?php
+                    for ($i = 0; $i < count($keyTileTitles); $i++) {
+                        $currentIcon = $keyIcons[$i];
+                        echo "
+                            <div class='columns is-vcentered is-mobile level m-4 my_fixture_stat_level'>
+                                <div class='image is-24x24 ml-5'>
+                                    {$currentIcon}
+                                </div>
+                                <div class='column is-half'>
+                                    <p class='subtitle is-6 has-text-left ml-3'>{$title}</p>
+                                </div>
+                                <div class='column my_info_colour box my_dont_wrap_text m-3 mx-5'>
+                                    <p class='subtitle is-5 m-0 my_stat_font is-one-fifth' id='fixture_total_meets_amount'><b>{$calcValue}</b>
+                                    </p>
+                                </div>
+                            </div>";
+                    }
+                ?>
 
                 <div class="columns level my-2 mt-6">
                     <h2 class="title is-4 ">Highest all Time statistics by match:</h2>
                 </div>
 
                 <!-- most goals scored -->
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font" id="team_a_goals_amount"><b>4</b></p>
-                        <p class="m-0 mt-1 subtitle is-7 my_stat_font" id="team_a_goals_scored_date">31/07/2020</p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Goals Scored</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font" id="team_b_goals_amount"><b>7</b></p>
-                        <p class="m-0 mt-1 subtitle is-7 my_stat_font" id="team_b_goals_scored_date">31/08/2020</p>
-                    </div>
-                </div>
-
-                <!-- most shots on goal -->
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font" id="team_a_shots_amount"><b>4</b></p>
-                        <p class="m-0 mt-1 subtitle is-7 my_stat_font" id="team_a_shots_date">31/07/2020</p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Shots on Goal</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font" id="team_b_shots_amount"><b>7</b></p>
-                        <p class="m-0 mt-1 subtitle is-7 my_stat_font" id="team_b_shots_date">31/09/2020</p>
-                    </div>
-                </div>
-
-                <!-- most fouls -->
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font" id="team_a_fouls_amount"><b>4</b></p>
-                        <p class="m-0 mt-1 subtitle is-7 my_stat_font" id="team_a_fouls_date">31/07/2020</p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Fouls</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font" id="team_b_fouls_amount"><b>7</b></p>
-                        <p class="m-0 mt-1 subtitle is-7 my_stat_font" id="team_b_fouls_date">31/09/2020</p>
-                    </div>
-                </div>
-
-                <!-- yellow cards -->
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font" id="team_a_yellow_cards_amount"><b>4</b></p>
-                        <p class="m-0 mt-1 subtitle is-7 my_stat_font" id="team_a_yellow_cards_date">31/07/2020</p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Yellow Cards</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font" id="team_b_yellow_cards_amount"><b>7</b></p>
-                        <p class="m-0 mt-1 subtitle is-7 my_stat_font" id="team_b_yellow_cards_date">31/09/2020</p>
-                    </div>
-                </div>
-
-                <!-- red cards -->
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font" id="team_a_red_cards_amount"><b>4</b></p>
-                        <p class="m-0 mt-1 subtitle is-7 my_stat_font" id="team_a_red_cards_date">31/07/2020</p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Red Cards</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font" id="team_b_red_cards_amount"><b>7</b></p>
-                        <p class="m-0 mt-1 subtitle is-7 my_stat_font" id="team_b_red_cards_date">31/09/2020</p>
-                    </div>
-                </div>
+                <?php
+                    for ($i = 0; $i < count($allTimeTileTitles); $i++) {
+                        $currentWords = $allTimeTileTitles[$i];
+                        $teamAStatistic; 
+                        $teamADate;
+                        $teamBStatistic;
+                        $teamBDate;
+                        echo "
+                            <div class='columns is-vcentered is-mobile level m-4 my_fixture_stat_level'>
+                            <div class='column team_a_colour box my_dont_wrap_text m-3 mx-5'>
+                                <p class='subtitle is-6 m-0 my_stat_font' id='team_a_goals_amount'><b>{$teamAStatistic}</b></p>
+                                <p class='m-0 mt-1 subtitle is-7 my_stat_font' id='team_a_goals_scored_date'>{$teamADate}</p>
+                            </div>
+                            <div class='column is-one-third'>
+                                <p class='subtitle is-6'>{$currentWords}</p>
+                            </div>
+                            <div class='column team_b_colour box my_dont_wrap_text m-3 mx-5'>
+                                <p class='subtitle is-6 m-0 my_stat_font' id='team_b_goals_amount'><b>{$teamBStatistic}</b></p>
+                                <p class='m-0 mt-1 subtitle is-7 my_stat_font' id='team_b_goals_scored_date'>{$teamBDate}</p>
+                            </div>
+                        </div>";
+                    }
+                ?>
             </section>
 
             <section class="column mx-5">
-                <!-- title  -->
+                <!-- section header -->
                 <div class="columns level my-2 mt-5">
                     <h2 class="title is-4">Metric Comparison:</h2>
                 </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>41%</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Percentage wins</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>34%</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>37</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Win count</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>12</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>3.2%</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">% Clean Sheets</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>8.3%</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>4%</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Games Won by Half Time</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>21%</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>1.2</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Goals per game</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>3.2</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>5.4</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Shots per game</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>13.2</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>3.2</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Shots on target</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>8.3</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>5</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Clean Sheets</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>12</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>8.2</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Average corners per game</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>9.7</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>9.3</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Fouls per game</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>8.1</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>2.7</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Yellow Cards per game</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>3.1</b></p>
-                    </div>
-                </div>
-
-                <div class="columns is-vcentered is-mobile level m-4 my_fixture_stat_level">
-                    <div class="column team_a_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>0.1</b></p>
-                    </div>
-                    <div class="column is-one-third">
-                        <p class="subtitle is-6">Red Cards per game</p>
-                    </div>
-                    <div class="column team_b_colour box my_dont_wrap_text m-3 mx-5">
-                        <p class="subtitle is-6 m-0 my_stat_font"><b>0.3</b></p>
-                    </div>
-                </div>
+                <?php
+                    for ($i = 0; $i < count($metricTileTitles); $i++) {
+                        $currentWording = $metricTileTitles[$i];
+                        $teamAstat = "";
+                        $teamBstat = "";
+                        
+                        echo "
+                            <div class='columns is-vcentered is-mobile level m-4 my_fixture_stat_level'>
+                                <div class='column team_a_colour box my_dont_wrap_text m-3 mx-5'>
+                                    <p class='subtitle is-6 m-0 my_stat_font'><b>{$teamAstat}</b></p>
+                                </div>
+                                <div class='column is-one-third'>
+                                    <p class='subtitle is-6'>{$currentWording}</p>
+                                </div>
+                                <div class='column team_b_colour box my_dont_wrap_text m-3 mx-5'>
+                                    <p class='subtitle is-6 m-0 my_stat_font'><b>{$teamBstat}</b></p>
+                                </div>
+                            </div>";
+                    }
+                ?>
             </section>
         </div>
     </div>
