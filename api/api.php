@@ -247,7 +247,6 @@
                 }
 
                 $fixtureQuery = "{$mainQuery} {$teamQuery} {$orderQuery}";
-                echo $fixtureQuery;
 
                 $fixtureQueryData = dbQueryCheckReturn($fixtureQuery);
                 while ($row = $fixtureQueryData->fetch_assoc()) {
