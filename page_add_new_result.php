@@ -116,11 +116,11 @@
                             <label class="is-size-5 mx-3" id="ht_selector_text" for="ht_selector"><b>Home
                                     Team</b></label>
                             <div class="select is-success">
-                                    <select class='my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>
-                                        <?php
-                                            require("part_team_selector");
-                                        ?>
-                                    </select>
+                                <select class='my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>
+                                    <?php
+                                        require("part_team_selector");
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="my_inline_divs m-1 mt-4">
@@ -145,10 +145,14 @@
                             </a>
                         </div>
                     </div>
+
+                    <!-- entry boxes -->
                     <div class="field ">
                         <div class="field">
                             <h2 class="title is-size-4 mt-6">Enter Match statistics:</h2>
                         </div>
+                    </div>
+                    <div class="field">
                         <p>Half Time Goals:</p>
                         <div class="my_inline_divs m-1 p-1">
                             <input required class="my_small_num_entry input is-success" type="number" placeholder="0"

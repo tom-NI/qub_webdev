@@ -7,5 +7,4 @@
     foreach($teamList as $singleTeam) {
         echo "<option value='{$singleTeam['clubname']}'>{$singleTeam['clubname']}</option>";
     }
-    
 ?>
