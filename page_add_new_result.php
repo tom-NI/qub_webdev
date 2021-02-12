@@ -1,6 +1,5 @@
 <?php
     include("dbconn.php");
-    include("sqlqueries.php");
 ?>
 
 <!DOCTYPE html>
