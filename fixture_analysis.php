@@ -20,6 +20,7 @@
                 </div>
             </div>
         </div>
+</div>
 
     <?php require("site_footer.php"); ?>
     <script src="my_script.js"></script>
