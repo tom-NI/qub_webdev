@@ -26,8 +26,8 @@
     // insert data and if it fails, print error message
     function dbQueryAndCheck($sqlQuery) {
         require("dbconn.php");
-        $insertedValue = $conn->query($sqlQuery);
-        if (!$insertedValue) {
+        $queryValue = $conn->query($sqlQuery);
+        if (!$queryValue) {
             echo $conn->error;
             die();
         }
