@@ -59,5 +59,6 @@
                         </div>
                     </form>
                 </div>
+                <p class="subtitle is-6 mt-1 my_info_colour">Remove reverse search to search Home and Away clubs as input</p>
             </div>
         </section>
