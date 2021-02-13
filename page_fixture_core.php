@@ -51,7 +51,7 @@
                         </div>
                         <div class="column is-centered mt-0 level-item">
                             <div class="m-1">
-                                <input type="checkbox" id="strict_search_box" name="strict">
+                                <input type="checkbox" id="strict_search_box" checked name="strict">
                                 <label for="strict_search_box">Include Reverse Fixtures</input>
                                 <button type="submit" id="fixture_search_btn" class="button is-rounded is-danger">Search</button>
                             </div>
