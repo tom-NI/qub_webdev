@@ -45,7 +45,7 @@
     $teamAString = "<h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'><b>{$clubA}</b></h4>";
     $teamBString = "<h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'><b>{$clubB}</b></h4>";
 ?>
-    <!-- sticky bar with clubnames! -->
+
     <div class="column is-8 is-offset-2 my_sticky_div">
             <div class="container column box is-centered my_sticky_div py-4 mx-5">
                 <div class="columns is-mobile is-vcentered is-centered">
