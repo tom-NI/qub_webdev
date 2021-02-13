@@ -290,7 +290,25 @@
         <section class="section column container my_grey_highlight_para mx-5">
             <div class="container">
                 <h3 class="title is-4 mb-5">StatTiles</h3>
-                <h4 class="subtitle is-6 pb-2">Season : 2020-2021</h4>
+            </div>
+            <div class="container">
+                <div class="level is-12">
+                    <form action="GET">
+                        <div class="p-2 level-item">
+                            <label for="season_select">Select Season :</label>
+                        </div>
+                        <div class="select control is-expanded is-link level-item">
+                            <select name="season_pref" id="season_select">
+                                <?php
+                                    require("part_season_select.php");
+                                ?>
+                            </select>
+                        </div>
+                        <div class="level-item">
+                            <button class="button is-danger">Go</button>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="tile is-ancestor is-vertical is-10-mobile">
                 <div class="tile is-12 pt-5">
