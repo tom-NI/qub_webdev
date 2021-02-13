@@ -157,7 +157,7 @@
                         </select>
                     </div>
                     <div class="level-item">
-                        <button class="button is-danger">Go</button>
+                        <button class="button is-info">Go</button>
                     </div>
                 </form>
             </div>
