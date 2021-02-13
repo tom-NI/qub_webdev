@@ -1,6 +1,4 @@
 <?php
-
-
     $sectionTitles = array(
         "Half Time Goals:",
         "Full Time Goals:",
@@ -35,7 +33,7 @@
     <section class="hero is-info is-bold pt-6">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-4">Add a Match Result</h1>
+                <h1 class="title mt-4">Add English Premier League Data</h1>
                 <p class="subtitle is-5 mt-2">Use this form to add certified Football Association Match Results to our
                     database
             </div>
@@ -44,6 +42,36 @@
 
     <div class="has-text-centered master_site_width container columns" id="my_upload_result_form">
         <div class="column is-8 is-offset-2">
+            <!-- add new club, ref, season data into db! -->
+            <div class="mt-5 p-5 my_info_colour">
+                <h2 class="title is-4 my_info_colour">Add new Clubs, Seasons or Referee Names</h2>
+                <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Referee;</h2>
+                <div class="">
+                    <p class="p-2">Please enter Referee in the format "First initial. Surname" e.g. A. Referee</p>
+                    <form action="POST" class="level columns">
+                        <input type="text" required id="new_referee" name="newrefname" class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Referee Name">
+                        <button class="button level-item is-danger m-3 is-rounded ">Add Referee</button>
+                    </form>
+                </div>
+                <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Season;</h2>
+                <div class=""> 
+                    <p class="p-2">Please enter a season in the format firstyear-secondyear with 4 digits for each year e.g. 2000-2001</p>
+                    <form action="POST" class="level columns">
+                        <input type="text" required id="new_season" name="newseason" class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Season years">
+                        <button class="button level-item is-danger m-3 is-rounded my-3 ">Add New Season</button>
+                    </form>
+                </div>
+                <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Club;</h2>
+                <div class="">
+                    <p class=" p-2">Please use the official club name and dont abbreviate.  Adding "football club" at the end is not required</p>
+                    <form action="POST" class="level columns">
+                        <input type="text" required id="new_season" name="newseason" class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Club Name">
+                        <button class="button level-item is-danger is-rounded mt-4 my-3 ">Add New Club</button>
+                    </form>
+                </div>
+            </div>
+
+                    <!-- add 1 new match details form  -->
             <div class="field">
                 <form action="POST">
                     <div class="mt-5 p-5 my_info_colour">
@@ -52,9 +80,17 @@
                         </div>
                         <div class="mt-4">
                             <div class="my_match_metadata has-text-right">
-                                <p class="my_small_form_item">Current Season : 2020-2021</p>
+                                    <label for="referee" class="my_small_form_item ">Select Season :</label>
+                                </div>
+                                <div class="my_match_metadata">
+                                    <div class="select is-info my_small_form_item">
+                                        <select class='my_small_form_item' name='select_ref' id='select_ref'>
+                                            <?php
+                                                require("part_season_select.php");
+                                            ?>
+                                        </select>
+                                    </div>
                             </div>
-
                         </div>
                         <div>
                             <div class="my_match_metadata control has-text-right">
@@ -87,22 +123,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <p class="mt-5">If the season needs to be changed, or the list of referees does not contain
-                                the relevent referee, please submit a request to have the lists updated below</p>
-                            <div class="my_inline_divs">
-                                <a
-                                    href="mailto:tkilpatrick01@qub.ac.uk?subject=StatFinder Website - Referee Change Request &body=Dear Admin, Could the following referee be add/removed from the database as they now officiate / no longer officiate at Premier League Matches, Many thanks">
-                                    <button class="button is-danger m-3 is-rounded">Referee
-                                        Change Request</button>
-                                </a>
-                                <a
-                                    href="mailto:tkilpatrick01@qub.ac.uk?subject=StatFinder Website - New Season Request &body=Dear Admin, Can a new Season be added to the statfinder website so new season match results can be added, Many thanks">
-                                    <button class="button is-danger m-3 is-rounded my-3">Request
-                                        New Season</button>
-                                </a>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="field p-4 pt-5 mt-5 my_grey_highlight_para">
@@ -131,16 +151,7 @@
                             <label class="is-size-5 mx-3" id="at_selector_text" for="at_selector"><b>Away
                                     Team</b></label>
                         </div>
-                        <div>
-                            <p class="mt-4">If a current Premier League club is not listed for match entry, please
-                                request a club change below:
-                            </p>
-                            <a
-                                href="mailto:tkilpatrick01@qub.ac.uk?subject=StatFinder Website - Club Change Request &body=Dear Admin, Can i request the following club to be added/removed from the site club listing as they have been promoted/relegated from the Premier League, Many thanks">
-                                <button class="button is-danger is-rounded mt-4 mb-3">Request
-                                    Club Change</button>
-                            </a>
-                        </div>
+                        
                     </div>
 
                     <!-- entry boxes -->
