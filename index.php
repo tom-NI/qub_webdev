@@ -163,6 +163,7 @@
             </div>
             <div class="tile is-ancestor is-vertical is-10-mobile">
                 <?php
+                    // iterate thru 9 rows of tiles, get data, display
                     for ($i = 0; $i < 10; $i++) {
                         $lowTeamName;
                         $highTeamName;
