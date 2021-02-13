@@ -57,4 +57,14 @@
         return $newString;
     }
 
+    function calculatePercentage($valueToDivide, $total) {
+        $percent = (double) ((double) $valueToDivide / (double)$total) * 100;
+        $percentOneDP = number_format($percent, 1, '.', '');
+        return "{$percentOneDP}%";
+    }
+
+    function calculateAverage($valueToDivide, $total) {
+        $value = ((double) $valueToDivide / (double)$total);
+        return number_format($value, 1, '.', '');
+    }
 ?>
