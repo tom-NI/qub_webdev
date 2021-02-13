@@ -1,5 +1,5 @@
 <?php
-    include("dbconn.php");
+
 
     $sectionTitles = array(
         "Half Time Goals:",
@@ -79,14 +79,11 @@
                             </div>
                             <div class="my_match_metadata">
                                 <div class="select is-info my_small_form_item">
-                                    <?php
-                                        echo "<select class='my_small_form_item' name='select_ref' id='select_ref'>";
-                                        $refereeResult=$conn->query($refereeNameQuery);
-                                        while ($row = $refereeResult->fetch_assoc()) {
-                                            echo "<option value='{$row["RefereeName"]}'>{$row["RefereeName"]}</option>";
-                                        }
-                                        echo "</select>";
-                                    ?>
+                                    <select class='my_small_form_item' name='select_ref' id='select_ref'>
+                                        <?php
+                                            require("part_referee_selector.php");
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -118,7 +115,7 @@
                             <div class="select is-success">
                                 <select class='my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>
                                     <?php
-                                        require("part_team_selector");
+                                        require("part_team_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -127,7 +124,7 @@
                             <div class="select is-danger">
                                 <select class='my_small_form_item mx-2' name='at_selector' id='at_selector'>
                                     <?php
-                                        require("part_team_selector");
+                                        require("part_team_selector.php");
                                     ?>
                                 </select>
                             </div>
