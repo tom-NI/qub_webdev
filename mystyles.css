@@ -41,6 +41,11 @@ input::-webkit-inner-spin-button {
     padding: 2px;
 }
 
+.my_large_textinput_item {
+    min-width: 75%;
+    padding: 2px;
+}
+
 .my_small_num_entry {
     display: inline-block;
     width: 75px;
