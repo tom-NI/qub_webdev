@@ -30,7 +30,7 @@
         <section class="columns is-mobile is-vcentered m-2 mx-5 pt-4">
             <div class="column is-8-desktop is-offset-2-desktop my_info_colour">
                 <div class="column p-4 mx-3">
-                    <form class="level columns form">
+                    <form class="level columns form" method="GET" action="page_fixture_analysis.php">
                         <div class="column level-item">
                             <div class="select control is-expanded is-success">
                                 <select name='ht_selector' id='fixture_ht_selector' class=''>
@@ -39,6 +39,9 @@
                                     ?>
                                 </select>
                             </div>
+                        </div>
+                        <div>
+                            <span class="material-icons" id="swap_teams_icon">swap_horiz</span>
                         </div>
                         <div class="column level-item">
                             <div class="select control is-expanded is-danger">
@@ -50,52 +53,39 @@
                             </div>
                         </div>
                         <div class="column is-centered mt-0 level-item">
+                            <input type="checkbox" id="strict_search_box" checked name="strict">
+                            <label for="strict_search_box">Include Reverse Fixtures</input>
+                        </div>
+                        <div class="column is-centered mt-0 level-item">
                             <div class="m-1">
-                                <input type="checkbox" id="strict_search_box" checked name="strict">
-                                <label for="strict_search_box">Include Reverse Fixtures</input>
+                                
                                 <button type="submit" id="fixture_search_btn" class="button is-rounded is-danger">Search</button>
                             </div>
-
                         </div>
                     </form>
                 </div>
-                <p class="subtitle is-6 mt-1 my_info_colour">Remove reverse search to search Home and Away clubs as input</p>
             </div>
         </section>
 
-         <!-- sticky bar with clubnames! -->
-        <div class="column is-8 is-offset-2 my_sticky_div">
-            <div class="container column box is-centered my_sticky_div py-4 mx-5">
-                <div class="columns is-mobile is-vcentered is-centered">
-                    <div class="column">
-                        <h4 class="is-size-4 is-size-5-mobile has-text-right team_a_name_colour"><b>Team A</b>
-                        </h4>
-                    </div>
-                    <div class="column level is-narrow mt-5">
-                        <h4 class="level-item">vs.</h4>
-                    </div>
-                    <div class="column">
-                        <h4 class="is-size-4 is-size-5-mobile has-text-left team_b_name_colour"><b>Team B</b>
-                        </h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <?php
         if (isset($_GET['ht_selector']) && isset($_GET['at_selector']) 
                 && $_GET['ht_selector'] != "Select Team" && $_GET['at_selector'] != "Select Team") {
             require("allfunctions.php");
-            $homeTeam = real_escape_string($_GET['ht_selector']);
-            $awayTeam = real_escape_string($_GET['at_selector']);
+            $homeTeam = $_GET['ht_selector'];
+            $awayTeam = $_GET['at_selector'];
             
             $finalHomeTeamurl = addUnderScores($homeTeam);
             $finalAwayTeamurl = addUnderScores($awayTeam);
-
-            if (isempty($_GET['strict'])) {
-                $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}";
+            
+            if (isset($_GET['strict'])) {
+                $nonStrictMode = $_GET['strict'];
+                if ($nonStrictMode) {
+                    $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}";
+                    $strictPara = "Data includes reverse fixture";
+                } 
             } else {
                 $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}&strict=true";
+                $strictPara = "Data does NOT include reverse fixture";
             }
             $fixtureAPIdata = file_get_contents($fixtureAPIurl);
             $fixtureList = json_decode($fixtureAPIdata, true);
@@ -128,26 +118,26 @@
             $HTRedCardsMaxDate = null;
             $ATRedCardsMaxDate = null;
 
-            $HTwinCount;
-            $ATwinCount;
-            $HTcleanSheetCount;
-            $ATcleanSheetCount;
-            $HTwonHalfTimeCount;
-            $ATwonHalfTimeCount;
-            $HTgoalsScored;
-            $ATgoalsScored;
-            $HTShots;
-            $ATShots;
-            $HTShotsOnTarget;
-            $ATShotsOnTarget;
-            $HTcorners;
-            $ATcorners;
-            $HTfouls;
-            $ATfouls;
-            $HTyellowCards;
-            $ATyellowCards;
-            $HTRedCards;
-            $ATRedCards;
+            $HTwinCount = 0;
+            $ATwinCount = 0;
+            $HTcleanSheetCount = 0;
+            $ATcleanSheetCount = 0;
+            $HTwonHalfTimeCount = 0;
+            $ATwonHalfTimeCount = 0;
+            $HTgoalsScored = 0;
+            $ATgoalsScored = 0;
+            $HTShots = 0;
+            $ATShots = 0;
+            $HTShotsOnTarget = 0;
+            $ATShotsOnTarget = 0;
+            $HTcorners = 0;
+            $ATcorners = 0;
+            $HTfouls = 0;
+            $ATfouls = 0;
+            $HTyellowCards = 0;
+            $ATyellowCards = 0;
+            $HTRedCards = 0;
+            $ATRedCards = 0;
 
             foreach($fixtureList as $singleMatch) {
                 $pastMeetingCount++;
@@ -240,25 +230,25 @@
                 $ATRedCards += $singleMatch['awayteamredcards'];
                 
                 // won by half time logic
-                if (($hometeamhalftimegoals > $awayteamhalftimegoals) 
-                    && ($hometeamtotalgoals > $awayteamtotalgoals)) {
+                if (($singleMatch['hometeamhalftimegoals'] > $singleMatch['awayteamhalftimegoals']) 
+                    && ($singleMatch['hometeamtotalgoals'] > $singleMatch['awayteamtotalgoals'])) {
                         $HTwonHalfTimeCount++;
                 }
-                if (($hometeamhalftimegoals < $awayteamhalftimegoals) 
-                    && ($hometeamtotalgoals < $awayteamtotalgoals)) {
+                if (($singleMatch['hometeamhalftimegoals'] < $singleMatch['awayteamhalftimegoals']) 
+                    && ($singleMatch['hometeamtotalgoals'] < $singleMatch['awayteamtotalgoals'])) {
                         $ATwonHalfTimeCount++;
                 }
             }
             
             // calc averages
             if ($pastMeetingCount > 0) {
-                $averageGoalsPG = (double) $overallTotalGoalsScored / $pastMeetingCount;
-                $averageShotsPG = (double) $overallTotalShots / $pastMeetingCount;
-                $averageFoulsPG = (double) $overallTotalFouls / $pastMeetingCount;
+                $averageGoalsPG = calculateAverage($overallTotalGoalsScored, $pastMeetingCount);
+                $averageShotsPG = calculateAverage($overallTotalShots, $pastMeetingCount);
+                $averageFoulsPG = calculateAverage($overallTotalFouls, $pastMeetingCount);
             }
 
             // percent and metric calcs
-            $totalWonGames = $pastMeetingCount - $$totalDraws;
+            $totalWonGames = $pastMeetingCount - $totalDraws;
             $htWinsPercent = calculatePercentage($HTwinCount, $totalWonGames);
             $atWinsPercent = calculatePercentage($ATwinCount, $totalWonGames);
             $cleanSheetTotal = ($HTcleanSheetCount + $ATcleanSheetCount);
@@ -383,29 +373,24 @@
                 $atRedCardsPerGame
             );
 
-            $clubA;
-            $clubB;
-            $teamAString = "<h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'><b>{$clubA}</b></h4>";
-            $teamBString = "<h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'><b>{$clubB}</b></h4>";
+            $teamAString = "<h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'><b>{$homeTeam}</b></h4>";
+            $teamBString = "<h4 class='is-size-4 is-size-5-mobile has-text-left team_b_name_colour'><b>{$awayTeam}</b></h4>";
         
             echo "
-            <div class='column is-8 is-offset-2 my_sticky_div'>
+                <div class='column is-8 is-offset-2 my_sticky_div'>
                     <div class='container column box is-centered my_sticky_div py-4 mx-5'>
                         <div class='columns is-mobile is-vcentered is-centered'>
-                            <div class='column'>
-                                <?php
-                                    echo {$teamAString};
-                                ?>
+                            <div class='column mb-2'>
+                                {$teamAString}
                             </div>
                             <div class='column level is-narrow mt-5'>
                                 <h4 class='level-item'>vs.</h4>
                             </div>
-                            <div class='column'>
-                                <?php
-                                    echo {$teamBString};
-                                ?>
+                            <div class='column mb-2'>
+                                {$teamBString}
                             </div>
                         </div>
+                        <p class='subtitle is-7'>{$strictPara}</p>
                     </div>
                 </div>
 
@@ -492,18 +477,10 @@
                         echo"
                     </section>
                 </div>
-            </div>
-
-            <?php require('part_site_footer.php'); ?>
-            <script src='my_script.js'></script>
-        </body>
-
-        </html>";
-    } else {
-        require('part_site_footer.php');
-        echo "<script src='my_script.js'></script>
-        </body>
-
-        </html>";
-    }
+            </div>";
+    } 
+    require('part_site_footer.php');
 ?>
+<script src='my_script.js'></script>
+</body>
+</html>
