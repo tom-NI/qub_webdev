@@ -33,18 +33,18 @@
                     <form class="level columns form">
                         <div class="column level-item">
                             <div class="select control is-expanded is-success">
-                                <select name='fixture_ht_selector' id='fixture_ht_selector' class=''>
+                                <select name='' id='fixture_ht_selector' class=''>
                                     <?php
-                                        require("part_team_selector");
+                                        require("part_team_selector.php");
                                     ?>
                                 </select>
                             </div>
                         </div>
                         <div class="column level-item">
                             <div class="select control is-expanded is-danger">
-                                <select name='fixture_at_selector' id='fixture_at_selector' class=''>
+                                <select name='' id='fixture_at_selector' class=''>
                                     <?php
-                                        require("part_team_selector");
+                                        require("part_team_selector.php");
                                     ?>
                                 </select>
                             </div>
