@@ -73,6 +73,8 @@
             require("allfunctions.php");
             $homeTeam = $_GET['ht_selector'];
             $awayTeam = $_GET['at_selector'];
+
+            // TODO - check reverse fixture logic!!
             
             $finalHomeTeamurl = addUnderScores($homeTeam);
             $finalAwayTeamurl = addUnderScores($awayTeam);
@@ -378,7 +380,7 @@
         
             echo "
                 <div class='column is-8 is-offset-2 my_sticky_div'>
-                    <div class='container column box is-centered my_sticky_div py-4 mx-5'>
+                    <div class='container column box is-centered my_sticky_div pt-4 mx-5'>
                         <div class='columns is-mobile is-vcentered is-centered'>
                             <div class='column mb-2'>
                                 {$teamAString}
