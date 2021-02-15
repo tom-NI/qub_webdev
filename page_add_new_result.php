@@ -1,16 +1,3 @@
-<?php
-    $sectionTitles = array(
-        "Half Time Goals:",
-        "Full Time Goals:",
-        "Total Shots:",
-        "Shots on Target:",
-        "Corners:",
-        "Total Fouls:",
-        "Yellow Cards:",
-        "Red Cards:"
-    );
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -130,8 +117,7 @@
                             <h2 class="title is-size-4 my_grey_highlight_para">Select Teams:</h2>
                         </div>
                         <div class="my_inline_divs m-1 mt-4">
-                            <label class="is-size-5 mx-3" id="ht_selector_text" for="ht_selector"><b>Home
-                                    Team</b></label>
+                            <label class="is-size-5 mx-3" id="ht_selector_text" for="ht_selector"><b>Home Team</b></label>
                             <div class="select is-success">
                                 <select class='my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>
                                     <?php
@@ -148,10 +134,8 @@
                                     ?>
                                 </select>
                             </div>
-                            <label class="is-size-5 mx-3" id="at_selector_text" for="at_selector"><b>Away
-                                    Team</b></label>
+                            <label class="is-size-5 mx-3" id="at_selector_text" for="at_selector"><b>Away Team</b></label>
                         </div>
-                        
                     </div>
 
                     <!-- entry boxes -->
@@ -160,100 +144,67 @@
                             <h2 class="title is-size-4 mt-6">Enter Match statistics:</h2>
                         </div>
                     </div>
-                    <div class="field">
-                        <p>Half Time Goals:</p>
-                        <div class="my_inline_divs m-1 p-1">
-                            <input required class="my_small_num_entry input is-success" type="number" placeholder="0"
-                                min="0" max="50" id="ht_half_time_goals" name="ht_ht_goals">
-                        </div>
-                        <div class="my_inline_divs m-1 p-1">
-                            <input class="my_small_num_entry input is-danger" type="number" required placeholder="0"
-                                min="0" max="50" id="at_half_time_goals" name="at_ht_goals">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <p>Full Time Goals:</p>
-                        <div class="my_inline_divs m-1 p-1">
-                            <input type="number" class="my_small_num_entry input is-success" required placeholder="0"
-                                min="0" max="50" id="ht_full_time_goals" name="ht_ft_goals">
-                        </div>
-                        <div class="my_inline_divs m-1 p-1">
-                            <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
-                                min="0" max="50" id="at_full_time_goals" name="at_ft_goals">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <p>Total Shots:</p>
-                        <div>
-                            <div class="my_inline_divs m-1 p-1">
-                                <input type="number" class="my_small_num_entry input is-success" required
-                                    placeholder="0" min="0" max="50" id="ht_total_shots" name="ht_total_shots">
-                            </div>
-                            <div class="my_inline_divs m-1 p-1">
-                                <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
-                                    min="0" max="50" name="at_total_shots" id="at_total_shots">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <p>Shots on Target:</p>
-                        <div>
-                            <div class="my_inline_divs m-1 p-1">
-                                <input type="number" class="my_small_num_entry input is-success" required
-                                    placeholder="0" min="0" max="50" id="ht_shots_on_target" name="ht_shots_on_target">
-                            </div>
-                            <div class="my_inline_divs m-1 p-1">
-                                <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
-                                    min="0" max="50" id="at_shots_on_target" name="at_shots_on_target">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <p>Corners:</p>
-                        <div>
-                            <div class="my_inline_divs m-1 p-1">
-                                <input type="number" class="my_small_num_entry input is-success" required
-                                    placeholder="0" min="0" max="200" id="ht_corners" name="ht_corners">
-                            </div>
-                            <div class="my_inline_divs m-1 p-1">
-                                <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
-                                    min="0" max="200" id="at_corners" name="at_corners">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <p>Total Fouls:</p>
-                        <div class="my_inline_divs m-1 p-1">
-                            <input type="number" class="my_small_num_entry input is-success" required placeholder="0"
-                                min="0" max="100" name="ht_total_fouls" id="ht_total_fouls">
-                        </div>
-                        <div class="my_inline_divs m-1 p-1">
-                            <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
-                                min="0" max="100" name="at_total_fouls" id="at_total_fouls">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <p>Yellow Cards:</p>
-                        <div class="my_inline_divs m-1 p-1">
-                            <input type="number" class="my_small_num_entry input is-success" required placeholder="0"
-                                min="0" max="22" name="" id="ht_yellow_cards" name="ht_yellow_cards">
-                        </div>
-                        <div class="my_inline_divs m-1 p-1">
-                            <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
-                                min="0" max="22" name="" id="at_yellow_cards" name="at_yellow_cards">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <p>Red Cards:</p>
-                        <div class="my_inline_divs m-1 p-1">
-                            <input type="number" class="my_small_num_entry input is-success" required placeholder="0"
-                                min="0" max="5" name="" id="ht_red_cards" name="ht_red_cards">
-                        </div>
-                        <div class="my_inline_divs m-1 p-1">
-                            <input type="number" class="my_small_num_entry input is-danger" required placeholder="0"
-                                min="0" max="5" name="" id="at_red_cards" name="at_red_cards">
-                        </div>
-                    </div>
+                        <?php   
+                            // used for placeholder data and minimum entry values
+                            $zero = 0;
+
+                            $sectionTitles = array(
+                                "Half Time Goals:",
+                                "Full Time Goals:",
+                                "Total Shots:",
+                                "Shots on Target:",
+                                "Corners:",
+                                "Total Fouls:",
+                                "Yellow Cards:",
+                                "Red Cards:"
+                            );
+                        
+                            $maxValues = array(
+                                50,
+                                50,
+                                50,
+                                50,
+                                200,
+                                100,
+                                22,
+                                5
+                            );
+                            $homeNameValues = array(
+                                "ht_ht_goals",
+                                "ht_ft_goals",
+                                "ht_total_shots",
+                                "ht_shots_on_target",
+                                "ht_corners",
+                                "ht_total_fouls",
+                                "ht_yellow_cards",
+                                "ht_red_cards",
+                            );
+                        
+                            $awayNameValues = array(
+                                "at_ht_goals",
+                                "at_ft_goals",
+                                "at_total_shots",
+                                "at_shots_on_target",
+                                "at_corners",
+                                "at_total_fouls",
+                                "at_yellow_cards",
+                                "at_red_cards",
+                            );
+
+                            for ($i = 0; $i < 9; $i++) {
+                                echo "<div class='field'>
+                                    <p>{$sectionTitles[$i]}</p>
+                                    <div class='my_inline_divs m-1 p-1'>
+                                        <input required class='my_small_num_entry input is-success' type='number' placeholder='{$zero}'
+                                            min='{$zero}' max='{$maxValues[$i]}' id='{$homeNameValues[$i]}' name='{$homeNameValues[$i]}'>
+                                    </div>
+                                    <div class='my_inline_divs m-1 p-1'>
+                                        <input class='my_small_num_entry input is-danger' type='number' required placeholder='{$zero}'
+                                            min='{$zero}' max='{$maxValues[$i]}' id='{$awayNameValues[$i]}' name='{$awayNameValues[$i]}'>
+                                    </div>
+                                </div>";
+                            }
+                        ?>
                     <div class="my_grey_highlight_para p-3">
                         <p>I have checked the data for correctness prior to submitting</p>
                         <input required type="radio" id="yes_radio" name="confirmed_accurate"
