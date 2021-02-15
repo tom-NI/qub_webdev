@@ -3,8 +3,8 @@
     require("allfunctions.php");
 
     // obtain all form values safely first;
-    $seasonID = trim($_POST['seasonID']);
-    $finalSeasonID = htmlentities($seasonID);
+    $seasonName = trim($_POST['select_season']);
+    $finalSeasonName = htmlentities($seasonName);
     $matchDate = trim($_POST['match_date']);
     $finalMatchDate = htmlentities($matchDate);
     $kickOffTime = trim($_POST['kickoff_time']);
@@ -59,25 +59,25 @@
     $currentSeasonSelected = false;
 
     // TODO - CHECK THE DATE AND TIME ARE PARSED CORRECTLY!
-    $getdate = date("Y-m-d H:i:s");
-    if ($finalMatchDate > now()) {
-        $matchDateInThePast = false;
-        $resultString += "Match date appears to be in the future, please enter historical records only. ";
-    } else {
-        $matchDateInThePast = true;
-    }
+    // $getdate = date("Y-m-d H:i:s");
+    // if ($finalMatchDate > now()) {
+    //     $matchDateInThePast = false;
+    //     $resultString += "Match date appears to be in the future, please enter historical records only. ";
+    // } else {
+    //     $matchDateInThePast = true;
+    // }
 
-    // Time cannot be > 10pm or before 9am - alert?
-    if ($finalKickOffTime > 0) {
-        $startTimeWithinLimits = false;
-        $resultString += "Start time appears to have been set for a night time start.  Please Enter times during the day within the GMT timezone.    ";
-    } else {
-        $startTimeWithinLimits = true;
-    }
+    // // Time cannot be > 10pm or before 9am - alert?
+    // if ($finalKickOffTime > 0) {
+    //     $startTimeWithinLimits = false;
+    //     $resultString += "Start time appears to have been set for a night time start.  Please Enter times during the day within the GMT timezone.    ";
+    // } else {
+    //     $startTimeWithinLimits = true;
+    // }
 
     // get current season from DB!
     $currentSeason = getCurrentSeason();
-    if ($finalSeasonID != $currentSeason) {
+    if ($finalSeasonName != $currentSeason) {
         $currentSeasonSelected = false;
         $resultString += "Current Season has not been selected, historic seasons cannot have results added.  ";
     } else {
@@ -138,7 +138,7 @@
             $updateTransaction = "
                 START TRANSACTION;
                     INSERT INTO epl_matches (`SeasonID`, `MatchDate`, `KickOffTime`, `RefereeID`, `HomeClubID`, `AwayClubID`) 
-                    VALUES ({$finalSeasonID},{$finalMatchDate},{$finalKickOffTime},{$finalRefereeID},{$finalHomeClubID},{$finalAwayClubID});
+                    VALUES ({$finalSeasonName},{$finalMatchDate},{$finalKickOffTime},{$finalRefereeID},{$finalHomeClubID},{$finalAwayClubID});
                     SET @match_id = LAST_INSERT_ID();
         
                     INSERT INTO epl_home_team_stats (`MatchID`,`HTTotalGoals`,`HTHalfTimeGoals`,`HTShots`,`HTShotsOnTarget`,`HTCorners`,`HTFouls`,`HTYellowCards`,`HTRedCards`) 
@@ -146,7 +146,7 @@
         
                     INSERT INTO epl_away_team_stats (`MatchID`,`HTTotalGoals`,`HTHalfTimeGoals`,`HTShots`,`HTShotsOnTarget`,`HTCorners`,`HTFouls`,`HTYellowCards`,`HTRedCards`) 
                     VALUES (@match_id, {$finalMatchDate}, {$finalAwayTeamTotalGoals},{$finalAwayTeamHalfTimeGoals},{$finalAwayTeamShots},{$finalAwayTeamShotsOnTarget},{$finalAwayTeamCorners},{$finalAwayTeamFouls},{$finalAwayTeamYellowCards},{$finalAwayTeamRedCards});
-                COMMIT ";
+                COMMIT; ";
             echo $updateTransaction;
             
             // dbQueryAndCheck($updateTransaction);

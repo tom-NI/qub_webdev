@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="my_match_metadata">
                                     <div class="select is-info my_small_form_item">
-                                        <select class='my_small_form_item' name='select_ref' id='select_ref'>
+                                        <select class='my_small_form_item' name='select_season' id='select_season'>
                                             <?php
                                                 require("part_season_select.php");
                                             ?>
