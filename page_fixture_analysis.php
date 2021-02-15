@@ -58,7 +58,6 @@
                         </div>
                         <div class="column is-centered mt-0 level-item">
                             <div class="m-1">
-                                
                                 <button type="submit" id="fixture_search_btn" class="button is-rounded is-danger">Search</button>
                             </div>
                         </div>
@@ -71,13 +70,11 @@
         if (isset($_GET['ht_selector']) && isset($_GET['at_selector']) 
                 && $_GET['ht_selector'] != "Select Team" && $_GET['at_selector'] != "Select Team") {
             require("allfunctions.php");
-            $homeTeam = $_GET['ht_selector'];
-            $awayTeam = $_GET['at_selector'];
-
-            // TODO - check reverse fixture logic!!
+            $teamA = $_GET['ht_selector'];
+            $teamB = $_GET['at_selector'];
             
-            $finalHomeTeamurl = addUnderScores($homeTeam);
-            $finalAwayTeamurl = addUnderScores($awayTeam);
+            $finalHomeTeamurl = addUnderScores($teamA);
+            $finalAwayTeamurl = addUnderScores($teamB);
             
             if (isset($_GET['strict'])) {
                 $nonStrictMode = $_GET['strict'];
@@ -99,47 +96,47 @@
             $overallTotalShots = 0;
             $overallTotalFouls = 0;
 
-            $HTGoalsMax = 0;
-            $ATGoalsMax = 0;
-            $HTGoalsMaxDate = null;
-            $ATGoalsMaxDate = null;
-            $HTShotsMax = 0;
-            $ATShotsMax = 0;
-            $HTShotsMaxDate = null;
-            $ATShotsMaxDate = null;
-            $HTFoulsMax = 0;
-            $ATFoulsMax = 0;
-            $HTFoulsMaxDate = null;
-            $ATFoulsMaxDate = null;
-            $HTYellowCardsMax = 0;
-            $ATYellowCardsMax = 0;
-            $HTYellowCardsMaxDate = null;
-            $ATYellowCardsMaxDate = null;
-            $HTRedCardsMax = 0;
-            $ATRedCardsMax = 0;
-            $HTRedCardsMaxDate = null;
-            $ATRedCardsMaxDate = null;
+            $teamAGoalsMax = 0;
+            $teamBGoalsMax = 0;
+            $teamAGoalsDate = null;
+            $teamBGoalsDate = null;
+            $teamAShotsMax = 0;
+            $teamBShotsMax = 0;
+            $teamAShotsMaxDate = null;
+            $teamBShotsMaxDate = null;
+            $teamAFoulsMax = 0;
+            $teamBFoulsMax = 0;
+            $teamAFoulsMaxDate = null;
+            $teamBFoulsMaxDate = null;
+            $teamAYellowCardsMax = 0;
+            $teamBYellowCardsMax = 0;
+            $teamAYellowCardsMaxDate = null;
+            $teamBYellowCardsMaxDate = null;
+            $teamARedCardsMax = 0;
+            $teamBRedCardsMax = 0;
+            $teamARedCardsMaxDate = null;
+            $teamBRedCardsMaxDate = null;
 
-            $HTwinCount = 0;
-            $ATwinCount = 0;
-            $HTcleanSheetCount = 0;
-            $ATcleanSheetCount = 0;
-            $HTwonHalfTimeCount = 0;
-            $ATwonHalfTimeCount = 0;
-            $HTgoalsScored = 0;
-            $ATgoalsScored = 0;
-            $HTShots = 0;
-            $ATShots = 0;
-            $HTShotsOnTarget = 0;
-            $ATShotsOnTarget = 0;
-            $HTcorners = 0;
-            $ATcorners = 0;
-            $HTfouls = 0;
-            $ATfouls = 0;
-            $HTyellowCards = 0;
-            $ATyellowCards = 0;
-            $HTRedCards = 0;
-            $ATRedCards = 0;
+            $teamAwinCount = 0;
+            $teamBwinCount = 0;
+            $teamAcleanSheetCount = 0;
+            $teamBcleanSheetCount = 0;
+            $teamAwonHalfTimeCount = 0;
+            $teamBwonHalfTimeCount = 0;
+            $teamAgoalsScored = 0;
+            $teamBgoalsScored = 0;
+            $teamAShots = 0;
+            $teamBShots = 0;
+            $teamAShotsOnTarget = 0;
+            $teamBShotsOnTarget = 0;
+            $teamAcorners = 0;
+            $teamBcorners = 0;
+            $teamAfouls = 0;
+            $teamBfouls = 0;
+            $teamAyellowCards = 0;
+            $teamByellowCards = 0;
+            $teamARedCards = 0;
+            $teamBRedCards = 0;
 
             foreach($fixtureList as $singleMatch) {
                 $pastMeetingCount++;
@@ -152,93 +149,167 @@
 
                 if ($singleMatch['hometeamtotalgoals'] == $singleMatch['awayteamtotalgoals']) {
                     $totalDraws++;
-                } elseif ($singleMatch['hometeamtotalgoals'] > $singleMatch['awayteamtotalgoals']) {
-                    $HTwinCount++;
-                } else {
-                    $ATwinCount++;
-                }
 
-                // analyse all home team goals
-                if ($singleMatch['hometeamtotalgoals'] == 0) {
-                    $ATcleanSheetCount++;
-                } else {
-                    $HTgoalsScored += $singleMatch['hometeamtotalgoals'];
-                    if ($singleMatch['hometeamtotalgoals'] > $HTGoalsMax) {
-                        $HTGoalsMax = $singleMatch['hometeamtotalgoals'];
-                        $HTGoalsMaxDate = $singleMatch['matchdate'];
+                // check the teams (for reverse fixtures) for each match and switch logic to correct team;
+                if ($_GET['ht_selector'] == $teamA) {
+                    if ($singleMatch['hometeamtotalgoals'] > $singleMatch['awayteamtotalgoals']) {
+                        $teamAwinCount++;
+                    } elseif ($singleMatch['hometeamtotalgoals'] < $singleMatch['awayteamtotalgoals']) {
+                        $teamBwinCount++;
                     }
-                }
-                if ($singleMatch['awayteamtotalgoals'] == 0) {
-                    $HTcleanSheetCount++;
-                } else {
-                    $ATgoalsScored += $singleMatch['awayteamtotalgoals'];
-                    if ($singleMatch['awayteamtotalgoals'] > $ATGoalsMax) {
-                        $ATGoalsMax = $singleMatch['awayteamtotalgoals'];
-                        $ATGoalsMaxDate = $singleMatch['matchdate'];
+                    // analyse all home team goals
+                    if ($singleMatch['hometeamtotalgoals'] == 0) {
+                        $teamBcleanSheetCount++;
+                    } else {
+                        $teamAgoalsScored += $singleMatch['hometeamtotalgoals'];
+                        if ($singleMatch['hometeamtotalgoals'] > $teamAGoalsMax) {
+                            $teamAGoalsMax = $singleMatch['hometeamtotalgoals'];
+                            $teamAGoalsDate = $singleMatch['matchdate'];
+                        }
                     }
-                }
+                    if ($singleMatch['awayteamtotalgoals'] == 0) {
+                        $teamAcleanSheetCount++;
+                    } else {
+                        $teamBgoalsScored += $singleMatch['awayteamtotalgoals'];
+                        if ($singleMatch['awayteamtotalgoals'] > $teamBGoalsMax) {
+                            $teamBGoalsMax = $singleMatch['awayteamtotalgoals'];
+                            $teamBGoalsDate = $singleMatch['matchdate'];
+                        }
+                    }
+                    // analyze shots
+                    if ($singleMatch['hometeamshots'] > $teamAShotsMax) {
+                        $teamAShotsMax = $singleMatch['hometeamshots'];
+                        $teamAShotsMaxDate = $singleMatch['matchdate'];
+                    }
+                    if ($singleMatch['awayteamshots'] > $teamBShotsMax) {
+                        $teamBShotsMax = $singleMatch['awayteamshots'];
+                        $teamBShotsMaxDate = $singleMatch['matchdate'];
+                    }
+                    // yellow cards
+                    if ($singleMatch['hometeamyellowcards'] > $teamAYellowCardsMax) {
+                        $teamAYellowCardsMax = $singleMatch['hometeamyellowcards'];
+                        $teamAYellowCardsMaxDate = $singleMatch['matchdate'];
+                    }
+                    if ($singleMatch['awayteamyellowcards'] > $teamBYellowCardsMax) {
+                        $teamBYellowCardsMax = $singleMatch['awayteamyellowcards'];
+                        $teamBYellowCardsMaxDate = $singleMatch['matchdate'];
+                    }
 
-                // analyze shots
-                if ($singleMatch['hometeamshots'] > $HTShotsMax) {
-                    $HTShotsMax = $singleMatch['hometeamshots'];
-                    $HTShotsMaxDate = $singleMatch['matchdate'];
-                }
-                if ($singleMatch['awayteamshots'] > $ATShotsMax) {
-                    $ATShotsMax = $singleMatch['awayteamshots'];
-                    $ATShotsMaxDate = $singleMatch['matchdate'];
-                }
+                    // red cards
+                    if ($singleMatch['hometeamredcards'] > $teamARedCardsMax) {
+                        $teamARedCardsMax = $singleMatch['hometeamredcards'];
+                        $teamARedCardsMaxDate = $singleMatch['matchdate'];
+                    }
+                    if ($singleMatch['awayteamredcards'] > $teamBRedCardsMax) {
+                        $teamBRedCardsMax = $singleMatch['awayteamredcards'];
+                        $teamBRedCardsMaxDate = $singleMatch['matchdate'];
+                    }
 
-                // analyse fouls!
-                if ($singleMatch['hometeamfouls'] > $HTFoulsMax) {
-                    $HTFoulsMax = $singleMatch['hometeamfouls'];
-                    $HTFoulsMaxDate = $singleMatch['matchdate'];
-                }
-                if ($singleMatch['awayteamfouls'] > $ATFoulsMax) {
-                    $ATFoulsMax = $singleMatch['awayteamfouls'];
-                    $ATFoulsMaxDate = $singleMatch['matchdate'];
-                }
-
-                // yellow cards
-                if ($singleMatch['hometeamyellowcards'] > $HTYellowCardsMax) {
-                    $HTYellowCardsMax = $singleMatch['hometeamyellowcards'];
-                    $HTYellowCardsMaxDate = $singleMatch['matchdate'];
-                }
-                if ($singleMatch['awayteamyellowcards'] > $ATYellowCardsMax) {
-                    $ATYellowCardsMax = $singleMatch['awayteamyellowcards'];
-                    $ATYellowCardsMaxDate = $singleMatch['matchdate'];
-                }
-
-                // red cards
-                if ($singleMatch['hometeamredcards'] > $HTRedCardsMax) {
-                    $HTRedCardsMax = $singleMatch['hometeamredcards'];
-                    $HTRedCardsMaxDate = $singleMatch['matchdate'];
-                }
-                if ($singleMatch['awayteamredcards'] > $ATRedCardsMax) {
-                    $ATRedCardsMax = $singleMatch['awayteamredcards'];
-                    $ATRedCardsMaxDate = $singleMatch['matchdate'];
-                }
-
-                $HTShots += $singleMatch['hometeamshots'];
-                $ATShots += $singleMatch['awayteamshots'];
-                $HTShotsOnTarget += $singleMatch['hometeamshotsontarget'];
-                $ATShotsOnTarget += $singleMatch['awayteamshotsontarget'];
-                $HTcorners += $singleMatch['hometeamcorners'];
-                $ATcorners += $singleMatch['awayteamcorners'];
-                $HTfouls += $singleMatch['hometeamfouls'];
-                $ATfouls += $singleMatch['awayteamfouls'];
-                $HTyellowCards += $singleMatch['hometeamyellowcards'];
-                $ATyellowCards += $singleMatch['awayteamyellowcards'];
-                $HTRedCards += $singleMatch['hometeamredcards'];
-                $ATRedCards += $singleMatch['awayteamredcards'];
-                
-                // won by half time logic
-                if (($singleMatch['hometeamhalftimegoals'] > $singleMatch['awayteamhalftimegoals']) 
+                    // won by half time logic
+                    if (($singleMatch['hometeamhalftimegoals'] > $singleMatch['awayteamhalftimegoals']) 
                     && ($singleMatch['hometeamtotalgoals'] > $singleMatch['awayteamtotalgoals'])) {
-                        $HTwonHalfTimeCount++;
-                }
-                if (($singleMatch['hometeamhalftimegoals'] < $singleMatch['awayteamhalftimegoals']) 
-                    && ($singleMatch['hometeamtotalgoals'] < $singleMatch['awayteamtotalgoals'])) {
-                        $ATwonHalfTimeCount++;
+                        $teamAwonHalfTimeCount++;
+                    }
+                    if (($singleMatch['hometeamhalftimegoals'] < $singleMatch['awayteamhalftimegoals']) 
+                        && ($singleMatch['hometeamtotalgoals'] < $singleMatch['awayteamtotalgoals'])) {
+                            $teamBwonHalfTimeCount++;
+                    }
+                    $teamAShots += $singleMatch['hometeamshots'];
+                    $teamBShots += $singleMatch['awayteamshots'];
+                    $teamAShotsOnTarget += $singleMatch['hometeamshotsontarget'];
+                    $teamBShotsOnTarget += $singleMatch['awayteamshotsontarget'];
+                    $teamAcorners += $singleMatch['hometeamcorners'];
+                    $teamBcorners += $singleMatch['awayteamcorners'];
+                    $teamAfouls += $singleMatch['hometeamfouls'];
+                    $teamBfouls += $singleMatch['awayteamfouls'];
+                    $teamAyellowCards += $singleMatch['hometeamyellowcards'];
+                    $teamByellowCards += $singleMatch['awayteamyellowcards'];
+                    $teamARedCards += $singleMatch['hometeamredcards'];
+                    $teamBRedCards += $singleMatch['awayteamredcards'];
+                } else {
+                    // I.E. theres a reverse fixture, so all the above logic is reversed...
+                    if ($singleMatch['hometeamtotalgoals'] < $singleMatch['awayteamtotalgoals']) {
+                        $teamAwinCount++;
+                    } elseif ($singleMatch['hometeamtotalgoals'] > $singleMatch['awayteamtotalgoals']) {
+                        $teamBwinCount++;
+                    }
+                    // analyse all home team goals
+                    if ($singleMatch['awayteamtotalgoals'] == 0) {
+                        $teamBcleanSheetCount++;
+                    } else {
+                        $teamAgoalsScored += $singleMatch['awayteamtotalgoals'];
+                        if ($singleMatch['awayteamtotalgoals'] > $teamAGoalsMax) {
+                            $teamAGoalsMax = $singleMatch['awayteamtotalgoals'];
+                            $teamAGoalsDate = $singleMatch['matchdate'];
+                        }
+                    }
+                    if ($singleMatch['hometeamtotalgoals'] == 0) {
+                        $teamAcleanSheetCount++;
+                    } else {
+                        $teamBgoalsScored += $singleMatch['hometeamtotalgoals'];
+                        if ($singleMatch['hometeamtotalgoals'] > $teamBGoalsMax) {
+                            $teamBGoalsMax = $singleMatch['hometeamtotalgoals'];
+                            $teamBGoalsDate = $singleMatch['matchdate'];
+                        }
+                    }
+                    // analyze shots
+                    if ($singleMatch['awayteamshots'] > $teamAShotsMax) {
+                        $teamAShotsMax = $singleMatch['awayteamshots'];
+                        $teamAShotsMaxDate = $singleMatch['matchdate'];
+                    }
+                    if ($singleMatch['hometeamshots'] > $teamBShotsMax) {
+                        $teamBShotsMax = $singleMatch['hometeamshots'];
+                        $teamBShotsMaxDate = $singleMatch['matchdate'];
+                    }
+                    // analyse fouls!
+                    if ($singleMatch['awayteamfouls'] > $teamAFoulsMax) {
+                        $teamAFoulsMax = $singleMatch['awayteamfouls'];
+                        $teamAFoulsMaxDate = $singleMatch['matchdate'];
+                    }
+                    if ($singleMatch['hometeamfouls'] > $teamBFoulsMax) {
+                        $teamBFoulsMax = $singleMatch['hometeamfouls'];
+                        $teamBFoulsMaxDate = $singleMatch['matchdate'];
+                    }
+                    // yellow cards
+                    if ($singleMatch['awayteamyellowcards'] > $teamAYellowCardsMax) {
+                        $teamAYellowCardsMax = $singleMatch['awayteamyellowcards'];
+                        $teamAYellowCardsMaxDate = $singleMatch['matchdate'];
+                    }
+                    if ($singleMatch['hometeamyellowcards'] > $teamBYellowCardsMax) {
+                        $teamBYellowCardsMax = $singleMatch['hometeamyellowcards'];
+                        $teamBYellowCardsMaxDate = $singleMatch['matchdate'];
+                    }
+                    // red cards
+                    if ($singleMatch['awayteamredcards'] > $teamARedCardsMax) {
+                        $teamARedCardsMax = $singleMatch['awayteamredcards'];
+                        $teamARedCardsMaxDate = $singleMatch['matchdate'];
+                    }
+                    if ($singleMatch['hometeamredcards'] > $teamBRedCardsMax) {
+                        $teamBRedCardsMax = $singleMatch['hometeamredcards'];
+                        $teamBRedCardsMaxDate = $singleMatch['matchdate'];
+                    }
+                    // won by half time logic
+                    if (($singleMatch['awayteamhalftimegoals'] > $singleMatch['hometeamhalftimegoals']) 
+                    && ($singleMatch['awayteamtotalgoals'] > $singleMatch['hometeamtotalgoals'])) {
+                        $teamAwonHalfTimeCount++;
+                    }
+                    if (($singleMatch['awayteamhalftimegoals'] < $singleMatch['hometeamhalftimegoals']) 
+                        && ($singleMatch['awayteamtotalgoals'] < $singleMatch['hometeamtotalgoals'])) {
+                            $teamBwonHalfTimeCount++;
+                    }
+
+                    $teamAShots += $singleMatch['awayteamshots'];
+                    $teamBShots += $singleMatch['hometeamshots'];
+                    $teamAShotsOnTarget += $singleMatch['awayteamshotsontarget'];
+                    $teamBShotsOnTarget += $singleMatch['hometeamshotsontarget'];
+                    $teamAcorners += $singleMatch['awayteamcorners'];
+                    $teamBcorners += $singleMatch['hometeamcorners'];
+                    $teamAfouls += $singleMatch['awayteamfouls'];
+                    $teamBfouls += $singleMatch['hometeamfouls'];
+                    $teamAyellowCards += $singleMatch['awayteamyellowcards'];
+                    $teamByellowCards += $singleMatch['hometeamyellowcards'];
+                    $teamARedCards += $singleMatch['awayteamredcards'];
+                    $teamBRedCards += $singleMatch['hometeamredcards'];
                 }
             }
             
@@ -251,25 +322,25 @@
 
             // percent and metric calcs
             $totalWonGames = $pastMeetingCount - $totalDraws;
-            $htWinsPercent = calculatePercentage($HTwinCount, $totalWonGames);
-            $atWinsPercent = calculatePercentage($ATwinCount, $totalWonGames);
-            $cleanSheetTotal = ($HTcleanSheetCount + $ATcleanSheetCount);
-            $htCleanSheetsPercent = calculatePercentage($HTcleanSheetCount, $cleanSheetTotal);
-            $atCleanSheetsPercent = calculatePercentage($ATcleanSheetCount, $cleanSheetTotal);
-            $htGoalsPerGame = calculateAverage($HTgoalsScored, $pastMeetingCount);
-            $atGoalsPerGame = calculateAverage($ATgoalsScored, $pastMeetingCount);
-            $htShotsPerGame = calculateAverage($HTShots ,$pastMeetingCount);
-            $atShotsPerGame = calculateAverage($ATShots ,$pastMeetingCount);
-            $htShotsOnTargetPerGame = calculateAverage($HTShotsOnTarget ,$pastMeetingCount);
-            $atShotsOnTargetPerGame = calculateAverage($ATShotsOnTarget ,$pastMeetingCount);
-            $htCornersPerGame = calculateAverage($HTcorners ,$pastMeetingCount);
-            $atCornersPerGame = calculateAverage($ATcorners ,$pastMeetingCount);
-            $htFoulsPerGame = calculateAverage($HTfouls ,$pastMeetingCount);
-            $atFoulsPerGame = calculateAverage($ATfouls ,$pastMeetingCount);
-            $htYellowCardsPerGame = calculateAverage($HTyellowCards ,$pastMeetingCount);
-            $atYellowCardsPerGame = calculateAverage($ATyellowCards ,$pastMeetingCount);
-            $htRedCardsPerGame = calculateAverage($HTRedCards ,$pastMeetingCount);
-            $atRedCardsPerGame = calculateAverage($ATRedCards ,$pastMeetingCount);
+            $teamAWinsPercent = calculatePercentage($teamAwinCount, $totalWonGames);
+            $teamBWinsPercent = calculatePercentage($teamBwinCount, $totalWonGames);
+            $cleanSheetTotal = ($teamAcleanSheetCount + $teamBcleanSheetCount);
+            $teamACleanSheetsPercent = calculatePercentage($teamAcleanSheetCount, $cleanSheetTotal);
+            $teamBCleanSheetsPercent = calculatePercentage($teamBcleanSheetCount, $cleanSheetTotal);
+            $teamAGoalsPerGame = calculateAverage($teamAgoalsScored, $pastMeetingCount);
+            $teamBGoalsPerGame = calculateAverage($teamBgoalsScored, $pastMeetingCount);
+            $teamAShotsPerGame = calculateAverage($teamAShots ,$pastMeetingCount);
+            $teamBShotsPerGame = calculateAverage($teamBShots ,$pastMeetingCount);
+            $teamAShotsOnTargetPerGame = calculateAverage($teamAShotsOnTarget ,$pastMeetingCount);
+            $teamBShotsOnTargetPerGame = calculateAverage($teamBShotsOnTarget ,$pastMeetingCount);
+            $teamACornersPerGame = calculateAverage($teamAcorners ,$pastMeetingCount);
+            $teamBCornersPerGame = calculateAverage($teamBcorners ,$pastMeetingCount);
+            $teamAFoulsPerGame = calculateAverage($teamAfouls ,$pastMeetingCount);
+            $teamBFoulsPerGame = calculateAverage($teamBfouls ,$pastMeetingCount);
+            $teamAYellowCardsPerGame = calculateAverage($teamAyellowCards ,$pastMeetingCount);
+            $teamBYellowCardsPerGame = calculateAverage($teamByellowCards ,$pastMeetingCount);
+            $teamARedCardsPerGame = calculateAverage($teamARedCards ,$pastMeetingCount);
+            $teamBRedCardsPerGame = calculateAverage($teamBRedCards ,$pastMeetingCount);
 
             // data and icons for each tile (to be looped thru)
             $keyTileTitles = array(
@@ -305,40 +376,40 @@
             );
 
             $allTimeTileHomeData = array(
-                $HTGoalsMax,
-                $HTGoalsMaxDate,
-                $HTShotsMax,
-                $HTShotsMaxDate,
-                $HTFoulsMax,
-                $HTFoulsMaxDate,
-                $HTYellowCardsMax,
-                $HTYellowCardsMaxDate,
-                $HTRedCardsMax,
-                $HTRedCardsMaxDate
+                $teamAGoalsMax,
+                $teamAGoalsDate,
+                $teamAShotsMax,
+                $teamAShotsMaxDate,
+                $teamAFoulsMax,
+                $teamAFoulsMaxDate,
+                $teamAYellowCardsMax,
+                $teamAYellowCardsMaxDate,
+                $teamARedCardsMax,
+                $teamARedCardsMaxDate
             );
 
             $allTimeTileAwayData = array(
-                $ATGoalsMax,
-                $ATGoalsMaxDate,
-                $ATShotsMax,
-                $ATShotsMaxDate,
-                $ATFoulsMax,
-                $ATFoulsMaxDate,
-                $ATYellowCardsMax,
-                $ATYellowCardsMaxDate,
-                $ATRedCardsMax,
-                $ATRedCardsMaxDate
+                $teamBGoalsMax,
+                $teamBGoalsDate,
+                $teamBShotsMax,
+                $teamBShotsMaxDate,
+                $teamBFoulsMax,
+                $teamBFoulsMaxDate,
+                $teamBYellowCardsMax,
+                $teamBYellowCardsMaxDate,
+                $teamBRedCardsMax,
+                $teamBRedCardsMaxDate
             );
 
             $metricTileTitles = array(
                 "Percentage wins",
                 "Win count",
-                "% clean sheets",
+                "Clean Sheets",
+                "% Clean Sheets",
                 "Games Won by Half Time",
                 "Goals per game",
                 "Shots per game",
                 "Shots on target",
-                "Clean Sheets",
                 "Average corners per game",
                 "Fouls per game",
                 "Yellow Cards per game",
@@ -346,37 +417,37 @@
             );
 
             $metricTileTitlesHomeData = array(
-                $htWinsPercent,
-                $HTwinCount,
-                $htCleanSheetsPercent,
-                $HTwonHalfTimeCount,
-                $htGoalsPerGame,
-                $htShotsPerGame,
-                $htShotsOnTargetPerGame,
-                $HTcleanSheetCount,
-                $htCornersPerGame,
-                $htFoulsPerGame,
-                $htYellowCardsPerGame,
-                $atRedCardsPerGame
+                $teamAWinsPercent,
+                $teamAwinCount,
+                $teamAcleanSheetCount,
+                $teamACleanSheetsPercent,
+                $teamAwonHalfTimeCount,
+                $teamAGoalsPerGame,
+                $teamAShotsPerGame,
+                $teamAShotsOnTargetPerGame,
+                $teamACornersPerGame,
+                $teamAFoulsPerGame,
+                $teamAYellowCardsPerGame,
+                $teamBRedCardsPerGame
             );
 
             $metricTileTitlesAwayData = array(
-                $atWinsPercent,
-                $ATwinCount,
-                $atCleanSheetsPercent,
-                $ATwonHalfTimeCount,
-                $atGoalsPerGame,
-                $atShotsPerGame,
-                $atShotsOnTargetPerGame,
-                $ATcleanSheetCount,
-                $atCornersPerGame,
-                $atFoulsPerGame,
-                $atYellowCardsPerGame,
-                $atRedCardsPerGame
+                $teamBWinsPercent,
+                $teamBwinCount,
+                $teamBcleanSheetCount,
+                $teamBCleanSheetsPercent,
+                $teamBwonHalfTimeCount,
+                $teamBGoalsPerGame,
+                $teamBShotsPerGame,
+                $teamBShotsOnTargetPerGame,
+                $teamBCornersPerGame,
+                $teamBFoulsPerGame,
+                $teamBYellowCardsPerGame,
+                $teamBRedCardsPerGame
             );
 
-            $teamAString = "<h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'><b>{$homeTeam}</b></h4>";
-            $teamBString = "<h4 class='is-size-4 is-size-5-mobile has-text-left team_b_name_colour'><b>{$awayTeam}</b></h4>";
+            $teamAString = "<h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'><b>{$teamA}</b></h4>";
+            $teamBString = "<h4 class='is-size-4 is-size-5-mobile has-text-left team_b_name_colour'><b>{$teamB}</b></h4>";
         
             echo "
                 <div class='column is-8 is-offset-2 my_sticky_div'>
