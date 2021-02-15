@@ -42,11 +42,25 @@
                 </div>
                 <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Season;</h2>
                 <div class=""> 
-                    <p class="p-2">Please enter a season in the format firstyear-secondyear with 4 digits for each year e.g. 2000-2001</p>
-                    <form action="POST" class="level columns">
-                        <input type="text" required id="new_season" name="newseason" class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Season years">
-                        <button class="button level-item is-danger m-3 is-rounded my-3 ">Add New Season</button>
-                    </form>
+                    <p class="p-2">Please enter a season in the format "firstyear-secondyear" with 4 digits for each year e.g. 2000-2001</p>
+                    <?php
+                        $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
+                        $currentSeasonData = file_get_contents($currentSeasonURL);
+                        $currentSeasonArray = json_decode($currentSeasonData, true);
+                        $currentSeason = $currentSeasonArray[0]['currentSeason'];
+        
+                        $seasonYearsArray = explode("-", $currentSeason);
+                        $seasonStartYear = (int) $seasonYearsArray[0];
+                        $seasonEndYear = (int) $seasonYearsArray[1];
+                        $nextSeasonEndYear = $seasonEndYear + 1;
+                        $suggestedNextSeason = "{$seasonEndYear}-{$nextSeasonEndYear}";
+
+                        echo "
+                        <form action='POST' class='level columns'>
+                            <input type='text' required id='new_season' name='newseason' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Suggested next season to add : {$suggestedNextSeason}'>
+                            <button class='button level-item is-danger m-3 is-rounded my-3 '>Add New Season</button>
+                        </form>";
+                    ?>
                 </div>
                 <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Club;</h2>
                 <div class="">
@@ -191,7 +205,7 @@
                                 "at_red_cards",
                             );
 
-                            for ($i = 0; $i < 9; $i++) {
+                            for ($i = 0; $i < 8; $i++) {
                                 echo "<div class='field'>
                                     <p>{$sectionTitles[$i]}</p>
                                     <div class='my_inline_divs m-1 p-1'>
