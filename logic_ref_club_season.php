@@ -30,22 +30,21 @@
 
             foreach ($fixtureList as $existingSeason) {
                 if ($finalUserSeasonEntry == $existingSeason['season']) {
-                    include("part_site_navbar.php");
-                    $userDisplayedMessage = "The {$finalUserSeasonEntry} season already exists in the database, please do not add duplicate data.</p>";
-                } else {
-                    $suggestedNextSeason = findNextSuggestedSeason();
-                    if ($finalUserSeasonEntry != $suggestedNextSeason) {
-                        echo "<p>Season Year doesnt match the year suggested (i.e. {$suggestedNextSeason}), please re-enter</p>";
-                    } else {
-                        $sqlAddSeasonQuery = "INSERT INTO `epl_seasons` (`SeasonID`, `SeasonYears`) VALUES (NULL, '{$finalUserSeasonEntry}')";
-                        dbQueryAndCheck($sqlAddSeasonQuery);
-                        $userDisplayedMessage = "Season {$finalUserSeasonEntry} was added to the database successfully";
-                    }
+                    $userDisplayedMessage = "The {$finalUserSeasonEntry} season already exists in the database!  Please do not add duplicate data.</p>";
+                    break;
                 }
             }
+            $suggestedNextSeason = findNextSuggestedSeason();
+            if ($finalUserSeasonEntry != $suggestedNextSeason) {
+                echo "<p>Season Year doesnt match the year suggested (i.e. {$suggestedNextSeason}), please re-enter</p>";
+            } else {
+                $sqlAddSeasonQuery = "INSERT INTO `epl_seasons` (`SeasonID`, `SeasonYears`) VALUES (NULL, '{$finalUserSeasonEntry}')";
+                dbQueryAndCheck($sqlAddSeasonQuery);
+                $userDisplayedMessage = "Season {$finalUserSeasonEntry} was added to the database successfully";
+            }
         } else {
-            $userDisplayedMessage = "Season {$finalUserSeasonEntry} has NOT been added to the database \n
-                                    Please match the requested Year format for Seasons and re-enter e.g. 2000-2001 \n
+            $userDisplayedMessage = "Season {$finalUserSeasonEntry} has NOT been added to the database.
+                                    Please match the requested Year format for Seasons and re-enter e.g. 2000-2001.  
                                     Please also ensure the starting year comes first";
         }
     } elseif (isset($_POST["new_club"])) {
@@ -57,7 +56,7 @@
             $finalUsersClubImgURL = htmlspecialchars($usersClubImgURL);
             $sqlAddClubQuery = "INSERT INTO `epl_clubs` (`ClubID`, `ClubName`, `ClubLogoURL`) VALUES (NULL, '{$finalUserClubNameEntry}', '{$finalUsersClubImgURL}');";
 
-            // todo - add data to db
+            dbQueryAndCheck($sqlAddClubQuery);
             $userDisplayedMessage = "Club {$finalUserClubNameEntry} was successfully added to the database.";
         } else {
             $userDisplayedMessage = "There was an issue with the Submission.  Please ensure the club name is less than 35 characters long and the image URL links directly to a .png or .jpg file";
@@ -66,14 +65,43 @@
         $userDisplayedMessage = "No entry provided";
     }
     
-    include("part_site_navbar.php");
     echo "
+    <!DOCTYPE html>
+    <html lang='en'>
+
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css'>
+        <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
+        <script src='https://kit.fontawesome.com/06c5b011c2.js' crossorigin='anonymous'></script>
+        <link rel='stylesheet' href='mystyles.css'>
+        <title>Data Added!</title>
+    </head>
+
+    <body class='has-navbar-fixed-top is-family-sans-serif'>";
+        include("part_site_navbar.php");
+        
+    echo "
+        <section class='hero is-info is-bold pt-6'>
+            <div class='hero-body'>
+                <div class='container'>
+                    <h1 class='title mt-4'>Data Entry</h1>
+                </div>
+            </div>
+        </section>
+
         <div class='has-text-centered master_site_width container columns' id='my_upload_result_form'>
             <div class='column is-8 is-offset-2'>
                 <div class='mt-5 p-5 my_info_colour'> 
-                    <h3>{$userDisplayedMessage}</h3>
+                    <h2 class='subtitle is-5 my_info_colour'>{$userDisplayedMessage}</h2>
+                    <a type='button' class='my_info_colour' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_add_new_result.php'> Return to previous page</a>
                 </div>
             </div>
-            <a type='button' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_add_new_result.php'> Return to previous page</a>
-        </div>;"
+        </div>";
+            include('part_site_footer.php');
+        echo "
+        <script src='my_script.js'></script>
+        </body>
+        </html>";
 ?>
