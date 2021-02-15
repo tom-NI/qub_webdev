@@ -75,4 +75,28 @@
             return "0.0";
         }
     }
+
+    function checkSeasonYearOrder($fullSeasonEntryToCheck) {
+        $seasonEntryArray = explode("-", $fullSeasonEntryToCheck);
+        $seasonStartYear = (int) $seasonEntryArray[0];
+        $seasonEndYear = (int) $seasonEntryArray[1];
+        if ($seasonStartYear >= $seasonEndYear) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    function findNextSuggestedSeason() {
+        $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
+        $currentSeasonData = file_get_contents($currentSeasonURL);
+        $currentSeasonArray = json_decode($currentSeasonData, true);
+        $currentSeason = $currentSeasonArray[0]['currentSeason'];
+
+        $seasonYearsArray = explode("-", $currentSeason);
+        $seasonStartYear = (int) $seasonYearsArray[0];
+        $seasonEndYear = (int) $seasonYearsArray[1];
+        $nextSeasonEndYear = $seasonEndYear + 1;
+        return "{$seasonEndYear}-{$nextSeasonEndYear}";
+    }
 ?>
