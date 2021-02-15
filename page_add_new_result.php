@@ -14,7 +14,9 @@
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
-    <?php include("part_site_navbar.php"); ?>
+    <?php 
+        include("part_site_navbar.php"); 
+    ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -35,7 +37,7 @@
                 <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Referee;</h2>
                 <div class="">
                     <p class="p-2">Please enter Referee in the format "First initial. Surname" e.g. A. Referee</p>
-                    <form action="POST" class="level columns">
+                    <form method="POST" action="logic_ref_club_season.php" class="level columns">
                         <input type="text" required id="new_referee" name="newrefname" class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Referee Name">
                         <button class="button level-item is-danger m-3 is-rounded ">Add Referee</button>
                     </form>
@@ -44,29 +46,22 @@
                 <div class=""> 
                     <p class="p-2">Please enter a season in the format "firstyear-secondyear" with 4 digits for each year e.g. 2000-2001</p>
                     <?php
-                        $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
-                        $currentSeasonData = file_get_contents($currentSeasonURL);
-                        $currentSeasonArray = json_decode($currentSeasonData, true);
-                        $currentSeason = $currentSeasonArray[0]['currentSeason'];
-        
-                        $seasonYearsArray = explode("-", $currentSeason);
-                        $seasonStartYear = (int) $seasonYearsArray[0];
-                        $seasonEndYear = (int) $seasonYearsArray[1];
-                        $nextSeasonEndYear = $seasonEndYear + 1;
-                        $suggestedNextSeason = "{$seasonEndYear}-{$nextSeasonEndYear}";
-
+                        require("allfunctions.php");
+                        $suggestedNextSeason = findNextSuggestedSeason();
                         echo "
-                        <form action='POST' class='level columns'>
-                            <input type='text' required id='new_season' name='newseason' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Suggested next season to add : {$suggestedNextSeason}'>
+                        <form method='POST' action='logic_ref_club_season.php' class='level columns'>
+                            <input type='text' required id='new_season' name='new_season' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Suggested next season to add : {$suggestedNextSeason}'>
                             <button class='button level-item is-danger m-3 is-rounded my-3 '>Add New Season</button>
                         </form>";
                     ?>
                 </div>
                 <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Club;</h2>
                 <div class="">
-                    <p class=" p-2">Please use the official club name and dont abbreviate.  Adding "football club" at the end is not required</p>
-                    <form action="POST" class="level columns">
-                        <input type="text" required id="new_season" name="newseason" class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Club Name">
+                    <p class=" p-1">Please use the official club name and do not abbreviate.  Adding "football club" at the end is not required.</p>
+                    <p class="p-1">Club Logo URL must link directly to a .jpg or .png image file</p>
+                    <form method="POST" action="logic_ref_club_season.php" class="level columns">
+                        <input type="text" required id="new_club" name="new_club" class="input level-item column is-3 mx-2 is-one-third-tablet" maxlength="35" placeholder="Club Name (max 35 Characters)">
+                        <input type="url" required id="new_club_img_url" name="new_club_img_url" class="input level-item column is-3 mx-5 is-one-third-tablet" placeholder="Club Logo URL">
                         <button class="button level-item is-danger is-rounded mt-4 my-3 ">Add New Club</button>
                     </form>
                 </div>
