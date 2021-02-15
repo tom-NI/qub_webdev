@@ -58,13 +58,21 @@
     }
 
     function calculatePercentage($valueToDivide, $total) {
-        $percent = (double) ((double) $valueToDivide / (double)$total) * 100;
-        $percentOneDP = number_format($percent, 1, '.', '');
-        return "{$percentOneDP}%";
+        if ($total != 0) {
+            $percent = (double) ((double) $valueToDivide / (double)$total) * 100;
+            $percentOneDP = number_format($percent, 1, '.', '');
+            return "{$percentOneDP}%";
+        } else {
+            return "0.0%";
+        }
     }
 
     function calculateAverage($valueToDivide, $total) {
-        $value = ((double) $valueToDivide / (double)$total);
-        return number_format($value, 1, '.', '');
+        if ($total != 0) {
+            $value = ((double) $valueToDivide / (double)$total);
+            return number_format($value, 1, '.', '');
+        } else {
+            return "0.0";
+        }
     }
 ?>
