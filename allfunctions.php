@@ -76,6 +76,14 @@
         }
     }
 
+    function getCurrentSeason() {
+        $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
+        $currentSeasonData = file_get_contents($currentSeasonURL);
+        $currentSeasonArray = json_decode($currentSeasonData, true);
+        $currentSeason = $currentSeasonArray[0]['currentSeason'];
+        return $currentSeason;
+    }
+
     function checkSeasonYearOrder($fullSeasonEntryToCheck) {
         $seasonEntryArray = explode("-", $fullSeasonEntryToCheck);
         $seasonStartYear = (int) $seasonEntryArray[0];
@@ -88,11 +96,7 @@
     }
     
     function findNextSuggestedSeason() {
-        $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
-        $currentSeasonData = file_get_contents($currentSeasonURL);
-        $currentSeasonArray = json_decode($currentSeasonData, true);
-        $currentSeason = $currentSeasonArray[0]['currentSeason'];
-
+        $currentSeason = getCurrentSeason();
         $seasonYearsArray = explode("-", $currentSeason);
         $seasonStartYear = (int) $seasonYearsArray[0];
         $seasonEndYear = (int) $seasonYearsArray[1];
