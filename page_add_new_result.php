@@ -69,7 +69,7 @@
 
                     <!-- add 1 new match details form  -->
             <div class="field">
-                <form action="POST">
+                <form method="POST" action="logic_create_match_record.php">
                     <div class="mt-5 p-5 my_info_colour">
                         <div>
                             <h2 class="title is-size-4 my_info_colour">Match Details:</h2>

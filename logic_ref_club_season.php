@@ -64,8 +64,7 @@
     } else {
         $userDisplayedMessage = "No entry provided";
     }
-    
-    echo "
+?>
     <!DOCTYPE html>
     <html lang='en'>
 
@@ -76,17 +75,16 @@
         <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
         <script src='https://kit.fontawesome.com/06c5b011c2.js' crossorigin='anonymous'></script>
         <link rel='stylesheet' href='mystyles.css'>
-        <title>Data Added!</title>
+        <title>EPL Data Entry</title>
     </head>
 
-    <body class='has-navbar-fixed-top is-family-sans-serif'>";
-        include("part_site_navbar.php");
-        
-    echo "
+    <body class='has-navbar-fixed-top is-family-sans-serif'>
+        <?php include("part_site_navbar.php"); ?>
+
         <section class='hero is-info is-bold pt-6'>
             <div class='hero-body'>
                 <div class='container'>
-                    <h1 class='title mt-4'>Data Entry</h1>
+                    <h1 class='title mt-4'>Data Entry Result</h1>
                 </div>
             </div>
         </section>
@@ -94,14 +92,13 @@
         <div class='has-text-centered master_site_width container columns' id='my_upload_result_form'>
             <div class='column is-8 is-offset-2'>
                 <div class='mt-5 p-5 my_info_colour'> 
-                    <h2 class='subtitle is-5 my_info_colour'>{$userDisplayedMessage}</h2>
+                    <?php echo "<h2 class='subtitle is-5 my_info_colour'>{$userDisplayedMessage}</h2>"?>
                     <a type='button' class='my_info_colour' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_add_new_result.php'> Return to previous page</a>
                 </div>
             </div>
-        </div>";
-            include('part_site_footer.php');
-        echo "
+        </div>
+            <?php include('part_site_footer.php'); ?>
         <script src='my_script.js'></script>
-        </body>
-        </html>";
-?>
+    </body>
+    </html>
+
