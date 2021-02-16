@@ -2,10 +2,13 @@
     require("allfunctions.php");
     if (isset($_POST["newrefname"])) {
         $userRefNameEntry = trim($_POST['newrefname']);
+
         if ($userRefNameEntry != null && strlen($userRefNameEntry) > 0) {
             $finalRefName = htmlentities($userRefNameEntry);
+
             // todo check regex format of Ref name and surname length!
             $refRegex = '/[A-Z]{1}. [A-Z]{1}[a-z]+/';
+
             if (preg_match($refRegex, $finalRefName)) {
                 $sqlAddRefQuery = "INSERT INTO `epl_referees` (`RefereeID`, `RefereeName`) VALUES (NULL, '{$finalRefName}')";
                 dbQueryAndCheck($sqlAddRefQuery);
@@ -20,9 +23,11 @@
     } elseif (isset($_POST["new_season"])) {
         $userSeasonEntry = trim($_POST['new_season']);
         $finalUserSeasonEntry = htmlentities($userSeasonEntry);
+
         // todo - regex check the format of the season!
         $seasonRegex = '/2[0-9]{3}-2[0-9]{3}/';
         $seasonYearsCorrectOrder = checkSeasonYearOrder($finalUserSeasonEntry);
+
         if (preg_match($seasonRegex, $finalUserSeasonEntry) && $seasonYearsCorrectOrder) {
             $allSeasonsAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=all_seasons_list";
             $allSeasonsAPIdata = file_get_contents($allSeasonsAPIurl);
@@ -34,7 +39,9 @@
                     break;
                 }
             }
+
             $suggestedNextSeason = findNextSuggestedSeason();
+
             if ($finalUserSeasonEntry != $suggestedNextSeason) {
                 echo "<p>Season Year doesnt match the year suggested (i.e. {$suggestedNextSeason}), please re-enter</p>";
             } else {
@@ -50,13 +57,15 @@
     } elseif (isset($_POST["new_club"])) {
         $userClubNameEntry = trim($_POST['new_club']);
         $usersClubImgURL = real_escape_string(trim($_POST['new_club_img_url']));
+        
         // html maxlength sets limit on the char entry - double check!
         if ($userClubNameEntry != null && $usersClubImgURL != null && strlen($userClubNameEntry) <= 35) {
             $finalUserClubNameEntry = htmlentities($userClubNameEntry);
             $finalUsersClubImgURL = htmlspecialchars($usersClubImgURL);
-            $sqlAddClubQuery = "INSERT INTO `epl_clubs` (`ClubID`, `ClubName`, `ClubLogoURL`) VALUES (NULL, '{$finalUserClubNameEntry}', '{$finalUsersClubImgURL}');";
 
+            $sqlAddClubQuery = "INSERT INTO `epl_clubs` (`ClubID`, `ClubName`, `ClubLogoURL`) VALUES (NULL, '{$finalUserClubNameEntry}', '{$finalUsersClubImgURL}');";
             dbQueryAndCheck($sqlAddClubQuery);
+            
             $userDisplayedMessage = "Club {$finalUserClubNameEntry} was successfully added to the database.";
         } else {
             $userDisplayedMessage = "There was an issue with the Submission.  Please ensure the club name is less than 35 characters long and the image URL links directly to a .png or .jpg file";
