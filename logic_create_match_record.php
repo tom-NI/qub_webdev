@@ -150,7 +150,7 @@
             echo $updateTransaction;
             
             // dbQueryAndCheck($updateTransaction);
-            $resultString = "Match Entry has been successful";
+            $resultString = "Thank You for adding match results, Match Entry has been successful.";
     }
 ?>
 
