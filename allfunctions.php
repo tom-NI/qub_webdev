@@ -9,7 +9,7 @@
             echo $conn->error;
             die();
         } else {
-            $int = (int) $queryValue->fetch_array()[0];
+            $int = (int) $queryValue->fetch_row();
             return $int;
         }
     }
@@ -80,7 +80,7 @@
         $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
         $currentSeasonData = file_get_contents($currentSeasonURL);
         $currentSeasonArray = json_decode($currentSeasonData, true);
-        $currentSeason = $currentSeasonArray[0]['currentSeason'];
+        $currentSeason = $currentSeasonArray->fetch_row();
         return $currentSeason;
     }
 
