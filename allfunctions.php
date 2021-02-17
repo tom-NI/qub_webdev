@@ -1,7 +1,6 @@
 <?php
-    require("dbconn.php");
-
     // query a db and if data doesnt exist, insert it and check its inserted
+    // used for the initial load of flat file to db
     function insertAvoidingDuplicates($sqlQuery, $insertQueryIfNull) {
         require("dbconn.php");
         $databaseReturnedObject = $conn->query($sqlQuery);
@@ -90,11 +89,14 @@
         $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
         $currentSeasonData = file_get_contents($currentSeasonURL);
         $currentSeasonArray = json_decode($currentSeasonData, true);
-        // todo - get the array digit off the array item!
         $currentSeason = $currentSeasonArray->fetch_row();
-        return $currentSeason;
+        // todo check this code is correct
+        return $currentSeason['currentSeason'];
     }
 
+    $season = getCurrentSeason();
+    echo $season;
+    
     function checkSeasonYearOrder($fullSeasonEntryToCheck) {
         $seasonEntryArray = explode("-", $fullSeasonEntryToCheck);
         $seasonStartYear = (int) $seasonEntryArray[0];
