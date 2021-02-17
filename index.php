@@ -1,4 +1,5 @@
 <?php
+    include_once("allfunctions.php");
 ?>
 
 <!DOCTYPE html>
@@ -72,20 +73,27 @@
 
             <!-- 5 most recent premier league match results -->
             <?php
-                for ($i = 0; $i < 5; $i++) {
-                    $matchDate;
-                    $homeTeam;
-                    $awayTeam;
-                    $homeScore;
-                    $awayScore;
-                    $homeLogo;
-                    $awayLogo;
+                $recentMatchesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?match_summaries&count=5";
+                $recentMatchesAPIData = file_get_contents($recentMatchesURL);
+                $recentMatchesList = json_decode($recentMatchesAPIData, true);
+
+                foreach ($recentMatchesList as $summary) {
+                    $matchDate = $summary['matchdate'];
+                    $homeTeam = $summary['hometeam'];
+                    $awayTeam = $summary['awayteam'];
+                    $homeScore = $summary['homescore'];
+                    $awayScore = $summary['awayscore'];
+                    $homeLogo = $summary['hometeamlogoURL'];
+                    $awayLogo = $summary['awayteamlogoURL'];
+
+                    // make the date decent looking!
+                    $finalMatchDate = parseDateLongFormat($matchDate);
 
                         echo "
-                        <a href='page_single_match_result.php'>
+                        <a type='form' method='GET' href='page_single_match_result.php'>
                         <div id='master_result_card' class='container box column is-centered my_box_border m-2 mb-5 mt-5 p-1'>
                             <div>
-                                <p class='is-size-6 mt-3 is-size-7-mobile'>Match Date : {$matchDate}</p>
+                                <p class='is-size-6 mt-3 is-size-7-mobile'>{$finalMatchDate}</p>
                             </div>
                             <div class='columns is-mobile is-vcentered is-centered'>
                                 <div class='column is-2 is-hidden-mobile is-narrow'>
@@ -152,7 +160,7 @@
             </div>
             <div class="tile is-ancestor is-vertical is-10-mobile">
                 <?php
-                    require("allfunctions.php");
+                    
                     if (isset($_GET['season_pref'])) {
                         $season = $_GET['season_pref'];
                         $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?full_matches&fullseason={$season}";
@@ -216,12 +224,6 @@
                         $allYellowCards[$awayTeamIndex] += $singleMatch["awayteamyellowcards"];
                         $allRedCards[$awayTeamIndex] += $singleMatch["awayteamredcards"];
                     }
-                    
-                    // TODO - DO I DO CONSISTENCY METRIC OR NOT?
-                    // $lowestConsistencyValue;
-                    // $highestConsistencyValue;
-                    // $lowestConsistencyTeam;
-                    // $highestConsistencyTeam;
 
                     // every tile data array is in the order;
                     // tile name, lowest value, highest value, lowest team, highest team
