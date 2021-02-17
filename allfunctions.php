@@ -126,4 +126,10 @@
         $minIndex = array_search($minVal, $arrayToCheck);
         return $arrayTeamNames[$minIndex];
     }
+
+    // parse the date from the database into a presentable long format
+    function parseDateLongFormat($dateFromDB){
+        $date = new DateTime($dateFromDB);
+        return $date->format('l jS F Y');
+    }
 ?>
