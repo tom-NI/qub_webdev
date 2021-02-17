@@ -1,6 +1,15 @@
 <?php
     require("dbconn.php");
 
+    // query a db and if data doesnt exist, insert it and check its inserted
+    function insertAvoidingDuplicates($sqlQuery, $insertQueryIfNull) {
+        require("dbconn.php");
+        $databaseReturnedObject = $conn->query($sqlQuery);
+        if (mysqli_num_rows($databaseReturnedObject) == 0) {
+            dbQueryAndCheck($insertQueryIfNull);
+        }
+    }
+
     // query database for info and return the variable
     function dbQueryAndReturnIntValue($sqlQuery) {
         require("dbconn.php");
@@ -12,15 +21,6 @@
             // TODO - NEEDS TO HAVE THE INDEX OF THE COLUMN ADDED
             $int = (int) $queryValue->fetch_row();
             return $int;
-        }
-    }
-
-    // query a db and if data doesnt exist, insert it and check its inserted
-    function insertAvoidingDuplicates($sqlQuery, $insertQueryIfNull) {
-        require("dbconn.php");
-        $databaseReturnedObject = $conn->query($sqlQuery);
-        if (mysqli_num_rows($databaseReturnedObject) == 0) {
-            dbQueryAndCheck($insertQueryIfNull);
         }
     }
 
