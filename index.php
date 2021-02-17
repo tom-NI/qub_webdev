@@ -1,15 +1,4 @@
 <?php
-    $tileTitlesList = array(
-        "Consistency:",
-        "Goals Scored",
-        "Goals Conceded",
-        "Shots",
-        "Shots on Target",
-        "Corners",
-        "Fouls",
-        "Yellow Cards",
-        "Red Cards"
-    );
 ?>
 
 <!DOCTYPE html>
@@ -163,14 +152,155 @@
             </div>
             <div class="tile is-ancestor is-vertical is-10-mobile">
                 <?php
-                    // iterate thru 9 rows of tiles, get data, display
-                    for ($i = 0; $i < 10; $i++) {
-                        $lowTeamName;
-                        $highTeamName;
-                        $lowStat;
-                        $highStat;
-                        $finalTitle = $tileTitlesList[$i];
+                    require("allfunctions.php");
+                    if (isset($_GET['season_pref'])) {
+                        $season = $_GET['season_pref'];
+                        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?full_matches&fullseason={$season}";
+                    } else {
+                        $currentMaxSeasonInDB = getCurrentSeason();
+                        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?full_matches&fullseason={$currentMaxSeasonInDB}";
+                    }
+                    $seasonAPIdata = file_get_contents($seasonInfoURL);
+                    $seasonGameList = json_decode($seasonAPIdata, true);
+                
+                    // add all the club names into an array of current season teams
+                    $allSeasonClubNames = array();
+                
+                    // store every metric to be measured in an array
+                    $consistency = array();
+                    $allGoals = array();
+                    $allConceded = array();
+                    $allShots = array();
+                    $allShotsOT = array();
+                    $allCorners = array();
+                    $allFouls = array();
+                    $allYellowCards = array();
+                    $allRedCards = array();
+                
+                    foreach($seasonGameList as $singleMatch) {
+                        $homeTeamName = $singleMatch["hometeam"];
+                        $awayTeamName = $singleMatch["awayteam"];
+                
+                        // check if the team is in the season clubs, if not add.
+                        // always return the index to use later
+                        if (array_search($homeTeamName, $allSeasonClubNames)) {
+                            $homeTeamIndex = array_search($homeTeamName, $allSeasonClubNames);
+                            echo $homeTeamIndex;
+                        } else {
+                            $allSeasonClubNames[] = $homeTeamName;
+                            $homeTeamIndex = array_search($homeTeamName, $allSeasonClubNames);
+                        }
+                        if (array_search($awayTeamName, $allSeasonClubNames)) {
+                            $awayTeamIndex = array_search($awayTeamName, $allSeasonClubNames);
+                            echo $awayTeamIndex;
+                        } else {
+                            $allSeasonClubNames[] = $awayTeamName;
+                            $awayTeamIndex = array_search($awayTeamName, $allSeasonClubNames);
+                        }
+                
+                        $allgoals[$homeTeamIndex] += $singleMatch["hometeamtotalgoals"];
+                        $allConceded[$awayTeamIndex] += $singleMatch["hometeamtotalgoals"];
+                        $allShots[$homeTeamIndex] += $singleMatch["hometeamshots"];
+                        $allShotsOT[$homeTeamIndex] += $singleMatch["hometeamshotsontarget"];
+                        $allCorners[$homeTeamIndex] += $singleMatch["hometeamcorners"];
+                        $allFouls[$homeTeamIndex] += $singleMatch["hometeamfouls"];
+                        $allYellowCards[$homeTeamIndex] += $singleMatch["hometeamyellowcards"];
+                        $allRedCards[$homeTeamIndex] += $singleMatch["hometeamredcards"];
+                
+                        $allgoals[$awayTeamIndex] += $singleMatch["awayteamtotalgoals"];
+                        $allConceded[$homeTeamIndex] += $singleMatch["awayteamtotalgoals"];
+                        $allShots[$awayTeamIndex] += $singleMatch["awayteamshots"];
+                        $allShotsOT[$awayTeamIndex] += $singleMatch["awayteamshotsontarget"];
+                        $allCorners[$awayTeamIndex] += $singleMatch["awayteamcorners"];
+                        $allFouls[$awayTeamIndex] += $singleMatch["awayteamfouls"];
+                        $allYellowCards[$awayTeamIndex] += $singleMatch["awayteamyellowcards"];
+                        $allRedCards[$awayTeamIndex] += $singleMatch["awayteamredcards"];
+                    }
+                    
+                    // TODO - DO I DO CONSISTENCY METRIC OR NOT?
+                    // $lowestConsistencyValue;
+                    // $highestConsistencyValue;
+                    // $lowestConsistencyTeam;
+                    // $highestConsistencyTeam;
 
+                    // every tile data array is in the order;
+                    // tile name, lowest value, highest value, lowest team, highest team
+                    $allGoalsTileData = array();
+                    $allConcededTileData = array();
+                    $allShotsTileData = array();
+                    $allShotsOTTileData = array();
+                    $allCornersTileData = array();
+                    $allFoulsTileData = array();
+                    $allYellowCardsTileData = array();
+                    $allRedCardsTileData = array();
+
+                    // main tile array to be looped thru
+                    $masterArray = array();
+                
+                    $allGoalsTileData[] = "Goals Scored";
+                    $allGoalsTileData[] = max($allGoals);
+                    $allGoalsTileData[] = min($allGoals);
+                    $allGoalsTileData[] = findMaxValueAndReturnTeam($allGoals ,$allSeasonClubNames);
+                    $allGoalsTileData[] = findMinValueAndReturnTeam($allGoals ,$allSeasonClubNames);
+                    $masterArray[] = $allGoalsTileData;
+                
+                    $allConcededTileData[] = "Goals Conceded";
+                    $allConcededTileData[] = min($allConceded);
+                    $allConcededTileData[] = max($allConceded);
+                    $allConcededTileData[] = findMinValueAndReturnTeam($allConceded ,$allSeasonClubNames);
+                    $allConcededTileData[] = findMaxValueAndReturnTeam($allConceded ,$allSeasonClubNames);
+                    $masterArray[] = $allConcededTileData;
+                
+                    $allShotsTileData[] = "Shots";
+                    $allShotsTileData[] = min($allShots);
+                    $allShotsTileData[] = max($allShots);
+                    $allShotsTileData[] = findMinValueAndReturnTeam($allShots ,$allSeasonClubNames);
+                    $allShotsTileData[] = findMaxValueAndReturnTeam($allShots ,$allSeasonClubNames);
+                    $masterArray[] = $allShotsTileData;
+                
+                    $allShotsOTTileData[] = "Shots on Target";
+                    $allShotsOTTileData[] = min($allShotsOT);
+                    $allShotsOTTileData[] = max($allShotsOT);
+                    $allShotsOTTileData[] = findMinValueAndReturnTeam($allShotsOT ,$allSeasonClubNames);
+                    $allShotsOTTileData[] = findMaxValueAndReturnTeam($allShotsOT ,$allSeasonClubNames);
+                    $masterArray[] = $allShotsOTTileData;
+                
+                    $allCornersTileData[] = "Corners";
+                    $allCornersTileData[] = min($allCorners);
+                    $allCornersTileData[] = max($allCorners);
+                    $allCornersTileData[] = findMinValueAndReturnTeam($allCorners ,$allSeasonClubNames);
+                    $allCornersTileData[] = findMaxValueAndReturnTeam($allCorners ,$allSeasonClubNames);
+                    $masterArray[] = $allCornersTileData;
+                
+                    $allFoulsTileData[] = "Fouls";
+                    $allFoulsTileData[] = min($allFouls);
+                    $allFoulsTileData[] = max($allFouls);
+                    $allFoulsTileData[] = findMinValueAndReturnTeam($allFouls ,$allSeasonClubNames);
+                    $allFoulsTileData[] = findMaxValueAndReturnTeam($allFouls ,$allSeasonClubNames);
+                    $masterArray[] = $allFoulsTileData;
+                
+                    $allYellowCardsTileData[] = "Yellow Cards";
+                    $allYellowCardsTileData[] = min($allYellowCards);
+                    $allYellowCardsTileData[] = max($allYellowCards);
+                    $allYellowCardsTileData[] = findMinValueAndReturnTeam($allYellowCards ,$allSeasonClubNames);
+                    $allYellowCardsTileData[] = findMaxValueAndReturnTeam($allYellowCards ,$allSeasonClubNames);
+                    $masterArray[] = $allYellowCardsTileData;
+                
+                    $allRedCardsTileData[] = "Red Cards";
+                    $allRedCardsTileData[] = min($allRedCards);
+                    $allRedCardsTileData[] = max($allRedCards);
+                    $allRedCardsTileData[] = findMinValueAndReturnTeam($allRedCards ,$allSeasonClubNames);
+                    $allRedCardsTileData[] = findMaxValueAndReturnTeam($allRedCards ,$allSeasonClubNames);
+                    $masterArray[] = $allRedCardsTileData;
+
+                    foreach ($masterArray as $tileData) {
+                        // tile name, lowest value, highest value, lowest team, highest team
+                        $finalTitle = $tileData[0];
+                        $lowStat = $tileData[1];
+                        $highStat = $tileData[2];
+                        $lowTeamName = $tileData[3];
+                        $highTeamName = $tileData[4];
+                    
                         echo "
                             <div class='tile is-12 pt-5'>
                                 <p>{$finalTitle}</p>
