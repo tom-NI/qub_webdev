@@ -99,7 +99,7 @@
             INNER JOIN epl_home_team_stats ON epl_matches.MatchID = epl_home_team_stats.MatchID 
             INNER JOIN epl_away_team_stats ON epl_matches.MatchID = epl_away_team_stats.MatchID";
 
-            $orderByQuery = "ORDER BY epl_matches.MatchID ASC";
+            $orderByQuery = "ORDER BY epl_matches.MatchID DESC";
 
             if (isset($_GET['season'])) {
                 $seasonYear = $_GET["season"];
@@ -109,7 +109,7 @@
                     $seasonIdQuery = "SELECT SeasonID FROM epl_seasons WHERE SeasonYears LIKE '%{$seasonYear}%' LIMIT 1";
                     $seasonIdData = dbQueryCheckReturn($seasonIdQuery);
                     if (mysqli_num_rows($seasonIdData) == 0) {
-                        $seasonID = 1021;
+                        $seasonID = 30;
                         echo "No Data for that Season";
                     } else {
                         $row = $seasonIdData->fetch_row();
@@ -124,7 +124,7 @@
                 // $currentSeasonAPIURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
                 // $currentSeasonData = file_get_contents($currentSeasonAPIURL);
                 // $currentSeasonObject = json_decode($currentSeasonData, true);
-                $seasonQuery = "WHERE SeasonID = 1021";
+                $seasonQuery = "WHERE SeasonID = 30";
             }
             // always include a recent season to narrow the scope of the request!
             $matchSummaryQuery = "{$mainQuery} {$seasonQuery} {$orderByQuery}";
@@ -169,7 +169,7 @@
                         $limitQuery = "LIMIT {$matchCount}";
                     }
                 }
-                $matchSummaryQuery = "{$matchSummaryQuery} {$limitQuery}";                
+                $matchSummaryQuery = "{$matchSummaryQuery} {$limitQuery}";
             }
             
             $matchSummaryData = dbQueryCheckReturn($matchSummaryQuery);
