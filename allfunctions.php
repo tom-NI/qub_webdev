@@ -114,4 +114,16 @@
         $nextSeasonEndYear = $seasonEndYear + 1;
         return "{$seasonEndYear}-{$nextSeasonEndYear}";
     }
+
+    function findMaxValueAndReturnTeam($arrayToCheck, $arrayTeamNames) {
+        $maxVal = max($arrayToCheck);
+        $maxIndex = array_search($maxVal, $arrayToCheck);
+        return $arrayTeamNames[$maxIndex];
+    }
+
+    function findMinValueAndReturnTeam($arrayToCheck, $arrayTeamNames) {
+        $minVal = min($arrayToCheck);
+        $minIndex = array_search($minVal, $arrayToCheck);
+        return $arrayTeamNames[$minIndex];
+    }
 ?>
