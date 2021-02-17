@@ -25,10 +25,9 @@
         $finalUserSeasonEntry = htmlentities($userSeasonEntry);
 
         // todo - regex check the format of the season!
-        $seasonRegex = '/2[0-9]{3}-2[0-9]{3}/';
         $seasonYearsCorrectOrder = checkSeasonYearOrder($finalUserSeasonEntry);
-
-        if (preg_match($seasonRegex, $finalUserSeasonEntry) && $seasonYearsCorrectOrder) {
+        
+        if (checkSeasonRegex($finalUserSeasonEntry) && $seasonYearsCorrectOrder) {
             $allSeasonsAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=all_seasons_list";
             $allSeasonsAPIdata = file_get_contents($allSeasonsAPIurl);
             $fixtureList = json_decode($allSeasonsAPIdata, true);
