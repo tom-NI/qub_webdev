@@ -9,6 +9,7 @@
             echo $conn->error;
             die();
         } else {
+            // TODO - NEEDS TO HAVE THE INDEX OF THE COLUMN ADDED
             $int = (int) $queryValue->fetch_row();
             return $int;
         }
@@ -80,6 +81,7 @@
         $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
         $currentSeasonData = file_get_contents($currentSeasonURL);
         $currentSeasonArray = json_decode($currentSeasonData, true);
+        // todo - get the array digit off the array item!
         $currentSeason = $currentSeasonArray->fetch_row();
         return $currentSeason;
     }
