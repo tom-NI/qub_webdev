@@ -198,6 +198,7 @@
                 }
     
                 $matches = array(
+                    "matchid" => $row["MatchID"],
                     "matchdate" => $row["MatchDate"],
                     "hometeam" => $homeTeamName,
                     "homescore" => $row["HTTotalGoals"],
