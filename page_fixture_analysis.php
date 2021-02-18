@@ -419,10 +419,10 @@
             );
 
             $metricTileTitlesHomeData = array(
-                $teamAWinsPercent,
+                "{$teamAWinsPercent}%",
                 $teamAwinCount,
                 $teamAcleanSheetCount,
-                $teamACleanSheetsPercent,
+                "{$teamACleanSheetsPercent}%",
                 $teamAwonHalfTimeCount,
                 $teamAGoalsPerGame,
                 $teamAShotsPerGame,
@@ -434,10 +434,10 @@
             );
 
             $metricTileTitlesAwayData = array(
-                $teamBWinsPercent,
+                "{$teamBWinsPercent}%",
                 $teamBwinCount,
                 $teamBcleanSheetCount,
-                $teamBCleanSheetsPercent,
+                "{$teamBCleanSheetsPercent}%",
                 $teamBwonHalfTimeCount,
                 $teamBGoalsPerGame,
                 $teamBShotsPerGame,
