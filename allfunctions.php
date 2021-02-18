@@ -89,13 +89,12 @@
         $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
         $currentSeasonData = file_get_contents($currentSeasonURL);
         $currentSeasonArray = json_decode($currentSeasonData, true);
-        $currentSeason = $currentSeasonArray->fetch_row();
-        // todo check this code is correct
-        return $currentSeason['currentSeason'];
-    }
 
-    $season = getCurrentSeason();
-    echo $season;
+        foreach($currentSeasonArray as $row){
+            $currentSeason = $row["currentSeason"];
+        }
+        return $currentSeason;
+    }
     
     function checkSeasonYearOrder($fullSeasonEntryToCheck) {
         $seasonEntryArray = explode("-", $fullSeasonEntryToCheck);
@@ -133,5 +132,29 @@
     function parseDateLongFormat($dateFromDB){
         $date = new DateTime($dateFromDB);
         return $date->format('l jS F Y');
+    }
+
+    function searchAndAddToArray($valueToAdd, array $arrayToCheck, $itemIndex) {
+        $valueAsInt = (int) trim($valueToAdd);
+        if ((sizeof($arrayToCheck) - 1) >= $itemIndex) {
+            $arrayToCheck[$itemIndex] += $valueAsInt;
+        } else {
+            array_push($arrayToCheck, $valueAsInt);
+        }
+        // print_r($arrayToCheck);
+    }
+
+    function searchArrayAndReturnIndex($valueToAdd, array $arrayToCheck) {
+        // if the array contains the item, return its index
+        if (array_search($valueToAdd, $arrayToCheck) != false) {
+            $requiredIndex = array_search($valueToAdd, $arrayToCheck);
+            echo "<p>Index = {$requiredIndex}</p>";
+        } else {
+            // otherwise add the item to the array, and then return its index
+            array_push($arrayToCheck, $valueToAdd);
+            $requiredIndex = array_search($valueToAdd, $arrayToCheck);
+            print_r($arrayToCheck);
+            echo "<p>wasnt there, added it and now index = {$requiredIndex}</p>";
+        }
     }
 ?>
