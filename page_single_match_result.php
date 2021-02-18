@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="mystyles.css">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script defer src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/match_bar_chart.js"></script>
     <title>EPL Match Result</title>
 </head>
 
@@ -26,7 +25,6 @@
     </section>
 
     <!-- main page starts here -->
-
     <?php
         include_once("allfunctions.php");
         if (isset($_GET['id'])) {
@@ -43,6 +41,7 @@
                 $awayteam = $singleMatchInfo['awayteam'];
                 $hometeamlogoURL = $singleMatchInfo['hometeamlogoURL'];
                 $awayteamlogoURL = $singleMatchInfo['awayteamlogoURL'];
+
                 $hometeamtotalgoals = $singleMatchInfo['hometeamtotalgoals'];
                 $hometeamhalftimegoals = $singleMatchInfo['hometeamhalftimegoals'];
                 $hometeamshots = $singleMatchInfo['hometeamshots'];
@@ -51,6 +50,7 @@
                 $hometeamfouls = $singleMatchInfo['hometeamfouls'];
                 $hometeamyellowcards = $singleMatchInfo['hometeamyellowcards'];
                 $hometeamredcards = $singleMatchInfo['hometeamredcards'];
+
                 $awayteamtotalgoals = $singleMatchInfo['awayteamtotalgoals'];
                 $awayteamhalftimegoals = $singleMatchInfo['awayteamhalftimegoals'];
                 $awayteamshots = $singleMatchInfo['awayteamshots'];
@@ -61,6 +61,12 @@
                 $awayteamredcards = $singleMatchInfo['awayteamredcards'];
             }
 
+            $htPercentShotsOT = calculatePercentage($hometeamshotsontarget, $hometeamshots);
+            $atPercentShotsOT = calculatePercentage($awayteamshotsontarget, $awayteamshots);
+
+            $htStatsForGraph = array($hometeamhalftimegoals,$hometeamshots,$hometeamshotsontarget,$htPercentShotsOT,$hometeamcorners,$hometeamfouls,$hometeamyellowcards,$hometeamredcards);
+            $atStatsForGraph = array($awayteamhalftimegoals,$awayteamshots,$awayteamshotsontarget,$atPercentShotsOT,$awayteamcorners,$awayteamfouls,$awayteamyellowcards,$awayteamredcards);
+
             $presentableMatchDate = parseDateLongFormat($matchdate);
             if (strlen($kickofftime) > 0) {
                 $kickoffParagraph = "<p class='p-2 mx-1 is-size-7-mobile'>Kick Off : {$kickofftime}</p>";
@@ -70,9 +76,9 @@
         } else {
             echo "<h2>page not found</h2>";
             die();
-        }
+        } 
+        ?>
 
-        echo "
         <div class='master_site_width'>
             <div class='mt-6 mx-4'>
                 <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered'>
@@ -80,56 +86,133 @@
                     <div class='columns level is-mobile is-centered'>
                         <div class='column is-narrow level-item'>
                             <div class='is-pulled-right'>
-                                <img class='image is-64x64 m-4 my_image_maintain_aspect' src='{$hometeamlogoURL}' alt='Home Logo'>
+                                <?php echo "<img class='image is-64x64 m-4 my_image_maintain_aspect' src='{$hometeamlogoURL}' alt='Home Logo'>"; ?>
                             </div>
                         </div>
                         <div class='column is-centered level-centre'>
                             <div class='is-centered is-vertical'>
-                                <p class='p-2 mx-1 is-size-7-mobile'>{$presentableMatchDate}</p>
-                                {$kickoffParagraph}
-                                <p class='p-2 mx-1 is-size-7-mobile'>Referee : {$refereename}</p>
+                                <p class='p-2 mx-1 is-size-7-mobile'> <?php echo "{$presentableMatchDate}"; ?> </p>
+                                <?php echo "{$kickoffParagraph}"; ?>
+                                <p class='p-2 mx-1 is-size-7-mobile'>Referee : <?php echo "{$refereename}"; ?> </p>
                             </div>
                         </div>
                         <div class='column is-narrow level-item'>
-                            <img class='image is-64x64 m-4 my_image_maintain_aspect' src='{$awayteamlogoURL}' alt='Away Logo'>
+                            <?php echo "<img class='image is-64x64 m-4 my_image_maintain_aspect' src='{$awayteamlogoURL}' alt='Away Logo'>"; ?>
                         </div>
                     </div>
                 </div>
                 <div class='container box column is-centered my_box_border m-2 mb-5 mt-5 p-1'>
                     <div class='columns is-mobile is-vcentered is-centered'>
                         <div class='column'>
-                            <h4 class='is-size-5 is-size-6-mobile has-text-right mx-3'><b>{$hometeam}</b>
+                            <h4 class='is-size-5 is-size-6-mobile has-text-right mx-3'><b> <?php echo "{$hometeam}"; ?></b>
                             </h4>
                         </div>
                         <div class='column level is-narrow m-3 mt-6 p-0'>
                             <div class='my_inline_divs result_box level-left'>
-                                <p class='column is-size-5 is-size-6-mobile level-item p-1'>{$hometeamtotalgoals}</p>
+                                <p class='column is-size-5 is-size-6-mobile level-item p-1'> <?php echo "{$hometeamtotalgoals}"; ?></p>
                             </div>
                             <div class='my_inline_divs level-centre'>
                                 <h4 class='level-item mx-2'>vs.</h4>
                             </div>
                             <div class='my_inline_divs result_box level-right'>
-                                <p class='is-size-5 column is-size-6-mobile level-item p-1'>{$awayteamtotalgoals}</p>
+                                <p class='is-size-5 column is-size-6-mobile level-item p-1'> <?php echo "{$awayteamtotalgoals}"; ?></p>
                             </div>
                             <p class='m-2 subtitle is-7'>Full Time</p>
                         </div>
                         <div class='column'>
-                            <h4 class='is-size-5 is-size-6-mobile has-text-left mx-3'><b>{$awayteam}</b></h4>
+                            <h4 class='is-size-5 is-size-6-mobile has-text-left mx-3'><b> <?php echo "{$awayteam}"; ?><b></h4>
                         </div>
                     </div>
                 </div>
-                
-                // Javascript chart!
+
                 <div id='my_comparison_stat_list' class='mt-6'>
                     <div class='column' id='match_stat_chart'></div>
                 </div>
             </div>
         </div>
-    </div>";
-
+    </div>
+    
+    <?php
     include('part_site_footer.php'); 
     ?>
+    
     <script src="my_script.js"></script>
+    <script>
+        let matchStatChart = {
+            colors: ['#48c774', '#FF6347'],
+            legend: {
+                position: 'top',
+                horizontalAlign: 'center',
+                fontSize: '16px',
+                fontFamily: 'Helvetica, Arial',
+                fontWeight: 500,
+                itemMargin: {
+                    horizontal: 30,
+                    vertical: 10
+                },
+                onItemHover: {
+                    highlightDataSeries: false,
+                },
+                onItemClick: {
+                    toggleDataSeries: false,
+                },
+            },
+            series: [{
+                name: <?php echo "'{$hometeam}'"; ?>,
+                data: <?php print_r(json_encode($htStatsForGraph)); ?>
+            }, {
+                name: <?php echo "'{$awayteam}'"; ?>,
+                data: <?php print_r(json_encode($atStatsForGraph)); ?>
+            }],
+            chart: {
+                type: 'bar',
+                height: 500,
+                stacked: true,
+                stackType: '100%',
+                dropShadow: {
+                    enabled: true,
+                    enabledOnSeries: undefined,
+                    top: 2,
+                    left: 2,
+                    blur: 3,
+                    color: '#999',
+                    opacity: 0.4
+                },
+                fontFamily: 'Helvetica, Arial, sans-serif'
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                },
+            },
+            dataLabels: {
+                enabled: true,
+            },
+            stroke: {
+                width: 1,
+                colors: ['#fff']
+            },
+            xaxis: {
+                categories: ["Half Time Goals", "Shots", "Shots on Target", "% Shots on Target", "Corners", "Fouls", "Yellow Cards", "Red Cards"],
+                style: {
+                    fontSize: '16px',
+                },
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return val;
+                    }
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#match_stat_chart"), matchStatChart);
+        chart.render();
+    </script>
 </body>
 
 </html>
