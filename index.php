@@ -1,5 +1,5 @@
 <?php
-    include_once("allfunctions.php");
+    include("allfunctions.php");
 ?>
 
 <!DOCTYPE html>
@@ -73,7 +73,7 @@
 
             <!-- 5 most recent premier league match results -->
             <?php
-                $recentMatchesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?match_summaries&count=5";
+                $recentMatchesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?match_summaries&count=7";
                 $recentMatchesAPIData = file_get_contents($recentMatchesURL);
                 $recentMatchesList = json_decode($recentMatchesAPIData, true);
 
@@ -142,7 +142,7 @@
                 <h3 class="title is-4 mb-5">StatTiles</h3>
             </div>
             <div class="container">
-                <form action="GET" class="level mb-3">
+                <form method="GET" action="index.php" class="level mb-3">
                     <div class="p-2 level-item">
                         <label for="season_select"><b>Select Season :</b></label>
                     </div>
@@ -160,7 +160,6 @@
             </div>
             <div class="tile is-ancestor is-vertical is-10-mobile">
                 <?php
-                    
                     if (isset($_GET['season_pref'])) {
                         $season = $_GET['season_pref'];
                         $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?full_matches&fullseason={$season}";
@@ -173,9 +172,9 @@
                 
                     // add all the club names into an array of current season teams
                     $allSeasonClubNames = array();
+                    $allSeasonGamesPlayedByClub = array();
                 
                     // store every metric to be measured in an array
-                    $consistency = array();
                     $allGoals = array();
                     $allConceded = array();
                     $allShots = array();
@@ -189,40 +188,47 @@
                         $homeTeamName = $singleMatch["hometeam"];
                         $awayTeamName = $singleMatch["awayteam"];
                 
-                        // check if the team is in the season clubs, if not add.
-                        // always return the index to use later
-                        if (array_search($homeTeamName, $allSeasonClubNames)) {
+                        // check if the team is in the allSeasonClubNames array, if not add.
+                        // return club index to use later in the code
+                        if (array_search($homeTeamName, $allSeasonClubNames) != false) {
                             $homeTeamIndex = array_search($homeTeamName, $allSeasonClubNames);
-                            echo $homeTeamIndex;
+                            $allSeasonGamesPlayedByClub[$homeTeamIndex] += 1;
                         } else {
-                            $allSeasonClubNames[] = $homeTeamName;
+                            // otherwise add the item to the array, and then return its index
+                            array_push($allSeasonClubNames, $homeTeamName);
+                            array_push($allSeasonGamesPlayedByClub, 1);
                             $homeTeamIndex = array_search($homeTeamName, $allSeasonClubNames);
                         }
-                        if (array_search($awayTeamName, $allSeasonClubNames)) {
+                        if (array_search($awayTeamName, $allSeasonClubNames) != false) {
                             $awayTeamIndex = array_search($awayTeamName, $allSeasonClubNames);
-                            echo $awayTeamIndex;
+                            $allSeasonGamesPlayedByClub[$awayTeamIndex] += 1;
                         } else {
-                            $allSeasonClubNames[] = $awayTeamName;
+                            array_push($allSeasonClubNames, $awayTeamName);
+                            array_push($allSeasonGamesPlayedByClub, 1);
                             $awayTeamIndex = array_search($awayTeamName, $allSeasonClubNames);
                         }
-                
-                        $allgoals[$homeTeamIndex] += $singleMatch["hometeamtotalgoals"];
-                        $allConceded[$awayTeamIndex] += $singleMatch["hometeamtotalgoals"];
-                        $allShots[$homeTeamIndex] += $singleMatch["hometeamshots"];
-                        $allShotsOT[$homeTeamIndex] += $singleMatch["hometeamshotsontarget"];
-                        $allCorners[$homeTeamIndex] += $singleMatch["hometeamcorners"];
-                        $allFouls[$homeTeamIndex] += $singleMatch["hometeamfouls"];
-                        $allYellowCards[$homeTeamIndex] += $singleMatch["hometeamyellowcards"];
-                        $allRedCards[$homeTeamIndex] += $singleMatch["hometeamredcards"];
-                
-                        $allgoals[$awayTeamIndex] += $singleMatch["awayteamtotalgoals"];
-                        $allConceded[$homeTeamIndex] += $singleMatch["awayteamtotalgoals"];
-                        $allShots[$awayTeamIndex] += $singleMatch["awayteamshots"];
-                        $allShotsOT[$awayTeamIndex] += $singleMatch["awayteamshotsontarget"];
-                        $allCorners[$awayTeamIndex] += $singleMatch["awayteamcorners"];
-                        $allFouls[$awayTeamIndex] += $singleMatch["awayteamfouls"];
-                        $allYellowCards[$awayTeamIndex] += $singleMatch["awayteamyellowcards"];
-                        $allRedCards[$awayTeamIndex] += $singleMatch["awayteamredcards"];
+                        
+                        $allSeasonGamesPlayedByClub[$awayTeamIndex] += 1;
+
+                        // check if the teams index exists in the array and add on data if so
+                        // else, push the data onto the end of the array, array is updated for each func call
+                        $allGoals = searchAndAddToArray($singleMatch["hometeamtotalgoals"], $allGoals, $homeTeamIndex);
+                        $allConceded = searchAndAddToArray($singleMatch["hometeamtotalgoals"], $allConceded, $awayTeamIndex);
+                        $allShots = searchAndAddToArray($singleMatch["hometeamshots"], $allShots, $homeTeamIndex);
+                        $allShotsOT = searchAndAddToArray($singleMatch["hometeamshotsontarget"], $allShotsOT, $homeTeamIndex);
+                        $allCorners = searchAndAddToArray($singleMatch["hometeamcorners"], $allCorners, $homeTeamIndex);
+                        $allFouls = searchAndAddToArray($singleMatch["hometeamfouls"], $allFouls, $homeTeamIndex);
+                        $allYellowCards = searchAndAddToArray($singleMatch["hometeamyellowcards"], $allYellowCards, $homeTeamIndex);
+                        $allRedCards = searchAndAddToArray($singleMatch["hometeamredcards"], $allRedCards, $homeTeamIndex);
+                        
+                        $allGoals = searchAndAddToArray($singleMatch["awayteamtotalgoals"], $allGoals, $awayTeamIndex);
+                        $allConceded = searchAndAddToArray($singleMatch["awayteamtotalgoals"], $allConceded, $homeTeamIndex);
+                        $allShots = searchAndAddToArray($singleMatch["awayteamshots"], $allShots, $awayTeamIndex);
+                        $allShotsOT = searchAndAddToArray($singleMatch["awayteamshotsontarget"], $allShotsOT, $awayTeamIndex);
+                        $allCorners = searchAndAddToArray($singleMatch["awayteamcorners"], $allCorners, $awayTeamIndex);
+                        $allFouls = searchAndAddToArray($singleMatch["awayteamfouls"], $allFouls, $awayTeamIndex);
+                        $allYellowCards = searchAndAddToArray($singleMatch["awayteamyellowcards"], $allYellowCards, $awayTeamIndex);
+                        $allRedCards = searchAndAddToArray($singleMatch["awayteamredcards"], $allRedCards, $awayTeamIndex);
                     }
 
                     // every tile data array is in the order;
@@ -240,17 +246,17 @@
                     $masterArray = array();
                 
                     $allGoalsTileData[] = "Goals Scored";
-                    $allGoalsTileData[] = max($allGoals);
                     $allGoalsTileData[] = min($allGoals);
-                    $allGoalsTileData[] = findMaxValueAndReturnTeam($allGoals ,$allSeasonClubNames);
+                    $allGoalsTileData[] = max($allGoals);
                     $allGoalsTileData[] = findMinValueAndReturnTeam($allGoals ,$allSeasonClubNames);
+                    $allGoalsTileData[] = findMaxValueAndReturnTeam($allGoals ,$allSeasonClubNames);
                     $masterArray[] = $allGoalsTileData;
                 
                     $allConcededTileData[] = "Goals Conceded";
-                    $allConcededTileData[] = min($allConceded);
                     $allConcededTileData[] = max($allConceded);
-                    $allConcededTileData[] = findMinValueAndReturnTeam($allConceded ,$allSeasonClubNames);
+                    $allConcededTileData[] = min($allConceded);
                     $allConcededTileData[] = findMaxValueAndReturnTeam($allConceded ,$allSeasonClubNames);
+                    $allConcededTileData[] = findMinValueAndReturnTeam($allConceded ,$allSeasonClubNames);
                     $masterArray[] = $allConcededTileData;
                 
                     $allShotsTileData[] = "Shots";
@@ -275,24 +281,24 @@
                     $masterArray[] = $allCornersTileData;
                 
                     $allFoulsTileData[] = "Fouls";
-                    $allFoulsTileData[] = min($allFouls);
                     $allFoulsTileData[] = max($allFouls);
-                    $allFoulsTileData[] = findMinValueAndReturnTeam($allFouls ,$allSeasonClubNames);
+                    $allFoulsTileData[] = min($allFouls);
                     $allFoulsTileData[] = findMaxValueAndReturnTeam($allFouls ,$allSeasonClubNames);
+                    $allFoulsTileData[] = findMinValueAndReturnTeam($allFouls ,$allSeasonClubNames);
                     $masterArray[] = $allFoulsTileData;
                 
                     $allYellowCardsTileData[] = "Yellow Cards";
-                    $allYellowCardsTileData[] = min($allYellowCards);
                     $allYellowCardsTileData[] = max($allYellowCards);
-                    $allYellowCardsTileData[] = findMinValueAndReturnTeam($allYellowCards ,$allSeasonClubNames);
+                    $allYellowCardsTileData[] = min($allYellowCards);
                     $allYellowCardsTileData[] = findMaxValueAndReturnTeam($allYellowCards ,$allSeasonClubNames);
+                    $allYellowCardsTileData[] = findMinValueAndReturnTeam($allYellowCards ,$allSeasonClubNames);
                     $masterArray[] = $allYellowCardsTileData;
                 
                     $allRedCardsTileData[] = "Red Cards";
-                    $allRedCardsTileData[] = min($allRedCards);
                     $allRedCardsTileData[] = max($allRedCards);
-                    $allRedCardsTileData[] = findMinValueAndReturnTeam($allRedCards ,$allSeasonClubNames);
+                    $allRedCardsTileData[] = min($allRedCards);
                     $allRedCardsTileData[] = findMaxValueAndReturnTeam($allRedCards ,$allSeasonClubNames);
+                    $allRedCardsTileData[] = findMinValueAndReturnTeam($allRedCards ,$allSeasonClubNames);
                     $masterArray[] = $allRedCardsTileData;
 
                     foreach ($masterArray as $tileData) {
@@ -302,32 +308,51 @@
                         $highStat = $tileData[2];
                         $lowTeamName = $tileData[3];
                         $highTeamName = $tileData[4];
+
+                        // calculate the games played for the club in question
+                        // then calc ratio per game for display
+                        $lowTeamIndex = array_search($lowTeamName, $allSeasonGamesPlayedByClub);
+                        $highTeamIndex = array_search($highTeamName, $allSeasonGamesPlayedByClub);
+                        $lowTeamGamesPlayed = $allSeasonGamesPlayedByClub[$lowTeamIndex];
+                        $highTeamGamesPlayed = $allSeasonGamesPlayedByClub[$highTeamIndex];
+                        $lowRatioPG = calculateAverageTwoDP($lowStat, $lowTeamGamesPlayed);
+                        $highRatioPG = calculateAverageTwoDP($highStat ,$highTeamGamesPlayed);
                     
                         echo "
                             <div class='tile is-12 pt-5'>
-                                <p>{$finalTitle}</p>
+                                <p><b>{$finalTitle}:</b></p>
                             </div>
-                            <div class='tile is-12 is-parent'>
-                                <div class='my_inline_divs tile is-child box level'>
-                                    <div class='level-left level-item my_level_wrap'>
-                                        <p class='has-text-left p-1'>{$lowTeamName}</p>
-                                    </div>
-                                    <div class='level-right'>
-                                        <div>
-                                            <i class='material-icons redicon'>keyboard_arrow_down</i>
-                                            <p class='subtitle'>{$lowStat}</p>
+                            <div class='tile is-12 is-mobile is-parent'>
+                                <div class='is-child box tile'>
+                                    <div class='my_inline_divs level my-2'>
+                                        <div class='level-left level-item my_level_wrap'>
+                                            <p class='has-text-left p-1'>{$lowTeamName}</p>
                                         </div>
+                                        <div class='level-right level-item'>
+                                            <div>
+                                                <i class='material-icons redicon'>clear</i>
+                                                <p class='subtitle'><b>{$lowStat}</b></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class='subtitle is-7'>{$lowRatioPG} per match</p>
                                     </div>
                                 </div>
-                                <div class='my_inline_divs tile is-child box level'>
-                                    <div class='level-left level-item my_level_wrap'>
-                                        <p class='has-text-left p-1'>{$highTeamName}</p>
-                                    </div>
-                                    <div class='level-right'>
-                                        <div>
-                                            <i class='material-icons greenicon'>keyboard_arrow_up</i>
-                                            <p class='subtitle'>{$highStat}</p>
+                                <div class='is-child box tile'>
+                                    <div class='my_inline_divs level my-2'>
+                                        <div class='level-left level-item my_level_wrap'>
+                                            <p class='has-text-left p-1'>{$highTeamName}</p>
                                         </div>
+                                        <div class='level-right level-item'>
+                                            <div>
+                                                <i class='material-icons greenicon'>done</i>
+                                                <p class='subtitle'><b>{$highStat}</b></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class='subtitle is-7'>{$highRatioPG} per match</p>
                                     </div>
                                 </div>
                             </div>";
@@ -340,5 +365,4 @@
     <?php include("part_site_footer.php"); ?>
     <script src="my_script.js"></script>
 </body>
-
 </html>
