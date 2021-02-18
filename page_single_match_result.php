@@ -86,7 +86,7 @@
                     <div class='columns level is-mobile is-centered'>
                         <div class='column is-narrow level-item'>
                             <div class='is-pulled-right'>
-                                <?php echo "<img class='image is-64x64 m-4 my_image_maintain_aspect' src='{$hometeamlogoURL}' alt='Home Logo'>"; ?>
+                                <?php echo "<img class='image is-96x96 m-4 my_image_maintain_aspect' src='{$hometeamlogoURL}' alt='Home Logo'>"; ?>
                             </div>
                         </div>
                         <div class='column is-centered level-centre'>
@@ -97,7 +97,7 @@
                             </div>
                         </div>
                         <div class='column is-narrow level-item'>
-                            <?php echo "<img class='image is-64x64 m-4 my_image_maintain_aspect' src='{$awayteamlogoURL}' alt='Away Logo'>"; ?>
+                            <?php echo "<img class='image is-96x96 m-4 my_image_maintain_aspect' src='{$awayteamlogoURL}' alt='Away Logo'>"; ?>
                         </div>
                     </div>
                 </div>
@@ -137,9 +137,7 @@
         </div>
     </div>
     
-    <?php
-    include('part_site_footer.php'); 
-    ?>
+    <?php include('part_site_footer.php'); ?>
     
     <script src="my_script.js"></script>
     <script>
