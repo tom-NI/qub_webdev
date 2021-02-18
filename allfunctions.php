@@ -70,9 +70,9 @@
         if ($total != 0) {
             $percent = (double) ((double) $valueToDivide / (double)$total) * 100;
             $percentOneDP = number_format($percent, 1, '.', '');
-            return "{$percentOneDP}%";
+            return "{$percentOneDP}";
         } else {
-            return "0.0%";
+            return "0.0";
         }
     }
 
