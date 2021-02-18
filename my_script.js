@@ -73,6 +73,46 @@ if (document.getElementById("yes_radio") !== null) {
     document.getElementById("no_radio").addEventListener("click", radioCheckForSubmitBtn);
 }
 
+// for the fixture analysis page, 
+// disable the search button if the user hasnt selected two teams
+if ((document.getElementById("fixture_ht_selector") !== null) 
+    && (document.getElementById("fixture_at_selector") !== null)) {  
+        // if both the ht and at selectors are present on the page check their values 
+    // initially disable the search button, as no teams entered yet
+    
+    var htSelectValue = document.getElementById("fixture_ht_selector").value;
+    var atSelectValue = document.getElementById("fixture_at_selector").value;
+    if ((htSelectValue === "default") && (atSelectValue === "default")) {
+        document.getElementById("fixture_search_btn").disabled = true;
+    }
+
+    function disableFixtureSearchBtn() {
+        let htSelectValue = document.getElementById("fixture_ht_selector").value;
+        let atSelectValue = document.getElementById("fixture_at_selector").value;
+        console.log(htSelectValue);
+        console.log(atSelectValue);
+        
+        // if either select values are default, disable the search button
+        if (htSelectValue === "default" || atSelectValue === "default") {
+            document.getElementById("fixture_search_btn").disabled = true;
+        } else {
+            document.getElementById("fixture_search_btn").disabled = false;
+        }
+    }
+
+    function disallowDuplicateSelection() {
+        let htSelectValue = document.getElementById("fixture_ht_selector").value;
+        let atSelectValue = document.getElementById("fixture_at_selector").value;
+
+        if (htSelectValue === atSelectValue) {
+            document.getElementById("fixture_ht_selector").value = "default";
+        }
+    }
+    document.getElementById("fixture_ht_selector").addEventListener("change", disableFixtureSearchBtn);
+    document.getElementById("fixture_at_selector").addEventListener("change", disableFixtureSearchBtn);
+    document.getElementById("fixture_ht_selector").addEventListener("change", disallowDuplicateSelection);
+    document.getElementById("fixture_at_selector").addEventListener("change", disallowDuplicateSelection);
+}
 
 // if (document.getElementById("pagination_first_page") !== null) {
 //     function paginationButtonChangeStyle(pageButtonID) {
