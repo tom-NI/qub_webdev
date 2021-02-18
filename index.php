@@ -317,45 +317,45 @@
                         $highTeamGamesPlayed = $allSeasonGamesPlayedByClub[$highTeamIndex];
                         $lowRatioPG = calculateAverageTwoDP($lowStat, $lowTeamGamesPlayed);
                         $highRatioPG = calculateAverageTwoDP($highStat ,$highTeamGamesPlayed);
-                    
+                        
                         echo "
-                            <div class='tile is-12 pt-5'>
-                                <p><b>{$finalTitle}:</b></p>
+                        <div class='tile is-12 pt-5'>
+                            <p><b>{$finalTitle}:</b></p>
+                        </div>
+                        <div class='tile is-12 is-mobile is-parent'>
+                            <div class='is-child box tile'>
+                                <div class=' level my-2'>
+                                    <div class='level-left level-item my_level_wrap'>
+                                        <p class='has-text-left p-1'>{$lowTeamName}</p>
+                                    </div>
+                                    <div class='level-right level-item my-3'>
+                                        <div>
+                                            <i class='material-icons redicon'>clear</i>
+                                            <p class='subtitle'><b>{$lowStat}</b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class='subtitle is-7'>{$lowRatioPG} per match</p>
+                                </div>
                             </div>
-                            <div class='tile is-12 is-mobile is-parent'>
-                                <div class='is-child box tile'>
-                                    <div class=' level my-2'>
-                                        <div class='level-left level-item my_level_wrap'>
-                                            <p class='has-text-left p-1'>{$lowTeamName}</p>
-                                        </div>
-                                        <div class='level-right level-item my-3'>
-                                            <div>
-                                                <i class='material-icons redicon'>clear</i>
-                                                <p class='subtitle'><b>{$lowStat}</b></p>
-                                            </div>
-                                        </div>
+                            <div class='is-child box tile'>
+                                <div class=' level my-2'>
+                                    <div class='level-left level-item my_level_wrap'>
+                                        <p class='has-text-left p-1'>{$highTeamName}</p>
                                     </div>
-                                    <div>
-                                        <p class='subtitle is-7'>{$lowRatioPG} per match</p>
+                                    <div class='level-right level-item my-3'>
+                                        <div>
+                                            <i class='material-icons greenicon'>done</i>
+                                            <p class='subtitle'><b>{$highStat}</b></p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class='is-child box tile'>
-                                    <div class=' level my-2'>
-                                        <div class='level-left level-item my_level_wrap'>
-                                            <p class='has-text-left p-1'>{$highTeamName}</p>
-                                        </div>
-                                        <div class='level-right level-item my-3'>
-                                            <div>
-                                                <i class='material-icons greenicon'>done</i>
-                                                <p class='subtitle'><b>{$highStat}</b></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p class='subtitle is-7'>{$highRatioPG} per match</p>
-                                    </div>
+                                <div>
+                                    <p class='subtitle is-7'>{$highRatioPG} per match</p>
                                 </div>
-                            </div>";
+                            </div>
+                        </div>";
                     }
                 ?>
             </div>
