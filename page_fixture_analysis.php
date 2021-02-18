@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="mystyles.css">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
     <title>Fixture Analysis</title>
 </head>
 
@@ -552,10 +553,11 @@
                         echo "
                     </section>
                 </div>
+            </div>
             </div>";
-    } 
-    require('part_site_footer.php');
-?>
-<script src='my_script.js'></script>
+        } 
+        require('part_site_footer.php');
+    ?>
+    <script src="my_script.js"></script>
 </body>
 </html>
