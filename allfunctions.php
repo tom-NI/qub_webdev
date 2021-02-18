@@ -85,6 +85,15 @@
         }
     }
 
+    function calculateAverageTwoDP($valueToDivide, $total) {
+        if ($total != 0) {
+            $value = ((double) $valueToDivide / (double)$total);
+            return number_format($value, 2, '.', '');
+        } else {
+            return "0.00";
+        }
+    }
+
     function getCurrentSeason() {
         $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
         $currentSeasonData = file_get_contents($currentSeasonURL);
@@ -141,20 +150,7 @@
         } else {
             array_push($arrayToCheck, $valueAsInt);
         }
+        return $arrayToCheck;
         // print_r($arrayToCheck);
-    }
-
-    function searchArrayAndReturnIndex($valueToAdd, array $arrayToCheck) {
-        // if the array contains the item, return its index
-        if (array_search($valueToAdd, $arrayToCheck) != false) {
-            $requiredIndex = array_search($valueToAdd, $arrayToCheck);
-            echo "<p>Index = {$requiredIndex}</p>";
-        } else {
-            // otherwise add the item to the array, and then return its index
-            array_push($arrayToCheck, $valueToAdd);
-            $requiredIndex = array_search($valueToAdd, $arrayToCheck);
-            print_r($arrayToCheck);
-            echo "<p>wasnt there, added it and now index = {$requiredIndex}</p>";
-        }
     }
 ?>
