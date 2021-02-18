@@ -117,14 +117,19 @@
                             <div class='my_inline_divs result_box level-right'>
                                 <p class='is-size-5 column is-size-6-mobile level-item p-1'> <?php echo "{$awayteamtotalgoals}"; ?></p>
                             </div>
-                            <p class='m-2 subtitle is-7'>Full Time</p>
+                            <p class='m-2 subtitle is-6'>Full Time</p>
                         </div>
                         <div class='column'>
                             <h4 class='is-size-5 is-size-6-mobile has-text-left mx-3'><b> <?php echo "{$awayteam}"; ?><b></h4>
                         </div>
                     </div>
                 </div>
-
+                <div class='level'>
+                    <?php
+                        $fixtureAnalysisURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_fixture_analysis.php?fixture={$hometeam}~{$awayteam}";
+                        echo "<a type='button' href='{$fixtureAnalysisURL}' class='button is-info is-rounded is-narrow level-item level-right' >Analyse this fixture</a>";
+                    ?>
+                </div>
                 <div id='my_comparison_stat_list' class='mt-6'>
                     <div class='column' id='match_stat_chart'></div>
                 </div>
