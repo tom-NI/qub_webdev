@@ -1,7 +1,7 @@
 <?php
-    // $host = "tkilpatrick01.lampt.eeecs.qub.ac.uk";
+    $host = "tkilpatrick01.lampt.eeecs.qub.ac.uk";
     // $host = "lamp-19.eeecs.qub.ac.uk/phpmyadmin";
-    $host = "lamp-19.eeecs.qub.ac.uk";
+    // $host = "lamp-19.eeecs.qub.ac.uk";
     $user = "tkilpatrick01";
     $pw = "h2mdZxjGdQLzrf3d";
     $db = "tkilpatrick01";
