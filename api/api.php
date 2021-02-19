@@ -110,6 +110,7 @@
                     $seasonIdData = dbQueryCheckReturn($seasonIdQuery);
                     if (mysqli_num_rows($seasonIdData) == 0) {
                         $seasonID = 30;
+                        echo "404 Not Found";
                         echo "No Data for that Season";
                     } else {
                         $row = $seasonIdData->fetch_row();
@@ -117,6 +118,7 @@
                     }
                     $seasonQuery = "WHERE SeasonID = {$seasonID}";
                 } else {
+                    echo "400 Bad Request";
                     echo "Please enter a season value in the format YYYY-YYYY";
                 }
             } else {
@@ -140,6 +142,7 @@
                 $checkUsersData = dbQueryCheckReturn($checkUserQuery);
 
                 if (mysqli_num_rows($checkUsersData) > 1) {
+                    echo "400 Bad Request";
                     echo "Ambiguous club, please narrow the search term";
                 } elseif (mysqli_num_rows($checkUsersData) > 0) {
                     while ($row = $checkUsersData->fetch_assoc()) {
@@ -153,6 +156,7 @@
                         $matchSummaryQuery = "{$mainQuery} {$seasonQuery} {$userClubQuery} {$orderByQuery}";
                     }
                 } else {
+                    echo "404 Not Found";
                     echo "no club found, please search again";
                 }
             }
@@ -355,11 +359,12 @@
                 $conditionQuery = "WHERE epl_seasons.SeasonID = {$seasonID}";
                 $finalQuery = "{$mainMatchQuery} {$conditionQuery} {$orderQuery}";
             } else {
+                echo "404 Not Found";
                 echo "no season found";
                 die();
             }
         } else {
-            echo "no data";
+            echo "404 Not Found";
             die();
         }
 
