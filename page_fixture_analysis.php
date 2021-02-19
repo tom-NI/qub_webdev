@@ -66,6 +66,7 @@
                 </div>
             </div>
         </section>
+        </div>
 
     <?php
         if (isset($_GET['ht_selector']) && isset($_GET['at_selector']) 
@@ -80,11 +81,11 @@
             if (isset($_GET['strict'])) {
                 $nonStrictMode = $_GET['strict'];
                 if ($nonStrictMode) {
-                    $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}";
+                    $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?full_matches&fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}";
                     $strictPara = "Data includes reverse fixture";
                 } 
             } else {
-                $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}&strict=true";
+                $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?full_matches&fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}&strict";
                 $strictPara = "Data does NOT include reverse fixture";
             }
             $fixtureAPIdata = file_get_contents($fixtureAPIurl);
@@ -552,9 +553,7 @@
                             };
                         echo "
                     </section>
-                </div>
-            </div>
-            </div>";
+                </div>";
         } 
         require('part_site_footer.php');
     ?>
