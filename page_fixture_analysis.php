@@ -34,7 +34,7 @@
                     <form class="level columns form" method="GET" action="page_fixture_analysis.php">
                         <div class="column level-item">
                             <div class="select control is-expanded is-success">
-                                <select name='ht_selector' id='fixture_ht_selector' class=''>
+                                <select name='ht_selector' id='ht_selector' class=''>
                                     <?php
                                         require("part_team_selector.php");
                                     ?>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="column level-item">
                             <div class="select control is-expanded is-danger">
-                                <select name='at_selector' id='fixture_at_selector' class=''>
+                                <select name='at_selector' id='at_selector' class=''>
                                     <?php
                                         require("part_team_selector.php");
                                     ?>

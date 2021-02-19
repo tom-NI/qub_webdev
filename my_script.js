@@ -75,59 +75,62 @@ if (document.getElementById("yes_radio") !== null) {
 
 // for the fixture analysis page, 
 // disable the search button if the user hasnt selected two teams
-if ((document.getElementById("fixture_ht_selector") !== null) 
-    && (document.getElementById("fixture_at_selector") !== null)) {  
-        // if both the ht and at selectors are present on the page check their values 
-    let htSelectValue = document.getElementById("fixture_ht_selector").value;
-    let atSelectValue = document.getElementById("fixture_at_selector").value;
-    if ((htSelectValue === "default") || (atSelectValue === "default")) {
-        document.getElementById("fixture_search_btn").disabled = true;
+if ((document.getElementById("ht_selector") !== null) 
+    && (document.getElementById("at_selector") !== null)) {  
+    // if both the ht and at selectors are present on the page check their values 
+    var htSelectValue = document.getElementById("ht_selector").value;
+    var atSelectValue = document.getElementById("at_selector").value;
+
+    // search button on fixture search page only
+    if (document.getElementById("fixture_search_btn") !== null) {
+        // function disables search button unless user selects values other than default
+        function disableFixtureSearchBtn() {
+            let htSelectValue = document.getElementById("ht_selector").value;
+            let atSelectValue = document.getElementById("at_selector").value;
+            
+            // if either select values are default, disable the search button
+            if (htSelectValue === "default" || atSelectValue === "default") {
+                document.getElementById("fixture_search_btn").disabled = true;
+            } else {
+                document.getElementById("fixture_search_btn").disabled = false;
+            }
+        }
+        if ((htSelectValue === "default") || (atSelectValue === "default")) {
+            document.getElementById("fixture_search_btn").disabled = true;
+        }
+        document.getElementById("ht_selector").addEventListener("change", disableFixtureSearchBtn);
+        document.getElementById("at_selector").addEventListener("change", disableFixtureSearchBtn);
     }
 
     // club switch button between <select> tags
+    // used on both fixture analysis page and new team select page
     if (document.getElementById("switch_club_select") !== null) {
         function switchClubsAround() {
-            let htSelectValue = document.getElementById("fixture_ht_selector").value;
-            let atSelectValue = document.getElementById("fixture_at_selector").value;
+            console.log("Thomas Kilpatrick");
+            let htSelectValue = document.getElementById("ht_selector").value;
+            let atSelectValue = document.getElementById("at_selector").value;
 
             let tempClub = htSelectValue;
             htSelectValue = atSelectValue;
             atSelectValue = tempClub;
-            document.getElementById("fixture_ht_selector").value = htSelectValue;
-            document.getElementById("fixture_at_selector").value = atSelectValue;
+            document.getElementById("ht_selector").value = htSelectValue;
+            document.getElementById("at_selector").value = atSelectValue;
         }
         document.getElementById("switch_club_select").addEventListener("click", switchClubsAround);
     }
-
-    // function disables search button unless user selects values other than default
-    function disableFixtureSearchBtn() {
-        let htSelectValue = document.getElementById("fixture_ht_selector").value;
-        let atSelectValue = document.getElementById("fixture_at_selector").value;
-        
-        // if either select values are default, disable the search button
-        if (htSelectValue === "default" || atSelectValue === "default") {
-            document.getElementById("fixture_search_btn").disabled = true;
-        } else {
-            document.getElementById("fixture_search_btn").disabled = false;
-        }
-    }
-
+    
     // function disallows the selection of the same team for both home and away
     function disallowDuplicateSelection() {
-        let htSelectValue = document.getElementById("fixture_ht_selector").value;
-        let atSelectValue = document.getElementById("fixture_at_selector").value;
+        let htSelectValue = document.getElementById("ht_selector").value;
+        let atSelectValue = document.getElementById("at_selector").value;
 
         if (htSelectValue === atSelectValue) {
-            document.getElementById("fixture_ht_selector").value = "default";
+            document.getElementById("ht_selector").value = "default";
         }
     }
-    document.getElementById("fixture_ht_selector").addEventListener("change", disableFixtureSearchBtn);
-    document.getElementById("fixture_at_selector").addEventListener("change", disableFixtureSearchBtn);
-    document.getElementById("fixture_ht_selector").addEventListener("change", disallowDuplicateSelection);
-    document.getElementById("fixture_at_selector").addEventListener("change", disallowDuplicateSelection);
+    document.getElementById("ht_selector").addEventListener("change", disallowDuplicateSelection);
+    document.getElementById("at_selector").addEventListener("change", disallowDuplicateSelection);
 }
-
-
 
 // if (document.getElementById("pagination_first_page") !== null) {
 //     function paginationButtonChangeStyle(pageButtonID) {
