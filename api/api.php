@@ -5,13 +5,9 @@
     require("apifunctions.php");
 
     // TODO 
-    // MOVE ANY FUNCTIONS OVER TO FUNCTIONS FILE?
     // SECURE THE API for Create update delete?
     // WRITE API QUERIES TO UPDATE A MATCH, USING A TRANSACTION
-    // FINISH THE !ISSET PART OF THE IF/ELSE TREE
     // UNDER MATCH_SUMMARY K:VALUE - SWITCH OUT THE CLUBNAMESANDURLQUERY FUNCTION
-    // TODO - try to get a function written for getting club names and URLs
-    // CHANGE AUTOINCREMENTS INSIDE THE SQL DATABASE?
     // TODO - UNDER THE "usersearch" branch, is the addUnderScores function in the correct place?
     // todo - where do i add the call to real_escape_string to prevent SQL injections?
     // secure the create, update and delete using a SESSION and security?
@@ -19,6 +15,7 @@
     // the final dataset object that EVERY read query will build (to be encoded into JSON)
     $finalDataSet = array();
 
+    // check through "highest level" GET queries, else return 404
     if (isset($_GET['list'])) {
         // get the value
         $listValue = $_GET["list"];
@@ -159,18 +156,7 @@
                 }
             }
             if (isset($_GET['count'])) {
-                $limitQuery = null;
-                $matchCount = (int) $_GET['count'];
-                if ($matchCount != 0 && $matchCount != null) {
-                    if (isset($_GET['startat'])) {
-                        $startFromNum = (int) $_GET['startat'];
-                        if ($startFromNum <= $matchCount) {
-                            $limitQuery = "LIMIT {$startFromNum}, {$matchCount}";
-                        }
-                    } else {
-                        $limitQuery = "LIMIT {$matchCount}";
-                    }
-                }
+                $limitQuery = queryPagination();
                 $matchSummaryQuery = "{$matchSummaryQuery} {$limitQuery}";
             }
             
@@ -311,8 +297,14 @@
                     } else {
                         $teamQuery = $defaultTeamQuery;
                     }
+                    
+                    if (isset($_GET['count'])) {
+                        $limitQuery = queryPagination();
+                    } else {
+                        $limitQuery = "";
+                    }
 
-                    $finalQuery = "{$mainMatchQuery} {$teamQuery} {$orderQuery}";
+                    $finalQuery = "{$mainMatchQuery} {$teamQuery} {$orderQuery} {$limitQuery}";
                 } else {
                     http_response_code(204);
                     die();
