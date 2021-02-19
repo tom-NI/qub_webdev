@@ -1,6 +1,8 @@
 <?php
     header('Content-Type: application/json');
-    require("../allfunctions.php");
+
+    // api defines a seperate functions file to mimic a true seperate server!
+    require("apifunctions.php");
 
     // TODO 
     // MOVE ANY FUNCTIONS OVER TO FUNCTIONS FILE?
@@ -17,10 +19,6 @@
     // the final dataset object that EVERY read query will build (to be encoded into JSON)
     $finalDataSet = array();
 
-    // if (!isset($_GET['list']) || !isset($_GET['matches'])) {
-    //     echo "no lists here! Sorry";
-    //     die();
-    // } else
     if (isset($_GET['list'])) {
         // get the value
         $listValue = $_GET["list"];
@@ -110,7 +108,7 @@
                     $seasonIdData = dbQueryCheckReturn($seasonIdQuery);
                     if (mysqli_num_rows($seasonIdData) == 0) {
                         $seasonID = 30;
-                        echo "404 Not Found";
+                        http_response_code(204);
                         echo "No Data for that Season";
                     } else {
                         $row = $seasonIdData->fetch_row();
@@ -156,7 +154,7 @@
                         $matchSummaryQuery = "{$mainQuery} {$seasonQuery} {$userClubQuery} {$orderByQuery}";
                     }
                 } else {
-                    echo "404 Not Found";
+                    http_response_code(204);
                     echo "no club found, please search again";
                 }
             }
@@ -212,96 +210,9 @@
                     "awayteamlogoURL" => $awayTeamURL
                 );
                 $finalDataSet[] = $matches;
-            }
-    } elseif (isset($_GET['fixture'])) {
-        // 1 fixture - get all records throughout history for stats analysis!
-        $fixtureValue = $_GET['fixture'];
-
-        // split the value into two teams with the hashtag delimiter and remove underscores
-        // team names exposed in API to make the API general purpose for users, who wouldnt know clubID
-        trim($fixtureValue);
-        $newFixtureValue = removeUnderScores($fixtureValue);
-        $fixtureValueArray = explode("~", $newFixtureValue);
-        $homeTeamNameSearch = $fixtureValueArray[0];
-        $awayTeamNameSearch = $fixtureValueArray[1];
-
-        if ($homeTeamNameSearch != null && $awayTeamNameSearch != null) {
-            $homeClubQuery = "SELECT ClubID, ClubName FROM `epl_clubs` WHERE ClubName LIKE '%{$homeTeamNameSearch}%';";
-            $awayClubQuery = "SELECT ClubID, ClubName FROM `epl_clubs` WHERE ClubName LIKE '%{$awayTeamNameSearch}%';";
-
-            $homeClubValue = dbQueryCheckReturn($homeClubQuery);
-            $awayClubValue = dbQueryCheckReturn($awayClubQuery);
-
-            if (mysqli_num_rows($homeClubValue) != 0 && mysqli_num_rows($awayClubValue) != 0) {
-                while ($homeTeamRow = $homeClubValue->fetch_assoc()) {
-                    $homeTeamID = $homeTeamRow['ClubID'];
-                    $homeTeamName = $homeTeamRow['ClubName'];
-                }
-                while ($awayTeamRow = $awayClubValue->fetch_assoc()) {
-                    $awayTeamID = $awayTeamRow['ClubID'];
-                    $awayTeamName = $awayTeamRow['ClubName'];
-                }
-
-                $mainQuery = "SELECT epl_matches.MatchID, epl_matches.MatchDate, epl_home_team_stats.HomeClubID, epl_away_team_stats.AwayClubID, 
-                epl_home_team_stats.HTTotalGoals, epl_home_team_stats.HTHalfTimeGoals, epl_home_team_stats.HTShots, 
-                epl_home_team_stats.HTShotsOnTarget, epl_home_team_stats.HTCorners, epl_home_team_stats.HTFouls, epl_home_team_stats.HTYellowCards, 
-                epl_home_team_stats.HTRedCards, epl_away_team_stats.ATTotalGoals, epl_away_team_stats.ATHalfTimeGoals, 
-                epl_away_team_stats.ATShots, epl_away_team_stats.ATShotsOnTarget, epl_away_team_stats.ATCorners, 
-                epl_away_team_stats.ATFouls, epl_away_team_stats.ATYellowCards, epl_away_team_stats.ATRedCards
-                FROM epl_matches
-                INNER JOIN epl_home_team_stats ON epl_matches.MatchID = epl_home_team_stats.MatchID 
-                INNER JOIN epl_away_team_stats ON epl_matches.MatchID = epl_away_team_stats.MatchID
-                INNER JOIN epl_seasons ON epl_matches.SeasonID = epl_seasons.SeasonID
-                INNER JOIN epl_referees ON epl_referees.RefereeID = epl_matches.RefereeID";
-
-                $orderQuery = " ORDER BY MatchID ASC;";
-                $defaultTeamQuery = "WHERE (epl_home_team_stats.HomeClubID = {$homeTeamID} AND epl_away_team_stats.AwayClubID = {$awayTeamID})
-                OR (epl_home_team_stats.HomeClubID = {$awayTeamID} AND epl_away_team_stats.AwayClubID = {$homeTeamID})";
-
-                if (isset($_GET['strict'])) {
-                    $teamQuery = "WHERE epl_home_team_stats.HomeClubID = {$homeTeamID} AND epl_away_team_stats.AwayClubID = {$awayTeamID}";
-                } else {
-                    $teamQuery = $defaultTeamQuery;
-                }
-
-                $fixtureQuery = "{$mainQuery} {$teamQuery} {$orderQuery}";
-
-                $fixtureQueryData = dbQueryCheckReturn($fixtureQuery);
-                while ($row = $fixtureQueryData->fetch_assoc()) {
-                    if ($row['HomeClubID'] == $homeTeamID && $row['AwayClubID'] == $awayTeamID) {
-                        $teamA = $homeTeamName;
-                        $teamB = $awayTeamName;
-                    } else {
-                        $teamA = $awayTeamName;
-                        $teamB = $homeTeamName;
-                    }
-                    $fixture = array(
-                        "hometeam" => $teamA,
-                        "awayteam" => $teamB,
-                        "matchdate" => $row["MatchDate"],
-                        "hometeamtotalgoals" => $row["HTTotalGoals"],
-                        "hometeamhalftimegoals" => $row["HTHalfTimeGoals"],
-                        "hometeamshots" => $row["HTShots"],
-                        "hometeamshotsontarget" => $row["HTShotsOnTarget"],
-                        "hometeamcorners" => $row["HTCorners"],
-                        "hometeamfouls" => $row["HTFouls"],
-                        "hometeamyellowcards" => $row["HTYellowCards"],
-                        "hometeamredcards" => $row["HTRedCards"],
-                        "awayteamtotalgoals" => $row["ATTotalGoals"],
-                        "awayteamhalftimegoals" => $row["ATHalfTimeGoals"],
-                        "awayteamshots" => $row["ATShots"],
-                        "awayteamshotsontarget" => $row["ATShotsOnTarget"],
-                        "awayteamcorners" => $row["ATCorners"],
-                        "awayteamfouls" => $row["ATFouls"],
-                        "awayteamyellowcards" => $row["ATYellowCards"],
-                        "awayteamredcards" => $row["ATRedCards"]
-                    );
-                    $finalDataSet[] = $fixture;
-                }
-            }
-        }
+            }       
     } elseif (isset($_GET['full_matches'])) {
-        // get data from matches - either a single match or a full seasons match data
+        // get FULL data from matches
         $mainMatchQuery = "SELECT epl_matches.MatchId, epl_matches.MatchDate, epl_matches.KickOffTime, epl_referees.RefereeName, 
         epl_home_team_stats.HomeClubID, epl_away_team_stats.AwayClubID, epl_home_team_stats.HTTotalGoals, epl_home_team_stats.HTHalfTimeGoals, 
         epl_home_team_stats.HTShots, epl_home_team_stats.HTShotsOnTarget, epl_home_team_stats.HTCorners, epl_home_team_stats.HTFouls, 
@@ -317,8 +228,9 @@
 
         $orderQuery = "ORDER BY MatchID ASC";
 
+        // go through all suboptions for the API GET QUERY and vary the final query depending on user selection
         if (isset($_GET['onematch'])) {
-            // singlematch - one match, all details - by match id
+            // singlematch - return one match by match id
             $singleMatchID = (int) $_GET['onematch'];
     
             // check id exists in DB before proceeding!
@@ -359,12 +271,55 @@
                 $conditionQuery = "WHERE epl_seasons.SeasonID = {$seasonID}";
                 $finalQuery = "{$mainMatchQuery} {$conditionQuery} {$orderQuery}";
             } else {
-                echo "404 Not Found";
+                http_response_code(204);
                 echo "no season found";
                 die();
             }
+        } elseif (isset($_GET['fixture'])) {
+            // 1 fixture - get all records throughout history for stats analysis!
+            $fixtureValue = $_GET['fixture'];
+
+            // split the value into two teams with the hashtag delimiter and remove underscores
+            // team names exposed in API to make the API general purpose for users, who wouldnt know clubID
+            trim($fixtureValue);
+            $newFixtureValue = removeUnderScores($fixtureValue);
+            $fixtureValueArray = explode("~", $newFixtureValue);
+            $homeTeamNameSearch = $fixtureValueArray[0];
+            $awayTeamNameSearch = $fixtureValueArray[1];
+
+            if (($homeTeamNameSearch != null) && (strlen($homeTeamNameSearch) > 0) 
+                && ($awayTeamNameSearch != null) && (strlen($awayTeamNameSearch) > 0)) {
+                $homeClubQuery = "SELECT ClubID FROM `epl_clubs` WHERE ClubName LIKE '%{$homeTeamNameSearch}%';";
+                $awayClubQuery = "SELECT ClubID FROM `epl_clubs` WHERE ClubName LIKE '%{$awayTeamNameSearch}%';";
+
+                $homeClubValue = dbQueryCheckReturn($homeClubQuery);
+                $awayClubValue = dbQueryCheckReturn($awayClubQuery);
+
+                if (mysqli_num_rows($homeClubValue) != 0 && mysqli_num_rows($awayClubValue) != 0) {
+                    while ($homeTeamRow = $homeClubValue->fetch_assoc()) {
+                        $homeTeamID = $homeTeamRow['ClubID'];
+                    }
+                    while ($awayTeamRow = $awayClubValue->fetch_assoc()) {
+                        $awayTeamID = $awayTeamRow['ClubID'];
+                    }
+
+                    $defaultTeamQuery = "WHERE (epl_home_team_stats.HomeClubID = {$homeTeamID} AND epl_away_team_stats.AwayClubID = {$awayTeamID})
+                    OR (epl_home_team_stats.HomeClubID = {$awayTeamID} AND epl_away_team_stats.AwayClubID = {$homeTeamID})";
+
+                    if (isset($_GET['strict'])) {
+                        $teamQuery = "WHERE epl_home_team_stats.HomeClubID = {$homeTeamID} AND epl_away_team_stats.AwayClubID = {$awayTeamID}";
+                    } else {
+                        $teamQuery = $defaultTeamQuery;
+                    }
+
+                    $finalQuery = "{$mainMatchQuery} {$teamQuery} {$orderQuery}";
+                } else {
+                    http_response_code(204);
+                    die();
+                }
+            }
         } else {
-            echo "404 Not Found";
+            http_response_code(404);
             die();
         }
 
@@ -422,6 +377,10 @@
             );
             $finalDataSet[] = $singlematch;
         }
+    } else {
+        http_response_code(404);
     }
+    
+    // encode the final data set to JSON
     echo json_encode($finalDataSet);
 ?>
