@@ -19,7 +19,7 @@
     <section class="hero is-info is-bold pt-6">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-4">Match Result</h1>
+                <h1 class="title mt-2">Match Result</h1>
             </div>
         </div>
     </section>
@@ -77,7 +77,53 @@
             echo "<h2>page not found</h2>";
             die();
         } 
-        ?>
+
+        // now analyse the previous 5 fixture for this match!
+        $homeTeamSearched = addUnderScores($hometeam);
+        $awayTeamSearched = addUnderScores($awayteam);
+        $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?full_matches&fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
+        $pastFixturesData = file_get_contents($pastFixturesURL);
+        $pastFixturesList = json_decode($pastFixturesData, true);
+
+        $hometeamtotalgoalsArray = array();
+        $hometeamhalftimegoalsArray = array();
+        $hometeamshotsArray = array();
+        $hometeamshotsontargetArray = array();
+        $hometeamcornersArray = array();
+        $hometeamfoulsArray = array();
+        $hometeamyellowcardsArray = array();
+        $hometeamredcardsArray = array();
+
+        $awayteamtotalgoalsArray = array();
+        $awayteamhalftimegoalsArray = array();
+        $awayteamshotsArray = array();
+        $awayteamshotsontargetArray = array();
+        $awayteamcornersArray = array();
+        $awayteamfoulsArray = array();
+        $awayteamyellowcardsArray = array();
+        $awayteamredcardsArray = array();
+
+        foreach($pastFixturesList as $fixture) {
+            $hometeamtotalgoalsArray[] = $fixture['hometeamtotalgoals'];
+            $hometeamhalftimegoalsArray[] = $fixture['hometeamhalftimegoals'];
+            $hometeamshotsArray[] = $fixture['hometeamshots'];
+            $hometeamshotsontargetArray[] = $fixture['hometeamshotsontarget'];
+            $hometeamcornersArray[] = $fixture['hometeamcorners'];
+            $hometeamfoulsArray[] = $fixture['hometeamfouls'];
+            $hometeamyellowcardsArray[] = $fixture['hometeamyellowcards'];
+            $hometeamredcardsArray[] = $fixture['hometeamredcards'];
+
+            $awayteamtotalgoalsArray[] = $fixture['awayteamtotalgoals'];
+            $awayteamhalftimegoalsArray[] = $fixture['awayteamhalftimegoals'];
+            $awayteamshotsArray[] = $fixture['awayteamshots'];
+            $awayteamshotsontargetArray[] = $fixture['awayteamshotsontarget'];
+            $awayteamcornersArray[] = $fixture['awayteamcorners'];
+            $awayteamfoulsArray[] = $fixture['awayteamfouls'];
+            $awayteamyellowcardsArray[] = $fixture['awayteamyellowcards'];
+            $awayteamredcardsArray[] = $fixture['awayteamredcards'];
+ 
+        }
+    ?>
 
         <div class='master_site_width'>
             <div class='mt-6 mx-4'>
@@ -130,9 +176,47 @@
                         echo "<a type='button' href='{$fixtureAnalysisURL}' class='button is-info is-rounded is-narrow level-item level-right' >Analyse this fixture</a>";
                     ?>
                 </div>
-                <div id='my_comparison_stat_list' class='mt-6'>
+
+                <!-- single match chart -->
+                <div id='my_comparison_stat_list' class='mt-4'>
                     <div class='column' id='match_stat_chart'></div>
                 </div>
+
+                <!-- historic fixtures section -->
+                <div id='my_comparison_stat_list' class='mt-6'>
+                    <div class='my_info_colour'>
+                        <h2 class='title is-3 pt-5 mb-2 my_info_colour'>Historic statistics.</h2>
+                        <?php
+                            echo "<p class='my_info_colour'>View statistics for the five prior matches between {$hometeam} and {$awayteam} </p>";
+                        ?>
+                        <div class='level mt-1 p-5'>
+                            <p class="level-item">Select a statistic to compare :</p>
+                            <div class='control has-icons-left'>
+                                <div class='select is-info'>
+                                    <select class=''>
+                                        <option value="Goals">Goals</option>
+                                        <option value="Half Time Goals">Half Time Goals</option>
+                                        <option value="Shots">Shots</option>
+                                        <option value="Shots On Target">Shots On Target</option>
+                                        <option value="% Shots On target">% Shots On target</option>
+                                        <option value="Corners">Corners</option>
+                                        <option value="Fouls">Fouls</option>
+                                        <option value="Yellow Cards">Yellow Cards</option>
+                                        <option value="Red Cards">Red Cards</option>
+                                    </select>
+                                </div>
+                                <div class="icon is-left">
+                                    <i class="far fa-chart-bar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div>
+                        <div class='column' id='former_fixtures_chart'></div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -215,6 +299,9 @@
 
         var chart = new ApexCharts(document.querySelector("#match_stat_chart"), matchStatChart);
         chart.render();
+    </script>
+    <script>
+
     </script>
 </body>
 
