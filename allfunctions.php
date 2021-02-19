@@ -97,10 +97,22 @@
     function findNextSuggestedSeason() {
         $currentSeason = getCurrentSeason();
         $seasonYearsArray = explode("-", $currentSeason);
-        $seasonStartYear = (int) $seasonYearsArray[0];
         $seasonEndYear = (int) $seasonYearsArray[1];
         $nextSeasonEndYear = $seasonEndYear + 1;
         return "{$seasonEndYear}-{$nextSeasonEndYear}";
+    }
+
+    function removeUnderScores($originalString) {
+        $regex = '/[ ]/i';
+        $newString = preg_replace($regex, ' ', $originalString);
+        return $newString;
+    }
+
+    function addUnderScores($originalString) {
+        $trimmedString = trim($originalString);
+        $regex = '/[ ]/i';
+        $newString = preg_replace($regex, '_', $trimmedString);
+        return $newString;
     }
 
     function findMaxValueAndReturnTeam($arrayToCheck, $arrayTeamNames) {
