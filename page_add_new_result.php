@@ -135,6 +135,9 @@
                                 </select>
                             </div>
                         </div>
+                        <div class='my_inline_divs py-2' id="switch_club_select">
+                            <span class="material-icons" id="switch_club_logo">swap_horiz</span>
+                        </div>
                         <div class="my_inline_divs m-1 mt-4">
                             <div class="select is-danger">
                                 <select class='my_small_form_item mx-2' name='at_selector' id='at_selector'>
