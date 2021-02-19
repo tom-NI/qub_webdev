@@ -3,26 +3,18 @@
     $teamAPIdata = file_get_contents($teamAPIpath);
     $teamList = json_decode($teamAPIdata, true);
 
-    if (isset($_GET['ht_selector'])) {
+    if (isset($_GET['ht_selector']) && isset($_GET['at_selector'])) {
         $HTSelected = $_GET['ht_selector'];
+        $ATSelected = $_GET['at_selector'];
 
         echo "<option value='default'>Select Team</option>";
         foreach($teamList as $singleTeam) {
             if ($HTSelected != null && $HTSelected == $singleTeam['clubname']) {
                 echo "<option value='{$singleTeam['clubname']}' selected='selected'>{$singleTeam['clubname']}</option>";
-            }  else {
-                echo "<option value='{$singleTeam['clubname']}'>{$singleTeam['clubname']}</option>";
-            }
-        }
-    } elseif (isset($_GET['at_selector'])) {
-        $ATSelected = $_GET['at_selector'];
-
-        echo "<option value='default'>Select Team</option>";
-        foreach($teamList as $singleTeamAT) {
-            if ($ATSelected != null && $ATSelected == $singleTeamAT['clubname']) { 
-                echo "<option value='{$singleTeamAT['clubname']}' selected='selected'>{$singleTeamAT['clubname']}</option>";
+            } elseif ($ATSelected != null && $ATSelected == $singleTeam['clubname']) {
+                echo "<option value='{$singleTeam['clubname']}' selected='selected'>{$singleTeam['clubname']}</option>";
             } else {
-                echo "<option value='{$singleTeamAT['clubname']}'>{$singleTeamAT['clubname']}</option>";
+                echo "<option value='{$singleTeam['clubname']}'>{$singleTeam['clubname']}</option>";
             }
         }
     } else {
