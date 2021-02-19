@@ -106,7 +106,6 @@ if ((document.getElementById("ht_selector") !== null)
     // used on both fixture analysis page and new team select page
     if (document.getElementById("switch_club_select") !== null) {
         function switchClubsAround() {
-            console.log("Thomas Kilpatrick");
             let htSelectValue = document.getElementById("ht_selector").value;
             let atSelectValue = document.getElementById("at_selector").value;
 
