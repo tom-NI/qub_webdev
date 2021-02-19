@@ -44,28 +44,6 @@
         }
     }
 
-    function removeUnderScores($originalString) {
-        $regex = '/[ ]/i';
-        $newString = preg_replace($regex, ' ', $originalString);
-        return $newString;
-    }
-
-    function addUnderScores($originalString) {
-        $trimmedString = trim($originalString);
-        $regex = '/[ ]/i';
-        $newString = preg_replace($regex, '_', $trimmedString);
-        return $newString;
-    }
-
-    function checkSeasonRegex($stringToCheck) {
-        $seasonRegex = '/2[0-9]{3}-2[0-9]{3}/';
-        if (preg_match($seasonRegex, $stringToCheck)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     function calculatePercentage($valueToDivide, $total) {
         if ($total != 0) {
             $percent = (double) ((double) $valueToDivide / (double)$total) * 100;
