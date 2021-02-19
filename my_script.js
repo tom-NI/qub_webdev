@@ -78,19 +78,31 @@ if (document.getElementById("yes_radio") !== null) {
 if ((document.getElementById("fixture_ht_selector") !== null) 
     && (document.getElementById("fixture_at_selector") !== null)) {  
         // if both the ht and at selectors are present on the page check their values 
-    // initially disable the search button, as no teams entered yet
-    
-    var htSelectValue = document.getElementById("fixture_ht_selector").value;
-    var atSelectValue = document.getElementById("fixture_at_selector").value;
-    if ((htSelectValue === "default") && (atSelectValue === "default")) {
+    let htSelectValue = document.getElementById("fixture_ht_selector").value;
+    let atSelectValue = document.getElementById("fixture_at_selector").value;
+    if ((htSelectValue === "default") || (atSelectValue === "default")) {
         document.getElementById("fixture_search_btn").disabled = true;
     }
 
+    // club switch button between <select> tags
+    if (document.getElementById("switch_club_select") !== null) {
+        function switchClubsAround() {
+            let htSelectValue = document.getElementById("fixture_ht_selector").value;
+            let atSelectValue = document.getElementById("fixture_at_selector").value;
+
+            let tempClub = htSelectValue;
+            htSelectValue = atSelectValue;
+            atSelectValue = tempClub;
+            document.getElementById("fixture_ht_selector").value = htSelectValue;
+            document.getElementById("fixture_at_selector").value = atSelectValue;
+        }
+        document.getElementById("switch_club_select").addEventListener("click", switchClubsAround);
+    }
+
+    // function disables search button unless user selects values other than default
     function disableFixtureSearchBtn() {
         let htSelectValue = document.getElementById("fixture_ht_selector").value;
         let atSelectValue = document.getElementById("fixture_at_selector").value;
-        console.log(htSelectValue);
-        console.log(atSelectValue);
         
         // if either select values are default, disable the search button
         if (htSelectValue === "default" || atSelectValue === "default") {
@@ -100,6 +112,7 @@ if ((document.getElementById("fixture_ht_selector") !== null)
         }
     }
 
+    // function disallows the selection of the same team for both home and away
     function disallowDuplicateSelection() {
         let htSelectValue = document.getElementById("fixture_ht_selector").value;
         let atSelectValue = document.getElementById("fixture_at_selector").value;
@@ -113,6 +126,8 @@ if ((document.getElementById("fixture_ht_selector") !== null)
     document.getElementById("fixture_ht_selector").addEventListener("change", disallowDuplicateSelection);
     document.getElementById("fixture_at_selector").addEventListener("change", disallowDuplicateSelection);
 }
+
+
 
 // if (document.getElementById("pagination_first_page") !== null) {
 //     function paginationButtonChangeStyle(pageButtonID) {
