@@ -32,4 +32,19 @@
             return false;
         }
     }
+
+    function queryPagination() {
+        $matchCount = (int) $_GET['count'];
+        if (($matchCount > 0) && ($matchCount != null)) {
+            if (isset($_GET['startat'])) {
+                $startFromNum = (int) $_GET['startat'];
+                if ($startFromNum <= $matchCount) {
+                    $limitQuery = "LIMIT {$startFromNum}, {$matchCount}";
+                }
+            } else {
+                $limitQuery = "LIMIT {$matchCount}";
+            }
+        }
+        return $limitQuery;
+    }
 ?>
