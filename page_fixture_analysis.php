@@ -41,8 +41,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div>
-                            <span class="material-icons" id="swap_teams_icon">swap_horiz</span>
+                        <div id="switch_club_select">
+                            <span class="material-icons" id="switch_club_logo">swap_horiz</span>
                         </div>
                         <div class="column level-item">
                             <div class="select control is-expanded is-danger">
