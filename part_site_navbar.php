@@ -23,7 +23,11 @@
                 if (isset($_SESSION)) {
                     echo "<p>Logged in as {$username}</p>";
                 } else {
-                    echo "<a class='button is-outline is-danger' href='' type='button'>User Login</a>";
+                    echo "<a class='button is-outline is-danger' href='' type='button'>
+                    <span class='icon'>
+                        <i class='fas fa-user-alt'></i>
+                    </span>
+                    <span>Login / Register</span></a>";
                 }
             ?>
         </div>
