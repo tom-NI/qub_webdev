@@ -14,7 +14,7 @@
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
-    <?php 
+    <?php
         include("part_site_navbar.php"); 
     ?>
 

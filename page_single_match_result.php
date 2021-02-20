@@ -29,7 +29,7 @@
         include_once("allfunctions.php");
         if (isset($_GET['id'])) {
             $postedMatchID = $_GET['id'];
-            $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?full_matches&onematch={$postedMatchID}";
+            $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/?full_matches&onematch={$postedMatchID}";
             $singleMatchData = file_get_contents($singleMatchURL);
             $singleMatchList = json_decode($singleMatchData, true);
 
@@ -81,7 +81,7 @@
         // now analyse the previous 5 fixture for this match!
         $homeTeamSearched = addUnderScores($hometeam);
         $awayTeamSearched = addUnderScores($awayteam);
-        $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?full_matches&fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
+        $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/?full_matches&fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
         $pastFixturesData = file_get_contents($pastFixturesURL);
         $pastFixturesList = json_decode($pastFixturesData, true);
 

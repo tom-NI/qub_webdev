@@ -28,7 +28,7 @@
         $seasonYearsCorrectOrder = checkSeasonYearOrder($finalUserSeasonEntry);
         
         if (checkSeasonRegex($finalUserSeasonEntry) && $seasonYearsCorrectOrder) {
-            $allSeasonsAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=all_seasons_list";
+            $allSeasonsAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/?list=all_seasons_list";
             $allSeasonsAPIdata = file_get_contents($allSeasonsAPIurl);
             $fixtureList = json_decode($allSeasonsAPIdata, true);
 

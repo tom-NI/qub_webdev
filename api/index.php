@@ -119,7 +119,7 @@
                 }
             } else {
                 // TODO - fetch current season itself!
-                // $currentSeasonAPIURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/api.php?list=current_season";
+                // $currentSeasonAPIURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/api/?list=current_season";
                 // $currentSeasonData = file_get_contents($currentSeasonAPIURL);
                 // $currentSeasonObject = json_decode($currentSeasonData, true);
                 $seasonQuery = "WHERE SeasonID = 30";
