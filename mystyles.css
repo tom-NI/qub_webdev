@@ -60,6 +60,10 @@ input::-webkit-inner-spin-button {
     align-content: center;
 }
 
+.my_admin_logos {
+    color:tomato;
+}
+
 .my_match_metadata {
     display: inline-block;
     padding: 5px;
@@ -112,7 +116,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* all hovering and pseudostates: */
-#master_result_card:hover, .my_nav_menu:hover, .my_social_media_icon:hover,
+.master_result_card:hover, .my_nav_menu:hover, .my_social_media_icon:hover,
 .my_radio_button:hover, .my_carousel_buttons:hover, #switch_club_select:hover {
     cursor: pointer;
     transform: scale(1.03);
