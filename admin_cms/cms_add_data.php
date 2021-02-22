@@ -1,3 +1,10 @@
+<?php
+    // session_start();
+    // if (!isset($_SESSION['site_admin'])) {
+    //     header("Location: login.php");
+    // }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,14 +14,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="mystyles.css">
+    <link rel="stylesheet" href="../stylesheets/mystyles.css">
     <title>Upload match result</title>
 </head>
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
     <?php
-        include("part_site_navbar.php"); 
+        include("../part_pages/part_site_navbar.php"); 
     ?>
 
     <!-- banner at the top of the page! -->
@@ -45,7 +52,7 @@
                 <div class=""> 
                     <p class="p-2">Please enter a season in the format "firstyear-secondyear" with 4 digits for each year e.g. 2000-2001</p>
                     <?php
-                        require("allfunctions.php");
+                        require("../logic_files/allfunctions.php");
                         $suggestedNextSeason = findNextSuggestedSeason();
                         echo "
                         <form method='POST' action='logic_ref_club_season.php' class='level columns'>
@@ -81,7 +88,7 @@
                                     <div class="select is-info my_small_form_item">
                                         <select class='my_small_form_item' name='select_season' id='select_season'>
                                             <?php
-                                                require("part_season_select.php");
+                                                require("../part_pages/part_season_select.php");
                                             ?>
                                         </select>
                                     </div>
@@ -112,7 +119,7 @@
                                 <div class="select is-info my_small_form_item">
                                     <select class='my_small_form_item' name='select_ref' id='select_ref'>
                                         <?php
-                                            require("part_referee_selector.php");
+                                            require("../part_pages/part_referee_selector.php");
                                         ?>
                                     </select>
                                 </div>
@@ -129,7 +136,7 @@
                             <div class="select is-success">
                                 <select class='my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>
                                     <?php
-                                        require("part_team_selector.php");
+                                        require("../part_pages/part_team_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -141,7 +148,7 @@
                             <div class="select is-danger">
                                 <select class='my_small_form_item mx-2' name='at_selector' id='at_selector'>
                                     <?php
-                                        require("part_team_selector.php");
+                                        require("../part_pages/part_team_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -236,8 +243,8 @@
         </div>
     </div>
 
-    <?php include("part_site_footer.php"); ?>
-    <script src="my_script.js"></script>
+    <?php include("../part_pages/part_site_footer.php"); ?>
+    <script src="../scripts/my_script.js"></script>
 </body>
 
 </html>

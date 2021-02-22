@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="mystyles.css">
+    <link rel="stylesheet" href="stylesheets/mystyles.css">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <title>EPL Match Result</title>
 </head>
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
-    <?php include("part_site_navbar.php"); ?>
+    <?php include("part_pages/part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -26,7 +26,7 @@
 
     <!-- main page starts here -->
     <?php
-        include_once("allfunctions.php");
+        include_once("logic_files/allfunctions.php");
         if (isset($_GET['id'])) {
             $postedMatchID = $_GET['id'];
             $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/?full_matches&onematch={$postedMatchID}";
@@ -221,9 +221,9 @@
         </div>
     </div>
     
-    <?php include('part_site_footer.php'); ?>
+    <?php include('part_pages/part_site_footer.php'); ?>
     
-    <script src="my_script.js"></script>
+    <script src="scripts/my_script.js"></script>
     <script>
         let matchStatChart = {
             colors: ['#48c774', '#FF6347'],

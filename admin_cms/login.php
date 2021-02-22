@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../mystyles.css">
+    <link rel="stylesheet" href="../stylesheets/mystyles.css">
     <title>epl - Login / Register</title>
 </head>
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
-    <?php include("../part_site_navbar.php"); ?>
+    <?php include("../part_pages/part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -45,7 +45,7 @@
             </form>
         </div>
     </div>
-    <?php include("../part_site_footer.php"); ?>
+    <?php include("../part_pages/part_site_footer.php"); ?>
     
 </body>
 </html>

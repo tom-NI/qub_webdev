@@ -6,15 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link rel="stylesheet" href="mystyles.css">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheets/mystyles.css">
     
     <title>Fixture Analysis</title>
 </head>
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
-    <?php include("part_site_navbar.php"); ?>
+    <?php include("part_pages/part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -36,7 +36,7 @@
                             <div class="select control is-expanded is-success">
                                 <select name='ht_selector' id='ht_selector' class=''>
                                     <?php
-                                        require("part_team_selector.php");
+                                        require("part_pages/part_team_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -48,7 +48,7 @@
                             <div class="select control is-expanded is-danger">
                                 <select name='at_selector' id='at_selector' class=''>
                                     <?php
-                                        require("part_team_selector.php");
+                                        require("part_pages/part_team_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -71,7 +71,7 @@
     <?php
         if (isset($_GET['ht_selector']) && isset($_GET['at_selector']) 
                 && $_GET['ht_selector'] != "Select Team" && $_GET['at_selector'] != "Select Team") {
-            require("allfunctions.php");
+            require("logic_files/allfunctions.php");
             $teamA = $_GET['ht_selector'];
             $teamB = $_GET['at_selector'];
             
@@ -555,8 +555,8 @@
                     </section>
                 </div>";
         } 
-        require('part_site_footer.php');
+        require('part_pages/part_site_footer.php');
     ?>
-    <script src="my_script.js"></script>
+    <script src="scripts/my_script.js"></script>
 </body>
 </html>

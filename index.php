@@ -1,5 +1,5 @@
 <?php
-    include_once("allfunctions.php");
+    include_once("logic_files/allfunctions.php");
 ?>
 
 <!DOCTYPE html>
@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="mystyles.css">
+    <link rel="stylesheet" href="stylesheets/mystyles.css">
     <title>EPL Match Statistic Finder</title>
 </head>
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
 
     <!-- Full nav bar -->
-    <?php include("part_site_navbar.php"); ?>
+    <?php include("part_pages/part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -90,12 +90,12 @@
                     // make the date decent looking!
                     $finalMatchDate = parseDateLongFormat($matchDate);
 
-                    // <a href='page_single_match_result.php?id={$matchID}'>
                     echo "
+                    <a href='page_single_match_result.php?id={$matchID}'>
                             <div id='' class='master_result_card container box column is-centered my_box_border m-2 mb-5 mt-5 p-1'>
                                 <div class='columns' >
                                     <div class='column'>
-                                        <div class='is-size-6 mt-3 is-size-7-mobile  my_inline_divs level-item'>{$finalMatchDate}</div>";
+                                        <div class='is-size-6 mt-3 is-size-7-mobile my_inline_divs level-item'>{$finalMatchDate}</div>";
 
                                         // TODO TIDY UP CODE FOR SESSIONS
                                         if (false)  {
@@ -147,9 +147,9 @@
                                             alt='Away Logo'>
                                     </div>
                                 </div>
-                            </div>";
+                            </div>
+                        </a>";
                         }
-                        // </a>
             ?>
         </section>
 
@@ -166,7 +166,7 @@
                     <div class="select control is-expanded is-link level-item">
                         <select name="season_pref" id="season_select">
                             <?php
-                                require("part_season_select.php");
+                                require("part_pages/part_season_select.php");
                             ?>
                         </select>
                     </div>
@@ -379,7 +379,7 @@
         </section>
     </div>
     
-    <?php include("part_site_footer.php"); ?>
-    <script src="my_script.js"></script>
+    <?php include("part_pages/part_site_footer.php"); ?>
+    <script src="scripts/my_script.js"></script>
 </body>
 </html>

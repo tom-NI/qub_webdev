@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="mystyles.css">
+    <link rel="stylesheet" href="stylesheets/mystyles.css">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
     <title>Advanced Search</title>
 </head>
 
 <body class="has-navbar-fixed-top is-family-sans-serif	">
     <!-- Full nav bar -->
-    <?php include("part_site_navbar.php"); ?>
+    <?php include("part_pages/part_site_navbar.php"); ?>
 
     <!-- main  banner -->
     <section class="hero is-info is-bold pt-6">
@@ -491,8 +491,8 @@
         </section>
     </div>
 
-    <?php include("part_site_footer.php"); ?>
-    <script src="my_script.js"></script>
+    <?php include("part_pages/part_site_footer.php"); ?>
+    <script src="scripts/my_script.js"></script>
 </body>
 
 </html>
