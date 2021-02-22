@@ -14,9 +14,9 @@
     </div>
     <div class='navbar-menu'>
         <div class='navbar-start'>
-            <a class='navbar-item my_nav_menu m-2' href='index.php'>Home</a>
-            <a class='navbar-item my_nav_menu m-2' href='page_advanced_search.php'>Advanced Search</a>
-            <a class='navbar-item my_nav_menu m-2' href='page_fixture_analysis.php'>Analyse Fixtures</a>
+            <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/index.php'>Home</a>
+            <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_advanced_search.php'>Advanced Search</a>
+            <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_fixture_analysis.php'>Analyse Fixtures</a>
         </div>
         <div class='navbar-item'>
             <?php
