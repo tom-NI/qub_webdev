@@ -90,11 +90,29 @@
                     // make the date decent looking!
                     $finalMatchDate = parseDateLongFormat($matchDate);
 
+                    // <a href='page_single_match_result.php?id={$matchID}'>
                     echo "
-                        <a href='page_single_match_result.php?id={$matchID}'>
-                            <div id='master_result_card' class='container box column is-centered my_box_border m-2 mb-5 mt-5 p-1'>
-                                <div>
-                                    <p class='is-size-6 mt-3 is-size-7-mobile'>{$finalMatchDate}</p>
+                            <div id='' class='master_result_card container box column is-centered my_box_border m-2 mb-5 mt-5 p-1'>
+                                <div class='columns' >
+                                    <div class='column'>
+                                        <div class='is-size-6 mt-3 is-size-7-mobile  my_inline_divs level-item'>{$finalMatchDate}</div>";
+
+                                        // TODO TIDY UP CODE FOR SESSIONS
+                                        if (false)  {
+                                            echo "
+                                            <div class='column is-narrow my_inline_divs is-pulled-right'>
+                                                <div class='level'>
+                                                    <div class='p-1'>
+                                                        <a href='' class='level-item my_admin_logos'><span class='material-icons'>mode_edit</span></a>
+                                                    </div>
+                                                    <div class='p-1'>
+                                                        <a href='' class='level-item my_admin_logos'><span class='material-icons'>delete</span></a>
+                                                    </div>
+                                                </div>
+                                            </div>";
+                                        } 
+                                echo"
+                                    </div>
                                 </div>
                                 <div class='columns is-mobile is-vcentered is-centered'>
                                     <div class='column is-2 is-hidden-mobile is-narrow'>
@@ -129,10 +147,9 @@
                                             alt='Away Logo'>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </form>";
-                }
+                            </div>";
+                        }
+                        // </a>
             ?>
         </section>
 
