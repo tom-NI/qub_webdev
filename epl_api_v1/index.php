@@ -12,9 +12,12 @@
     // todo - where do i add the call to real_escape_string to prevent SQL injections?
     // secure the create, update and delete using a SESSION and security?
 
+    require("part_authenticate.php"); {
+        
+    }
+
     // the final dataset object that EVERY read query will build (to be encoded into JSON)
     $finalDataSet = array();
-
     
     // check through "highest level" GET queries, else return 404
     if (isset($_GET['list'])) {
