@@ -29,8 +29,9 @@
         include_once("logic_files/allfunctions.php");
         if (isset($_GET['id'])) {
             $postedMatchID = $_GET['id'];
-            $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/?full_matches&onematch={$postedMatchID}";
-            $singleMatchData = file_get_contents($singleMatchURL);
+            $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/full_match?onematch={$postedMatchID}";
+            require("part_pages/api_auth.php");
+            $singleMatchData = file_get_contents($singleMatchURL, false, $context);
             $singleMatchList = json_decode($singleMatchData, true);
 
             foreach($singleMatchList as $singleMatchInfo) {

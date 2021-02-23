@@ -73,8 +73,9 @@
 
             <!-- 5 most recent premier league match results -->
             <?php
-                $recentMatchesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/?match_summaries&count=8";
-                $recentMatchesAPIData = file_get_contents($recentMatchesURL);
+                $recentMatchesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/summary?count=8";
+                require("part_pages/api_auth.php");
+                $recentMatchesAPIData = file_get_contents($recentMatchesURL, false, $context);
                 $recentMatchesList = json_decode($recentMatchesAPIData, true);
 
                 foreach ($recentMatchesList as $summary) {
@@ -179,12 +180,13 @@
                 <?php
                     if (isset($_GET['season_pref'])) {
                         $season = $_GET['season_pref'];
-                        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/?full_matches&fullseason={$season}";
+                        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/full_match?fullseason={$season}";
                     } else {
                         $currentMaxSeasonInDB = getCurrentSeason();
-                        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/?full_matches&fullseason={$currentMaxSeasonInDB}";
+                        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/full_match?fullseason={$currentMaxSeasonInDB}";
                     }
-                    $seasonAPIdata = file_get_contents($seasonInfoURL);
+                    require("part_pages/api_auth.php");
+                    $seasonAPIdata = file_get_contents($seasonInfoURL, false, $context);
                     $seasonGameList = json_decode($seasonAPIdata, true);
                 
                     // add all the club names into an array of current season teams
