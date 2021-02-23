@@ -28,16 +28,14 @@
                 $seasonIdQuery = "SELECT SeasonID FROM epl_seasons WHERE SeasonYears LIKE '%{$seasonYear}%' LIMIT 1";
                 $seasonIdData = dbQueryCheckReturn($seasonIdQuery);
                 if (mysqli_num_rows($seasonIdData) == 0) {
-                    http_response_code(204);
-                    echo "No Data for that Season";
+                    http_response_code(404);
                 } else {
                     $row = $seasonIdData->fetch_row();
                     $seasonID = $row[0];
                 }
                 $seasonQuery = "WHERE SeasonID = {$seasonID}";
             } else {
-                echo "400 Bad Request";
-                echo "Please enter a season value in the format YYYY-YYYY";
+                http_response_code(400);
             }
             // always include a recent season to narrow the scope of the request!
             $matchSummaryQuery = "{$mainQuery} {$seasonQuery} {$orderByQuery}";
@@ -53,8 +51,7 @@
             $checkUsersData = dbQueryCheckReturn($checkUserQuery);
 
             if (mysqli_num_rows($checkUsersData) > 1) {
-                echo "400 Bad Request";
-                echo "Ambiguous club, please narrow the search term";
+                http_response_code(400);
             } elseif (mysqli_num_rows($checkUsersData) > 0) {
                 while ($row = $checkUsersData->fetch_assoc()) {
                     $usersSearchedClubID = $row['ClubID'];
@@ -67,8 +64,7 @@
                     $matchSummaryQuery = "{$mainQuery} {$seasonQuery} {$userClubQuery} {$orderByQuery}";
                 }
             } else {
-                http_response_code(204);
-                echo "no club found, please search again";
+                http_response_code(400);
             }
         }
         if (isset($_GET['count'])) {

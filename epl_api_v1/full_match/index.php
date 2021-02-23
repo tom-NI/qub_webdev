@@ -65,8 +65,7 @@
                 $conditionQuery = "WHERE epl_seasons.SeasonID = {$seasonID}";
                 $finalQuery = "{$mainMatchQuery} {$conditionQuery} {$orderQuery}";
             } else {
-                http_response_code(204);
-                echo "no season found";
+                http_response_code(400);
                 die();
             }
         } elseif (isset($_GET['fixture'])) {
@@ -114,12 +113,12 @@
 
                     $finalQuery = "{$mainMatchQuery} {$teamQuery} {$orderQuery} {$limitQuery}";
                 } else {
-                    http_response_code(204);
+                    http_response_code(404);
                     die();
                 }
             }
         } else {
-            http_response_code(404);
+            http_response_code(400);
             die();
         }
 

@@ -71,7 +71,7 @@
             $finalDataSet[] = $season;
         }
     } else {
-        http_response_code(404);
+        http_response_code(400);
     }
 
     // encode the final data set to JSON
