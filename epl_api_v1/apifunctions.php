@@ -1,7 +1,7 @@
 <?php
     // functions here only used within the API to mimic a seperate server
     function dbQueryCheckReturn($sqlQuery) {
-        require("apiconn.php");
+        require("dbconn.php");
         $queriedValue = $conn->query($sqlQuery);
         if (!$queriedValue) {
             echo $conn->error;

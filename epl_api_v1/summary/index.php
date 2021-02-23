@@ -2,9 +2,9 @@
     header('Content-Type: application/json');
 
     // api defines a seperate functions file to mimic a true seperate server!
-    require("apifunctions.php");
+    require("../apifunctions.php");
 
-    require("part_authenticate.php"); {
+    require("../part_authenticate.php"); {
         $finalDataSet = array();
         
         $seasonID = null;

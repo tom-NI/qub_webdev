@@ -8,6 +8,4 @@
     } else 
         // page specific code here;
         // add in the curly brackets on each page for this code block
-    
-
 ?>
