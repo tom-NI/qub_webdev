@@ -74,7 +74,7 @@
 
     function getCurrentSeason() {
         $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/list?current_season";
-        require("../a_assignment_code/part_pages/api_auth.php");
+        require("../part_pages/api_auth.php");
         $currentSeasonData = file_get_contents($currentSeasonURL, false, $context);
         $currentSeasonArray = json_decode($currentSeasonData, true);
 
