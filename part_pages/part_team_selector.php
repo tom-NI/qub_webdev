@@ -8,8 +8,20 @@
         $HTSelected = $_GET['ht_selector'];
         $ATSelected = $_GET['at_selector'];
 
-        echo "<option value='default'>Select Team</option>";
+        // if on an edit page, dont show the default "select team" option
+        if (!isset($homeTeamToEdit)) {
+            echo "<option value='default'>Select Team</option>";
+        }
+        
         foreach($teamList as $singleTeam) {
+            // for edit pages, set the selector to default to the existing team name
+            if (isset($homeTeamToEdit) && $homeTeamToEdit == $singleTeam['clubname']) {
+                echo "<option value='{$singleTeam['clubname']}' selected='selected'>{$singleTeam['clubname']}</option>";
+            }
+            if (isset($awayTeamToEdit) && $awayTeamToEdit == $singleTeam['clubname']) {
+                echo "<option value='{$singleTeam['clubname']}' selected='selected'>{$singleTeam['clubname']}</option>";
+            }
+
             if ($HTSelected != null && $HTSelected == $singleTeam['clubname']) {
                 echo "<option value='{$singleTeam['clubname']}' selected='selected'>{$singleTeam['clubname']}</option>";
             } elseif ($ATSelected != null && $ATSelected == $singleTeam['clubname']) {
