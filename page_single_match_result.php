@@ -83,7 +83,8 @@
         $homeTeamSearched = addUnderScores($hometeam);
         $awayTeamSearched = addUnderScores($awayteam);
         $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/?full_matches&fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
-        $pastFixturesData = file_get_contents($pastFixturesURL);
+        require("../a_assignment_code/part_pages/api_auth.php");
+        $pastFixturesData = file_get_contents($pastFixturesURL, false, $context);
         $pastFixturesList = json_decode($pastFixturesData, true);
 
         $hometeamtotalgoalsArray = array();

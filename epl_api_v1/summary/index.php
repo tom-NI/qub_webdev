@@ -18,6 +18,8 @@
 
         $orderByQuery = "ORDER BY epl_matches.MatchID DESC";
 
+        $matchSummaryQuery = "{$mainQuery} {$orderByQuery}";
+
         if (isset($_GET['season'])) {
             $seasonYear = $_GET["season"];
             
