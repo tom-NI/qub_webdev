@@ -6,7 +6,7 @@
 
     // get all the info from a particular match
     $matchID = $_GET['id'];
-    $matchInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/full_match?onematch={$matchID}";
+    $matchInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match?onematch={$matchID}";
     require("../part_pages/api_auth.php");
     $matchData = file_get_contents($matchInfoURL, false, $context);
     $matchList = json_decode($matchData, true);
