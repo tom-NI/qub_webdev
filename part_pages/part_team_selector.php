@@ -15,16 +15,16 @@
         
         foreach($teamList as $singleTeam) {
             // for edit pages, set the selector to default to the existing team name
-            if (isset($homeTeamToEdit) && $homeTeamToEdit == $singleTeam['clubname']) {
+            if (isset($homeTeamToEdit) && $homeTeamToEdit === $singleTeam['clubname']) {
                 echo "<option value='{$singleTeam['clubname']}' selected='selected'>{$singleTeam['clubname']}</option>";
             }
-            if (isset($awayTeamToEdit) && $awayTeamToEdit == $singleTeam['clubname']) {
+            if (isset($awayTeamToEdit) && $awayTeamToEdit === $singleTeam['clubname']) {
                 echo "<option value='{$singleTeam['clubname']}' selected='selected'>{$singleTeam['clubname']}</option>";
             }
 
-            if ($HTSelected != null && $HTSelected == $singleTeam['clubname']) {
+            if ($HTSelected != null && $HTSelected === $singleTeam['clubname']) {
                 echo "<option value='{$singleTeam['clubname']}' selected='selected'>{$singleTeam['clubname']}</option>";
-            } elseif ($ATSelected != null && $ATSelected == $singleTeam['clubname']) {
+            } elseif ($ATSelected != null && $ATSelected === $singleTeam['clubname']) {
                 echo "<option value='{$singleTeam['clubname']}' selected='selected'>{$singleTeam['clubname']}</option>";
             } else {
                 echo "<option value='{$singleTeam['clubname']}'>{$singleTeam['clubname']}</option>";
