@@ -3,15 +3,24 @@
     // used for the initial load of flat file to db
     function insertAvoidingDuplicates($sqlQuery, $insertQueryIfNull) {
         require("dbconn.php");
-        $databaseReturnedObject = $conn->query($sqlQuery);
+        $conn->set_charset('utf8mb4');
+        $sqlQuery = $mysqli->real_escape_string($sqlQuery);
+        $finalSqlQuery = htmlentities($sqlQuery);
+        $insertQueryIfNull = $mysqli->real_escape_string($insertQueryIfNull);
+        $finalInsertQueryIfNull = htmlentities($insertQueryIfNull);
+        $databaseReturnedObject = $conn->query($finalSqlQuery);
+
         if (mysqli_num_rows($databaseReturnedObject) == 0) {
-            dbQueryAndCheck($insertQueryIfNull);
+            dbQueryAndCheck($finalInsertQueryIfNull);
         }
     }
 
     // query database for info and return the variable
     function dbQueryAndReturnIntValue($sqlQuery) {
         require("dbconn.php");
+        $conn->set_charset('utf8mb4');
+        $sqlQuery = $mysqli->real_escape_string($sqlQuery);
+
         $queryValue = $conn->query($sqlQuery);
         if (!$queryValue) {
             echo $conn->error;
@@ -26,6 +35,9 @@
     // insert data and if it fails, print error message
     function dbQueryAndCheck($sqlQuery) {
         require("dbconn.php");
+        $conn->set_charset('utf8mb4');
+        $sqlQuery = $mysqli->real_escape_string($sqlQuery);
+
         $queryValue = $conn->query($sqlQuery);
         if (!$queryValue) {
             echo $conn->error;
@@ -35,6 +47,9 @@
 
     function dbQueryCheckReturn($sqlQuery) {
         require("dbconn.php");
+        $conn->set_charset('utf8mb4');
+        $sqlQuery = $mysqli->real_escape_string($sqlQuery);
+
         $queriedValue = $conn->query($sqlQuery);
         if (!$queriedValue) {
             echo $conn->error;
@@ -142,6 +157,5 @@
             array_push($arrayToCheck, $valueAsInt);
         }
         return $arrayToCheck;
-        // print_r($arrayToCheck);
     }
 ?>

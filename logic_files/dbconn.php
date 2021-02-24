@@ -7,6 +7,7 @@
     $db = "tkilpatrick01";
 
     $conn = new mysqli($host, $user, $pw, $db);
+    $conn->set_charset('utf8mb4');
     
     if ($conn -> connect_error) {
         echo "there has been an error ".$conn->connect_error; 
