@@ -75,7 +75,7 @@
 
                     <!-- add 1 new match details form  -->
             <div class="field">
-                <form method="POST" action="logic_create_match_record.php">
+                <form method="POST" action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch">
                     <div class="mt-5 p-5 my_info_colour">
                         <div>
                             <h2 class="title is-size-4 my_info_colour">Match Details:</h2>
