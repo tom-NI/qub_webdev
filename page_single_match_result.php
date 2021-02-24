@@ -29,7 +29,7 @@
         include_once("logic_files/allfunctions.php");
         if (isset($_GET['id'])) {
             $postedMatchID = $_GET['id'];
-            $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/full_match?onematch={$postedMatchID}";
+            $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match?onematch={$postedMatchID}";
             require("part_pages/api_auth.php");
             $singleMatchData = file_get_contents($singleMatchURL, false, $context);
             $singleMatchList = json_decode($singleMatchData, true);
@@ -82,7 +82,7 @@
         // now analyse the previous 5 fixture for this match!
         $homeTeamSearched = addUnderScores($hometeam);
         $awayTeamSearched = addUnderScores($awayteam);
-        $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/?full_matches&fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
+        $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/?full_matches&fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
         require("../a_assignment_code/part_pages/api_auth.php");
         $pastFixturesData = file_get_contents($pastFixturesURL, false, $context);
         $pastFixturesList = json_decode($pastFixturesData, true);

@@ -4,12 +4,13 @@
     function insertAvoidingDuplicates($sqlQuery, $insertQueryIfNull) {
         require("dbconn.php");
         $conn->set_charset('utf8mb4');
+        
         $sqlQuery = $mysqli->real_escape_string($sqlQuery);
         $finalSqlQuery = htmlentities($sqlQuery);
         $insertQueryIfNull = $mysqli->real_escape_string($insertQueryIfNull);
         $finalInsertQueryIfNull = htmlentities($insertQueryIfNull);
-        $databaseReturnedObject = $conn->query($finalSqlQuery);
 
+        $databaseReturnedObject = $conn->query($finalSqlQuery);
         if (mysqli_num_rows($databaseReturnedObject) == 0) {
             dbQueryAndCheck($finalInsertQueryIfNull);
         }
@@ -18,9 +19,6 @@
     // query database for info and return the variable
     function dbQueryAndReturnIntValue($sqlQuery) {
         require("dbconn.php");
-        $conn->set_charset('utf8mb4');
-        $sqlQuery = $mysqli->real_escape_string($sqlQuery);
-
         $queryValue = $conn->query($sqlQuery);
         if (!$queryValue) {
             echo $conn->error;
@@ -35,9 +33,6 @@
     // insert data and if it fails, print error message
     function dbQueryAndCheck($sqlQuery) {
         require("dbconn.php");
-        $conn->set_charset('utf8mb4');
-        $sqlQuery = $mysqli->real_escape_string($sqlQuery);
-
         $queryValue = $conn->query($sqlQuery);
         if (!$queryValue) {
             echo $conn->error;
@@ -47,9 +42,6 @@
 
     function dbQueryCheckReturn($sqlQuery) {
         require("dbconn.php");
-        $conn->set_charset('utf8mb4');
-        $sqlQuery = $mysqli->real_escape_string($sqlQuery);
-
         $queriedValue = $conn->query($sqlQuery);
         if (!$queriedValue) {
             echo $conn->error;
@@ -88,7 +80,7 @@
     }
 
     function getCurrentSeason() {
-        $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/list?current_season";
+        $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/list?current_season";
         require("../part_pages/api_auth.php");
         $currentSeasonData = file_get_contents($currentSeasonURL, false, $context);
         $currentSeasonArray = json_decode($currentSeasonData, true);

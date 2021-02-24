@@ -81,11 +81,11 @@
             if (isset($_GET['strict'])) {
                 $nonStrictMode = $_GET['strict'];
                 if ($nonStrictMode) {
-                    $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/full_match?fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}";
+                    $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match?fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}";
                     $strictPara = "Data includes reverse fixture";
                 } 
             } else {
-                $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/full_match?fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}&strict";
+                $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match?fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}&strict";
                 $strictPara = "Data does NOT include reverse fixture";
             }
             require("part_pages/api_auth.php");

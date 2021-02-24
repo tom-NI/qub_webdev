@@ -1,5 +1,5 @@
 <?php
-    $teamAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/list?current_season_clubs";
+    $teamAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/list?current_season_clubs";
     require("api_auth.php");
     $teamAPIdata = file_get_contents($teamAPIpath, false, $context);
     $teamList = json_decode($teamAPIdata, true);
