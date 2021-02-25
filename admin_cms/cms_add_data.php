@@ -8,15 +8,14 @@
     // }
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $state = "got inside the POST";
-
         include_once("../logic_files/allfunctions.php");
         if (isset($_POST['submit_main_match'])) {
-            $state .= "THEN also got inside the match submittal";
+            $submissionDisplayToUser = "";
 
             $seasonName = htmlentities(trim($_POST['select_season']));
             $matchDate = htmlentities(trim($_POST['match_date']));
             $kickOffTime = htmlentities(trim($_POST['kickoff_time']));
+            $kickOffTime = parseTimeForDBEntry($kickOffTime);
             $refereeName = htmlentities(trim($_POST['select_ref']));
             $homeClubName = htmlentities(trim($_POST['ht_selector']));
             $awayClubName = htmlentities(trim($_POST['at_selector']));
@@ -38,32 +37,7 @@
             $awayTeamYellowCards = (int) htmlentities(trim($_POST['at_yellow_cards']));
             $awayTeamRedCards = (int) htmlentities(trim($_POST['at_red_cards']));
 
-            $submissionDisplayToUser .= "{$seasonName}\n";
-            $submissionDisplayToUser .= "{$matchDate}\n";
-            $submissionDisplayToUser .= "{$kickOffTime}\n";
-            $submissionDisplayToUser .= "{$refereeName}\n";
-            $submissionDisplayToUser .= "{$homeClubName}\n";
-            $submissionDisplayToUser .= "{$awayClubName}\n";
-            $submissionDisplayToUser .= "{$homeTeamTotalGoals}\n";
-            $submissionDisplayToUser .= "{$homeTeamHalfTimeGoals}\n";
-            $submissionDisplayToUser .= "{$homeTeamShots}\n";
-            $submissionDisplayToUser .= "{$homeTeamShotsOnTarget}\n";
-            $submissionDisplayToUser .= "{$homeTeamCorners}\n";
-            $submissionDisplayToUser .= "{$homeTeamFouls}\n";
-            $submissionDisplayToUser .= "{$homeTeamYellowCards}\n";
-            $submissionDisplayToUser .= "{$homeTeamRedCards}\n";
-            $submissionDisplayToUser .= "{$awayTeamTotalGoals}\n";
-            $submissionDisplayToUser .= "{$awayTeamHalfTimeGoals}\n";
-            $submissionDisplayToUser .= "{$awayTeamShots}\n";
-            $submissionDisplayToUser .= "{$awayTeamShotsOnTarget}\n";
-            $submissionDisplayToUser .= "{$awayTeamCorners}\n";
-            $submissionDisplayToUser .= "{$awayTeamFouls}\n";
-            $submissionDisplayToUser .= "{$awayTeamYellowCards}\n";
-            $submissionDisplayToUser .= "{$awayTeamRedCards}\n";
-
-            echo $submissionDisplayToUser;
-
-            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch";
+            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch/";
             print_r($endpoint);
             
             // build the data that has to be sent inside the header, into an assoc array
@@ -109,7 +83,7 @@
             print_r($context);
 
             if ($result) {
-                $submissionDisplayToUser = "Match Entry has been successful.  Thank You for adding match results, ";
+                $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
             } else {
                 $submissionDisplayToUser = "Match Entry failed, please try again";
             }
@@ -150,9 +124,8 @@
                 $submissionDisplayToUser = "";
             }
         }
-    } else {
-        echo "
-
+    }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -178,16 +151,14 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title mt-4">Add English Premier League Data</h1>
-                <p class="subtitle is-5 mt-2">Use this form to add certified Football Association Match Results to our
-                    database
+                <p class="subtitle is-5 mt-2">Use this form to add data to our database</p>
             </div>
         </div>
     </section>
 
     <div class="has-text-centered master_site_width container columns" id="my_upload_result_form">
         <div class="column is-8 is-offset-2">
-            <?php if($_SERVER['REQUEST_METHOD'] === "POST") {
-                echo "<div class='mt-5 p-5 my_info_colour'><div><h2>{$state}</h2></div></div>";
+            <?php if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo "<div class='mt-5 p-5 my_info_colour'><div><h2>{$submissionDisplayToUser}</h2></div></div>";
             }
             ?>
@@ -401,5 +372,4 @@
     <script src="../scripts/my_script.js"></script>
 </body>
 
-</html>";
-?>
+</html>
