@@ -2,7 +2,112 @@
     // session_start();
     // if (!isset($_SESSION['site_admin'])) {
     //     header("Location: login.php");
+    //      die();
+    // } else {
+    // 
     // }
+
+    if($_SERVER['REQUEST_METHOD'] === "POST") {
+        include_once("../logic_files/allfunctions.php");
+        if (isset($_POST['submit_main_match'])) {
+            $seasonName = htmlentities(trim($_POST['select_season']));
+            $matchDate = htmlentities(trim($_POST['match_date']));
+            $kickOffTime = htmlentities(trim($_POST['kickoff_time']));
+            $refereeName = htmlentities(trim($_POST['select_ref']));
+            $homeClubName = htmlentities(trim($_POST['ht_selector']));
+            $awayClubName = htmlentities(trim($_POST['at_selector']));
+            $homeTeamTotalGoals = htmlentities(trim($_POST['ht_ft_goals']));
+            $homeTeamHalfTimeGoals = htmlentities(trim($_POST['ht_ht_goals']));
+            $homeTeamShots = htmlentities(trim($_POST['ht_total_shots']));
+            $homeTeamShotsOnTarget = htmlentities(trim($_POST['ht_shots_on_target']));
+            $homeTeamCorners = htmlentities(trim($_POST['ht_corners']));
+            $homeTeamFouls = htmlentities(trim($_POST['ht_total_fouls']));
+            $homeTeamYellowCards = htmlentities(trim($_POST['ht_yellow_cards']));
+            $homeTeamRedCards = htmlentities(trim($_POST['ht_red_cards']));
+
+            $awayTeamTotalGoals = htmlentities(trim($_POST['at_ft_goals']));
+            $awayTeamHalfTimeGoals = htmlentities(trim($_POST['at_ht_goals']));
+            $awayTeamShots = htmlentities(trim($_POST['at_total_shots']));
+            $awayTeamShotsOnTarget = htmlentities(trim($_POST['at_shots_on_target']));
+            $awayTeamCorners = htmlentities(trim($_POST['at_corners']));
+            $awayTeamFouls = htmlentities(trim($_POST['at_total_fouls']));
+            $awayTeamYellowCards = htmlentities(trim($_POST['at_yellow_cards']));
+            $awayTeamRedCards = htmlentities(trim($_POST['at_red_cards']));
+
+            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch";
+            
+            // build the data that has to be sent inside the header, into an assoc array
+            $matchInfoArray = http_build_query(
+                array(
+                    'season' => $seasonName,
+                    'Date' => $matchDate,
+                    'Time' => $kickOffTime,
+                    'refereeName' => $refereeName,
+                    'homeClub' => $homeClubName,
+                    'awayClub' => $awayClubName,
+                    'HT_TotalGoals' => $homeTeamTotalGoals,
+                    'HT_HalfTimeGoals' => $homeTeamHalfTimeGoals,
+                    'HT_Shots' => $homeTeamShots,
+                    'HT_ShotsOnTarget' => $homeTeamShotsOnTarget,
+                    'HT_Corners' => $homeTeamCorners,
+                    'HT_Fouls' => $homeTeamFouls,
+                    'HT_YellowCards' => $homeTeamYellowCards,
+                    'HT_RedCards' => $homeTeamRedCards,
+                    'AT_TotalGoals' => $awayTeamTotalGoals,
+                    'AT_HalfTimeGoals' => $awayTeamHalfTimeGoals,
+                    'AT_Shots' => $awayTeamShots,
+                    'AT_ShotsOnTarget' => $awayTeamShotsOnTarget,
+                    'AT_Corners' => $awayTeamCorners,
+                    'AT_Fouls' => $awayTeamFouls,
+                    'AT_YellowCards' => $awayTeamYellowCards,
+                    'AT_RedCards' => $awayTeamRedCards
+                )
+            );
+
+            $result = postDataInHeader($endpoint, $matchInfoArray);
+            if ($result != null) {
+                $submissionDisplayToUser = "Match Entry has been successful.  Thank You for adding match results, ";
+            } else {
+                $submissionDisplayToUser = "Match Entry failed, please try again";
+            }
+        } elseif (isset($_POST['submit_new_referee'])) {
+            $newRefereeName = htmlentities(trim($_POST['select_season']));
+            $endpoint ="";
+            $newRefArray = http_build_query(
+                array(
+                    'newrefname' => $newRefereeName,
+                    )
+                );
+            $result = postDataInHeader($endpoint, $matchInfoArray);
+            if ($result != null) {
+                $submissionDisplayToUser = "";
+            }
+        } elseif (isset($_POST['submit_new_season'])) {
+            $newSeason = htmlentities(trim($_POST['']));
+            $endpoint ="";
+            $newRefArray = http_build_query(
+                array(
+                    'newseason' => $newSeason,
+                    )
+                );
+            $result = postDataInHeader($endpoint, $matchInfoArray);
+            if ($result != null) {
+                $submissionDisplayToUser = "";
+            }
+        } elseif (isset($_POST['submit_new_club'])) {
+            $newClub = htmlentities(trim($_POST['']));
+            $endpoint ="";
+            $newClubArray = http_build_query(
+                array(
+                    'newclub' => $newClub,
+                    )
+                );
+            $result = postDataInHeader($endpoint, $matchInfoArray);
+            if ($result != null) {
+                $submissionDisplayToUser = "";
+            }
+        }
+    }    
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +142,10 @@
 
     <div class="has-text-centered master_site_width container columns" id="my_upload_result_form">
         <div class="column is-8 is-offset-2">
+            <?php if($_SERVER['REQUEST_METHOD'] === "POST") {
+                echo "<div class='mt-5 p-5 my_info_colour'><div><h2>submissionDisplayToUser</h2></div></div>";
+            }
+            ?>
             <!-- add new club, ref, season data into db! -->
             <div class="mt-5 p-5 my_info_colour">
                 <h2 class="title is-4 my_info_colour">Add new Clubs, Seasons or Referee Names</h2>
@@ -45,19 +154,19 @@
                     <p class="p-2">Please enter Referee in the format "First initial. Surname" e.g. A. Referee</p>
                     <form method="POST" action="logic_ref_club_season.php" class="level columns">
                         <input type="text" required id="new_referee" name="newrefname" class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Referee Name">
-                        <button class="button level-item is-danger m-3 is-rounded ">Add Referee</button>
+                        <button class="button level-item is-danger m-3 is-rounded " value='submit_new_referee'>Add Referee</button>
                     </form>
                 </div>
                 <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Season;</h2>
                 <div class=""> 
                     <p class="p-2">Please enter a season in the format "firstyear-secondyear" with 4 digits for each year e.g. 2000-2001</p>
                     <?php
-                        require("../logic_files/allfunctions.php");
+                        include_once("../logic_files/allfunctions.php");
                         $suggestedNextSeason = findNextSuggestedSeason();
                         echo "
                         <form method='POST' action='logic_ref_club_season.php' class='level columns'>
                             <input type='text' required id='new_season' name='new_season' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Suggested next season to add : {$suggestedNextSeason}'>
-                            <button class='button level-item is-danger m-3 is-rounded my-3 '>Add New Season</button>
+                            <button class='button level-item is-danger m-3 is-rounded my-3 ' value='submit_new_season'>Add New Season</button>
                         </form>";
                     ?>
                 </div>
@@ -68,14 +177,14 @@
                     <form method="POST" action="logic_ref_club_season.php" class="level columns">
                         <input type="text" required id="new_club" name="new_club" class="input level-item column is-3 mx-2 is-one-third-tablet" maxlength="35" placeholder="Club Name (max 35 Characters)">
                         <input type="url" required id="new_club_img_url" name="new_club_img_url" class="input level-item column is-3 mx-5 is-one-third-tablet" placeholder="Club Logo URL">
-                        <button class="button level-item is-danger is-rounded mt-4 my-3 ">Add New Club</button>
+                        <button class="button level-item is-danger is-rounded mt-4 my-3 " value='submit_new_club'>Add New Club</button>
                     </form>
                 </div>
             </div>
 
                     <!-- add 1 new match details form  -->
             <div class="field">
-                <form method="POST" action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch">
+                <form method="POST" action='cms_add_data.php'>
                     <div class="mt-5 p-5 my_info_colour">
                         <div>
                             <h2 class="title is-size-4 my_info_colour">Match Details:</h2>
@@ -224,7 +333,7 @@
                             }
                         ?>
                     <div class="my_grey_highlight_para p-3">
-                        <p>I have checked the data for correctness prior to submitting</p>
+                        <p>I have checked this match data is accurate prior to submitting</p>
                         <input required type="radio" id="yes_radio" name="confirmed_accurate"
                             class="control my_inline_divs ml-5 my-3 my_radio_button">
                         <label class="my_inline_divs ml-1 my_radio_button" for="yes_radio">Yes</label>
@@ -235,7 +344,7 @@
                     <div class="field is-grouped is-grouped-centered mt-2 mb-4">
                         <button type="reset" id="new_match_reset_button"
                             class="button m-2 is-rounded is-info is-outlined">Reset Form</button>
-                        <button type="submit" disabled id="new_match_submit_button"
+                        <button type="submit" disabled value='submit_main_match' id="new_match_submit_button"
                             class="button m-2 is-rounded is-info">Submit</button>
                     </div>
                 </form>
