@@ -150,4 +150,20 @@
         }
         return $arrayToCheck;
     }
+
+    function postDataInHeader($endpoint, $arrayToPost) {
+        $opts = array(
+            'http' => array(
+                'method' => 'POST',
+                'header' => 'Content-Type: application/x-www-form-urlencoded',
+                'content' => $arrayToPost
+            )
+        );
+
+        $context = stream_context_create($opts);
+        $result = file_get_contents($endpoint, false, $context);
+        echo $endpoint;
+        echo $result;
+        return $result;
+    }
 ?>
