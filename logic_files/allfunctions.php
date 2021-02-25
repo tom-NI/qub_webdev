@@ -141,6 +141,11 @@
         return $date->format('l jS F Y');
     }
 
+    function parseTimeForDBEntry($timeFromHTML){
+        $date = new DateTime($timeFromHTML);
+        return $date->format('H:i:s');
+    }
+
     function searchAndAddToArray($valueToAdd, array $arrayToCheck, $itemIndex) {
         $valueAsInt = (int) trim($valueToAdd);
         if ((sizeof($arrayToCheck) - 1) >= $itemIndex) {
