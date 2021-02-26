@@ -167,8 +167,24 @@
 
         $context = stream_context_create($opts);
         $result = file_get_contents($endpoint, false, $context);
-        echo $endpoint;
-        echo $result;
         return $result;
+    }
+
+    // take a users Referee Name entry and parse into a format required for the database
+    function parseRefereeName($userRefNameEntry) {
+        // remove anything not a letter
+        $nonLetterRegex = '/[^A-Za-z- .]/';
+        $cleanedRefNameEntry = preg_replace($nonLetterRegex, '', $userRefNameEntry);
+    
+        // breakup into first and last names;
+        $namesArray = explode(" ", $cleanedRefNameEntry);
+        $firstName = $namesArray[0];
+        $secondName = $namesArray[1];
+        $firstInitial = strtoupper($firstName[0]);
+        $secondNameFirstInitial = strtoupper($secondName[0]);
+        $secondNameRemainder = strtolower(substr($secondName, 1, 40));
+    
+        $finalNameForDB = "{$firstInitial}. {$secondNameFirstInitial}{$secondNameRemainder}";
+        return $finalNameForDB;
     }
 ?>
