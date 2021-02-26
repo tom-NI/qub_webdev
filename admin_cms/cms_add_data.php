@@ -67,20 +67,7 @@
                     'at_redcards' => $awayTeamRedCards
                 )
             );
-            print_r($matchInfoArray);
-
-            $opts = array(
-                'http' => array(
-                    'method' => 'POST',
-                    'header' => 'Content-Type: application/x-www-form-urlencoded',
-                    'content' => $matchInfoArray
-                )
-            );
-            print_r($opts);
-    
-            $context = stream_context_create($opts);
-            $result = file_get_contents($endpoint, false, $context);
-            print_r($context);
+            $result = postDataInHeader($endpoint, $matchInfoArray);
 
             if ($result) {
                 $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
@@ -88,39 +75,34 @@
                 $submissionDisplayToUser = "Match Entry failed, please try again";
             }
         } elseif (isset($_POST['submit_new_referee'])) {
-            $newRefereeName = htmlentities(trim($_POST['newrefname']));
+            $newRefereeName = parseRefereeName(trim($_POST['newrefname']));
+            $cleanedRefereeName = htmlentities($newRefereeName);
             $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/list/addref/?addnewref";
             $newRefArray = http_build_query(
                 array(
                     'refereename' => $newRefereeName,
                     )
                 );
-            $opts = array(
-                'http' => array(
-                    'method' => 'POST',
-                    'header' => 'Content-Type: application/x-www-form-urlencoded',
-                    'content' => $newRefArray
-                )
-            );
-            $context = stream_context_create($opts);
-            $result = file_get_contents($endpoint, false, $context);
+            $result = postDataInHeader($endpoint, $newRefArray);
 
             if ($result === false) {
-                $submissionDisplayToUser = "There has been an issue, the referee has not been added successfully";
+                $submissionDisplayToUser = "There has been an problem, the referee has not been added successfully";
             } else {
                 $submissionDisplayToUser = "Referee Added Successfully";
             }
         } elseif (isset($_POST['submit_new_season'])) {
             $newSeason = htmlentities(trim($_POST['']));
-            $endpoint ="";
-            $newRefArray = http_build_query(
+            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/list/addseason/?addnewseason";
+            $newSeasonArray = http_build_query(
                 array(
                     'newseason' => $newSeason,
                     )
                 );
-            $result = postDataInHeader($endpoint, $matchInfoArray);
-            if ($result != null) {
-                $submissionDisplayToUser = "";
+            $result = postDataInHeader($endpoint, $newSeasonArray);
+            if ($result === false) {
+                $submissionDisplayToUser = "There has been an problem, the season has not been added";
+            } else {
+                $submissionDisplayToUser = "New season has been added successfully";
             }
         } elseif (isset($_POST['submit_new_club'])) {
             $newClub = htmlentities(trim($_POST['']));
