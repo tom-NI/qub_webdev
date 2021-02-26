@@ -37,7 +37,7 @@
             $awayTeamYellowCards = (int) htmlentities(trim($_POST['at_yellow_cards']));
             $awayTeamRedCards = (int) htmlentities(trim($_POST['at_red_cards']));
 
-            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch/";
+            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch/?addnewresult";
             print_r($endpoint);
             
             // build the data that has to be sent inside the header, into an assoc array
@@ -88,16 +88,27 @@
                 $submissionDisplayToUser = "Match Entry failed, please try again";
             }
         } elseif (isset($_POST['submit_new_referee'])) {
-            $newRefereeName = htmlentities(trim($_POST['']));
-            $endpoint = "";
+            $newRefereeName = htmlentities(trim($_POST['newrefname']));
+            $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/list/addref/?addnewref";
             $newRefArray = http_build_query(
                 array(
-                    'newrefname' => $newRefereeName,
+                    'refereename' => $newRefereeName,
                     )
                 );
-            $result = postDataInHeader($endpoint, $matchInfoArray);
-            if ($result != null) {
-                $submissionDisplayToUser = "";
+            $opts = array(
+                'http' => array(
+                    'method' => 'POST',
+                    'header' => 'Content-Type: application/x-www-form-urlencoded',
+                    'content' => $newRefArray
+                )
+            );
+            $context = stream_context_create($opts);
+            $result = file_get_contents($endpoint, false, $context);
+
+            if ($result === false) {
+                $submissionDisplayToUser = "There has been an issue, the referee has not been added successfully";
+            } else {
+                $submissionDisplayToUser = "Referee Added Successfully";
             }
         } elseif (isset($_POST['submit_new_season'])) {
             $newSeason = htmlentities(trim($_POST['']));
@@ -158,19 +169,25 @@
 
     <div class="has-text-centered master_site_width container columns" id="my_upload_result_form">
         <div class="column is-8 is-offset-2">
-            <?php if($_SERVER['REQUEST_METHOD'] === 'POST') {
-                echo "<div class='mt-5 p-5 my_info_colour'><div><h2>{$submissionDisplayToUser}</h2></div></div>";
-            }
+            <?php 
+                if($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    echo "<div class='mt-5 p-5 has-background-warning'>
+                            <div>
+                                <h3 class='title is-5'>{$submissionDisplayToUser}</h3>
+                                <p class='subtitle is-6 pt-3'>Please add further data below</p>
+                            </div>
+                        </div>";
+                }
             ?>
             <!-- add new club, ref, season data into db! -->
             <div class="mt-5 p-5 my_info_colour">
                 <h2 class="title is-4 my_info_colour">Add new Clubs, Seasons or Referee Names</h2>
                 <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Referee;</h2>
                 <div class="">
-                    <p class="p-2">Please enter Referee in the format "First initial. Surname" e.g. A. Referee</p>
+                    <p class="p-2">Please enter Referee's first and last name, with a space between e.g. New Referee</p>
                     <form method="POST" action="cms_add_data.php" class="level columns">
-                        <input type="text" required id="new_referee" name="newrefname" class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Referee Name">
-                        <button class="button level-item is-danger m-3 is-rounded " value='submit_new_referee'>Add Referee</button>
+                        <input type="text" required id="new_referee" name="newrefname" minlength='4' maxlength='30' class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Referee Name">
+                        <button class="button level-item is-danger m-3 is-rounded " name='submit_new_referee'>Add Referee</button>
                     </form>
                 </div>
                 <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Season;</h2>
