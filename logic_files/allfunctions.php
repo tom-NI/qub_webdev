@@ -167,7 +167,11 @@
 
         $context = stream_context_create($opts);
         $result = file_get_contents($endpoint, false, $context);
-        return $result;
+        if (!$result) {
+            return http_response_code(500);
+        } else {
+            return $result;
+        }
     }
 
     // take a users Referee Name entry and parse into a format required for the database
