@@ -9,9 +9,8 @@
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         include_once("../logic_files/allfunctions.php");
+        $submissionDisplayToUser = "";
         if (isset($_POST['submit_main_match'])) {
-            $submissionDisplayToUser = "";
-
             $seasonName = htmlentities(trim($_POST['select_season']));
             $matchDate = htmlentities(trim($_POST['match_date']));
             $kickOffTime = htmlentities(trim($_POST['kickoff_time']));
@@ -105,16 +104,20 @@
                 $submissionDisplayToUser = "New season has been added successfully";
             }
         } elseif (isset($_POST['submit_new_club'])) {
-            $newClub = htmlentities(trim($_POST['']));
-            $endpoint ="";
+            $newClub = htmlentities(trim($_POST['new_club']));
+            $newClubURL = htmlentities(trim($_POST['new_club_img_url']));
+            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/list/addclub/?addnewclub";
             $newClubArray = http_build_query(
                 array(
-                    'newclub' => $newClub,
+                    'newclubname' => $newClub,
+                    'newcluburl' => $newClubURL
                     )
                 );
             $result = postDataInHeader($endpoint, $matchInfoArray);
-            if ($result != null) {
-                $submissionDisplayToUser = "";
+            if ($result === false) {
+                $submissionDisplayToUser = "There has been an problem, the club has not been added";
+            } else {
+                $submissionDisplayToUser = "New club has been added successfully";
             }
         }
     }
@@ -130,7 +133,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../stylesheets/mystyles.css">
-    <title>Upload match result</title>
+    <title>Add data</title>
 </head>
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
@@ -192,7 +195,7 @@
                     <form method="POST" action="cms_add_data.php" class="level columns">
                         <input type="text" required id="new_club" name="new_club" class="input level-item column is-3 mx-2 is-one-third-tablet" maxlength="35" placeholder="Club Name (max 35 Characters)">
                         <input type="url" required id="new_club_img_url" name="new_club_img_url" class="input level-item column is-3 mx-5 is-one-third-tablet" placeholder="Club Logo URL">
-                        <button class="button level-item is-danger is-rounded mt-4 my-3 " value='submit_new_club'>Add New Club</button>
+                        <button class="button level-item is-danger is-rounded mt-4 my-3 " name='submit_new_club'>Add New Club</button>
                     </form>
                 </div>
             </div>
