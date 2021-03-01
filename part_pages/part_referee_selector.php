@@ -6,7 +6,7 @@
     
     // if this isnt an edit page, make the default to be "select ref"
     if (!isset($existingRefereeNameToEdit)) {
-        echo "<option value='default'>Select Referee</option>";
+        echo "<option value=''>Select Referee</option>";
     }
 
     // modify the output based on the page type (edit or add new)
