@@ -37,7 +37,12 @@ input::-webkit-inner-spin-button {
 }
 
 .my_small_form_item {
-    min-width: 150px;
+    width: 150px;
+    padding: 2px;
+}
+
+.my_medium_form_item {
+    min-width: 200px;
     padding: 2px;
 }
 
