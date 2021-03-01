@@ -156,26 +156,28 @@
         <div class="column is-8 is-offset-2">
             <?php 
                 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    echo "<div class='mt-5 p-5 has-background-warning'>
-                            <div>
-                                <h3 class='title is-5'>{$submissionDisplayToUser}</h3>
-                                <p class='subtitle is-6 pt-3'>Please add further data below</p>
-                            </div>
-                        </div>";
+                echo "<div class='mt-5 p-5 has-background-warning'>
+                        <div>
+                            <h3 class='title is-5'>{$submissionDisplayToUser}</h3>
+                            <p class='subtitle is-6 pt-3'>Please add further data below</p>
+                        </div>
+                    </div>";
                 }
             ?>
             <!-- add new club, ref, season data into db! -->
             <div class="mt-5 p-5 my_info_colour">
-                <h2 class="title is-4 my_info_colour">Add new Clubs, Seasons or Referee Names</h2>
-                <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Referee;</h2>
+                <h2 class="title is-3 my_info_colour">Add new Clubs, Seasons or Referee Names</h2>
+                <h3 class="title is-5 mt-5 mb-1 my_info_colour">Add new Referee;</h3>
                 <div class="">
                     <p class="p-2">Please enter Referee's first and last name, with a space between e.g. New Referee</p>
                     <form method="POST" action="cms_add_data.php" class="level columns">
                         <input type="text" required id="new_referee" name="newrefname" minlength='4' maxlength='30' class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Referee Name">
-                        <button class="button level-item is-danger m-3 is-rounded " name='submit_new_referee'>Add Referee</button>
+                        <div class="my_medium_form_item">
+                            <button class="button level-item my_medium_form_item is-danger m-3 is-rounded " name='submit_new_referee'>Add Referee</button>
+                        </div>
                     </form>
                 </div>
-                <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Season;</h2>
+                <h3 class="title is-5 mt-5 mb-1 my_info_colour">Add new Season;</h3>
                 <div class=""> 
                     <p class="p-2">Please enter a season in the format "firstyear-secondyear" with 4 digits for each year e.g. 2000-2001</p>
                     <?php
@@ -184,13 +186,15 @@
                         echo "
                         <form method='POST' action='cms_add_data.php' class='level columns'>
                             <input type='text' required id='new_season' name='new_season' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Suggested next season to add : {$suggestedNextSeason}'>
-                            <button class='button level-item is-danger m-3 is-rounded my-3 ' value='submit_new_season'>Add New Season</button>
+                            <div class='my_medium_form_item'>
+                                <button class='button level-item my_medium_form_item is-danger m-3 is-rounded my-3 ' value='submit_new_season'>Add New Season</button>
+                            </div>
                         </form>";
                     ?>
                 </div>
-                <h2 class="title is-5 mt-5 mb-1 my_info_colour">Add new Club;</h2>
+                <h3 class="title is-5 mt-5 mb-1 my_info_colour">Add new Club;</h3>
                 <div class="">
-                    <p class=" p-1">Please use the official club name and do not abbreviate.  Adding "football club" at the end is not required.</p>
+                    <p class=" p-1">Please use the official club name and do not abbreviate.  Max 2 words.  Adding "football club" at the end is not required.</p>
                     <p class="p-1">Club Logo URL must link directly to a .jpg or .png image file</p>
                     <form method="POST" action="cms_add_data.php" class="level columns">
                         <input type="text" required id="new_club" name="new_club" class="input level-item column is-3 mx-2 is-one-third-tablet" maxlength="35" placeholder="Club Name (max 35 Characters)">
@@ -205,46 +209,47 @@
                 <form method="POST" action='cms_add_data.php'>
                     <div class="mt-5 p-5 my_info_colour">
                         <div>
-                            <h2 class="title is-size-4 my_info_colour">Match Details:</h2>
+                            <h2 class="title is-3 my_info_colour">Add a new match result below:</h2>
+                            <h3 class="title is-size-4 my_info_colour">Match Details:</h3>
                         </div>
                         <div class="mt-4">
                             <div class="my_match_metadata has-text-right">
-                                    <label for="referee" class="my_small_form_item ">Select Season :</label>
+                                <label for="referee" class="my_small_form_item ">Select Season :</label>
+                            </div>
+                            <div class="my_match_metadata">
+                                <div class="select is-info my_medium_form_item">
+                                    <select required class='my_medium_form_item' name='select_season' id='select_season'>
+                                        <?php
+                                            require("../part_pages/part_season_select.php");
+                                        ?>
+                                    </select>
                                 </div>
-                                <div class="my_match_metadata">
-                                    <div class="select is-info my_small_form_item">
-                                        <select class='my_small_form_item' name='select_season' id='select_season'>
-                                            <?php
-                                                require("../part_pages/part_season_select.php");
-                                            ?>
-                                        </select>
-                                    </div>
                             </div>
                         </div>
                         <div>
                             <div class="my_match_metadata control has-text-right">
-                                <label for="match_date" class="my_small_form_item">Match Date:</label>
+                                <label for="match_date" class="my_small_form_item">Match Date :</label>
                             </div>
-                            <div class="my_match_metadata">
+                            <div class="my_match_metadata my_medium_form_item">
                                 <input type="date" id="users_match_date_entry"
-                                    class="my_small_form_item my-1 input is-info" name="match_date">
+                                    class="my_medium_form_item my-1 input is-info" name="match_date">
                             </div>
                         </div>
                         <div>
                             <div class="my_match_metadata has-text-right">
-                                <label for="kick_off_time" class="my_small_form_item">Kick Off Time:</label>
+                                <label for="kick_off_time" class="my_small_form_item">Kick Off Time :</label>
                             </div>
-                            <div class="my_match_metadata">
-                                <input type="time" class="my_small_form_item my-1 input is-info" name="kickoff_time">
+                            <div class="my_match_metadata my_medium_form_item">
+                                <input type="time" class="my_medium_form_item my-1 input is-info" name="kickoff_time">
                             </div>
                         </div>
                         <div>
                             <div class="my_match_metadata has-text-right">
-                                <label for="referee" class="my_small_form_item ">Referee:</label>
+                                <label for="referee" class="my_small_form_item ">Referee :</label>
                             </div>
                             <div class="my_match_metadata">
-                                <div class="select is-info my_small_form_item">
-                                    <select class='my_small_form_item' name='select_ref' id='select_ref'>
+                                <div class="select is-info my_medium_form_item">
+                                    <select required class='my_medium_form_item' name='select_ref' id='select_ref'>
                                         <?php
                                             require("../part_pages/part_referee_selector.php");
                                         ?>
@@ -258,35 +263,37 @@
                         <div class="field">
                             <h2 class="title is-size-4 my_grey_highlight_para">Select Teams:</h2>
                         </div>
-                        <div class="my_inline_divs m-1 mt-4">
-                            <label class="is-size-5 mx-3" id="ht_selector_text" for="ht_selector"><b>Home Team</b></label>
-                            <div class="select is-success">
-                                <select class='my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>
-                                    <?php
-                                        require("../part_pages/part_team_selector.php");
-                                    ?>
-                                </select>
+                        <div class="level">
+                            <div class="my_inline_divs m-1 mt-4">
+                                <label class="is-size-5 mx-3 level-item" id="ht_selector_text" for="ht_selector"><b>Home Team</b></label>
+                                <div class="select is-success level-item">
+                                    <select required class='my_medium_form_item mx-2 ' name='ht_selector' id='ht_selector'>
+                                        <?php
+                                            require("../part_pages/part_team_selector.php");
+                                        ?>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class='my_inline_divs py-2' id="switch_club_select">
-                            <span class="material-icons" id="switch_club_logo">swap_horiz</span>
-                        </div>
-                        <div class="my_inline_divs m-1 mt-4">
-                            <div class="select is-danger">
-                                <select class='my_small_form_item mx-2' name='at_selector' id='at_selector'>
-                                    <?php
-                                        require("../part_pages/part_team_selector.php");
-                                    ?>
-                                </select>
+                            <div class='my_inline_divs py-2' id="switch_club_select">
+                                <span class="material-icons level-item" id="switch_club_logo">swap_horiz</span>
                             </div>
-                            <label class="is-size-5 mx-3" id="at_selector_text" for="at_selector"><b>Away Team</b></label>
+                            <div class="my_inline_divs m-1 mt-4">
+                                <div class="select is-danger level-item">
+                                    <select required class='my_medium_form_item mx-2' name='at_selector' id='at_selector'>
+                                        <?php
+                                            require("../part_pages/part_team_selector.php");
+                                        ?>
+                                    </select>
+                                </div>
+                                <label class="is-size-5 mx-3 level-item" id="at_selector_text" for="at_selector"><b>Away Team</b></label>
+                            </div>
                         </div>
                     </div>
 
                     <!-- entry boxes -->
                     <div class="field ">
                         <div class="field">
-                            <h2 class="title is-size-4 mt-6">Enter Match statistics:</h2>
+                            <h2 class="title is-size-4 mt-6">Enter the new Match statistics:</h2>
                         </div>
                     </div>
                         <?php   
