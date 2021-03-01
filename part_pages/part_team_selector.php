@@ -10,7 +10,7 @@
 
         // if on an edit page, dont show the default "select team" option
         if (!isset($homeTeamToEdit)) {
-            echo "<option value='default'>Select Team</option>";
+            echo "<option value=''>Select Team</option>";
         }
         
         foreach($teamList as $singleTeam) {
@@ -31,7 +31,7 @@
             }
         }
     } else {
-        echo "<option value='default'>Select Team</option>";
+        echo "<option value=''>Select Team</option>";
         foreach($teamList as $singleTeamHome) {
             echo "<option value='{$singleTeamHome['clubname']}'>{$singleTeamHome['clubname']}</option>";
         }
