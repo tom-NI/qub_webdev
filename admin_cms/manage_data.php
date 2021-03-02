@@ -33,13 +33,6 @@
 
     <div class="has-text-centered master_site_width container columns" id="my_upload_result_form">
         <div class="column is-8 is-offset-2">
-
-            <!-- Add new data -->
-            <div class="mt-5 p-5 my_info_colour ">
-                <h2 class="title is-4 my_info_colour">Add Data</h2>
-                <h3 class="title is-6"><a class='my_info_colour' href="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_add_data.php">Click here to go to the add data page</a></h3>
-            </div>
-
             <!-- EDIT CLUB AND REFEREE NAMES -->
             <div class="mt-5 p-5 my_info_colour p-3">
                 <h2 class="title is-4 mb-2 my_info_colour">Edit Names</h2>
