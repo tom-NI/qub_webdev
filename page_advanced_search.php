@@ -80,222 +80,82 @@
                 </div>
             </div>
 
+            <?php
+                if (isset($_GET['userfilter'])) {
+                    $rootURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/summary?";
+                    $urlPathAddons = "";
 
-            <a href="page_single_match_result.php">
-                <div id="master_result_card" class="container box column is-centered my_box_border m-2 mb-5 mt-5 p-1">
-                    <div>
-                        <p class="is-size-6 mt-3 is-size-7-mobile">Match Date : 25 September
-                            2020</p>
-                    </div>
-                    <div class="columns is-mobile is-vcentered is-centered">
-                        <div class="column is-2 is-hidden-mobile is-narrow">
-                            <div class="is-pulled-right">
-                                <img class="image is-48x48 m-1 mb-5 my_image_maintain_aspect"
-                                    src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/mufc.jpg"
-                                    alt="Home Logo">
-                            </div>
-                        </div>
-                        <div class="column">
-                            <h4 class="is-size-6 is-size-6-mobile has-text-right is-narrow">
-                                <b>Manchester United</b>
-                            </h4>
-                        </div>
-                        <div class="column level mt-4 is-narrow">
-                            <div class="my_inline_divs result_box level-left">
-                                <p class="column is-size-5 is-size-6-mobile level-item p-1">1</p>
-                            </div>
-                            <div class="my_inline_divs level-centre">
-                                <h4 class="level-item mx-2 is-size-7-mobile">vs.</h4>
-                            </div>
-                            <div class="my_inline_divs result_box level-right">
-                                <p class="is-size-5 is-size-6-mobile column level-item p-1">0</p>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <h4 class="is-size-6 is-size-6-mobile has-text-left is-narrow">
-                                <b>Newcastle United</b>
-                            </h4>
-                        </div>
-                        <div class="column is-2 is-hidden-mobile is-narrow">
-                            <img class="image is-48x48 m-1 mb-5 my_image_maintain_aspect"
-                                src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/newcastle_united_logo.jpg"
-                                alt="Away Logo">
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a href="page_single_match_result.php">
-                <div id="master_result_card" class="container box column is-centered my_box_border m-2 mb-5 mt-5 p-1">
-                    <div>
-                        <p class="is-size-6 mt-3 is-size-7-mobile">Match Date : 25 September
-                            2020</p>
-                    </div>
-                    <div class="columns is-mobile is-vcentered is-centered">
-                        <div class="column is-2 is-hidden-mobile is-narrow">
-                            <div class="is-pulled-right">
-                                <img class="image is-48x48 m-1 mb-5 my_image_maintain_aspect"
-                                    src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/manchester-city-logo.png"
-                                    alt="Home Logo">
-                            </div>
-                        </div>
-                        <div class="column">
-                            <h4 class="is-size-6 is-size-6-mobile has-text-right is-narrow">
-                                <b>Manchester City</b>
-                            </h4>
-                        </div>
-                        <div class="column level mt-4 is-narrow">
-                            <div class="my_inline_divs result_box level-left">
-                                <p class="column is-size-5 level-item is-size-6-mobile p-1">3</p>
-                            </div>
-                            <div class="my_inline_divs level-centre">
-                                <h4 class="level-item mx-2 is-size-7-mobile">vs.</h4>
-                            </div>
-                            <div class="my_inline_divs result_box level-right">
-                                <p class="is-size-5 column level-item is-size-6-mobile p-1">0</p>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <h4 class="is-size-6 is-size-6-mobile has-text-left is-narrow">
-                                <b>Arsenal</b>
-                            </h4>
-                        </div>
-                        <div class="column is-2 is-hidden-mobile is-narrow">
-                            <img class="image is-48x48 m-1 mb-5 my_image_maintain_aspect"
-                                src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/arsenal_logo.png"
-                                alt="Away Logo">
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a href="page_single_match_result.php">
-                <div id="master_result_card" class="container box column is-centered my_box_border m-2 mb-5 mt-5 p-1">
-                    <div>
-                        <p class="is-size-6 mt-3 is-size-7-mobile">Match Date : 25 September
-                            2020</p>
-                    </div>
-                    <div class="columns is-mobile is-vcentered is-centered">
-                        <div class="column is-2 is-hidden-mobile is-narrow">
-                            <div class="is-pulled-right">
-                                <img class="image is-48x48 m-1 mb-5 my_image_maintain_aspect"
-                                    src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/wolverhampton_wanderers.png"
-                                    alt="Home Logo">
-                            </div>
-                        </div>
-                        <div class="column">
-                            <h4 class="is-size-6 is-size-6-mobile has-text-right is-narrow">
-                                <b>Wolves</b>
-                            </h4>
-                        </div>
-                        <div class="column level mt-4 is-narrow">
-                            <div class="my_inline_divs result_box level-left">
-                                <p class="column is-size-5 level-item is-size-6-mobile p-1">0</p>
-                            </div>
-                            <div class="my_inline_divs level-centre">
-                                <h4 class="level-item mx-2 is-size-7-mobile">vs.</h4>
-                            </div>
-                            <div class="my_inline_divs result_box level-right">
-                                <p class="is-size-5 column level-item is-size-6-mobile p-1">4</p>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <h4 class="is-size-6 is-size-6-mobile has-text-left is-narrow">
-                                <b>Tottenham Hotspur</b>
-                            </h4>
-                        </div>
-                        <div class="column is-2 is-hidden-mobile is-narrow">
-                            <img class="image is-48x48 m-1 mb-5 my_image_maintain_aspect"
-                                src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/tottenham_hotspur_logo.jpg"
-                                alt="Away Logo">
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a href="page_single_match_result.php">
-                <div id="master_result_card" class="container box column is-centered my_box_border m-2 mb-5 mt-5 p-1">
-                    <div>
-                        <p class="is-size-6 mt-3 is-size-7-mobile">Match Date : 25 September
-                            2020</p>
-                    </div>
-                    <div class="columns is-mobile is-vcentered is-centered">
-                        <div class="column is-2 is-hidden-mobile is-narrow">
-                            <div class="is-pulled-right">
-                                <img class="image is-48x48 m-1 mb-5 my_image_maintain_aspect"
-                                    src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/liverpool_fc.jpg"
-                                    alt="Home Logo">
-                            </div>
-                        </div>
-                        <div class="column">
-                            <h4 class="is-size-6 is-size-6-mobile has-text-right is-narrow">
-                                <b>Liverpool</b>
-                            </h4>
-                        </div>
-                        <div class="column level mt-4 is-narrow">
-                            <div class="my_inline_divs result_box level-left">
-                                <p class="column is-size-5 level-item is-size-6-mobile p-1">2</p>
-                            </div>
-                            <div class="my_inline_divs level-centre">
-                                <h4 class="level-item mx-2 is-size-7-mobile">vs.</h4>
-                            </div>
-                            <div class="my_inline_divs result_box level-right">
-                                <p class="is-size-5 column level-item is-size-6-mobile p-1">1</p>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <h4 class="is-size-6 is-size-6-mobile has-text-left is-narrow">
-                                <b>West Ham</b>
-                            </h4>
-                        </div>
-                        <div class="column is-2 is-hidden-mobile is-narrow">
-                            <img class="image is-48x48 m-1 mb-5 my_image_maintain_aspect"
-                                src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/west_ham_united_fc_logo.jpg"
-                                alt="Away Logo">
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a href="page_single_match_result.php">
-                <div id="master_result_card" class="container box column is-centered my_box_border m-2 mb-5 mt-5 p-1">
-                    <div>
-                        <p class="is-size-6 mt-3 is-size-7-mobile">Match Date : 25 September
-                            2020</p>
-                    </div>
-                    <div class="columns is-mobile is-vcentered is-centered">
-                        <div class="column is-2 is-hidden-mobile is-narrow">
-                            <div class="is-pulled-right">
-                                <img class="image is-48x48 m-1 mb-5 my_image_maintain_aspect"
-                                    src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/chelsea_fc.jpg"
-                                    alt="Home Logo">
-                            </div>
-                        </div>
-                        <div class="column">
-                            <h4 class="is-size-6 is-size-6-mobile has-text-right is-narrow">
-                                <b>Chelsea</b>
-                            </h4>
-                        </div>
-                        <div class="column level mt-4 is-narrow">
-                            <div class="my_inline_divs result_box level-left">
-                                <p class="column is-size-5 level-item is-size-6-mobile p-1">1</p>
-                            </div>
-                            <div class="my_inline_divs level-centre">
-                                <h4 class="level-item mx-2 is-size-7-mobile">vs.</h4>
-                            </div>
-                            <div class="my_inline_divs result_box level-right">
-                                <p class="is-size-5 column level-item is-size-6-mobile p-1">0</p>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <h4 class="is-size-6 is-size-6-mobile has-text-left is-narrow">
-                                <b>Leicester</b>
-                            </h4>
-                        </div>
-                        <div class="column is-2 is-hidden-mobile is-narrow">
-                            <img class="image is-48x48 m-1 mb-5 my_image_maintain_aspect"
-                                src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/images/Leicester-City-logo.png"
-                                alt="Away Logo">
-                        </div>
-                    </div>
-                </div>
-            </a>
+                    if (isset($_GET['club_checkbox']) && $_GET['club_checkbox'] == "on") {
+                        $clubValue = htmlentities(trim($_GET['club_select']));
+                        $urlPathAddons .= "&club={$clubValue}";
+                    }
+
+                    if (isset($_GET['filter_season_checkbox']) && $_GET['filter_season_checkbox'] == "on") {
+                        $seasonValue = htmlentities(trim($_GET['filter_season']));
+                        $urlPathAddons .= "&season={$seasonValue}";
+                    }
+
+                    // 
+                    if (isset($_GET['fixture_checkbox']) && $_GET['fixture_checkbox'] == "on") {
+                        $oppositionValue = htmlentities(trim($_GET['opposition_selector']));
+                        $urlPathAddons .= "&fixture={$oppositionValue}";
+                    }
+
+                    if (isset($_GET['result_checkbox']) && $_GET['result_checkbox'] == "on") {
+                        $htResultValue = htmlentities(trim($_GET['ht_result']));
+                        $atResultValue = htmlentities(trim($_GET['at_result']));
+                        if ($htResultValue > 0 && is_numeric($htResultValue) 
+                            && $atResultValue > 0 && is_numeric($atResultValue)) {
+                                $urlPathAddons .= "&htresult={$htResultValue}&atresult={$atResultValue}";
+                        } else {
+                            echo "Unknown scores, please reenter match results";
+                        }
+                    }
+
+                    if (isset($_GET['margin_checkbox']) && $_GET['margin_checkbox'] == "on") {
+                        $marginValue = htmlentities(trim($_GET['user_margin']));
+                        if (is_numeric($user_margin) && $user_margin > 0) {
+                            $urlPathAddons .= "&margin={$marginValue}";
+                        }
+                    }
+
+                    if (isset($_GET['filter_month_search']) && $_GET['filter_month_search'] == "on") {
+                        $monthValue = htmlentities(trim($_GET['filter_month_selector']));
+                        if ($monthValue >= 0 && $monthValue <= 11) {
+                            $urlPathAddons .= "&month={$monthValue}";
+                        } else {
+                            echo "unknown month";
+                            die();
+                        }
+                    }
+
+                    if (isset($_GET['day_checkbox']) && $_GET['day_checkbox'] == "on") {
+                        $dayValue = htmlentities(trim($_GET['day_selector']));
+                        if ($dayValue >= 0 && $dayValue <= 6) {
+                            $urlPathAddons .= "&day={$dayValue}";
+                        } else {
+                            echo "unknown day";
+                            die();
+                        }
+                    }
+
+                    if (isset($_GET['referee_selector']) && $_GET['referee_selector'] == "on") {
+                        $refereeValue = htmlentities(trim($_GET['referee_selector']));
+                        $urlPathAddons .= "&referee={$refereeValue}";
+                    }
+
+                    if (strlen($urlPathAddons) > 0) {
+                        $finalURL = "{$rootURL}{$urlPathAddons}";
+                    } else {
+                        $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/summary?season=2020-2021&count=10";
+                    }
+                } else {
+                    $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/summary?season=2020-2021&count=10";
+                }
+                require("part_pages/api_auth.php");
+                require("part_pages/part_print_summaries.php");
+            ?>
+            
             </section>
 
             <nav class="pagination mt-6 mx-3 mb-4">
@@ -315,7 +175,7 @@
 
         <!-- filter panel -->
         <section id="filter_sidebar" class="mt-6 column is-one-fifth-desktop my_grey_highlight_para">
-            <form action="GET">
+            <form action="page_advanced_search.php?userfilter" method="">
                 <ul>
                     <div>
                         <p class="subtitle my-4">Filter Results:</p>
@@ -323,17 +183,15 @@
                     <div class="field my_grey_border p-2">
                         <div class="level field">
                             <div class="level-left">
-                                <input class="checkbox level-item" type="checkbox" name="club_checkbox"
-                                    id="filter_club_name_checkbox">
+                                <input class="checkbox level-item" type="checkbox" name="club_checkbox" id="filter_club_name_checkbox">
                                 <label for="filter_club_name_checkbox" class="label level-item is-small">Club</label>
                             </div>
                             <div class="level-right">
                                 <div class="select is-info is-small">
-                                    <select class="my_filter_select_width control is-small level-item">
-                                        <option value="placeholder_team_a">team A</option>
-                                        <option value="placeholder_team_b">team B</option>
-                                        <option value="placeholder_team_b">team C</option>
-                                        <option value="placeholder_team_b">etc</option>
+                                    <select class="my_filter_select_width control is-small level-item" name="club_select">
+                                        <?php
+                                            include("part_pages/part_team_selector.php");
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -355,33 +213,30 @@
 
                     <div class="field level">
                         <div class="level-left">
-                            <input class="is-small checkbox level-item" type="checkbox" id="filter_season_checkbox"
-                                name="filter_season_checkbox">
+                            <input class="is-small checkbox level-item" type="checkbox" id="filter_season_checkbox" name="filter_season_checkbox">
                             <label class="label is-small level-item" for="filter_season_checkbox">Season</label>
                         </div>
                         <div class="level-right">
                             <div class="select is-info is-small">
-                                <select name="" id="filter_season_selector" class="level-item" select control is-small">
-                                    <option value="2020-2021_placeholder">2020-2021</option>
-                                    <option value="2019-2020_placeholder">2019-2020</option>
+                                <select name="filter_season" id="filter_season_selector" class="level-item select control is-small">
+                                    <?php
+                                        include("part_pages/part_season_select.php");
+                                    ?>
                                 </select>
                             </div>
                         </div>
                     </div>
 
-
                     <div class="field is-small level">
                         <div class="level-left">
-                            <input class="is-small checkbox level-item" type="checkbox"
-                                id="filter_fixture_selector_checkbox">
-                            <label for="filter_fixture_selector_checkbox"
-                                class="label is-small level-item">Fixture</label>
+                            <input class="is-small checkbox level-item" type="checkbox" id="filter_fixture_selector_checkbox" name="fixture_checkbox">
+                            <label for="filter_fixture_selector_checkbox" class="label is-small level-item">Fixture</label>
                         </div>
                         <div class="select is-info is-small level-right">
-                            <select name="season_selector" id="season_selector"
-                                class="my_filter_select_width select level-item">
-                                <option value="opp1_placeholder">Opposition Team placeholder</option>
-                                <option value="opp2_placeholder">Opposition Team placeholder</option>
+                            <select name="opposition_selector" id="season_selector" class="my_filter_select_width select level-item">
+                                <?php
+                                    include("part_pages/part_team_selector.php");
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -394,12 +249,12 @@
                         </div>
                         <div class="level-right">
                             <div class="control">
-                                <input type="number" id="filter_home_score" placeholder="0" min="0" max="20"
+                                <input name="ht_result" type="number" id="filter_home_score" placeholder="0" min="0" max="20"
                                     class="my_filter_num_entry input is-small is-info level-item">
                             </div>
                             <p class="mx-1"> : </p>
                             <div class="control">
-                                <input type="number" id="filter_away_score" placeholder="0" min="0" max="20"
+                                <input name="at_result" type="number" id="filter_away_score" placeholder="0" min="0" max="20"
                                     class="my_filter_num_entry input is-small is-info level-item">
                             </div>
                         </div>
@@ -408,13 +263,12 @@
 
                     <div class="field level">
                         <div class="level-left">
-                            <input class="is-small checkbox level-item" type="checkbox" id="filter_win_margin_checkbox">
-                            <label for="filter_win_margin_checkbox" class="label is-small level-item">Win Margin
-                                (goals)</label>
+                            <input class="is-small checkbox level-item" type="checkbox" id="filter_win_margin_checkbox" name="margin_checkbox">
+                            <label for="filter_win_margin_checkbox" class="label is-small level-item">Win Margin (goals)</label>
                         </div>
                         <div class="level-right">
                             <input class="input level-item my_filter_num_entry is-info is-small" type="number"
-                                placeholder="0" min="1" max="20" id="filter_win_margin_user_input">
+                                placeholder="0" min="1" max="20" id="filter_win_margin_user_input" name="user_margin">
                         </div>
                     </div>
 
@@ -429,18 +283,18 @@
                             <div class="select">
                                 <select name="filter_month_selector" id="filter_month_selector"
                                     class="my_filter_select_width level-item">
-                                    <option value="month_selector_january">January</option>
-                                    <option value="month_selector_february">February</option>
-                                    <option value="month_selector_march">March</option>
-                                    <option value="month_selector_april">April</option>
-                                    <option value="month_selector_may">May</option>
-                                    <option value="month_selector_june">June</option>
-                                    <option value="month_selector_july">July</option>
-                                    <option selected value="month_selector_aug">August</option>
-                                    <option value="month_selector_sept">September</option>
-                                    <option value="month_selector_oct">October</option>
-                                    <option value="month_selector_nov">November</option>
-                                    <option value="month_selector_dec">December</option>
+                                    <option value="0">January</option>
+                                    <option value="1">February</option>
+                                    <option value="2">March</option>
+                                    <option value="3">April</option>
+                                    <option value="4">May</option>
+                                    <option value="5">June</option>
+                                    <option value="6">July</option>
+                                    <option selected value="7">August</option>
+                                    <option value="8">September</option>
+                                    <option value="9">October</option>
+                                    <option value="10">November</option>
+                                    <option value="11">December</option>
                                 </select>
                             </div>
                         </div>
@@ -449,19 +303,19 @@
 
                     <div class="field level">
                         <div class="level-left">
-                            <input class="checkbox is-small level-item" type="checkbox" id="filter_day_search_checkbox">
+                            <input class="checkbox is-small level-item" type="checkbox" id="filter_day_search_checkbox" name="day_checkbox">
                             <label for="filter_day_search_checkbox" class="label is-small level-item">Day</label>
                         </div>
                         <div class="select is-info is-small level-right">
                             <div class="select">
-                                <select name="" id="filter_day_selector" class="my_filter_select_width level-item">
-                                    <option value="day_selector_mon">Monday</option>
-                                    <option value="day_selector_tues">Tuesday</option>
-                                    <option value="day_selector_wed">Wednesday</option>
-                                    <option value="day_selector_thurs">Thursday</option>
-                                    <option value="day_selector_fri">Friday</option>
-                                    <option selected value="day_selector_sat">Saturday</option>
-                                    <option value="day_selector_sun">Sunday</option>
+                                <select name="day_selector" id="filter_day_selector" class="my_filter_select_width level-item">
+                                    <option value="0">Monday</option>
+                                    <option value="1">Tuesday</option>
+                                    <option value="2">Wednesday</option>
+                                    <option value="3">Thursday</option>
+                                    <option value="4">Friday</option>
+                                    <option selected value="5">Saturday</option>
+                                    <option value="6">Sunday</option>
                                 </select>
                             </div>
                         </div>
@@ -475,10 +329,10 @@
                             <label for="filter_referee_checkbox" class="label is-small level-item">Referee</label>
                         </div>
                         <div class="select is-info is-small my_inline_divs">
-                            <select name="referee_selector" id="filter_referee_selector"
-                                class="my_filter_select_width select">
-                                <option value="referee_name_1">Ref 1</option>
-                                <option value="referee_name_2">Ref 2</option>
+                            <select name="referee_selector" id="filter_referee_selector" class="my_filter_select_width select">
+                                <?php
+                                    include("part_pages/part_referee_selector.php");
+                                ?>
                             </select>
                         </div>
                     </div>
