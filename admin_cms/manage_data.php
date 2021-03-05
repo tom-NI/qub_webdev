@@ -1,5 +1,67 @@
 <?php
     // setup session here
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        require("../logic_files/allfunctions.php");
+
+        if (isset($_POST['change_ref'])) {
+            $refereeToChange = htmlentities(trim($_POST['select_ref']));
+            $newRefereeName = htmlentities(trim($_POST['new_ref_name']));
+            $dataToSend = http_build_query(
+                array(
+                    'ref_to_change' => $refereeToChange,
+                    'new_ref_name' => $newRefereeName
+                )
+            );
+            // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?edit";
+            $apiReply = postDataInHeader($endpoint, $dataToSend);
+
+            // decode reply from API
+            // $apiJSON = json_decode($apiReply, true);
+            // $reply = $row[0]["reply_message"];
+
+        } elseif (isset($_POST['change_club'])) {
+            $clubToChange = htmlentities(trim($_POST['select_club']));
+            $newClubName = htmlentities(trim($_POST['new_club_name']));
+            $dataToSend = http_build_query(
+                array(
+                    'club_to_change' => $clubToChange,
+                    'new_club_name' => $newClubName
+                )
+            );
+            // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?edit";
+            $apiReply = postDataInHeader($endpoint, $dataToSend);
+
+        } elseif (isset($_POST['delete_club'])) {
+            $clubToDelete = htmlentities(trim($_POST['select_delete_club']));
+            $dataToSend = http_build_query(
+                array(
+                    'deleted_club' => $clubToDelete
+                )
+            );
+            // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
+            $apiReply = postDataInHeader($endpoint, $dataToSend);
+        } elseif (isset($_POST['delete_ref'])) {
+            $refereeToDelete = htmlentities(trim($_POST['select_delete_ref']));
+            $dataToSend = http_build_query(
+                array(
+                    'deleted_referee' => $refereeToDelete
+                )
+            );
+            // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
+            $apiReply = postDataInHeader($endpoint, $dataToSend);
+        } elseif (isset($_POST['delete_season'])) {
+            $seasonToDelete = htmlentities(trim($_POST['delete_season_select']));
+            $dataToSend = http_build_query(
+                array(
+                    'deleted_season' => $seasonToDelete
+                )
+            );
+            // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
+            $apiReply = postDataInHeader($endpoint, $dataToSend);
+        } else {
+            echo "unknown Request";
+        }
+    }
 
 ?>
 
@@ -47,27 +109,27 @@
                             </select>
                         </div>
                         <div class='my_medium_textinput_item level-item mx-2'>
-                            <input required class="input" type="text" placeholder="New Referee name">
+                            <input required class="input" type="text" name="new_ref_name" placeholder="New Referee name">
                         </div>
                         <div class='my_medium_form_item level-item'>
-                            <button class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>Change Referee Name</button>
+                            <button name="change_ref" class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>Change Referee Name</button>
                         </div>
                     </form>
                 </div>
                 <div class="my-4">
                     <form action="" method="POST" class="level">
                         <div class="select is-info my_medium_form_item">
-                            <select required class="level-item my_medium_form_item" name="select_ref" id="edit_ref_select">
+                            <select required class="level-item my_medium_form_item" name="select_club" id="edit_club_select">
                                 <?php
                                     require("../part_pages/part_allteams_selector.php");
                                 ?>
                             </select>
                         </div>
                         <div class='my_medium_textinput_item level-item mx-2'>
-                            <input required class="input" type="text" placeholder="New Club name">
+                            <input required class="input" type="text" name="new_club_name" placeholder="New Club name">
                         </div>
                         <div class='my_medium_form_item level-item'>
-                            <button class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>Change Club Name</button>
+                            <button name="change_club" class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>Change Club Name</button>
                         </div>
                     </form>
                 </div>
@@ -80,42 +142,42 @@
                 <div class='my-4 level-item'>
                     <form action="" method="POST" class="level">
                         <div class="select is-info level-item">
-                            <select required class="my_medium_form_item" name="select_ref" id="edit_ref_select">
+                            <select required class="my_medium_form_item" name="select_delete_club" id="delete_club_select">
                                 <?php
                                     require("../part_pages/part_allteams_selector.php");
                                 ?>
                             </select>
                         </div>
                         <div class=''>
-                            <button class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>Delete Club</button>
+                            <button name="delete_club" class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>Delete Club</button>
                         </div>
                     </form>
                 </div>
                 <div class='my-4 level-item'>
                     <form action="" method="POST" class="level">
                         <div class="select is-info ">
-                            <select required class="my_medium_form_item" name="select_ref" id="edit_ref_select">
+                            <select required class="my_medium_form_item" name="select_delete_ref" id="delete_ref_select">
                                 <?php
                                     require("../part_pages/part_referee_selector.php");
                                 ?>
                             </select>
                         </div>
                         <div class=''>
-                            <button class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>Delete Referee</button>
+                            <button name="delete_ref" class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>Delete Referee</button>
                         </div>
                     </form>
                 </div>
                 <div class='my-4 level-item'>
                     <form action="" method="POST" class="level">
                         <div class="select is-info ">
-                            <select required class="my_medium_form_item" name="select_ref" id="edit_ref_select">
+                            <select required class="my_medium_form_item" name="delete_season_select" id="delete_season_select">
                                 <?php
                                     require("../part_pages/part_season_select.php");
                                 ?>
                             </select>
                         </div>
                         <div class=''>
-                            <button class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>Delete Season</button>
+                            <button name="delete_season" class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>Delete Season</button>
                         </div>
                     </form>
                 </div>
