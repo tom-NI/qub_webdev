@@ -11,34 +11,7 @@
         include_once("../logic_files/allfunctions.php");
         $submissionDisplayToUser = "";
         if (isset($_POST['submit_main_match'])) {
-            $seasonName = htmlentities(trim($_POST['select_season']));
-            $matchDate = htmlentities(trim($_POST['match_date']));
-            $kickOffTime = htmlentities(trim($_POST['kickoff_time']));
-            $kickOffTime = parseTimeForDBEntry($kickOffTime);
-            $refereeName = htmlentities(trim($_POST['select_ref']));
-            $homeClubName = htmlentities(trim($_POST['ht_selector']));
-            $awayClubName = htmlentities(trim($_POST['at_selector']));
-            $homeTeamTotalGoals = (int) htmlentities(trim($_POST['ht_ft_goals']));
-            $homeTeamHalfTimeGoals = (int) htmlentities(trim($_POST['ht_ht_goals']));
-            $homeTeamShots = (int) htmlentities(trim($_POST['ht_total_shots']));
-            $homeTeamShotsOnTarget = (int) htmlentities(trim($_POST['ht_shots_on_target']));
-            $homeTeamCorners = (int) htmlentities(trim($_POST['ht_corners']));
-            $homeTeamFouls = (int) htmlentities(trim($_POST['ht_total_fouls']));
-            $homeTeamYellowCards = (int) htmlentities(trim($_POST['ht_yellow_cards']));
-            $homeTeamRedCards = (int) htmlentities(trim($_POST['ht_red_cards']));
-
-            $awayTeamTotalGoals = (int) htmlentities(trim($_POST['at_ft_goals']));
-            $awayTeamHalfTimeGoals = (int) htmlentities(trim($_POST['at_ht_goals']));
-            $awayTeamShots = (int) htmlentities(trim($_POST['at_total_shots']));
-            $awayTeamShotsOnTarget = (int) htmlentities(trim($_POST['at_shots_on_target']));
-            $awayTeamCorners = (int) htmlentities(trim($_POST['at_corners']));
-            $awayTeamFouls = (int) htmlentities(trim($_POST['at_total_fouls']));
-            $awayTeamYellowCards = (int) htmlentities(trim($_POST['at_yellow_cards']));
-            $awayTeamRedCards = (int) htmlentities(trim($_POST['at_red_cards']));
-
-            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch/?addnewresult";
-            print_r($endpoint);
-            
+            require("../part_pages/part_post_match.php");
             // build the data that has to be sent inside the header, into an assoc array
             $matchInfoArray = http_build_query(
                 array(
@@ -66,13 +39,14 @@
                     'at_redcards' => $awayTeamRedCards
                 )
             );
+            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch/?addnewresult";
             $result = postDataInHeader($endpoint, $matchInfoArray);
-
             if ($result) {
                 $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
             } else {
                 $submissionDisplayToUser = "Match Entry failed, please try again";
             }
+            
         } elseif (isset($_POST['submit_new_referee'])) {
             $newRefereeName = parseRefereeName(trim($_POST['newrefname']));
             $cleanedRefereeName = htmlentities($newRefereeName);
@@ -170,7 +144,7 @@
                 <h3 class="title is-5 mt-5 mb-1 my_info_colour">Add new Referee;</h3>
                 <div class="">
                     <p class="p-2">Please enter Referee's first and last name, with a space between e.g. New Referee</p>
-                    <form method="POST" action="cms_add_data.php" class="level columns">
+                    <form method="POST" action="cms_add_data.php?addmatch" class="level columns">
                         <input type="text" required id="new_referee" name="newrefname" minlength='4' maxlength='30' class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Referee Name">
                         <div class="my_medium_form_item">
                             <button class="button level-item my_medium_form_item is-danger m-3 is-rounded " name='submit_new_referee'>Add Referee</button>
