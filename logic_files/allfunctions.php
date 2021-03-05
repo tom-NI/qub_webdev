@@ -81,7 +81,7 @@
 
     function getCurrentSeason() {
         $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/list?current_season";
-        require("part_pages/api_auth.php");
+        require("../part_pages/api_auth.php");
         $currentSeasonData = file_get_contents($currentSeasonURL, false, $context);
         $currentSeasonArray = json_decode($currentSeasonData, true);
 
@@ -157,6 +157,7 @@
     }
 
     function postDataInHeader($endpoint, $arrayToPost) {
+        require("part_pages/api_auth.php");
         $opts = array(
             'http' => array(
                 'method' => 'POST',
@@ -168,7 +169,8 @@
         $context = stream_context_create($opts);
         $result = file_get_contents($endpoint, false, $context);
         if (!$result) {
-            return http_response_code(500);
+            http_response_code(500);
+            return "There was an issue with your registration, please try again";
         } else {
             return $result;
         }
