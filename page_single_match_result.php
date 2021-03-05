@@ -77,13 +77,13 @@
         } else {
             echo "<h2>page not found</h2>";
             die();
-        } 
+        }
 
         // now analyse the previous 5 fixture for this match!
         $homeTeamSearched = addUnderScores($hometeam);
         $awayTeamSearched = addUnderScores($awayteam);
-        $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/?full_matches&fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
-        require("../a_assignment_code/part_pages/api_auth.php");
+        $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match?fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
+        require("part_pages/api_auth.php");
         $pastFixturesData = file_get_contents($pastFixturesURL, false, $context);
         $pastFixturesList = json_decode($pastFixturesData, true);
 
