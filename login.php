@@ -1,50 +1,51 @@
-<?php    
-    if (isset($POST['user_email'])) {
-        $userEmail = isset($POST['user_email']);
-        $userPassword = isset($POST['user_password']);
-        $securePassword = password_hash($userPassword1, PASSWORD_DEFAULT);
+<?php  
+    include_once("logic_files/allfunctions.php");
+    include_once("part_pages/api_auth.php");
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['signin_btn'])) {
+            $userEmail = isset($_POST['user_email']);
+            $userPassword = isset($_POST['user_password']);
+            $securePassword = password_hash($userPassword1, PASSWORD_DEFAULT);
 
-        // send user data in a header to API
-        $userInfoArray = http_build_query(
-            array(
-                'email' => $userFirstName,
-                'hashedpassword' => $securePassword
-            )
-        );
-        $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users?validate";
-        $apiReply = postDataInHeader($endpoint, $userInfoArray);
+            // send user data in a header to API
+            $userInfoArray = http_build_query(
+                array(
+                    'email' => $userFirstName,
+                    'hashedpassword' => $securePassword
+                )
+            );
+            $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?validate";
+            $apiReply = postDataInHeader($endpoint, $userInfoArray);
 
-        // decode reply from API
-        $apiJSON= json_decode($apiReply, true);
-        foreach($arrayjson as $row) {
-            $data = $row["city"];
-            echo "<div> {$data} </div>";
-        }
+            // decode reply from API
+            $apiJSON = json_decode($apiReply, true);
+            $reply = $row[0]["reply_message"];
 
-
-    } elseif (isset($POST['register_firstname'])) {
-        $displayMessage = "";
-        // check email is unique first before registering
-        $stmt = $conn->prepare("SELECT * FROM epl_admins WHERE AdminEmail = ?");
-        $userEmail = htmlentities(trim($POST['register_email']));
-        $stmt -> bind_param("s", $userEmail);
-        $stmt -> execute();
-        $stmt -> store_result();
-
-        if ($stmt->num_rows > 0) {
-            $displayMessage = "That email already exists, please sign in";
-        } else {
-            $userFirstName = htmlentities(trim($POST['register_firstname']));
-            $userSurname = htmlentities(trim($POST['register_surname']));
-            $userEmail = htmlentities(trim($POST['register_email']));
-            $userPassword1 = htmlentities(trim($POST['register_pw1']));
-            $userPassword2 = htmlentities(trim($POST['register_pw2']));
+            if ($reply != "Logged in") {
+                header("Location: login.php");
+                $displayMessage = $reply;
+            } else {
+                // TODO IS THIS EVEN CORRECT TO START A SESSION?
+                session_start();
+                $_SESSION['registereduser'];
+                header("Location: admin_cms/manage_data.php");
+                $displayMessage = "Welcome";
+            }
+        } elseif (isset($_POST['register_btn'])) {
+            $displayMessage = "";
+            $userFirstName = htmlentities(trim($_POST['register_firstname']));
+            $userSurname = htmlentities(trim($_POST['register_surname']));
+            $userEmail = htmlentities(trim($_POST['register_email']));
+            $userPassword1 = htmlentities(trim($_POST['register_pw1']));
+            $userPassword2 = htmlentities(trim($_POST['register_pw2']));
 
             if ($userPassword1 != $userPassword2) {
                 $displayMessage = "Passwords Dont Match, please try again";
             } else {
                 $securePassword = password_hash($userPassword1, PASSWORD_DEFAULT);
             }
+
+            // TODO NEEDS A DIE STATEMENT IN HERE SOMEWHERE
 
             // send user data in a header to API
             $userInfoArray = http_build_query(
@@ -55,11 +56,15 @@
                     'hashedpassword' => $securePassword
                 )
             );
-            $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users?register";
-            postDataInHeader($endpoint, $userInfoArray);
-        }
-    } 
+            $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?register";
+            $apiReply = postDataInHeader($endpoint, $userInfoArray);
 
+            // decode reply from API
+            $apiJSON = json_decode($apiReply, true);
+            $displayMessage = $apiJSON[0]["reply_message"];
+            header("Location: login.php");
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -88,19 +93,28 @@
     </section>
 
     <div class="columns is-desktop master_site_width mt-6 ">
-        <div class="column is-6 is-offset-3 ">
-            <div class="my_grey_highlight_para p-3">
-                <h2 class='title is-4 pt-4'>Sign In:</h2>
+        <div class="column is-6 is-offset-3">
+            <?php 
+                if($_SERVER['REQUEST_METHOD'] === 'POST') {
+                echo "<div class='my-3 p-5 has-background-warning'>
+                        <div>
+                            <h3 class='title is-5'>{$displayMessage}</h3>
+                        </div>
+                    </div>";
+                }
+            ?>
+            <div class="my_info_colour p-3">
+                <h2 class='title is-4 pt-4 my_info_colour'>Sign In:</h2>
                 <form class='form control' method="POST"
                     action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/manage_data.php">
                     <div class="field">
-                        <label class='label mt-3 has-text-left' for="">Email address:</label>
+                        <label class='label mt-3 has-text-left my_info_colour' for="">Email address:</label>
                         <div class="control">
                             <input class='input has-text-left' required type="text" placeholder='email@email.com' name="user_email">
                         </div>
                     </div>
                     <div class="field mt-3">
-                        <label class='label has-text-left'>Password:</label>
+                        <label class='label has-text-left my_info_colour'>Password:</label>
                         <div class="control">
                             <input class='input has-text-left' required type="password" placeholder='password' name="user_password">
                         </div>
@@ -139,12 +153,13 @@
                             <div class='control'>
                                 <input class="input " required name="register_pw1" type="password" placeholder="Enter your desired password here - Minimum 8 characters">
                             </div>
+                            <label class="label mt-3 has-text-left" for="">Please reenter password :</label>
                             <div class='control'>
-                                <input class="input mt-3" required name="register_pw2" type="password" placeholder="Reenter password here - identical to the password above">
+                                <input class="input" required name="register_pw2" type="password" placeholder="Reenter password here - identical to the password above">
                             </div>
                         </div>
                         <div>
-                            <button class="button is-danger m-4">Register</button>
+                            <button class="button is-danger m-4" name="register_btn">Register</button>
                         </div>
                     </form>
                 </div>
