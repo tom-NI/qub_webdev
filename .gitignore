@@ -1,0 +1,5 @@
+#search the "Ignoring Files" section of the following webpage;
+#https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring
+
+#ignore all of googles update files!
+a_assignment_code/**/*.DS_Store
