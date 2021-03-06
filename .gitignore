@@ -3,3 +3,4 @@
 
 #ignore all of googles update files!
 a_assignment_code/**/*.DS_Store
+.DS_Store
