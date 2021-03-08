@@ -27,7 +27,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 Thank you for your interest in the English Premier League API.
 
 Your API key is : 
-{$userskey}.  
+{$userskey}
 
 Please keep this key secure and do not share with anyone.
 Please also keep this email as you may need to refer to it in future.
