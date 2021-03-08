@@ -1,5 +1,5 @@
 <?php
-    $refereeAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/list?ref_list";
+    $refereeAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/referees?ref_list";
     require("api_auth.php");
     $refereeAPIdata = file_get_contents($refereeAPIpath, false, $context);
     $refereeList = json_decode($refereeAPIdata, true);

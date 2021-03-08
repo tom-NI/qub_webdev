@@ -82,7 +82,7 @@
 
             <?php
                 if (isset($_GET['userfilter'])) {
-                    $rootURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/summary?";
+                    $rootURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?";
                     $urlPathAddons = "";
 
                     if (isset($_GET['club_checkbox']) && $_GET['club_checkbox'] == "on") {
@@ -147,10 +147,10 @@
                     if (strlen($urlPathAddons) > 0) {
                         $finalURL = "{$rootURL}{$urlPathAddons}";
                     } else {
-                        $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/summary?season=2020-2021&count=10";
+                        $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021&count=10";
                     }
                 } else {
-                    $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/summary?season=2020-2021&count=10";
+                    $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021&count=10";
                 }
                 require("part_pages/api_auth.php");
                 require("part_pages/part_print_summaries.php");

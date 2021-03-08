@@ -2,36 +2,40 @@
     include_once("logic_files/allfunctions.php");
     include_once("part_pages/api_auth.php");
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['signin_btn'])) {
-            $userEmail = isset($_POST['user_email']);
-            $userPassword = isset($_POST['user_password']);
+        if (isset($_GET['signin_btn'])) {
+            $userEmail = htmlentities(trim($_POST['user_email']));
+            $userPassword = htmlentities(trim($_POST['user_password']));
             $securePassword = password_hash($userPassword1, PASSWORD_DEFAULT);
+            
+            $stmt = $conn->prepare("SELECT `Password` FROM `epl_admins` WHERE AdminEmail = ?");
+            $stmt -> bind_param("s", $userEmail);
+            $stmt -> execute();
+            $stmt -> store_result();
+            $stmt -> bind_result($passwordToCompare);
+            $stmt -> fetch();
 
-            // send user data in a header to API
-            $userInfoArray = http_build_query(
-                array(
-                    'email' => $userFirstName,
-                    'hashedpassword' => $securePassword
-                )
-            );
-            $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?validate";
-            $apiReply = postDataInHeader($endpoint, $userInfoArray);
-
-            // decode reply from API
-            $apiJSON = json_decode($apiReply, true);
-            $reply = $row[0]["reply_message"];
-
-            if ($reply != "Logged in") {
-                header("Location: login.php");
-                $displayMessage = $reply;
+            if ($stmt->num_rows > 0) {
+                // user email exists, check hashed passwords
+                if (password_verify($passwordToCompare, $hashedPassword)) {
+                    http_response_code(200);
+                    $replyMessage = "Logged in";
+                    die();
+                } else {
+                    http_response_code(404);
+                    $replyMessage = "Password Doesnt match, please reset password";
+                    die();
+                }
             } else {
-                // TODO IS THIS EVEN CORRECT TO START A SESSION?
-                session_start();
-                $_SESSION['registereduser'];
-                header("Location: admin_cms/manage_data.php");
-                $displayMessage = "Welcome";
+                http_response_code(404);
+                $replyMessage = "Account doesnt exist, please register first";
+                die();
             }
-        } elseif (isset($_POST['register_btn'])) {
+        } else {
+            http_response_code(400);
+            $replyMessage = "Unknown Request, please try again";
+        }
+
+        if (isset($_POST['register_btn'])) {
             $displayMessage = "";
             $userFirstName = htmlentities(trim($_POST['register_firstname']));
             $userSurname = htmlentities(trim($_POST['register_surname']));

@@ -73,7 +73,7 @@
 
             <!-- most recent premier league match results -->
             <?php
-                $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/summary?count=8";
+                $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?count=8";
                 require("part_pages/api_auth.php");
                 require("part_pages/part_print_summaries.php");
             ?>
@@ -105,10 +105,10 @@
                 <?php
                     if (isset($_GET['season_pref'])) {
                         $season = $_GET['season_pref'];
-                        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match?fullseason={$season}";
+                        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fullseason={$season}";
                     } else {
                         $currentMaxSeasonInDB = getCurrentSeason();
-                        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match?fullseason={$currentMaxSeasonInDB}";
+                        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fullseason={$currentMaxSeasonInDB}";
                     }
                     require("part_pages/api_auth.php");
                     $seasonAPIdata = file_get_contents($seasonInfoURL, false, $context);

@@ -2,10 +2,10 @@
     require("allfunctions.php");
     if (isset($_GET['season_pref'])) {
         $season = $_GET['season_pref'];
-        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/?full_matches&fullseason={$season}";
+        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/?full_matches&fullseason={$season}";
     } else {
         $currentMaxSeasonInDB = getCurrentSeason();
-        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/epl_api_v1/?full_matches&fullseason={$currentMaxSeasonInDB}";
+        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/?full_matches&fullseason={$currentMaxSeasonInDB}";
     }
     $seasonAPIdata = file_get_contents($seasonInfoURL);
     $seasonGameList = json_decode($seasonAPIdata, true);
