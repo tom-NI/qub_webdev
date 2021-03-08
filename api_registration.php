@@ -29,8 +29,7 @@ Thank you for your interest in the English Premier League API.
 Your API key is : 
 {$userskey}
 
-Please keep this key secure and do not share with anyone.
-Please also keep this email as you may need to refer to it in future.
+Please retain this email and keep your key secure - do not share the API key with anyone.
 
 Kind Regards,
 API team.
