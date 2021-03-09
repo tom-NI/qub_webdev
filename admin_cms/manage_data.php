@@ -1,5 +1,6 @@
 <?php
-    // setup session here
+    session_start();
+    
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         require("../logic_files/allfunctions.php");
 

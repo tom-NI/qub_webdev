@@ -1,11 +1,6 @@
 <?php
-    // session_start();
-    // if (!isset($_SESSION['site_admin'])) {
-    //     header("Location: login.php");
-    //      die();
-    // } else {
-    // 
-    // }
+    session_start();
+    // todo validate sessions
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         include_once("../logic_files/allfunctions.php");
@@ -39,7 +34,7 @@
                     'at_redcards' => $awayTeamRedCards
                 )
             );
-            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch/?addnewresult";
+            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches/?addnewresult";
             $result = postDataInHeader($endpoint, $matchInfoArray);
             if ($result) {
                 $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
@@ -50,7 +45,7 @@
         } elseif (isset($_POST['submit_new_referee'])) {
             $newRefereeName = parseRefereeName(trim($_POST['newrefname']));
             $cleanedRefereeName = htmlentities($newRefereeName);
-            $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/list/addref/?addnewref";
+            $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/referees/?addnewref";
             $newRefArray = http_build_query(
                 array(
                     'refereename' => $newRefereeName,
@@ -65,7 +60,7 @@
             }
         } elseif (isset($_POST['submit_new_season'])) {
             $newSeason = htmlentities(trim($_POST['']));
-            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/list/addseason/?addnewseason";
+            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/seasons/?addnewseason";
             $newSeasonArray = http_build_query(
                 array(
                     'newseason' => $newSeason,
@@ -80,7 +75,7 @@
         } elseif (isset($_POST['submit_new_club'])) {
             $newClub = htmlentities(trim($_POST['new_club']));
             $newClubURL = htmlentities(trim($_POST['new_club_img_url']));
-            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/list/addclub/?addnewclub";
+            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/clubs/?addnewclub";
             $newClubArray = http_build_query(
                 array(
                     'newclubname' => $newClub,

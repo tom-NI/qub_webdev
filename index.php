@@ -1,5 +1,6 @@
 <?php
     include_once("logic_files/allfunctions.php");
+    session_start();
 ?>
 
 <!DOCTYPE html>

@@ -1,91 +1,91 @@
 <?php
-    // session_start();
-    // if (!isset($_SESSION['site_admin'])) {
-    //     header("Location: login.php");
-    // }
+    session_start();
+    if (!isset($_SESSION['sessiontype'])) {
+        header("Location: login.php");
+    } elseif (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] == "admin") {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_GET['editmatch'])) {
+                $noMatchIDisSelected = false;
+                include_once("../logic_files/allfunctions.php");
+                require("../part_pages/part_post_match.php");
+                $matchToChangeID = htmlentities(trim($_POST['id']));
+                $justForChange = htmlentities(trim($_POST['change_justification']));
+                
+                // build the data that has to be sent inside the header, into an assoc array
+                $matchInfoArray = http_build_query(
+                    array(
+                        'id' => $matchToChangeID,
+                        'change_justification' => $justForChange,
+                        'date' => $matchDate,
+                        'time' => $kickOffTime,
+                        'refereename' => $refereeName,
+                        'homeclub' => $homeClubName,
+                        'awayclub' => $awayClubName,
+                        'ht_totalgoals' => $homeTeamTotalGoals,
+                        'ht_halftimegoals' => $homeTeamHalfTimeGoals,
+                        'ht_shots' => $homeTeamShots,
+                        'ht_shotsontarget' => $homeTeamShotsOnTarget,
+                        'ht_corners' => $homeTeamCorners,
+                        'ht_fouls' => $homeTeamFouls,
+                        'ht_yellowcards' => $homeTeamYellowCards,
+                        'ht_redcards' => $homeTeamRedCards,
+                        'at_totalgoals' => $awayTeamTotalGoals,
+                        'at_halftimegoals' => $awayTeamHalfTimeGoals,
+                        'at_shots' => $awayTeamShots,
+                        'at_shotsontarget' => $awayTeamShotsOnTarget,
+                        'at_corners' => $awayTeamCorners,
+                        'at_fouls' => $awayTeamFouls,
+                        'at_yellowcards' => $awayTeamYellowCards,
+                        'at_redcards' => $awayTeamRedCards
+                    )
+                );
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_GET['editmatch'])) {
-            $noMatchIDisSelected = false;
-            include_once("../logic_files/allfunctions.php");
-            require("../part_pages/part_post_match.php");
-            $matchToChangeID = htmlentities(trim($_POST['id']));
-            $justForChange = htmlentities(trim($_POST['change_justification']));
-            
-            // build the data that has to be sent inside the header, into an assoc array
-            $matchInfoArray = http_build_query(
-                array(
-                    'id' => $matchToChangeID,
-                    'change_justification' => $justForChange,
-                    'date' => $matchDate,
-                    'time' => $kickOffTime,
-                    'refereename' => $refereeName,
-                    'homeclub' => $homeClubName,
-                    'awayclub' => $awayClubName,
-                    'ht_totalgoals' => $homeTeamTotalGoals,
-                    'ht_halftimegoals' => $homeTeamHalfTimeGoals,
-                    'ht_shots' => $homeTeamShots,
-                    'ht_shotsontarget' => $homeTeamShotsOnTarget,
-                    'ht_corners' => $homeTeamCorners,
-                    'ht_fouls' => $homeTeamFouls,
-                    'ht_yellowcards' => $homeTeamYellowCards,
-                    'ht_redcards' => $homeTeamRedCards,
-                    'at_totalgoals' => $awayTeamTotalGoals,
-                    'at_halftimegoals' => $awayTeamHalfTimeGoals,
-                    'at_shots' => $awayTeamShots,
-                    'at_shotsontarget' => $awayTeamShotsOnTarget,
-                    'at_corners' => $awayTeamCorners,
-                    'at_fouls' => $awayTeamFouls,
-                    'at_yellowcards' => $awayTeamYellowCards,
-                    'at_redcards' => $awayTeamRedCards
-                )
-            );
-
-            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch/?addnewresult";
-            $result = postDataInHeader($endpoint, $matchInfoArray);
-            if ($result) {
-                $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
-            } else {
-                $submissionDisplayToUser = "Match Entry failed, please try again";
+                $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch/?addnewresult";
+                $result = postDataInHeader($endpoint, $matchInfoArray);
+                if ($result) {
+                    $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
+                } else {
+                    $submissionDisplayToUser = "Match Entry failed, please try again";
+                }
+                
             }
-            
+        } elseif (isset($_GET['id'])) {
+            $noMatchIDisSelected = false;
+            // GET AND DISPLAY ALL THE INFORMATION INTO THE FORM FOR THE USER TO EDIT`
+            // get all the info from a particular match and load it into the form!
+            $matchID = $_GET['id'];
+            $matchInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$matchID}";
+            require("../part_pages/api_auth.php");
+            $matchData = file_get_contents($matchInfoURL, false, $context);
+            $matchList = json_decode($matchData, true);
+        
+            foreach ($matchList as $eachItemName) {
+                $matchdate = $eachItemName["matchdate"];
+                $kickofftime = $eachItemName["kickofftime"];
+                $existingRefereeNameToEdit = $eachItemName["refereename"];
+                $homeTeamToEdit = $eachItemName["hometeam"];
+                $awayTeamToEdit = $eachItemName["awayteam"];
+                $hometeamtotalgoals = $eachItemName["hometeamtotalgoals"];
+                $hometeamhalftimegoals = $eachItemName["hometeamhalftimegoals"];
+                $hometeamshots = $eachItemName["hometeamshots"];
+                $hometeamshotsontarget = $eachItemName["hometeamshotsontarget"];
+                $hometeamcorners = $eachItemName["hometeamcorners"];
+                $hometeamfouls = $eachItemName["hometeamfouls"];
+                $hometeamyellowcards = $eachItemName["hometeamyellowcards"];
+                $hometeamredcards = $eachItemName["hometeamredcards"];
+                $awayteamtotalgoals = $eachItemName["awayteamtotalgoals"];
+                $awayteamhalftimegoals = $eachItemName["awayteamhalftimegoals"];
+                $awayteamshots = $eachItemName["awayteamshots"];
+                $awayteamshotsontarget = $eachItemName["awayteamshotsontarget"];
+                $awayteamcorners = $eachItemName["awayteamcorners"];
+                $awayteamfouls = $eachItemName["awayteamfouls"];
+                $awayteamyellowcards = $eachItemName["awayteamyellowcards"];
+                $awayteamredcards = $eachItemName["awayteamredcards"];
+            }
+        } else {
+            // set a message further down the page
+            $noMatchIDisSelected = true;
         }
-    } elseif (isset($_GET['id'])) {
-        $noMatchIDisSelected = false;
-        // GET AND DISPLAY ALL THE INFORMATION INTO THE FORM FOR THE USER TO EDIT`
-        // get all the info from a particular match and load it into the form!
-        $matchID = $_GET['id'];
-        $matchInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match?onematch={$matchID}";
-        require("../part_pages/api_auth.php");
-        $matchData = file_get_contents($matchInfoURL, false, $context);
-        $matchList = json_decode($matchData, true);
-    
-        foreach ($matchList as $eachItemName) {
-            $matchdate = $eachItemName["matchdate"];
-            $kickofftime = $eachItemName["kickofftime"];
-            $existingRefereeNameToEdit = $eachItemName["refereename"];
-            $homeTeamToEdit = $eachItemName["hometeam"];
-            $awayTeamToEdit = $eachItemName["awayteam"];
-            $hometeamtotalgoals = $eachItemName["hometeamtotalgoals"];
-            $hometeamhalftimegoals = $eachItemName["hometeamhalftimegoals"];
-            $hometeamshots = $eachItemName["hometeamshots"];
-            $hometeamshotsontarget = $eachItemName["hometeamshotsontarget"];
-            $hometeamcorners = $eachItemName["hometeamcorners"];
-            $hometeamfouls = $eachItemName["hometeamfouls"];
-            $hometeamyellowcards = $eachItemName["hometeamyellowcards"];
-            $hometeamredcards = $eachItemName["hometeamredcards"];
-            $awayteamtotalgoals = $eachItemName["awayteamtotalgoals"];
-            $awayteamhalftimegoals = $eachItemName["awayteamhalftimegoals"];
-            $awayteamshots = $eachItemName["awayteamshots"];
-            $awayteamshotsontarget = $eachItemName["awayteamshotsontarget"];
-            $awayteamcorners = $eachItemName["awayteamcorners"];
-            $awayteamfouls = $eachItemName["awayteamfouls"];
-            $awayteamyellowcards = $eachItemName["awayteamyellowcards"];
-            $awayteamredcards = $eachItemName["awayteamredcards"];
-        }
-    } else {
-        // set a message further down the page
-        $noMatchIDisSelected = true;
     }
 ?>
 
