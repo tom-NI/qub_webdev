@@ -1,77 +1,116 @@
 <?php  
     include_once("logic_files/allfunctions.php");
     include_once("part_pages/api_auth.php");
-    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    include_once("logic_files/dbconn.php");
+
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['confirm_email']) && isset($_GET['reg'])) {
+        // user trying to validate their user account via the link provided in an email
+        $userID = htmlentities(trim($_GET['reg']));
+        $stmt = $conn->prepare("SELECT UserEmailConfirmed FROM `epl_site_users` WHERE id = ? ;");
+        $stmt -> bind_param("i", $userID);
+        $stmt -> execute();
+        $stmt -> store_result();
+        $stmt -> bind_result($emailConfirmed);
+        $stmt -> fetch();
+
+        if ($stmt->num_rows == 1) {
+            if ($emailConfirmed == 0) {
+                $stmt = $conn->prepare("UPDATE `epl_site_users` SET `UserEmailConfirmed` = '1' WHERE `epl_site_users`.`id` = ? ");
+                $stmt -> bind_param("i", $userID);
+                $stmt -> execute();
+            } else {
+                $replyMessage = "Account already confirmed, please login";
+            }
+        } else {
+            $replyMessage = "Unknown Request, please try again";
+        }
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // registering or signing in
         if (isset($_GET['signin_btn'])) {
             $userEmail = htmlentities(trim($_POST['user_email']));
             $userPassword = htmlentities(trim($_POST['user_password']));
             $securePassword = password_hash($userPassword1, PASSWORD_DEFAULT);
             
-            $stmt = $conn->prepare("SELECT `Password` FROM `epl_admins` WHERE AdminEmail = ?");
+            $stmt = $conn->prepare("SELECT UserPassword FROM `epl_site_users` WHERE UserEmail = ? ;");
             $stmt -> bind_param("s", $userEmail);
             $stmt -> execute();
             $stmt -> store_result();
             $stmt -> bind_result($passwordToCompare);
             $stmt -> fetch();
 
-            if ($stmt->num_rows > 0) {
+            if ($stmt->num_rows == 1) {
                 // user email exists, check hashed passwords
-                if (password_verify($passwordToCompare, $hashedPassword)) {
+                if (password_verify($passwordToCompare, $securePassword)) {
                     http_response_code(200);
                     $replyMessage = "Logged in";
                     die();
                 } else {
                     http_response_code(404);
-                    $replyMessage = "Password Doesnt match, please reset password";
+                    $replyMessage = "Password Doesnt match, please try again";
                     die();
                 }
             } else {
                 http_response_code(404);
-                $replyMessage = "Account doesnt exist, please register first";
+                $replyMessage = "Login failed, please try again";
                 die();
             }
-        } else {
-            http_response_code(400);
-            $replyMessage = "Unknown Request, please try again";
-        }
-
-        if (isset($_POST['register_btn'])) {
-            $displayMessage = "";
+        } elseif (isset($_POST['register_btn'])) {
             $userFirstName = htmlentities(trim($_POST['register_firstname']));
             $userSurname = htmlentities(trim($_POST['register_surname']));
             $userEmail = htmlentities(trim($_POST['register_email']));
             $userPassword1 = htmlentities(trim($_POST['register_pw1']));
             $userPassword2 = htmlentities(trim($_POST['register_pw2']));
 
-            if ($userPassword1 != $userPassword2) {
+            if ($userPassword1 !== $userPassword2) {
                 $displayMessage = "Passwords Dont Match, please try again";
             } else {
-                $securePassword = password_hash($userPassword1, PASSWORD_DEFAULT);
+                // check user doesnt already exist first!
+                $stmt = $conn->prepare("SELECT id FROM `epl_site_users` WHERE UserEmail = ? ;");
+                $stmt -> bind_param("s", $userEmail);
+                $stmt -> execute();
+                $stmt -> store_result();
+                if ($stmt->num_rows < 1) {
+                    $securePassword = password_hash($userPassword1, PASSWORD_DEFAULT);
+                    $stmt = $conn->prepare("INSERT INTO `epl_site_users` (`id`, `UserName`, `UserSurname`, `UserEmail`, `UserPassword`, `UserEmailConfirmed`) VALUES (NULL, ?, ?, ?, ?, 0) ;");
+                    $stmt -> bind_param("ssss",
+                                    $userFirstName,
+                                    $userSurname,
+                                    $userEmail,
+                                    $securePassword
+                                );
+                    $stmt -> execute();
+                    $stmt -> store_result();
+                    $lastID = $conn -> insert_id;
+                    
+                    // send user an email
+                    $emailSubject = "EPL Match Statistic Finder";
+                    $emailFrom = "EPL - Match Statistics Team";
+                    $emailBody = "Hi {$userFirstName}. 
+Welcome to the Match Statistic finder website.
+
+Please click the link below to validate your email address and start adding results to our site.
+<a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php?confirm_email&reg={$lastID}'>Validate My Email Address</a>";
+                    
+                    // send user email confirmation
+                    $emailConfirmation = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);
+
+                    if($stmt) {
+                        header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php");
+                    } else {
+                        http_response_code(400);
+                        $replyMessage = "Login failed, please try again";
+                    }
+                } else {
+                    $replyMessage = "Account already exists, please login";
+                    header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php");
+                }
             }
-
-            // TODO NEEDS A DIE STATEMENT IN HERE SOMEWHERE
-
-            // send user data in a header to API
-            $userInfoArray = http_build_query(
-                array(
-                    'firstname' => $userFirstName,
-                    'surname' => $userSurname,
-                    'email' => $userEmail,
-                    'hashedpassword' => $securePassword
-                )
-            );
-            $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?register";
-            $apiReply = postDataInHeader($endpoint, $userInfoArray);
-
-            // decode reply from API
-            $apiJSON = json_decode($apiReply, true);
-            $displayMessage = $apiJSON[0]["reply_message"];
-            header("Location: login.php");
-        }
+        } 
     }
 ?>
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -99,10 +138,10 @@
     <div class="columns is-desktop master_site_width mt-6 ">
         <div class="column is-6 is-offset-3">
             <?php 
-                if($_SERVER['REQUEST_METHOD'] === 'POST') {
+                if(isset($replyMessage)) {
                 echo "<div class='my-3 p-5 has-background-warning'>
                         <div>
-                            <h3 class='title is-5'>{$displayMessage}</h3>
+                            <h3 class='title is-5'>{$replyMessage}</h3>
                         </div>
                     </div>";
                 }
