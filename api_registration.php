@@ -23,6 +23,8 @@ use PHPMailer\PHPMailer\PHPMailer;
             } else {
                 // user doesnt exist, so generate and send them their key
                 $userskey = implode('-', str_split(substr(strtolower(md5(microtime().rand(1000, 9999))), 0, 30), 6));
+                $emailSubject = "English Premier League - Developer API Key";
+                $emailFrom = "EPL API Team";
                 $emailBody = "Hi {$userFirstName}.
 Thank you for your interest in the English Premier League API.
 
@@ -37,33 +39,8 @@ API team.
 English Premier League Match Statistic Finder Website.
 The site for Premier League Match Statistics";
 
-                // php mailer will send the user an email
-                require 'php_mailer_master/src/PHPMailer.php';
-                require 'php_mailer_master/src/SMTP.php';
-                require 'php_mailer_master/src/Exception.php';
-                $mail = new PHPMailer(TRUE);
-
-                try {
-                    $mail->setFrom('tkilpatrick01@qub.ac.uk', 'EPL API Team');
-                    $mail->addAddress("$userEmail", "$userFirstName");
-                    $mail->Subject = 'English Premier League - Developer API Key';
-                    $mail->Body = $emailBody;
-
-                    $mail->isSMTP();
-                    $mail->Host = 'smtp.office365.com';
-                    $mail->SMTPAuth = TRUE;
-                    $mail->SMTPSecure = 'STARTTLS';
-                    $mail->Username = '40314543@ads.qub.ac.uk';
-                    $mail->Password = 'LearnMore*-2020*';
-                    $mail->Port = 587;
-                
-                    $mail->send();
-                } catch (Exception $e) {
-                    // $displayMessage = $e->errorMessage();
-                } catch (\Exception $e) {
-                    $displayMessage = $e->getMessage();
-                }
-                if ($mail) {
+                $emailResult = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject);
+                if ($emailResult) {
                     $stmt = $conn->prepare("INSERT INTO `epl_api_users` (`id`, `UserFirstName`, `UserSecondName`, `UserEmail`, `UserKey`) VALUES (NULL, ?, ?, ?, ?); ");
                     $stmt -> bind_param("ssss", 
                                 $userFirstName,
