@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if (!isset($_SESSION['sessiontype'])) {
+    if (!isset($_SESSION['sessiontype']) || strlen($_SESSION['sessiontype']) == 0) {
         header("Location: login.php");
     } elseif (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] == "admin") {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

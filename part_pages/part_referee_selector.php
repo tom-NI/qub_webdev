@@ -1,7 +1,7 @@
 <?php
     $refereeAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/referees?ref_list";
-    require("api_auth.php");
-    $refereeAPIdata = file_get_contents($refereeAPIpath, false, $context);
+    include_once("../logic_files/allfunctions.php");
+    $refereeAPIdata = postDevKeyInHeader($refereeAPIpath);
     $refereeList = json_decode($refereeAPIdata, true);
     
     // if this isnt an edit page, make the default to be "select ref"

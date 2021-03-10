@@ -1,4 +1,7 @@
 <?php
+    // php mailer dependency
+    use PHPMailer\PHPMailer\PHPMailer;
+
     // query a db and if data doesnt exist, insert it and check its inserted
     // used for the initial load of flat file to db
     function insertAvoidingDuplicates($sqlQuery, $insertQueryIfNull) {
@@ -155,8 +158,39 @@
         return $arrayToCheck;
     }
 
+    function postDevKeyInHeader($endpoint) {
+        // add the dev key to the head of every posted request
+        $defaultDevelopersKey = array(
+            'dev_key' => "492dd3-816c61-f89f93-e14f5f-e1566b"
+        );
+        
+        $opts = array(
+            'http' => array(
+                'method' => 'POST',
+                'header' => 'Content-Type: application/x-www-form-urlencoded',
+                'content' => $defaultDevelopersKey
+            )
+        );
+
+        $context = stream_context_create($opts);
+        $result = file_get_contents($endpoint, false, $context);
+        if (!$result) {
+            http_response_code(500);
+        } else {
+            return $result;
+        }
+    }
+
     function postDataInHeader($endpoint, $arrayToPost) {
         require("part_pages/api_auth.php");
+
+        // add the dev key to the head of every posted request
+        $defaultDevelopersKey = array(
+            'dev_key' => "492dd3-816c61-f89f93-e14f5f-e1566b"
+        );
+        array_unshift($arrayToPost, $defaultDevelopersKey);
+
+        // build the POST header
         $opts = array(
             'http' => array(
                 'method' => 'POST',
@@ -191,5 +225,40 @@
     
         $finalNameForDB = "{$firstInitial}. {$secondNameFirstInitial}{$secondNameRemainder}";
         return $finalNameForDB;
+    }
+
+    function sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom) {
+        // php mailer will send the user an email
+        require 'php_mailer_master/src/PHPMailer.php';
+        require 'php_mailer_master/src/SMTP.php';
+        require 'php_mailer_master/src/Exception.php';
+        $mail = new PHPMailer(TRUE);
+
+        try {
+            $mail->setFrom('tkilpatrick01@qub.ac.uk', "{$emailFrom}");
+            $mail->addAddress("$userEmail", "$userFirstName");
+            $mail->Subject = $emailSubject;
+            $mail->Body = $emailBody;
+            $mail->isHTML(true);
+
+            $mail->isSMTP();
+            $mail->Host = 'smtp.office365.com';
+            $mail->SMTPAuth = TRUE;
+            $mail->SMTPSecure = 'STARTTLS';
+            $mail->Username = '40314543@ads.qub.ac.uk';
+            $mail->Password = 'LearnMore*-2020*';
+            $mail->Port = 587;
+        
+            $mail->send();
+        } catch (Exception $e) {
+            // $displayMessage = $e->errorMessage();
+        } catch (\Exception $e) {
+            $displayMessage = $e->getMessage();
+        }
+        if ($mail) {
+            return true;
+        } else {
+            return false;
+        }
     }
 ?>

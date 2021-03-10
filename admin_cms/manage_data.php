@@ -1,69 +1,70 @@
 <?php
     session_start();
-    
-    if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        require("../logic_files/allfunctions.php");
+    if (!isset($_SESSION['sessiontype']) || strlen($_SESSION['sessiontype']) == 0) {
+        header("Location: login.php");
+    } elseif (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] == "admin") {
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require("../logic_files/allfunctions.php");
+            if (isset($_POST['change_ref'])) {
+                $refereeToChange = htmlentities(trim($_POST['select_ref']));
+                $newRefereeName = htmlentities(trim($_POST['new_ref_name']));
+                $dataToSend = http_build_query(
+                    array(
+                        'ref_to_change' => $refereeToChange,
+                        'new_ref_name' => $newRefereeName
+                    )
+                );
+                // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?edit";
+                $apiReply = postDataInHeader($endpoint, $dataToSend);
 
-        if (isset($_POST['change_ref'])) {
-            $refereeToChange = htmlentities(trim($_POST['select_ref']));
-            $newRefereeName = htmlentities(trim($_POST['new_ref_name']));
-            $dataToSend = http_build_query(
-                array(
-                    'ref_to_change' => $refereeToChange,
-                    'new_ref_name' => $newRefereeName
-                )
-            );
-            // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?edit";
-            $apiReply = postDataInHeader($endpoint, $dataToSend);
+                // decode reply from API
+                // $apiJSON = json_decode($apiReply, true);
+                // $reply = $row[0]["reply_message"];
 
-            // decode reply from API
-            // $apiJSON = json_decode($apiReply, true);
-            // $reply = $row[0]["reply_message"];
+            } elseif (isset($_POST['change_club'])) {
+                $clubToChange = htmlentities(trim($_POST['select_club']));
+                $newClubName = htmlentities(trim($_POST['new_club_name']));
+                $dataToSend = http_build_query(
+                    array(
+                        'club_to_change' => $clubToChange,
+                        'new_club_name' => $newClubName
+                    )
+                );
+                // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?edit";
+                $apiReply = postDataInHeader($endpoint, $dataToSend);
 
-        } elseif (isset($_POST['change_club'])) {
-            $clubToChange = htmlentities(trim($_POST['select_club']));
-            $newClubName = htmlentities(trim($_POST['new_club_name']));
-            $dataToSend = http_build_query(
-                array(
-                    'club_to_change' => $clubToChange,
-                    'new_club_name' => $newClubName
-                )
-            );
-            // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?edit";
-            $apiReply = postDataInHeader($endpoint, $dataToSend);
-
-        } elseif (isset($_POST['delete_club'])) {
-            $clubToDelete = htmlentities(trim($_POST['select_delete_club']));
-            $dataToSend = http_build_query(
-                array(
-                    'deleted_club' => $clubToDelete
-                )
-            );
-            // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
-            $apiReply = postDataInHeader($endpoint, $dataToSend);
-        } elseif (isset($_POST['delete_ref'])) {
-            $refereeToDelete = htmlentities(trim($_POST['select_delete_ref']));
-            $dataToSend = http_build_query(
-                array(
-                    'deleted_referee' => $refereeToDelete
-                )
-            );
-            // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
-            $apiReply = postDataInHeader($endpoint, $dataToSend);
-        } elseif (isset($_POST['delete_season'])) {
-            $seasonToDelete = htmlentities(trim($_POST['delete_season_select']));
-            $dataToSend = http_build_query(
-                array(
-                    'deleted_season' => $seasonToDelete
-                )
-            );
-            // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
-            $apiReply = postDataInHeader($endpoint, $dataToSend);
-        } else {
-            echo "unknown Request";
+            } elseif (isset($_POST['delete_club'])) {
+                $clubToDelete = htmlentities(trim($_POST['select_delete_club']));
+                $dataToSend = http_build_query(
+                    array(
+                        'deleted_club' => $clubToDelete
+                    )
+                );
+                // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
+                $apiReply = postDataInHeader($endpoint, $dataToSend);
+            } elseif (isset($_POST['delete_ref'])) {
+                $refereeToDelete = htmlentities(trim($_POST['select_delete_ref']));
+                $dataToSend = http_build_query(
+                    array(
+                        'deleted_referee' => $refereeToDelete
+                    )
+                );
+                // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
+                $apiReply = postDataInHeader($endpoint, $dataToSend);
+            } elseif (isset($_POST['delete_season'])) {
+                $seasonToDelete = htmlentities(trim($_POST['delete_season_select']));
+                $dataToSend = http_build_query(
+                    array(
+                        'deleted_season' => $seasonToDelete
+                    )
+                );
+                // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
+                $apiReply = postDataInHeader($endpoint, $dataToSend);
+            } else {
+                echo "unknown Request";
+            }
         }
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -90,6 +91,14 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title mt-4">Manage Data:</h1>
+                <?php 
+                    $seshtype = $_SESSION['sessiontype'];
+                    $adminID = $_SESSION['adminid'];
+                    $uName = $_SESSION['username'];
+                    echo "{$seshtype}";
+                    echo "{$adminID}";
+                    echo "{$uName}";
+                ?>
             </div>
         </div>
     </section>

@@ -1,4 +1,11 @@
 <?php  
+    session_start();
+    if (!isset($_SESSION['sessiontype']) && !isset($_SESSION['userid']) && !isset($_SESSION['sessiontype'])) {
+        $_SESSION['sessiontype'] = "";
+        $_SESSION['userid'] = "";
+        $_SESSION['username'] = "";
+    }
+
     include_once("logic_files/allfunctions.php");
     include_once("part_pages/api_auth.php");
     include_once("logic_files/dbconn.php");
@@ -6,17 +13,17 @@
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['validate_user']) && isset($_GET['num'])) {
         // user trying to validate their user account via the link provided in an email
         $userID = htmlentities(trim($_GET['num']));
-        $stmt = $conn->prepare("SELECT UserEmailConfirmed FROM `epl_site_users` WHERE id = ? ;");
+        $stmt = $conn->prepare("SELECT id, UserEmailConfirmed FROM `epl_site_users` WHERE id = ? ;");
         $stmt -> bind_param("i", $userID);
         $stmt -> execute();
         $stmt -> store_result();
-        $stmt -> bind_result($emailConfirmedBoolean);
+        $stmt -> bind_result($usersID, $emailConfirmedBoolean);
         $stmt -> fetch();
 
         if ($stmt->num_rows > 0) {
             if ($emailConfirmedBoolean == 0) {
                 $stmt = $conn->prepare("UPDATE `epl_site_users` SET `UserEmailConfirmed` = 1 WHERE `epl_site_users`.`id` = ? ");
-                $stmt -> bind_param("i", $userID);
+                $stmt -> bind_param("i", $usersID);
                 $stmt -> execute();
                 if ($stmt) {
                     $replyMessage = "Account verified, please login";
@@ -31,33 +38,31 @@
         }
     } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // registering or signing in
-        if (isset($_GET['signin_btn'])) {
+        if (isset($_POST['user_email'])) {
             $userEmail = htmlentities(trim($_POST['user_email']));
             $userPassword = htmlentities(trim($_POST['user_password']));
-            $securePassword = password_hash($userPassword1, PASSWORD_DEFAULT);
             
-            $stmt = $conn->prepare("SELECT UserPassword FROM `epl_site_users` WHERE UserEmail = ? ;");
+            $stmt = $conn->prepare("SELECT id, UserName, UserPassword FROM `epl_site_users` WHERE UserEmail = ? ;");
             $stmt -> bind_param("s", $userEmail);
             $stmt -> execute();
             $stmt -> store_result();
-            $stmt -> bind_result($passwordToCompare);
+            $stmt -> bind_result($userID, $userName, $passwordToCompare);
             $stmt -> fetch();
-
+            
             if ($stmt->num_rows == 1) {
                 // user email exists, check hashed passwords
-                if (password_verify($passwordToCompare, $securePassword)) {
-                    http_response_code(200);
-                    $replyMessage = "Logged in";
-                    die();
+                if (password_verify($userPassword, $passwordToCompare)) {
+                    $_SESSION['sessiontype'] = "user";
+                    $_SESSION['userid'] = $userID;
+                    $_SESSION['username'] = $userName;
+                    $seshID = session_id();
+                    $replyMessage = "Session started - sesh id = {$seshID} , user id = {$_SESSION['userid']}, user name = {$_SESSION['username']}";
+                    // header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/index.php");
                 } else {
-                    http_response_code(404);
                     $replyMessage = "Password Doesnt match, please try again";
-                    die();
                 }
             } else {
-                http_response_code(404);
                 $replyMessage = "Login failed, please try again";
-                die();
             }
         } elseif (isset($_POST['register_btn'])) {
             $userFirstName = htmlentities(trim($_POST['register_firstname']));
@@ -100,10 +105,10 @@
                         <title>Document</title>
                     </head>
                     <body>
-                    <h2>Hi {$userFirstName}</h2>. 
+                    <h3>Hi {$userFirstName}</h3>.
                     <h3>Welcome to the Match Statistic finder website.</h3>
                     
-                    <p>Please click the link below to validate your email address and start adding results to our site.</p>
+                    <p>Please click the link below to validate your email address and start adding match results to our site.</p>
                     <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php?validate_user&num={$lastID}'><p>Validate My Email Address</p></a>
                     </body>
                     </html>";
@@ -123,7 +128,9 @@
                     header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php");
                 }
             }
-        } 
+        } else {
+            $replyMessage = "Unknown request, please try again";
+        }
     }
 ?>
 
@@ -156,6 +163,7 @@
     <div class="columns is-desktop master_site_width mt-6 ">
         <div class="column is-6 is-offset-3">
             <?php 
+                print_r($_SESSION);
                 if(isset($replyMessage)) {
                 echo "<div class='my-3 p-5 has-background-warning'>
                         <div>
@@ -167,15 +175,17 @@
             <div class="my_info_colour p-3">
                 <h2 class='title is-4 pt-4 my_info_colour'>Sign In:</h2>
                 <form class='form control' method="POST"
-                    action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/manage_data.php">
+                    action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php">
                     <div class="field">
                         <label class='label mt-3 has-text-left my_info_colour' for="">Email address:</label>
+                        <label class='label mt-3 has-text-left my_info_colour' for="">masterchef7182@gmail.com</label>
                         <div class="control">
                             <input class='input has-text-left' required type="text" placeholder='email@email.com' name="user_email">
                         </div>
                     </div>
                     <div class="field mt-3">
                         <label class='label has-text-left my_info_colour'>Password:</label>
+                        <label class='label has-text-left my_info_colour'>testtest</label>
                         <div class="control">
                             <input class='input has-text-left' required type="password" placeholder='password' name="user_password">
                         </div>
@@ -190,33 +200,35 @@
                 <div class="mt-3">
                     <h2 class='title is-4 pt-4'>Not yet a registered user?</h2>
                     <p class='mt-2'>Register here</p>
-                    <form class="form control" action="" method="POST">
+                    <p class='mt-2 has-text-left'>* Required</p>
+                    <form class="form control" 
+                    action="" method="POST">
                         <div>
-                            <label class="label mt-3 has-text-left" for="">First Name :</label>
+                            <label class="label mt-3 has-text-left" for="">* First Name :</label>
                             <div class='control'>
                                 <input class="input" required name="register_firstname" type="text" minlength="3" maxlength="15">
                             </div>
                         </div>
                         <div>
-                            <label class="label mt-3 has-text-left" for="">Surname :</label>
+                            <label class="label mt-3 has-text-left" for="">* Surname :</label>
                             <div class='control'>
                                 <input class="input" required name="register_surname" type="text" minlength="3" maxlength="15">
                             </div>
                         </div>
                         <div>
-                            <label class="label mt-3 has-text-left" for="">Email address :</label>
+                            <label class="label mt-3 has-text-left" for="">* Email address :</label>
                             <div class='control'>
                                 <input class="input" required name="register_email" type="email">
                             </div>
                         </div>
                         <div>
-                            <label class="label mt-3 has-text-left" for="">Password :</label>
+                            <label class="label mt-3 has-text-left" for="">* Password :</label>
                             <div class='control'>
-                                <input class="input " required name="register_pw1" type="password" placeholder="Enter your desired password here - Minimum 8 characters">
+                                <input class="input " required name="register_pw1" minlength='8' type="password" placeholder="Enter your desired password here - Minimum 8 characters">
                             </div>
-                            <label class="label mt-3 has-text-left" for="">Please reenter password :</label>
+                            <label class="label mt-3 has-text-left" for="">* Please reenter password :</label>
                             <div class='control'>
-                                <input class="input" required name="register_pw2" type="password" placeholder="Reenter password here - identical to the password above">
+                                <input class="input" required name="register_pw2" minlength='8' type="password" placeholder="Reenter password here - identical to the password above">
                             </div>
                         </div>
                         <div>

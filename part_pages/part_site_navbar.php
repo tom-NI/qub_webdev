@@ -18,7 +18,7 @@
             <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_advanced_search.php'>Advanced Search</a>
             <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_fixture_analysis.php'>Analyse Fixtures</a>
             <?php
-                if (isset($_SESSION) && isset($_SESSION['sessiontype'])) {
+                if (isset($_SESSION['sessiontype']) && strlen($_SESSION['sessiontype']) > 0) {
                     if ($_SESSION['sessiontype'] == "admin") {
                         echo "<a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/manage_data.php'>Manage Data</a>";
                         echo "<a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_add_data.php'>Add Data</a>";
@@ -30,21 +30,24 @@
         </div>
         <div class='navbar-item'>
             <?php
-                if (isset($_SESSION) && isset($_SESSION['username'])) {
+                if (isset($_SESSION['sessiontype']) && strlen($_SESSION['sessiontype']) > 0) {
                     $username = $_SESSION['username'];
-                    echo "<p>Logged in as {$username}</p>";
-                    // TODO ADD A LOGOUT BUTTON!
-                    echo "<a class='button is-outline is-danger' ";
-                    session_destroy();
-                    echo "type='button'>
-                    <span>Sign out</span></a>";
                     
+                    echo "<p class='mx-5'>Hi {$username}</p>";
+                    echo "<form method='POST' action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/part_pages/part_logout.php'>
+                        <a class='button is-outline is-danger' type='button'>
+                            <span class='icon'>
+                                <i class='fas fa-sign-out-alt'></i>
+                            </span>
+                            <span>Sign out</span>
+                        </a>
+                    </form>";
                 } else {
                     echo "<a class='button is-outline is-danger' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php' type='button'>
-                    <span class='icon'>
-                        <i class='fas fa-user-alt'></i>
-                    </span>
-                    <span>Login / Register</span></a>";
+                        <span class='icon'>
+                            <i class='fas fa-user-alt'></i>
+                        </span>
+                    <span>User Login</span></a>";
                 }
             ?>
         </div>

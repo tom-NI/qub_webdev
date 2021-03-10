@@ -1,37 +1,38 @@
-<?php  
+<?php
     session_start();
+    $_SESSION['sessiontype'] = "";
+    $_SESSION['userid'] = "";
+    $_SESSION['username'] = "";
+
     include_once("../logic_files/allfunctions.php");
     include_once("../logic_files/dbconn.php");
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // registering or signing in
-        if (isset($_GET['signin_btn'])) {
-            $userEmail = htmlentities(trim($_POST['user_email']));
-            $userPassword = htmlentities(trim($_POST['user_password']));
-            
-            $stmt = $conn->prepare("SELECT AdminId, AdminName FROM `epl_admins` WHERE AdminEmail = ? AND Password = ? ;");
-            $stmt -> bind_param("ss", $userEmail, $userPassword);
-            $stmt -> execute();
-            $stmt -> store_result();
-            $stmt -> bind_result($administratorID, $userName);
-            $stmt -> fetch();
+    // registering or signing in
+    if (isset($_POST['signin_btn'])) {
+        $userEmail = htmlentities(trim($_POST['user_email']));
+        $userPassword = htmlentities(trim($_POST['user_password']));
+        
+        $stmt = $conn->prepare("SELECT AdminId, AdminName, Password FROM `epl_admins` WHERE AdminEmail = ? ;");
+        $stmt -> bind_param("s", $userEmail);
+        $stmt -> execute();
+        $stmt -> store_result();
+        $stmt -> bind_result($administratorID, $userName, $dbPassword);
+        $stmt -> fetch();
 
-            if ($stmt->num_rows == 1) {
-                // user email exists, check hashed passwords
-                if (password_verify($passwordToCompare, $securePassword)) {
-                    
-                    $_SESSION["sessiontype"] = "admin";
-                    $_SESSION["adminid"] = $administratorID;
-                    $_SESSION["username"] = $userName;
-                    header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/manage_data.php");
-                } else {
-                    http_response_code(404);
-                    $replyMessage = "Password Doesnt match, please try again";
-                }
+        if ($stmt->num_rows == 1) {
+            // user email exists, check hashed passwords
+            if ($userPassword === $dbPassword) {
+                $_SESSION['sessiontype'] = "admin";
+                $_SESSION['userid'] = $administratorID;
+                $_SESSION['username'] = $userName;
+                header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/manage_data.php");
             } else {
                 http_response_code(404);
-                $replyMessage = "Login failed, please try again";
+                $replyMessage = "Password Doesnt match, please try again";
             }
+        } else {
+            http_response_code(404);
+            $replyMessage = "Login failed, please try again";
         }
     }
 ?>
@@ -76,7 +77,7 @@
             <div class="my_info_colour p-3">
                 <h2 class='title is-4 pt-4 my_info_colour'>Login :</h2>
                 <form class='form control' method="POST"
-                    action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/manage_data.php">
+                    action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/login.php">
                     <div class="field">
                         <label class='label mt-3 has-text-left my_info_colour' for="">Email address:</label>
                         <div class="control">
