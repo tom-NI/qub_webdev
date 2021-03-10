@@ -3,23 +3,28 @@
     include_once("part_pages/api_auth.php");
     include_once("logic_files/dbconn.php");
 
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['confirm_email']) && isset($_GET['reg'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['validate_user']) && isset($_GET['num'])) {
         // user trying to validate their user account via the link provided in an email
-        $userID = htmlentities(trim($_GET['reg']));
+        $userID = htmlentities(trim($_GET['num']));
         $stmt = $conn->prepare("SELECT UserEmailConfirmed FROM `epl_site_users` WHERE id = ? ;");
         $stmt -> bind_param("i", $userID);
         $stmt -> execute();
         $stmt -> store_result();
-        $stmt -> bind_result($emailConfirmed);
+        $stmt -> bind_result($emailConfirmedBoolean);
         $stmt -> fetch();
 
-        if ($stmt->num_rows == 1) {
-            if ($emailConfirmed == 0) {
-                $stmt = $conn->prepare("UPDATE `epl_site_users` SET `UserEmailConfirmed` = '1' WHERE `epl_site_users`.`id` = ? ");
+        if ($stmt->num_rows > 0) {
+            if ($emailConfirmedBoolean == 0) {
+                $stmt = $conn->prepare("UPDATE `epl_site_users` SET `UserEmailConfirmed` = 1 WHERE `epl_site_users`.`id` = ? ");
                 $stmt -> bind_param("i", $userID);
                 $stmt -> execute();
+                if ($stmt) {
+                    $replyMessage = "Account verified, please login";
+                } else {
+                    $replyMessage = "Account not verified, please try again";
+                }
             } else {
-                $replyMessage = "Account already confirmed, please login";
+                $replyMessage = "Account previously verified, please login";
             }
         } else {
             $replyMessage = "Unknown Request, please try again";
@@ -85,16 +90,29 @@
                     // send user an email
                     $emailSubject = "EPL Match Statistic Finder";
                     $emailFrom = "EPL - Match Statistics Team";
-                    $emailBody = "Hi {$userFirstName}. 
-Welcome to the Match Statistic finder website.
-
-Please click the link below to validate your email address and start adding results to our site.
-<a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php?confirm_email&reg={$lastID}'>Validate My Email Address</a>";
+                    $emailBody = "
+                    <!DOCTYPE html>
+                    <html lang='en'>
+                    <head>
+                        <meta charset='UTF-8'>
+                        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+                        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                        <title>Document</title>
+                    </head>
+                    <body>
+                    <h2>Hi {$userFirstName}</h2>. 
+                    <h3>Welcome to the Match Statistic finder website.</h3>
+                    
+                    <p>Please click the link below to validate your email address and start adding results to our site.</p>
+                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php?validate_user&num={$lastID}'><p>Validate My Email Address</p></a>
+                    </body>
+                    </html>";
                     
                     // send user email confirmation
                     $emailConfirmation = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);
 
                     if($stmt) {
+                        $replyMessage = "Check your inbox to validate your account.";
                         header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php");
                     } else {
                         http_response_code(400);

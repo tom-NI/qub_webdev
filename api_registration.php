@@ -39,7 +39,7 @@ API team.
 English Premier League Match Statistic Finder Website.
 The site for Premier League Match Statistics";
 
-                $emailResult = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject);
+                $emailResult = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);
                 if ($emailResult) {
                     $stmt = $conn->prepare("INSERT INTO `epl_api_users` (`id`, `UserFirstName`, `UserSecondName`, `UserEmail`, `UserKey`) VALUES (NULL, ?, ?, ?, ?); ");
                     $stmt -> bind_param("ssss", 
