@@ -36,8 +36,6 @@
                                         </div>
                                     </div>
                                 </div>";
-                            } else {
-                                header("Location: login.php");
                             }
 
                     echo "
