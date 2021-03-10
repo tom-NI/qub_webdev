@@ -91,14 +91,6 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title mt-4">Manage Data:</h1>
-                <?php 
-                    $seshtype = $_SESSION['sessiontype'];
-                    $adminID = $_SESSION['adminid'];
-                    $uName = $_SESSION['username'];
-                    echo "{$seshtype}";
-                    echo "{$adminID}";
-                    echo "{$uName}";
-                ?>
             </div>
         </div>
     </section>

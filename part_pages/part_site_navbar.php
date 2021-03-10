@@ -14,56 +14,44 @@
     </div>
     <div class='navbar-menu'>
         <div class='navbar-start'>
-            <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/index.php'>Home</a>
+            <a class='navbar-item my_nav_menu m-2 ml-6' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/index.php'>Home</a>
             <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_advanced_search.php'>Advanced Search</a>
             <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_fixture_analysis.php'>Analyse Fixtures</a>
             <?php
                 if (isset($_SESSION['sessiontype']) && strlen($_SESSION['sessiontype']) > 0) {
                     if ($_SESSION['sessiontype'] == "admin") {
                         echo "<a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/manage_data.php'>Manage Data</a>";
-                        echo "<a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_add_data.php'>Add Data</a>";
+                        echo "<a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/add_data.php'>Add Data</a>";
                     } elseif ($_SESSION['sessiontype'] == "user") {
-                        echo "<a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_add_data.php'>Add Data</a>";
+                        echo "<a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/add_data.php'>Add Result</a>";
                     }
                 }
             ?>
         </div>
-        <div class='navbar-item'>
+        <div class='navbar-end navbar-item pr-6'>
             <?php
                 if (isset($_SESSION['sessiontype']) && strlen($_SESSION['sessiontype']) > 0) {
                     $username = $_SESSION['username'];
-                    
-                    echo "<p class='mx-5'>Hi {$username}</p>";
-                    echo "<form method='POST' action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/part_pages/part_logout.php'>
-                        <a class='button is-outline is-danger' type='button'>
+                    echo "<p class='mx-5 my_info_colour'>Signed in as {$username}</p>";
+
+                    // logout button (goes to a seperate php logout script)
+                    echo "
+                    <form action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/part_pages/part_logout.php?logout' method='POST'>
+                        <button class='button is-outline is-danger' type='submit'>
                             <span class='icon'>
                                 <i class='fas fa-sign-out-alt'></i>
                             </span>
-                            <span>Sign out</span>
-                        </a>
+                            <span>Logout</span>
+                        </button>
                     </form>";
                 } else {
                     echo "<a class='button is-outline is-danger' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php' type='button'>
                         <span class='icon'>
                             <i class='fas fa-user-alt'></i>
                         </span>
-                    <span>User Login</span></a>";
+                    <span>Fan Login</span></a>";
                 }
             ?>
-        </div>
-        <div class='navbar-end navbar-item has-dropdown is-hoverable pr-6'>
-            <a href='' class='navbar-link'>
-                <span class='material-icons p-3'>language</span>
-                <span>Language</span>
-            </a>
-            <div class='navbar-dropdown'>
-                <a class='navbar-item'>English</a>
-                <a class='navbar-item'>Français</a>
-                <a class='navbar-item'>Deutsche</a>
-                <a class='navbar-item'>Espanol</a>
-                <a class='navbar-item'>Nederlands</a>
-                <a class='navbar-item'>Italiano</a>
-            </div>
         </div>
     </div>
 </nav>

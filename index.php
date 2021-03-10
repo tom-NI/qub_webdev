@@ -29,8 +29,7 @@
                 <h1 class="title mt-4">The home of English Premier League Match Statistics</h1>
                 <p class="subtitle is-5 mt-2">Search below to get started</p>
                 <?php
-                    if (isset($_SESSION['userid'])) {
-                        // && strlen($_SESSION['sessiontype']) > 0) {
+                    if (isset($_SESSION['sessiontype']) && strlen($_SESSION['sessiontype']) > 0) {
                         echo "<p>User ID = {$_SESSION['userid']}</p>";
                         echo "<p>User Name = {$_SESSION['username']}</p>";
                     } else {

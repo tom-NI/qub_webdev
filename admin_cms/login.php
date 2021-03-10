@@ -1,13 +1,9 @@
 <?php
     session_start();
-    $_SESSION['sessiontype'] = "";
-    $_SESSION['userid'] = "";
-    $_SESSION['username'] = "";
-
     include_once("../logic_files/allfunctions.php");
     include_once("../logic_files/dbconn.php");
 
-    // registering or signing in
+    // admin sign in 
     if (isset($_POST['signin_btn'])) {
         $userEmail = htmlentities(trim($_POST['user_email']));
         $userPassword = htmlentities(trim($_POST['user_password']));
@@ -20,18 +16,16 @@
         $stmt -> fetch();
 
         if ($stmt->num_rows == 1) {
-            // user email exists, check hashed passwords
+            // user email exists, check passwords
             if ($userPassword === $dbPassword) {
                 $_SESSION['sessiontype'] = "admin";
                 $_SESSION['userid'] = $administratorID;
                 $_SESSION['username'] = $userName;
                 header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/manage_data.php");
             } else {
-                http_response_code(404);
                 $replyMessage = "Password Doesnt match, please try again";
             }
         } else {
-            http_response_code(404);
             $replyMessage = "Login failed, please try again";
         }
     }
@@ -80,12 +74,14 @@
                     action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/login.php">
                     <div class="field">
                         <label class='label mt-3 has-text-left my_info_colour' for="">Email address:</label>
+                        <label class='label mt-3 has-text-left my_info_colour' for="">tom7182@outlook.com</label>
                         <div class="control">
                             <input class='input has-text-left' required type="text" placeholder='email@email.com' name="user_email">
                         </div>
                     </div>
                     <div class="field mt-3">
                         <label class='label has-text-left my_info_colour'>Password:</label>
+                        <label class='label has-text-left my_info_colour'>maindev</label>
                         <div class="control">
                             <input class='input has-text-left' required type="password" placeholder='password' name="user_password">
                         </div>

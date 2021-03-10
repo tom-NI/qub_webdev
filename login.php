@@ -1,11 +1,5 @@
 <?php  
     session_start();
-    if (!isset($_SESSION['sessiontype']) && !isset($_SESSION['userid']) && !isset($_SESSION['sessiontype'])) {
-        $_SESSION['sessiontype'] = "";
-        $_SESSION['userid'] = "";
-        $_SESSION['username'] = "";
-    }
-
     include_once("logic_files/allfunctions.php");
     include_once("part_pages/api_auth.php");
     include_once("logic_files/dbconn.php");
@@ -39,6 +33,7 @@
     } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // registering or signing in
         if (isset($_POST['user_email'])) {
+            require("part_pages/part_logout.php");
             $userEmail = htmlentities(trim($_POST['user_email']));
             $userPassword = htmlentities(trim($_POST['user_password']));
             
@@ -55,9 +50,7 @@
                     $_SESSION['sessiontype'] = "user";
                     $_SESSION['userid'] = $userID;
                     $_SESSION['username'] = $userName;
-                    $seshID = session_id();
-                    $replyMessage = "Session started - sesh id = {$seshID} , user id = {$_SESSION['userid']}, user name = {$_SESSION['username']}";
-                    // header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/index.php");
+                    header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/index.php");
                 } else {
                     $replyMessage = "Password Doesnt match, please try again";
                 }
@@ -163,7 +156,6 @@
     <div class="columns is-desktop master_site_width mt-6 ">
         <div class="column is-6 is-offset-3">
             <?php 
-                print_r($_SESSION);
                 if(isset($replyMessage)) {
                 echo "<div class='my-3 p-5 has-background-warning'>
                         <div>

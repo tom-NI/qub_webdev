@@ -1,92 +1,94 @@
 <?php
     session_start();
-    // todo validate sessions
+    if (!isset($_SESSION['sessiontype']) || strlen($_SESSION['sessiontype']) == 0) {
+        header("Location: login.php");
+    } else {
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            include_once("logic_files/allfunctions.php");
+            $submissionDisplayToUser = "";
+            if (isset($_POST['submit_main_match'])) {
+                require("part_pages/part_post_match.php");
+                // build the data that has to be sent inside the header, into an assoc array
+                $matchInfoArray = http_build_query(
+                    array(
+                        'season' => $seasonName,
+                        'date' => $matchDate,
+                        'time' => $kickOffTime,
+                        'refereename' => $refereeName,
+                        'homeclub' => $homeClubName,
+                        'awayclub' => $awayClubName,
+                        'ht_totalgoals' => $homeTeamTotalGoals,
+                        'ht_halftimegoals' => $homeTeamHalfTimeGoals,
+                        'ht_shots' => $homeTeamShots,
+                        'ht_shotsontarget' => $homeTeamShotsOnTarget,
+                        'ht_corners' => $homeTeamCorners,
+                        'ht_fouls' => $homeTeamFouls,
+                        'ht_yellowcards' => $homeTeamYellowCards,
+                        'ht_redcards' => $homeTeamRedCards,
+                        'at_totalgoals' => $awayTeamTotalGoals,
+                        'at_halftimegoals' => $awayTeamHalfTimeGoals,
+                        'at_shots' => $awayTeamShots,
+                        'at_shotsontarget' => $awayTeamShotsOnTarget,
+                        'at_corners' => $awayTeamCorners,
+                        'at_fouls' => $awayTeamFouls,
+                        'at_yellowcards' => $awayTeamYellowCards,
+                        'at_redcards' => $awayTeamRedCards
+                    )
+                );
+                $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches/?addnewresult";
+                $result = postDataInHeader($endpoint, $matchInfoArray);
+                if ($result) {
+                    $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
+                } else {
+                    $submissionDisplayToUser = "Match Entry failed, please try again";
+                }
+                
+            } elseif (isset($_POST['submit_new_referee'])) {
+                $newRefereeName = parseRefereeName(trim($_POST['newrefname']));
+                $cleanedRefereeName = htmlentities($newRefereeName);
+                $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/referees/?addnewref";
+                $newRefArray = http_build_query(
+                    array(
+                        'refereename' => $newRefereeName,
+                        )
+                    );
+                $result = postDataInHeader($endpoint, $newRefArray);
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        include_once("../logic_files/allfunctions.php");
-        $submissionDisplayToUser = "";
-        if (isset($_POST['submit_main_match'])) {
-            require("../part_pages/part_post_match.php");
-            // build the data that has to be sent inside the header, into an assoc array
-            $matchInfoArray = http_build_query(
-                array(
-                    'season' => $seasonName,
-                    'date' => $matchDate,
-                    'time' => $kickOffTime,
-                    'refereename' => $refereeName,
-                    'homeclub' => $homeClubName,
-                    'awayclub' => $awayClubName,
-                    'ht_totalgoals' => $homeTeamTotalGoals,
-                    'ht_halftimegoals' => $homeTeamHalfTimeGoals,
-                    'ht_shots' => $homeTeamShots,
-                    'ht_shotsontarget' => $homeTeamShotsOnTarget,
-                    'ht_corners' => $homeTeamCorners,
-                    'ht_fouls' => $homeTeamFouls,
-                    'ht_yellowcards' => $homeTeamYellowCards,
-                    'ht_redcards' => $homeTeamRedCards,
-                    'at_totalgoals' => $awayTeamTotalGoals,
-                    'at_halftimegoals' => $awayTeamHalfTimeGoals,
-                    'at_shots' => $awayTeamShots,
-                    'at_shotsontarget' => $awayTeamShotsOnTarget,
-                    'at_corners' => $awayTeamCorners,
-                    'at_fouls' => $awayTeamFouls,
-                    'at_yellowcards' => $awayTeamYellowCards,
-                    'at_redcards' => $awayTeamRedCards
-                )
-            );
-            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches/?addnewresult";
-            $result = postDataInHeader($endpoint, $matchInfoArray);
-            if ($result) {
-                $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
-            } else {
-                $submissionDisplayToUser = "Match Entry failed, please try again";
-            }
-            
-        } elseif (isset($_POST['submit_new_referee'])) {
-            $newRefereeName = parseRefereeName(trim($_POST['newrefname']));
-            $cleanedRefereeName = htmlentities($newRefereeName);
-            $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/referees/?addnewref";
-            $newRefArray = http_build_query(
-                array(
-                    'refereename' => $newRefereeName,
-                    )
-                );
-            $result = postDataInHeader($endpoint, $newRefArray);
-
-            if ($result === false) {
-                $submissionDisplayToUser = "There has been an problem, the referee has not been added successfully";
-            } else {
-                $submissionDisplayToUser = "Referee Added Successfully";
-            }
-        } elseif (isset($_POST['submit_new_season'])) {
-            $newSeason = htmlentities(trim($_POST['']));
-            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/seasons/?addnewseason";
-            $newSeasonArray = http_build_query(
-                array(
-                    'newseason' => $newSeason,
-                    )
-                );
-            $result = postDataInHeader($endpoint, $newSeasonArray);
-            if ($result === false) {
-                $submissionDisplayToUser = "There has been an problem, the season has not been added";
-            } else {
-                $submissionDisplayToUser = "New season has been added successfully";
-            }
-        } elseif (isset($_POST['submit_new_club'])) {
-            $newClub = htmlentities(trim($_POST['new_club']));
-            $newClubURL = htmlentities(trim($_POST['new_club_img_url']));
-            $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/clubs/?addnewclub";
-            $newClubArray = http_build_query(
-                array(
-                    'newclubname' => $newClub,
-                    'newcluburl' => $newClubURL
-                    )
-                );
-            $result = postDataInHeader($endpoint, $matchInfoArray);
-            if ($result === false) {
-                $submissionDisplayToUser = "There has been an problem, the club has not been added";
-            } else {
-                $submissionDisplayToUser = "New club has been added successfully";
+                if ($result === false) {
+                    $submissionDisplayToUser = "There has been an problem, the referee has not been added successfully";
+                } else {
+                    $submissionDisplayToUser = "Referee Added Successfully";
+                }
+            } elseif (isset($_POST['submit_new_season'])) {
+                $newSeason = htmlentities(trim($_POST['']));
+                $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/seasons/?addnewseason";
+                $newSeasonArray = http_build_query(
+                    array(
+                        'newseason' => $newSeason,
+                        )
+                    );
+                $result = postDataInHeader($endpoint, $newSeasonArray);
+                if ($result === false) {
+                    $submissionDisplayToUser = "There has been an problem, the season has not been added";
+                } else {
+                    $submissionDisplayToUser = "New season has been added successfully";
+                }
+            } elseif (isset($_POST['submit_new_club'])) {
+                $newClub = htmlentities(trim($_POST['new_club']));
+                $newClubURL = htmlentities(trim($_POST['new_club_img_url']));
+                $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/clubs/?addnewclub";
+                $newClubArray = http_build_query(
+                    array(
+                        'newclubname' => $newClub,
+                        'newcluburl' => $newClubURL
+                        )
+                    );
+                $result = postDataInHeader($endpoint, $matchInfoArray);
+                if ($result === false) {
+                    $submissionDisplayToUser = "There has been an problem, the club has not been added";
+                } else {
+                    $submissionDisplayToUser = "New club has been added successfully";
+                }
             }
         }
     }
@@ -101,14 +103,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../stylesheets/mystyles.css">
+    <link rel="stylesheet" href="stylesheets/mystyles.css">
     <title>Add data</title>
 </head>
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
     <?php
-        include("../part_pages/part_site_navbar.php"); 
+        include("part_pages/part_site_navbar.php"); 
     ?>
 
     <!-- banner at the top of the page! -->
@@ -139,7 +141,7 @@
                 <h3 class="title is-5 mt-5 mb-1 my_info_colour">Add new Referee;</h3>
                 <div class="">
                     <p class="p-2">Please enter Referee's first and last name, with a space between e.g. New Referee</p>
-                    <form method="POST" action="cms_add_data.php?addmatch" class="level columns">
+                    <form method="POST" action="add_data.php?addmatch" class="level columns">
                         <input type="text" required id="new_referee" name="newrefname" minlength='4' maxlength='30' class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Referee Name">
                         <div class="my_medium_form_item">
                             <button class="button level-item my_medium_form_item is-danger m-3 is-rounded " name='submit_new_referee'>Add Referee</button>
@@ -150,10 +152,10 @@
                 <div class=""> 
                     <p class="p-2">Please enter a season in the format "firstyear-secondyear" with 4 digits for each year e.g. 2000-2001</p>
                     <?php
-                        include_once("../logic_files/allfunctions.php");
+                        include_once("logic_files/allfunctions.php");
                         $suggestedNextSeason = findNextSuggestedSeason();
                         echo "
-                        <form method='POST' action='cms_add_data.php' class='level columns'>
+                        <form method='POST' action='add_data.php' class='level columns'>
                             <input type='text' required id='new_season' name='new_season' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Suggested next season to add : {$suggestedNextSeason}'>
                             <div class='my_medium_form_item'>
                                 <button class='button level-item my_medium_form_item is-danger m-3 is-rounded my-3 ' value='submit_new_season'>Add New Season</button>
@@ -189,7 +191,7 @@
                                 <div class="select is-info my_medium_form_item">
                                     <select required class='my_medium_form_item' name='select_season' id='select_season'>
                                         <?php
-                                            require("../part_pages/part_season_select.php");
+                                            require("part_pages/part_season_select.php");
                                         ?>
                                     </select>
                                 </div>
@@ -220,7 +222,7 @@
                                 <div class="select is-info my_medium_form_item">
                                     <select required class='my_medium_form_item' name='select_ref' id='select_ref'>
                                         <?php
-                                            require("../part_pages/part_referee_selector.php");
+                                            require("part_pages/part_referee_selector.php");
                                         ?>
                                     </select>
                                 </div>
@@ -238,7 +240,7 @@
                                 <div class="select is-success level-item">
                                     <select required class='my_medium_form_item mx-2 ' name='ht_selector' id='ht_selector'>
                                         <?php
-                                            require("../part_pages/part_team_selector.php");
+                                            require("part_pages/part_team_selector.php");
                                         ?>
                                     </select>
                                 </div>
@@ -250,7 +252,7 @@
                                 <div class="select is-danger level-item">
                                     <select required class='my_medium_form_item mx-2' name='at_selector' id='at_selector'>
                                         <?php
-                                            require("../part_pages/part_team_selector.php");
+                                            require("part_pages/part_team_selector.php");
                                         ?>
                                     </select>
                                 </div>
@@ -346,8 +348,8 @@
         </div>
     </div>
 
-    <?php include("../part_pages/part_site_footer.php"); ?>
-    <script src="../scripts/my_script.js"></script>
+    <?php include("part_pages/part_site_footer.php"); ?>
+    <script src="scripts/my_script.js"></script>
 </body>
 
 </html>
