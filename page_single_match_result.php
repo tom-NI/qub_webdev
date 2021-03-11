@@ -31,7 +31,6 @@
         if (isset($_GET['id'])) {
             $postedMatchID = $_GET['id'];
             $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$postedMatchID}";
-            require("part_pages/api_auth.php");
             $singleMatchData = postDevKeyInHeader($singleMatchURL);
             $singleMatchList = json_decode($singleMatchData, true);
 
@@ -84,8 +83,7 @@
         $homeTeamSearched = addUnderScores($hometeam);
         $awayTeamSearched = addUnderScores($awayteam);
         $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
-        require("part_pages/api_auth.php");
-        $pastFixturesData = file_get_contents($pastFixturesURL, false, $context);
+        $pastFixturesData = postDevKeyInHeader($pastFixturesURL);
         $pastFixturesList = json_decode($pastFixturesData, true);
 
         $hometeamtotalgoalsArray = array();

@@ -3,7 +3,6 @@
 use PHPMailer\PHPMailer\PHPMailer;
 
     include_once("../logic_files/allfunctions.php");
-    include_once("../part_pages/api_auth.php");
     include_once("../logic_files/dbconn.php");
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -30,7 +29,7 @@ use PHPMailer\PHPMailer\PHPMailer;
                 $emailSubject = "English Premier League - Developer API Key";
                 $emailFrom = "EPL API Team";
                 // body of the full email sent to user
-                require("../email_templates.php/api_key_email.php"); 
+                require("../email_templates.php/api_key_email.php");
 
                 $emailResult = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);
                 if ($emailResult) {

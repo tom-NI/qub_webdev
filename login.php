@@ -1,7 +1,6 @@
 <?php  
     session_start();
     include_once("logic_files/allfunctions.php");
-    include_once("part_pages/api_auth.php");
     include_once("logic_files/dbconn.php");
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['validate_user']) && isset($_GET['num'])) {
@@ -88,23 +87,9 @@
                     // send user an email
                     $emailSubject = "EPL Match Statistic Finder";
                     $emailFrom = "EPL - Match Statistics Team";
-                    $emailBody = "
-                    <!DOCTYPE html>
-                    <html lang='en'>
-                    <head>
-                        <meta charset='UTF-8'>
-                        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-                        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                        <title>Document</title>
-                    </head>
-                    <body>
-                    <h3>Hi {$userFirstName}</h3>.
-                    <h3>Welcome to the Match Statistic finder website.</h3>
-                    
-                    <p>Please click the link below to validate your email address and start adding match results to our site.</p>
-                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php?validate_user&num={$lastID}'><p>Validate My Email Address</p></a>
-                    </body>
-                    </html>";
+
+                    // body of the full email sent to user
+                    require("../email_templates.php/api_key_email.php"); 
                     
                     // send user email confirmation
                     $emailConfirmation = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);

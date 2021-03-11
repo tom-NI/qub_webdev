@@ -55,8 +55,7 @@
             // get all the info from a particular match and load it into the form!
             $matchID = $_GET['id'];
             $matchInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$matchID}";
-            require("../part_pages/api_auth.php");
-            $matchData = file_get_contents($matchInfoURL, false, $context);
+            $matchData = postDevKeyInHeader($matchInfoURL);
             $matchList = json_decode($matchData, true);
         
             foreach ($matchList as $eachItemName) {

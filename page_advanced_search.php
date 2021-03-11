@@ -1,6 +1,5 @@
 <?php 
-    session_start(); 
-    require("part_pages/api_auth.php");
+    session_start();
 
     if (isset($_GET['userfilter'])) {
         $rootURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?";

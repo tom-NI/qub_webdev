@@ -80,7 +80,6 @@
             <!-- most recent premier league match results -->
             <?php
                 $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?count=8";
-                require("part_pages/api_auth.php");
                 require("part_pages/part_print_summaries.php");
             ?>
         </section>
@@ -116,7 +115,6 @@
                         $currentMaxSeasonInDB = getCurrentSeason();
                         $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fullseason={$currentMaxSeasonInDB}";
                     }
-                    require("part_pages/api_auth.php");
                     $seasonAPIdata = postDevKeyInHeader($seasonInfoURL);
                     $seasonGameList = json_decode($seasonAPIdata, true);
                 

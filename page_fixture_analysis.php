@@ -88,7 +88,6 @@
                 $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}&strict";
                 $strictPara = "Data does NOT include reverse fixture";
             }
-            require("../a_assignment_code/part_pages/api_auth.php");
             $fixtureAPIdata = postDevKeyInHeader($fixtureAPIurl);
             $fixtureList = json_decode($fixtureAPIdata, true);
 
