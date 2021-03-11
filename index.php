@@ -109,7 +109,7 @@
             <div class="tile is-ancestor is-vertical is-10-mobile">
                 <?php
                     if (isset($_GET['season_pref'])) {
-                        $season = $_GET['season_pref'];
+                        $season = htmlentities(trim($_GET['season_pref']));
                         $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fullseason={$season}";
                     } else {
                         $currentMaxSeasonInDB = getCurrentSeason();

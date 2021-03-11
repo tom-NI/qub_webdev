@@ -53,7 +53,7 @@
             $noMatchIDisSelected = false;
             // GET AND DISPLAY ALL THE INFORMATION INTO THE FORM FOR THE USER TO EDIT`
             // get all the info from a particular match and load it into the form!
-            $matchID = $_GET['id'];
+            $matchID = htmlentities(trim($_GET['id']));
             $matchInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$matchID}";
             $matchData = postDevKeyInHeader($matchInfoURL);
             $matchList = json_decode($matchData, true);
@@ -316,7 +316,7 @@
                             class="button m-2 is-rounded is-info">Submit</button>
                     </div>
                     <div>
-                        <input type="hidden" name="id" value="<?php $_GET['id'];?>" >
+                        <input type="hidden" name="id" value="<?php htmlentities(trim($_GET['id'])) ;?>" >
                     </div>
                 </form>
             </div>

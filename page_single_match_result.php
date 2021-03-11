@@ -29,7 +29,7 @@
     <?php
         include_once("logic_files/allfunctions.php");
         if (isset($_GET['id'])) {
-            $postedMatchID = $_GET['id'];
+            $postedMatchID = htmlentities(trim($_GET['id']));
             $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$postedMatchID}";
             $singleMatchData = postDevKeyInHeader($singleMatchURL);
             $singleMatchList = json_decode($singleMatchData, true);
