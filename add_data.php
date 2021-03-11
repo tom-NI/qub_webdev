@@ -1,10 +1,11 @@
 <?php
     session_start();
+    include_once("logic_files/allfunctions.php");
     if (!isset($_SESSION['sessiontype']) || strlen($_SESSION['sessiontype']) == 0) {
         header("Location: login.php");
     } else {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
-            include_once("logic_files/allfunctions.php");
+            
             $submissionDisplayToUser = "";
             if (isset($_POST['submit_main_match'])) {
                 require("part_pages/part_post_match.php");
@@ -36,7 +37,7 @@
                     )
                 );
                 $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches/?addnewresult";
-                $result = postDataInHeader($endpoint, $matchInfoArray);
+                $result = postDevKeyInHeader($endpoint);
                 if ($result) {
                     $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
                 } else {
@@ -52,7 +53,7 @@
                         'refereename' => $newRefereeName,
                         )
                     );
-                $result = postDataInHeader($endpoint, $newRefArray);
+                $result = postDevKeyInHeader($endpoint);
 
                 if ($result === false) {
                     $submissionDisplayToUser = "There has been an problem, the referee has not been added successfully";
@@ -67,7 +68,7 @@
                         'newseason' => $newSeason,
                         )
                     );
-                $result = postDataInHeader($endpoint, $newSeasonArray);
+                $result = postDevKeyInHeader($endpoint);
                 if ($result === false) {
                     $submissionDisplayToUser = "There has been an problem, the season has not been added";
                 } else {
@@ -83,7 +84,7 @@
                         'newcluburl' => $newClubURL
                         )
                     );
-                $result = postDataInHeader($endpoint, $matchInfoArray);
+                $result = postDevKeyInHeader($endpoint);
                 if ($result === false) {
                     $submissionDisplayToUser = "There has been an problem, the club has not been added";
                 } else {
@@ -134,54 +135,56 @@
                         </div>
                     </div>";
                 }
-            ?>
-            <!-- add new club, ref, season data into db! -->
-            <div class="mt-5 p-5 my_info_colour">
-                <h2 class="title is-3 my_info_colour">Add new Clubs, Seasons or Referee Names</h2>
-                <h3 class="title is-5 mt-5 mb-1 my_info_colour">Add new Referee;</h3>
-                <div class="">
-                    <p class="p-2">Please enter Referee's first and last name, with a space between e.g. New Referee</p>
-                    <form method="POST" action="add_data.php?addmatch" class="level columns">
-                        <input type="text" required id="new_referee" name="newrefname" minlength='4' maxlength='30' class="input level-item column is-5 mx-5 is-half-tablet" placeholder="Referee Name">
-                        <div class="my_medium_form_item">
-                            <button class="button level-item my_medium_form_item is-danger m-3 is-rounded " name='submit_new_referee'>Add Referee</button>
+
+
+                if (isset($_SESSION['sessiontype']) && strlen($_SESSION['sessiontype']) === "admin") {
+                    $suggestedNextSeason = findNextSuggestedSeason();
+
+                    echo "
+                    <!-- add new club, ref, season data into db! -->
+                    <div class='mt-5 p-5 my_info_colour'>
+                        <h2 class='title is-4 my_info_colour'>Add new Clubs, Seasons or Referee Names</h2>
+                        <h3 class='title is-5 mt-5 mb-1 my_info_colour'>Add new Referee;</h3>
+                        <div class='>
+                            <p class='p-2'>Please enter Referee's first and last name, with a space between e.g. New Referee</p>
+                            <form method='POST' action='add_data.php?addmatch' class='level columns'>
+                                <input type='text' required id='new_referee' name='newrefname' minlength='4' maxlength='30' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Referee Name'>
+                                <div class='my_medium_form_item'>
+                                    <button class='button level-item my_medium_form_item is-danger m-3 is-rounded ' name='submit_new_referee'>Add Referee</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                </div>
-                <h3 class="title is-5 mt-5 mb-1 my_info_colour">Add new Season;</h3>
-                <div class=""> 
-                    <p class="p-2">Please enter a season in the format "firstyear-secondyear" with 4 digits for each year e.g. 2000-2001</p>
-                    <?php
-                        include_once("logic_files/allfunctions.php");
-                        $suggestedNextSeason = findNextSuggestedSeason();
-                        echo "
-                        <form method='POST' action='add_data.php' class='level columns'>
-                            <input type='text' required id='new_season' name='new_season' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Suggested next season to add : {$suggestedNextSeason}'>
-                            <div class='my_medium_form_item'>
-                                <button class='button level-item my_medium_form_item is-danger m-3 is-rounded my-3 ' value='submit_new_season'>Add New Season</button>
-                            </div>
-                        </form>";
-                    ?>
-                </div>
-                <h3 class="title is-5 mt-5 mb-1 my_info_colour">Add new Club;</h3>
-                <div class="">
-                    <p class=" p-1">Please use the official club name and do not abbreviate.  Max 2 words.  Adding "football club" at the end is not required.</p>
-                    <p class="p-1">Club Logo URL must link directly to a .jpg or .png image file</p>
-                    <form method="POST" action="cms_add_data.php" class="level columns">
-                        <input type="text" required id="new_club" name="new_club" class="input level-item column is-3 mx-2 is-one-third-tablet" maxlength="35" placeholder="Club Name (max 35 Characters)">
-                        <input type="url" required id="new_club_img_url" name="new_club_img_url" class="input level-item column is-3 mx-5 is-one-third-tablet" placeholder="Club Logo URL">
-                        <button class="button level-item is-danger is-rounded mt-4 my-3 " name='submit_new_club'>Add New Club</button>
-                    </form>
-                </div>
-            </div>
+                        <h3 class='title is-5 mt-5 mb-1 my_info_colour'>Add new Season;</h3>
+                        <div class=''> 
+                            <p class='p-2'>Please enter a season in the format 'firstyear-secondyear' with 4 digits for each year e.g. 2000-2001</p>
+                                <form method='POST' action='add_data.php' class='level columns'>
+                                    <input type='text' required id='new_season' name='new_season' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Suggested next season to add : {$suggestedNextSeason}'>
+                                    <div class='my_medium_form_item'>
+                                        <button class='button level-item my_medium_form_item is-danger m-3 is-rounded my-3 ' value='submit_new_season'>Add New Season</button>
+                                    </div>
+                                </form>';
+                        </div>
+                        <h3 class='title is-5 mt-5 mb-1 my_info_colour'>Add new Club;</h3>
+                        <div class='>
+                            <p class=' p-1'>Please use the official club name and do not abbreviate.  Max 2 words.  Adding 'football club' at the end is not required.</p>
+                            <p class='p-1'>Club Logo URL must link directly to a .jpg or .png image file</p>
+                            <form method='POST' action='cms_add_data.php' class='level columns'>
+                                <input type='text' required id='new_club' name='new_club' class='input level-item column is-3 mx-2 is-one-third-tablet' maxlength='35' placeholder='Club Name (max 35 Characters)'>
+                                <input type='url' required id='new_club_img_url' name='new_club_img_url' class='input level-item column is-3 mx-5 is-one-third-tablet' placeholder='Club Logo URL'>
+                                <button class='button level-item is-danger is-rounded mt-4 my-3 ' name='submit_new_club'>Add New Club</button>
+                            </form>
+                        </div>
+                    </div>";
+                }
+            ?>
 
             <!-- add 1 new match details form  -->
             <div class="field">
                 <form method="POST" action='cms_add_data.php'>
                     <div class="mt-5 p-5 my_info_colour">
                         <div>
-                            <h2 class="title is-3 my_info_colour">Add a new match result below:</h2>
-                            <h3 class="title is-size-4 my_info_colour">Match Details:</h3>
+                            <h2 class="title is-4 my_info_colour">Add a new match result below:</h2>
+                            <h3 class="title is-size-5 my_info_colour">Match Details:</h3>
                         </div>
                         <div class="mt-4">
                             <div class="my_match_metadata has-text-right">
