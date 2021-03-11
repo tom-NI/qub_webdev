@@ -1,4 +1,82 @@
-<?php session_start(); ?>
+<?php 
+    session_start(); 
+    require("part_pages/api_auth.php");
+
+    if (isset($_GET['userfilter'])) {
+        $rootURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?";
+        $urlPathAddons = "";
+
+        if (isset($_GET['club_checkbox']) && $_GET['club_checkbox'] == "on") {
+            $clubValue = htmlentities(trim($_GET['club_select']));
+            $urlPathAddons .= "&club={$clubValue}";
+        }
+
+        if (isset($_GET['filter_season_checkbox']) && $_GET['filter_season_checkbox'] == "on") {
+            $seasonValue = htmlentities(trim($_GET['filter_season']));
+            $urlPathAddons .= "&season={$seasonValue}";
+        }
+
+        // 
+        if (isset($_GET['fixture_checkbox']) && $_GET['fixture_checkbox'] == "on") {
+            $oppositionValue = htmlentities(trim($_GET['opposition_selector']));
+            $urlPathAddons .= "&fixture={$oppositionValue}";
+        }
+
+        if (isset($_GET['result_checkbox']) && $_GET['result_checkbox'] == "on") {
+            $htResultValue = htmlentities(trim($_GET['ht_result']));
+            $atResultValue = htmlentities(trim($_GET['at_result']));
+            if ($htResultValue > 0 && is_numeric($htResultValue) 
+                && $atResultValue > 0 && is_numeric($atResultValue)) {
+                    $urlPathAddons .= "&htresult={$htResultValue}&atresult={$atResultValue}";
+            } else {
+                $queryResult1 = "Unknown scores, please reenter match results";
+            }
+        }
+
+        if (isset($_GET['margin_checkbox']) && $_GET['margin_checkbox'] == "on") {
+            $marginValue = htmlentities(trim($_GET['user_margin']));
+            if (is_numeric($user_margin) && $user_margin > 0) {
+                $urlPathAddons .= "&margin={$marginValue}";
+            }
+        }
+
+        if (isset($_GET['filter_month_search']) && $_GET['filter_month_search'] == "on") {
+            $monthValue = htmlentities(trim($_GET['filter_month_selector']));
+            if ($monthValue >= 0 && $monthValue <= 11) {
+                $urlPathAddons .= "&month={$monthValue}";
+            } else {
+                $queryResult2 .= "Unknown month";
+                die();
+            }
+        }
+
+        if (isset($_GET['day_checkbox']) && $_GET['day_checkbox'] == "on") {
+            $dayValue = htmlentities(trim($_GET['day_selector']));
+            if ($dayValue >= 0 && $dayValue <= 6) {
+                $urlPathAddons .= "&day={$dayValue}";
+            } else {
+                $queryResult3 .= "Unknown day";
+                die();
+            }
+        }
+
+        if (isset($_GET['referee_selector']) && $_GET['referee_selector'] == "on") {
+            $refereeValue = htmlentities(trim($_GET['referee_selector']));
+            $urlPathAddons .= "&referee={$refereeValue}";
+        }
+
+        if (strlen($urlPathAddons) > 0) {
+            $finalURL = "{$rootURL}{$urlPathAddons}";
+        } else {
+            $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021&count=10";
+        }
+    } elseif (isset($_GET['search'])) {
+        $userSearchItem = htmlentities(trim($_GET['search']));
+        $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$userSearchItem}";
+    } else {
+        $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021&count=10";
+    }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,6 +114,7 @@
                     <div class="field has-addons">
                         <div class="control is-expanded">
                             <input class="input is-rounded" type="text" placeholder="refine search"
+                                <? if (isset($_GET['search'])) {echo "value='{$userSearchItem}' "; } ?>
                                 name="main_page_search" id="main_page_search">
                         </div>
                         <div class="control">
@@ -48,9 +127,33 @@
                         </div>
                     </div>
                 </form>
+                <?php 
+                    if (isset($queryResult1)) {
+                    echo "<div class='my-3 p-5 has-background-warning'>
+                            <div>
+                                <h3 class='title is-5'>{$queryResult1}</h3>
+                            </div>
+                        </div>";
+                    }
+                    if (isset($queryResult2)) {
+                    echo "<div class='my-3 p-5 has-background-warning'>
+                            <div>
+                                <h3 class='title is-5'>{$queryResult2}</h3>
+                            </div>
+                        </div>";
+                    }
+                    if (isset($queryResult3)) {
+                    echo "<div class='my-3 p-5 has-background-warning'>
+                            <div>
+                                <h3 class='title is-5'>{$queryResult3}</h3>
+                            </div>
+                        </div>";
+                    }
+                ?>
             </section>
 
             <!-- result total count bar -->
+            <section>
             <div class="level">
                 <div class="level-left">
                     <div>
@@ -81,83 +184,7 @@
                     </div>
                 </div>
             </div>
-
-            <?php
-                if (isset($_GET['userfilter'])) {
-                    $rootURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?";
-                    $urlPathAddons = "";
-
-                    if (isset($_GET['club_checkbox']) && $_GET['club_checkbox'] == "on") {
-                        $clubValue = htmlentities(trim($_GET['club_select']));
-                        $urlPathAddons .= "&club={$clubValue}";
-                    }
-
-                    if (isset($_GET['filter_season_checkbox']) && $_GET['filter_season_checkbox'] == "on") {
-                        $seasonValue = htmlentities(trim($_GET['filter_season']));
-                        $urlPathAddons .= "&season={$seasonValue}";
-                    }
-
-                    // 
-                    if (isset($_GET['fixture_checkbox']) && $_GET['fixture_checkbox'] == "on") {
-                        $oppositionValue = htmlentities(trim($_GET['opposition_selector']));
-                        $urlPathAddons .= "&fixture={$oppositionValue}";
-                    }
-
-                    if (isset($_GET['result_checkbox']) && $_GET['result_checkbox'] == "on") {
-                        $htResultValue = htmlentities(trim($_GET['ht_result']));
-                        $atResultValue = htmlentities(trim($_GET['at_result']));
-                        if ($htResultValue > 0 && is_numeric($htResultValue) 
-                            && $atResultValue > 0 && is_numeric($atResultValue)) {
-                                $urlPathAddons .= "&htresult={$htResultValue}&atresult={$atResultValue}";
-                        } else {
-                            echo "Unknown scores, please reenter match results";
-                        }
-                    }
-
-                    if (isset($_GET['margin_checkbox']) && $_GET['margin_checkbox'] == "on") {
-                        $marginValue = htmlentities(trim($_GET['user_margin']));
-                        if (is_numeric($user_margin) && $user_margin > 0) {
-                            $urlPathAddons .= "&margin={$marginValue}";
-                        }
-                    }
-
-                    if (isset($_GET['filter_month_search']) && $_GET['filter_month_search'] == "on") {
-                        $monthValue = htmlentities(trim($_GET['filter_month_selector']));
-                        if ($monthValue >= 0 && $monthValue <= 11) {
-                            $urlPathAddons .= "&month={$monthValue}";
-                        } else {
-                            echo "unknown month";
-                            die();
-                        }
-                    }
-
-                    if (isset($_GET['day_checkbox']) && $_GET['day_checkbox'] == "on") {
-                        $dayValue = htmlentities(trim($_GET['day_selector']));
-                        if ($dayValue >= 0 && $dayValue <= 6) {
-                            $urlPathAddons .= "&day={$dayValue}";
-                        } else {
-                            echo "unknown day";
-                            die();
-                        }
-                    }
-
-                    if (isset($_GET['referee_selector']) && $_GET['referee_selector'] == "on") {
-                        $refereeValue = htmlentities(trim($_GET['referee_selector']));
-                        $urlPathAddons .= "&referee={$refereeValue}";
-                    }
-
-                    if (strlen($urlPathAddons) > 0) {
-                        $finalURL = "{$rootURL}{$urlPathAddons}";
-                    } else {
-                        $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021&count=10";
-                    }
-                } else {
-                    $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021&count=10";
-                }
-                require("part_pages/api_auth.php");
-                require("part_pages/part_print_summaries.php");
-            ?>
-            
+            <?php require("part_pages/part_print_summaries.php"); ?>
             </section>
 
             <nav class="pagination mt-6 mx-3 mb-4">
@@ -177,7 +204,7 @@
 
         <!-- filter panel -->
         <section id="filter_sidebar" class="mt-6 column is-one-fifth-desktop my_grey_highlight_para">
-            <form action="page_advanced_search.php?userfilter" method="">
+            <form action="page_advanced_search.php?userfilter" method="GET">
                 <ul>
                     <div>
                         <p class="subtitle my-4">Filter Results:</p>
