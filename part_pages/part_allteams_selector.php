@@ -1,7 +1,7 @@
 <?php
+    require("../logic_files/allfunctions.php");
     $teamAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/clubs?all_clubs";
-    require("api_auth.php");
-    $teamAPIdata = file_get_contents($teamAPIpath, false, $context);
+    $teamAPIdata = postDevKeyInHeader($teamAPIpath);
     $teamList = json_decode($teamAPIdata, true);
     
     echo "<option value=''>Select Team</option>";

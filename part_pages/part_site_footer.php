@@ -37,14 +37,9 @@
     <div class='content master_site_width'>
         <div class='has-text-centered'>
             <p id='footer_text' class='mt-3'>© All Content Copyright EPL Match Statistic Finder</p>
-            <p><a href='>About us</a></p>
-            <p><a href='>Contact Us</a></p>
-            <p class='content m-4 subtitle is-7 mt-6'>The English Premier League Match Stat Finder website rejects
-                racism in
-                all its forms</p>
-            <p class='content m-4 subtitle is-7'>All statistics shown on this site are for the 2000-2001 league
-                season onwards only.
-                Earlier statistics are unavailable</p>
+            <p><a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/developers/api_registration.php'>Developers - Register to use our API</a></p>
+            <p class='content m-4 subtitle is-7 mt-6'>The English Premier League Match Stat Finder website rejects racism in all its forms</p>
+            <p class='content m-4 subtitle is-7'>All statistics shown on this site only cover Seasons post 2000-2001. Earlier statistics are unavailable</p>
             <p class='content m-4 subtitle is-7'>All information provided on the English Premier League Match
                 Statistic Finder
                 (EPLMSF) site is provided for entertainment and discussion purposes only and may not be used to make

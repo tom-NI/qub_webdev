@@ -1,6 +1,6 @@
 <?php
     include_once("logic_files/allfunctions.php");
-    $recentMatchesAPIData = file_get_contents($finalURL, false, $context);
+    $recentMatchesAPIData = postDevKeyInHeader($finalURL);
     $recentMatchesList = json_decode($recentMatchesAPIData, true);
 
     foreach ($recentMatchesList as $summary) {
@@ -29,10 +29,13 @@
                                 <div class='column is-narrow my_inline_divs is-pulled-right'>
                                     <div class='level'>
                                         <div class='p-1'>
-                                            <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_edit_match.php?id={$matchID}' class='level-item my_admin_logos'><span class='material-icons'>mode_edit</span></a>
+                                            <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_edit_match.php?id={$matchID}' class='level-item my_admin_logos'>
+                                                <span class='material-icons'>mode_edit</span>
+                                            </a>
                                         </div>
                                         <div class='p-1'>
-                                            <a href='' class='level-item my_admin_logos'><span class='material-icons'>delete</span></a>
+                                            <a href='' class='level-item my_admin_logos'>
+                                            <span class='material-icons'>delete</span></a>
                                         </div>
                                     </div>
                                 </div>";

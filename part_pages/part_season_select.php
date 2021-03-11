@@ -1,7 +1,7 @@
 <?php
     $seasonAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/seasons?all_seasons_list";
-    require("api_auth.php");
-    $seasonAPIdata = file_get_contents($seasonAPIpath, false, $context);
+    require("../logic_files/allfunctions.php");
+    $seasonAPIdata = postDevKeyInHeader($seasonAPIpath);
     $seasonList = json_decode($seasonAPIdata, true);
 
     if (isset($_GET['season_pref'])) {

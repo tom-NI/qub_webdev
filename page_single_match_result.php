@@ -32,7 +32,7 @@
             $postedMatchID = $_GET['id'];
             $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$postedMatchID}";
             require("part_pages/api_auth.php");
-            $singleMatchData = file_get_contents($singleMatchURL, false, $context);
+            $singleMatchData = postDevKeyInHeader($singleMatchURL);
             $singleMatchList = json_decode($singleMatchData, true);
 
             foreach($singleMatchList as $singleMatchInfo) {

@@ -89,7 +89,7 @@
                 $strictPara = "Data does NOT include reverse fixture";
             }
             require("../a_assignment_code/part_pages/api_auth.php");
-            $fixtureAPIdata = file_get_contents($fixtureAPIurl, false, $context);
+            $fixtureAPIdata = postDevKeyInHeader($fixtureAPIurl);
             $fixtureList = json_decode($fixtureAPIdata, true);
 
             // initialize all analysis variables;

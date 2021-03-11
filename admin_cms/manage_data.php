@@ -15,7 +15,7 @@
                     )
                 );
                 // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?edit";
-                $apiReply = postDataInHeader($endpoint, $dataToSend);
+                $apiReply = postDevKeyInHeader($endpoint, $dataToSend);
 
                 // decode reply from API
                 // $apiJSON = json_decode($apiReply, true);
@@ -31,7 +31,7 @@
                     )
                 );
                 // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?edit";
-                $apiReply = postDataInHeader($endpoint, $dataToSend);
+                $apiReply = postDevKeyInHeader($endpoint, $dataToSend);
 
             } elseif (isset($_POST['delete_club'])) {
                 $clubToDelete = htmlentities(trim($_POST['select_delete_club']));
@@ -41,7 +41,7 @@
                     )
                 );
                 // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
-                $apiReply = postDataInHeader($endpoint, $dataToSend);
+                $apiReply = postDevKeyInHeader($endpoint, $dataToSend);
             } elseif (isset($_POST['delete_ref'])) {
                 $refereeToDelete = htmlentities(trim($_POST['select_delete_ref']));
                 $dataToSend = http_build_query(
@@ -50,7 +50,7 @@
                     )
                 );
                 // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
-                $apiReply = postDataInHeader($endpoint, $dataToSend);
+                $apiReply = postDevKeyInHeader($endpoint, $dataToSend);
             } elseif (isset($_POST['delete_season'])) {
                 $seasonToDelete = htmlentities(trim($_POST['delete_season_select']));
                 $dataToSend = http_build_query(
@@ -59,7 +59,7 @@
                     )
                 );
                 // $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/users/?delete";
-                $apiReply = postDataInHeader($endpoint, $dataToSend);
+                $apiReply = postDevKeyInHeader($endpoint, $dataToSend);
             } else {
                 echo "unknown Request";
             }

@@ -49,7 +49,7 @@
                         <span class='icon'>
                             <i class='fas fa-user-alt'></i>
                         </span>
-                    <span>Fan Login</span></a>";
+                    <span>User Login</span></a>";
                 }
             ?>
         </div>

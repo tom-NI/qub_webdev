@@ -41,7 +41,7 @@
                 );
 
                 $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch/?addnewresult";
-                $result = postDataInHeader($endpoint, $matchInfoArray);
+                $result = postDevKeyInHeader($endpoint, $matchInfoArray);
                 if ($result) {
                     $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
                 } else {
