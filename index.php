@@ -1,6 +1,5 @@
 <?php
     session_start();
-    $seshID = session_id();
     include_once("logic_files/allfunctions.php");
 ?>
 
@@ -35,7 +34,6 @@
                     } else {
                         echo "<p>Session not set</p>";
                     }
-                    echo "<p>{$seshID}</p>";
                 ?>
             </div>
         </div>
@@ -47,11 +45,11 @@
             <div class="container is-centered">
                 <!-- search bar -->
                 <div>
-                    <form action="" method="get">
+                    <form action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_advanced_search.php" method="GET">
                         <div class="field has-addons">
                             <div class="control is-expanded">
                                 <input class="input is-rounded" type="text" placeholder="Search for clubs to view results"
-                                    name="main_page_search" id="main_page_search">
+                                    name="search" id="main_page_search">
                             </div>
                             <div class="control">
                                 <button class="button is-rounded is-info">
@@ -70,15 +68,12 @@
             <!-- image carousel! -->
             <div class="my_image_maintain_aspect">
                 <figure>
-                    <img src="https://i.imgur.com/Ok815ec.jpg" alt=""
-                        class="box">
+                    <img src="https://i.imgur.com/Ok815ec.jpg" alt="" class="box">
                     <caption>
-                        Manchester United and Liverpool are neck and neck this season in the
-                        title race
+                        Manchester United and Liverpool are neck and neck this season in the title race
                     </caption>
                 </figure>
             </div>
-
             <h3 class="title is-4 m-3 mt-6">Most recent Premier League results;</h3>
             <p class="subtitle is-6 m-3">Click any result to view match details</p>
 
@@ -122,7 +117,7 @@
                         $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fullseason={$currentMaxSeasonInDB}";
                     }
                     require("part_pages/api_auth.php");
-                    $seasonAPIdata = file_get_contents($seasonInfoURL, false, $context);
+                    $seasonAPIdata = postDevKeyInHeader($seasonInfoURL);
                     $seasonGameList = json_decode($seasonAPIdata, true);
                 
                     // add all the club names into an array of current season teams
