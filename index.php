@@ -45,14 +45,14 @@
             <div class="container is-centered">
                 <!-- search bar -->
                 <div>
-                    <form action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_advanced_search.php" method="GET">
+                    <form action="index.php" method="GET">
                         <div class="field has-addons">
                             <div class="control is-expanded">
                                 <input class="input is-rounded" type="text" placeholder="Search for clubs to view results"
                                     name="search" id="main_page_search">
                             </div>
                             <div class="control">
-                                <button class="button is-rounded is-info">
+                                <button name='search_btn' class="button is-rounded is-info">
                                     <span class="icon is-left">
                                         <i class="fas fa-search"></i>
                                     </span>
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                     </form>
-                    <p class="mb-5 m-2"><a href="advanced_search.html">Advanced Match Search</a></p>
+                    <p class="mb-5 m-2"><a href="page_advanced_search.php">Advanced Match Search</a></p>
                 </div>
             </div>
 
