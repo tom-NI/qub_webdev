@@ -17,6 +17,7 @@
             <a class='navbar-item my_nav_menu m-2 ml-6' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/index.php'>Home</a>
             <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_advanced_search.php'>Advanced Search</a>
             <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_fixture_analysis.php'>Analyse Fixtures</a>
+            <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_chart_season.php'>Season Statistics</a>
             <?php
                 if (isset($_SESSION['sessiontype']) && strlen($_SESSION['sessiontype']) > 0) {
                     if ($_SESSION['sessiontype'] == "admin") {
