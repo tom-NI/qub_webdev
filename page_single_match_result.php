@@ -47,9 +47,6 @@
         } else {
             $kickoffParagraph = "";
         }
-    } else {
-        echo "<h2>page not found</h2>";
-        die();
     }
 
     // now GET the previous 5 fixtures of this match for the JS graph!
@@ -73,14 +70,6 @@
     $headersArray[] = $awayteam;
     $mainStatGraphData[0] = $headersArray;
 
-    // var data = google.visualization.arrayToDataTable([
-        //     ['StatName', 'HomeTeamName', 'AwayTeamName'],
-        //     ['MatchDate 1', HomeStat, AwayStat],
-        //     ['MatchDate 2', HomeStat, AwayStat],
-        //     ['MatchDate 3', HomeStat, AwayStat],
-        //     ['MatchDate 4', HomeStat, AwayStat],
-        //     ['MatchDate 5', HomeStat, AwayStat]
-        // ]);
     $percentNeedsCalculated = false;
     
     // get the JSON statistic keys based only on the info requested
@@ -129,13 +118,15 @@
     // build a final array from the keys decided above to pass to JS chart
     foreach($pastFixturesList as $fixture) {
         $singleMatchData = array();
-        $singleMatchData[] = $fixture['matchdate'];
+        $dbDate = $fixture['matchdate'];
+        $singleMatchData[] = parseDateShortFormat($dbDate);
+
         if ($percentNeedsCalculated) {
-            $singleMatchData[] = calculatePercentage($fixture['hometeamshotsontarget'], $fixture['hometeamshots']);
-            $singleMatchData[] = calculatePercentage($fixture['awayteamshotsontarget'], $fixture['awayteamshots']);
+            $singleMatchData[] = (double) calculatePercentage($fixture['hometeamshotsontarget'], $fixture['hometeamshots']);
+            $singleMatchData[] = (double) calculatePercentage($fixture['awayteamshotsontarget'], $fixture['awayteamshots']);
         } else {
-            $singleMatchData[] = $fixture[$homeStatKey];
-            $singleMatchData[] = $fixture[$awayStatKey];
+            $singleMatchData[] = (int) $fixture[$homeStatKey];
+            $singleMatchData[] = (int) $fixture[$awayStatKey];
         }
         $mainStatGraphData[] = $singleMatchData;
     }
@@ -168,6 +159,30 @@
             </div>
         </div>
     </section>
+
+    <?php 
+        // if (!isset($_GET['id'])) {
+        //     echo "
+        //         <p class='level-item'>Select a statistic to compare :</p>
+        //         <form class='level-item form' 
+        //             action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?id=??' method='POST'>
+        //             <div class='level-item control has-icons-left'>
+        //                 <div class='level-item select is-info'>
+        //                     <label name='requested_id' for=''></label>
+        //                     <input name='enter_match_id' id='enter_match_id' type='number'>
+        //                 </div>
+        //             </div>
+        //             <button name='change_stat_btn' class='mx-3 level-item button is-danger'>Go</button>
+        //         </form>
+        //     }";
+        // include_once('part_pages/part_site_footer.php');
+
+        // echo "
+        // </body>
+        // </html>
+        // ";
+        // die();
+    ?>
 
     <!-- main page starts here -->
         <div class='master_site_width'>
@@ -228,7 +243,7 @@
                 </div>
 
                 <!-- historic fixtures section -->
-                <div id='my_comparison_stat_list' class='mt-6'>
+                <div id='my_comparison_stat_list' class='my-6'>
                     <div class='my_info_colour'>
                         <h2 class='title is-3 pt-5 mb-2 my_info_colour'>Historic statistics.</h2>
                             <?php
@@ -236,10 +251,12 @@
                             ?>
                         <div class='level mt-1 p-5'>
                             <p class="level-item">Select a statistic to compare :</p>
-                            <form action="page_single_match_result.php" method='POST'>
-                                <div class='control has-icons-left'>
-                                    <div class='select is-info'>
-                                        <select name='analyzed_statistic'>
+                            <form class='level-item form' 
+                                action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?id=<?php echo "$postedMatchID" ?>" 
+                                method='POST'>
+                                <div class='level-item control has-icons-left'>
+                                    <div class='level-item select is-info'>
+                                        <select class='level-item' name='analyzed_statistic'>
                                             <option value="Goals">Goals</option>
                                             <option value="Half Time Goals">Half Time Goals</option>
                                             <option value="Shots">Shots</option>
@@ -255,16 +272,19 @@
                                         <i class="far fa-chart-bar"></i>
                                     </div>
                                 </div>
-                                <button name='change_stat_btn' class='button is-danger'>Go</button>
+                                <button name='change_stat_btn' class='mx-3 level-item button is-danger'>Go</button>
                             </form>
                         </div>
                     </div>
                     <!--  -->
-                    <div>
-                        <div class='column' id='former_fixtures_chart'></div>
+                    <div class='mt-4 column'>
+                        <h3 class="title is-4 mt-3">Previous 5 matches;</h3>
+                        <h3 class="title is-5 mb-0 pb-0">
+                            <?php echo "{$statToAnalyze} between {$hometeam} and {$awayteam}"; ?>
+                        </h3>
+                        <div class='' id='former_fixtures_chart'></div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -348,24 +368,30 @@
         var chart = new ApexCharts(document.querySelector("#match_stat_chart"), matchStatChart);
         chart.render();
     </script>
+
+    <!-- Statistic graph! -->
     <script>
         google.charts.load('current', {packages: ['corechart', 'bar']});
         google.charts.setOnLoadCallback(drawStatisticChart);
 
         function drawStatisticChart() {
             // Create the data table.
-            var data = google.visualization.arrayToDataTable(<?php $mainStatGraphData ?>);
-            
+            var data = google.visualization.arrayToDataTable(<?php print_r(json_encode($mainStatGraphData)); ?>);
+
             // Set chart options
             var options = {
-                width: 900,
+                colors: ['#48c774', '#FF6347'],
+                legend: { position: 'bottom', textStyle: {bold: true}},
+                fontSize: 16,
+                width: 800,
+                height: 600,
                 series: {
                     0: {targetAxisIndex: 0},
                 },
-                title: '<?php echo "Past 5 match {$statToAnalyze} between {$hometeam} and {$awayteam}"; ?>',
+                titleTextStyle : {fontSize: 24, bold: true },
                 vAxes: {
                     // Adds titles to each axis.
-                    0: {title: 'parsecs'},
+                    0: {title: 'Total'},
                 }
             };
 
