@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="stylesheets/mystyles.css">
+    <link rel="shortcut icon" href="images/favicon.png" type="image/png">
     <title>EPL Match Statistic Finder</title>
 </head>
 
