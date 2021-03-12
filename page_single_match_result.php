@@ -91,7 +91,7 @@
             $awayStatKey = 'awayteamshotsontarget';
             break;
         case "% Shots On Target":
-            $percentNeedsCalculated = true;
+            $percentNeedsCalculated = true;          
             break;
         case "Corners":
             $homeStatKey = 'hometeamcorners';
@@ -120,10 +120,9 @@
         $singleMatchData = array();
         $dbDate = $fixture['matchdate'];
         $singleMatchData[] = parseDateShortFormat($dbDate);
-
         if ($percentNeedsCalculated) {
-            $singleMatchData[] = (double) calculatePercentage($fixture['hometeamshotsontarget'], $fixture['hometeamshots']);
-            $singleMatchData[] = (double) calculatePercentage($fixture['awayteamshotsontarget'], $fixture['awayteamshots']);
+            $singleMatchData[] = calculatePercentageAsInt($fixture['hometeamshotsontarget'], $fixture['hometeamshots']);
+            $singleMatchData[] = calculatePercentageAsInt($fixture['awayteamshotsontarget'], $fixture['awayteamshots']);
         } else {
             $singleMatchData[] = (int) $fixture[$homeStatKey];
             $singleMatchData[] = (int) $fixture[$awayStatKey];
@@ -160,7 +159,7 @@
         </div>
     </section>
 
-    <?php 
+    <?php
         // if (!isset($_GET['id'])) {
         //     echo "
         //         <p class='level-item'>Select a statistic to compare :</p>
@@ -230,12 +229,6 @@
                         </div>
                     </div>
                 </div>
-                <div class='level'>
-                    <?php
-                        $fixtureAnalysisURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_fixture_analysis.php?fixture={$hometeam}~{$awayteam}";
-                        echo "<a type='button' href='{$fixtureAnalysisURL}' class='button is-info is-rounded is-narrow level-item level-right' >Analyse this fixture</a>";
-                    ?>
-                </div>
 
                 <!-- single match chart -->
                 <div id='my_comparison_stat_list' class='mt-4'>
@@ -257,32 +250,27 @@
                                 <div class='level-item control has-icons-left'>
                                     <div class='level-item select is-info'>
                                         <select class='level-item' name='analyzed_statistic'>
-                                            <option value="Goals">Goals</option>
-                                            <option value="Half Time Goals">Half Time Goals</option>
-                                            <option value="Shots">Shots</option>
-                                            <option value="Shots On Target">Shots On Target</option>
-                                            <option value="% Shots On target">% Shots On target</option>
-                                            <option value="Corners">Corners</option>
-                                            <option value="Fouls">Fouls</option>
-                                            <option value="Yellow Cards">Yellow Cards</option>
-                                            <option value="Red Cards">Red Cards</option>
+                                            <?php
+                                                require("part_pages/part_stat_selector.php");
+                                            ?>
                                         </select>
                                     </div>
                                     <div class="icon is-left">
                                         <i class="far fa-chart-bar"></i>
                                     </div>
                                 </div>
-                                <button name='change_stat_btn' class='mx-3 level-item button is-danger'>Go</button>
+                                <button name='change_stat_btn' class='ml-5 level-item button is-danger'>Go</button>
                             </form>
                         </div>
                     </div>
-                    <!--  -->
+                    
+                    <!-- historic results section with selector -->
                     <div class='mt-4 column'>
                         <h3 class="title is-4 mt-3">Previous 5 matches;</h3>
-                        <h3 class="title is-5 mb-0 pb-0">
+                        <p class="title is-5 mb-0 pb-0">
                             <?php echo "{$statToAnalyze} between {$hometeam} and {$awayteam}"; ?>
-                        </h3>
-                        <div class='' id='former_fixtures_chart'></div>
+                        </p>
+                        <div class='column' id='former_fixtures_chart'></div>
                     </div>
                 </div>
             </div>
@@ -292,114 +280,12 @@
     <?php include('part_pages/part_site_footer.php'); ?>
     
     <script src="scripts/my_script.js"></script>
-    <script>
-        let matchStatChart = {
-            colors: ['#48c774', '#FF6347'],
-            legend: {
-                position: 'top',
-                horizontalAlign: 'center',
-                fontSize: '16px',
-                fontFamily: 'Helvetica, Arial',
-                fontWeight: 500,
-                itemMargin: {
-                    horizontal: 30,
-                    vertical: 10
-                },
-                onItemHover: {
-                    highlightDataSeries: false,
-                },
-                onItemClick: {
-                    toggleDataSeries: false,
-                },
-            },
-            series: [{
-                name: <?php echo "'{$hometeam}'"; ?>,
-                data: <?php print_r(json_encode($htStatsForGraph)); ?>
-            }, {
-                name: <?php echo "'{$awayteam}'"; ?>,
-                data: <?php print_r(json_encode($atStatsForGraph)); ?>
-            }],
-            chart: {
-                type: 'bar',
-                height: 500,
-                stacked: true,
-                stackType: '100%',
-                dropShadow: {
-                    enabled: true,
-                    enabledOnSeries: undefined,
-                    top: 2,
-                    left: 2,
-                    blur: 3,
-                    color: '#999',
-                    opacity: 0.4
-                },
-                fontFamily: 'Helvetica, Arial, sans-serif'
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: true,
-                },
-            },
-            dataLabels: {
-                enabled: true,
-            },
-            stroke: {
-                width: 1,
-                colors: ['#fff']
-            },
-            xaxis: {
-                categories: ["Half Time Goals", "Shots", "Shots on Target", "% Shots on Target", "Corners", "Fouls", "Yellow Cards", "Red Cards"],
-                style: {
-                    fontSize: '16px',
-                },
-            },
-            tooltip: {
-                y: {
-                    formatter: function (val) {
-                        return val;
-                    }
-                }
-            },
-            fill: {
-                opacity: 1
-            },
-        };
 
-        var chart = new ApexCharts(document.querySelector("#match_stat_chart"), matchStatChart);
-        chart.render();
-    </script>
+    <!-- Single Match information -->
+    <?php include_once("charts/chart_single_match_stats.php") ?>
 
     <!-- Statistic graph! -->
-    <script>
-        google.charts.load('current', {packages: ['corechart', 'bar']});
-        google.charts.setOnLoadCallback(drawStatisticChart);
-
-        function drawStatisticChart() {
-            // Create the data table.
-            var data = google.visualization.arrayToDataTable(<?php print_r(json_encode($mainStatGraphData)); ?>);
-
-            // Set chart options
-            var options = {
-                colors: ['#48c774', '#FF6347'],
-                legend: { position: 'bottom', textStyle: {bold: true}},
-                fontSize: 16,
-                width: 800,
-                height: 600,
-                series: {
-                    0: {targetAxisIndex: 0},
-                },
-                titleTextStyle : {fontSize: 24, bold: true },
-                vAxes: {
-                    // Adds titles to each axis.
-                    0: {title: 'Total'},
-                }
-            };
-
-            // Instantiate and draw our chart, passing in some options.
-            var columnChart = new google.visualization.ColumnChart(document.getElementById('former_fixtures_chart'));
-            columnChart.draw(data, options);
-        }
-    </script>
+    <?php include_once("charts/chart_stats.php") ?>
 </body>
 
 </html>
