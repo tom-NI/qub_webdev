@@ -64,6 +64,16 @@
         }
     }
 
+    function calculatePercentageAsInt($valueToDivide, $total) {
+        if ($total != 0) {
+            $percent = ((double) $valueToDivide / (double)$total) * 100;
+            $percent = round($percent, 0, PHP_ROUND_HALF_UP);
+            return $percent;
+        } else {
+            return "0";
+        }
+    }
+
     function calculateAverage($valueToDivide, $total) {
         if ($total != 0) {
             $value = ((double) $valueToDivide / (double)$total);
