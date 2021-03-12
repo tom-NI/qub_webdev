@@ -143,6 +143,11 @@
         return $date->format('l jS F Y');
     }
 
+    function parseDateShortFormat($dateFromDB){
+        $date = new DateTime($dateFromDB);
+        return $date->format('jS M Y');
+    }
+
     function parseTimeForDBEntry($timeFromHTML){
         $date = new DateTime($timeFromHTML);
         return $date->format('H:i:s');
