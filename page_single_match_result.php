@@ -1,4 +1,147 @@
-<?php session_start(); ?>
+<?php 
+    session_start();
+    include_once("logic_files/allfunctions.php");
+    if (isset($_GET['id'])) {
+        $postedMatchID = htmlentities(trim($_GET['id']));
+        $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$postedMatchID}";
+        $singleMatchData = postDevKeyInHeader($singleMatchURL);
+        $singleMatchList = json_decode($singleMatchData, true);
+
+        foreach($singleMatchList as $singleMatchInfo) {
+            $matchdate = $singleMatchInfo['matchdate'];
+            $kickofftime = $singleMatchInfo['kickofftime'];
+            $refereename = $singleMatchInfo['refereename'];
+            $hometeam = $singleMatchInfo['hometeam'];
+            $awayteam = $singleMatchInfo['awayteam'];
+            $hometeamlogoURL = $singleMatchInfo['hometeamlogoURL'];
+            $awayteamlogoURL = $singleMatchInfo['awayteamlogoURL'];
+
+            $hometeamtotalgoals = $singleMatchInfo['hometeamtotalgoals'];
+            $hometeamhalftimegoals = $singleMatchInfo['hometeamhalftimegoals'];
+            $hometeamshots = $singleMatchInfo['hometeamshots'];
+            $hometeamshotsontarget = $singleMatchInfo['hometeamshotsontarget'];
+            $hometeamcorners = $singleMatchInfo['hometeamcorners'];
+            $hometeamfouls = $singleMatchInfo['hometeamfouls'];
+            $hometeamyellowcards = $singleMatchInfo['hometeamyellowcards'];
+            $hometeamredcards = $singleMatchInfo['hometeamredcards'];
+
+            $awayteamtotalgoals = $singleMatchInfo['awayteamtotalgoals'];
+            $awayteamhalftimegoals = $singleMatchInfo['awayteamhalftimegoals'];
+            $awayteamshots = $singleMatchInfo['awayteamshots'];
+            $awayteamshotsontarget = $singleMatchInfo['awayteamshotsontarget'];
+            $awayteamcorners = $singleMatchInfo['awayteamcorners'];
+            $awayteamfouls = $singleMatchInfo['awayteamfouls'];
+            $awayteamyellowcards = $singleMatchInfo['awayteamyellowcards'];
+            $awayteamredcards = $singleMatchInfo['awayteamredcards'];
+        }
+
+        $htPercentShotsOT = calculatePercentage($hometeamshotsontarget, $hometeamshots);
+        $atPercentShotsOT = calculatePercentage($awayteamshotsontarget, $awayteamshots);
+
+        $htStatsForGraph = array($hometeamhalftimegoals,$hometeamshots,$hometeamshotsontarget,$htPercentShotsOT,$hometeamcorners,$hometeamfouls,$hometeamyellowcards,$hometeamredcards);
+        $atStatsForGraph = array($awayteamhalftimegoals,$awayteamshots,$awayteamshotsontarget,$atPercentShotsOT,$awayteamcorners,$awayteamfouls,$awayteamyellowcards,$awayteamredcards);
+
+        $presentableMatchDate = parseDateLongFormat($matchdate);
+        if (strlen($kickofftime) > 0) {
+            $kickoffParagraph = "<p class='p-2 mx-1 is-size-7-mobile'>Kick Off : {$kickofftime}</p>";
+        } else {
+            $kickoffParagraph = "";
+        }
+    } else {
+        echo "<h2>page not found</h2>";
+        die();
+    }
+
+    // now GET the previous 5 fixtures of this match for the JS graph!
+    $homeTeamSearched = addUnderScores($hometeam);
+    $awayTeamSearched = addUnderScores($awayteam);
+    $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
+    $pastFixturesData = postDevKeyInHeader($pastFixturesURL);
+    $pastFixturesList = json_decode($pastFixturesData, true);
+
+    if (isset($_POST['change_stat_btn'])) {
+        $statToAnalyze = htmlentities(trim($_POST['analyzed_statistic']));
+    } else {
+        $statToAnalyze = "Goals";
+    }
+
+    // build the subarray for titles etc, add to the main chart data array
+    $mainStatGraphData = array();
+    $headersArray = array();
+    $headersArray[] = $statToAnalyze;
+    $headersArray[] = $hometeam;
+    $headersArray[] = $awayteam;
+    $mainStatGraphData[0] = $headersArray;
+
+    // var data = google.visualization.arrayToDataTable([
+        //     ['StatName', 'HomeTeamName', 'AwayTeamName'],
+        //     ['MatchDate 1', HomeStat, AwayStat],
+        //     ['MatchDate 2', HomeStat, AwayStat],
+        //     ['MatchDate 3', HomeStat, AwayStat],
+        //     ['MatchDate 4', HomeStat, AwayStat],
+        //     ['MatchDate 5', HomeStat, AwayStat]
+        // ]);
+    $percentNeedsCalculated = false;
+    
+    // get the JSON statistic keys based only on the info requested
+    switch ($statToAnalyze) {
+        case "Goals":
+            $homeStatKey = 'hometeamtotalgoals';
+            $awayStatKey = 'awayteamtotalgoals';
+            break;
+        case "Half Time Goals":
+            $homeStatKey = 'hometeamhalftimegoals';
+            $awayStatKey = 'awayteamhalftimegoals';
+            break;
+        case "Shots":
+            $homeStatKey = 'hometeamshots';
+            $awayStatKey = 'awayteamshots';
+            break;
+        case "Shots On Target":
+            $homeStatKey = 'hometeamshotsontarget';
+            $awayStatKey = 'awayteamshotsontarget';
+            break;
+        case "% Shots On Target":
+            $percentNeedsCalculated = true;
+            break;
+        case "Corners":
+            $homeStatKey = 'hometeamcorners';
+            $awayStatKey = 'awayteamcorners';
+            break;
+        case "Fouls":
+            $homeStatKey = 'hometeamfouls';
+            $awayStatKey = 'awayteamfouls';
+            break;
+        case "Yellow Cards":
+            $homeStatKey = 'hometeamyellowcards';
+            $awayStatKey = 'awayteamyellowcards';
+            break;
+        case "Red Cards":
+            $homeStatKey = 'hometeamredcards';
+            $awayStatKey = 'awayteamredcards';
+            break;
+        default :
+            $homeStatKey = 'hometeamtotalgoals';
+            $awayStatKey = 'awayteamtotalgoals';
+            break;
+    }
+
+    // build a final array from the keys decided above to pass to JS chart
+    foreach($pastFixturesList as $fixture) {
+        $singleMatchData = array();
+        $singleMatchData[] = $fixture['matchdate'];
+        if ($percentNeedsCalculated) {
+            $singleMatchData[] = calculatePercentage($fixture['hometeamshotsontarget'], $fixture['hometeamshots']);
+            $singleMatchData[] = calculatePercentage($fixture['awayteamshotsontarget'], $fixture['awayteamshots']);
+        } else {
+            $singleMatchData[] = $fixture[$homeStatKey];
+            $singleMatchData[] = $fixture[$awayStatKey];
+        }
+        $mainStatGraphData[] = $singleMatchData;
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +153,7 @@
     <link rel="stylesheet" href="stylesheets/mystyles.css">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <title>EPL Match Result</title>
 </head>
 
@@ -26,106 +170,6 @@
     </section>
 
     <!-- main page starts here -->
-    <?php
-        include_once("logic_files/allfunctions.php");
-        if (isset($_GET['id'])) {
-            $postedMatchID = htmlentities(trim($_GET['id']));
-            $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$postedMatchID}";
-            $singleMatchData = postDevKeyInHeader($singleMatchURL);
-            $singleMatchList = json_decode($singleMatchData, true);
-
-            foreach($singleMatchList as $singleMatchInfo) {
-                $matchdate = $singleMatchInfo['matchdate'];
-                $kickofftime = $singleMatchInfo['kickofftime'];
-                $refereename = $singleMatchInfo['refereename'];
-                $hometeam = $singleMatchInfo['hometeam'];
-                $awayteam = $singleMatchInfo['awayteam'];
-                $hometeamlogoURL = $singleMatchInfo['hometeamlogoURL'];
-                $awayteamlogoURL = $singleMatchInfo['awayteamlogoURL'];
-
-                $hometeamtotalgoals = $singleMatchInfo['hometeamtotalgoals'];
-                $hometeamhalftimegoals = $singleMatchInfo['hometeamhalftimegoals'];
-                $hometeamshots = $singleMatchInfo['hometeamshots'];
-                $hometeamshotsontarget = $singleMatchInfo['hometeamshotsontarget'];
-                $hometeamcorners = $singleMatchInfo['hometeamcorners'];
-                $hometeamfouls = $singleMatchInfo['hometeamfouls'];
-                $hometeamyellowcards = $singleMatchInfo['hometeamyellowcards'];
-                $hometeamredcards = $singleMatchInfo['hometeamredcards'];
-
-                $awayteamtotalgoals = $singleMatchInfo['awayteamtotalgoals'];
-                $awayteamhalftimegoals = $singleMatchInfo['awayteamhalftimegoals'];
-                $awayteamshots = $singleMatchInfo['awayteamshots'];
-                $awayteamshotsontarget = $singleMatchInfo['awayteamshotsontarget'];
-                $awayteamcorners = $singleMatchInfo['awayteamcorners'];
-                $awayteamfouls = $singleMatchInfo['awayteamfouls'];
-                $awayteamyellowcards = $singleMatchInfo['awayteamyellowcards'];
-                $awayteamredcards = $singleMatchInfo['awayteamredcards'];
-            }
-
-            $htPercentShotsOT = calculatePercentage($hometeamshotsontarget, $hometeamshots);
-            $atPercentShotsOT = calculatePercentage($awayteamshotsontarget, $awayteamshots);
-
-            $htStatsForGraph = array($hometeamhalftimegoals,$hometeamshots,$hometeamshotsontarget,$htPercentShotsOT,$hometeamcorners,$hometeamfouls,$hometeamyellowcards,$hometeamredcards);
-            $atStatsForGraph = array($awayteamhalftimegoals,$awayteamshots,$awayteamshotsontarget,$atPercentShotsOT,$awayteamcorners,$awayteamfouls,$awayteamyellowcards,$awayteamredcards);
-
-            $presentableMatchDate = parseDateLongFormat($matchdate);
-            if (strlen($kickofftime) > 0) {
-                $kickoffParagraph = "<p class='p-2 mx-1 is-size-7-mobile'>Kick Off : {$kickofftime}</p>";
-            } else {
-                $kickoffParagraph = "";
-            }
-        } else {
-            echo "<h2>page not found</h2>";
-            die();
-        }
-
-        // now analyse the previous 5 fixture for this match!
-        $homeTeamSearched = addUnderScores($hometeam);
-        $awayTeamSearched = addUnderScores($awayteam);
-        $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
-        $pastFixturesData = postDevKeyInHeader($pastFixturesURL);
-        $pastFixturesList = json_decode($pastFixturesData, true);
-
-        $hometeamtotalgoalsArray = array();
-        $hometeamhalftimegoalsArray = array();
-        $hometeamshotsArray = array();
-        $hometeamshotsontargetArray = array();
-        $hometeamcornersArray = array();
-        $hometeamfoulsArray = array();
-        $hometeamyellowcardsArray = array();
-        $hometeamredcardsArray = array();
-
-        $awayteamtotalgoalsArray = array();
-        $awayteamhalftimegoalsArray = array();
-        $awayteamshotsArray = array();
-        $awayteamshotsontargetArray = array();
-        $awayteamcornersArray = array();
-        $awayteamfoulsArray = array();
-        $awayteamyellowcardsArray = array();
-        $awayteamredcardsArray = array();
-
-        foreach($pastFixturesList as $fixture) {
-            $hometeamtotalgoalsArray[] = $fixture['hometeamtotalgoals'];
-            $hometeamhalftimegoalsArray[] = $fixture['hometeamhalftimegoals'];
-            $hometeamshotsArray[] = $fixture['hometeamshots'];
-            $hometeamshotsontargetArray[] = $fixture['hometeamshotsontarget'];
-            $hometeamcornersArray[] = $fixture['hometeamcorners'];
-            $hometeamfoulsArray[] = $fixture['hometeamfouls'];
-            $hometeamyellowcardsArray[] = $fixture['hometeamyellowcards'];
-            $hometeamredcardsArray[] = $fixture['hometeamredcards'];
-
-            $awayteamtotalgoalsArray[] = $fixture['awayteamtotalgoals'];
-            $awayteamhalftimegoalsArray[] = $fixture['awayteamhalftimegoals'];
-            $awayteamshotsArray[] = $fixture['awayteamshots'];
-            $awayteamshotsontargetArray[] = $fixture['awayteamshotsontarget'];
-            $awayteamcornersArray[] = $fixture['awayteamcorners'];
-            $awayteamfoulsArray[] = $fixture['awayteamfouls'];
-            $awayteamyellowcardsArray[] = $fixture['awayteamyellowcards'];
-            $awayteamredcardsArray[] = $fixture['awayteamredcards'];
- 
-        }
-    ?>
-
         <div class='master_site_width'>
             <div class='mt-6 mx-4'>
                 <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered'>
@@ -187,29 +231,32 @@
                 <div id='my_comparison_stat_list' class='mt-6'>
                     <div class='my_info_colour'>
                         <h2 class='title is-3 pt-5 mb-2 my_info_colour'>Historic statistics.</h2>
-                        <?php
-                            echo "<p class='my_info_colour'>View statistics for the five prior matches between {$hometeam} and {$awayteam} </p>";
-                        ?>
+                            <?php
+                                echo "<p class='my_info_colour'>View statistics for the five prior matches between {$hometeam} and {$awayteam} </p>";
+                            ?>
                         <div class='level mt-1 p-5'>
                             <p class="level-item">Select a statistic to compare :</p>
-                            <div class='control has-icons-left'>
-                                <div class='select is-info'>
-                                    <select class=''>
-                                        <option value="Goals">Goals</option>
-                                        <option value="Half Time Goals">Half Time Goals</option>
-                                        <option value="Shots">Shots</option>
-                                        <option value="Shots On Target">Shots On Target</option>
-                                        <option value="% Shots On target">% Shots On target</option>
-                                        <option value="Corners">Corners</option>
-                                        <option value="Fouls">Fouls</option>
-                                        <option value="Yellow Cards">Yellow Cards</option>
-                                        <option value="Red Cards">Red Cards</option>
-                                    </select>
+                            <form action="page_single_match_result.php" method='POST'>
+                                <div class='control has-icons-left'>
+                                    <div class='select is-info'>
+                                        <select name='analyzed_statistic'>
+                                            <option value="Goals">Goals</option>
+                                            <option value="Half Time Goals">Half Time Goals</option>
+                                            <option value="Shots">Shots</option>
+                                            <option value="Shots On Target">Shots On Target</option>
+                                            <option value="% Shots On target">% Shots On target</option>
+                                            <option value="Corners">Corners</option>
+                                            <option value="Fouls">Fouls</option>
+                                            <option value="Yellow Cards">Yellow Cards</option>
+                                            <option value="Red Cards">Red Cards</option>
+                                        </select>
+                                    </div>
+                                    <div class="icon is-left">
+                                        <i class="far fa-chart-bar"></i>
+                                    </div>
                                 </div>
-                                <div class="icon is-left">
-                                    <i class="far fa-chart-bar"></i>
-                                </div>
-                            </div>
+                                <button name='change_stat_btn' class='button is-danger'>Go</button>
+                            </form>
                         </div>
                     </div>
                     <!--  -->
@@ -302,7 +349,30 @@
         chart.render();
     </script>
     <script>
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+        google.charts.setOnLoadCallback(drawStatisticChart);
 
+        function drawStatisticChart() {
+            // Create the data table.
+            var data = google.visualization.arrayToDataTable(<?php $mainStatGraphData ?>);
+            
+            // Set chart options
+            var options = {
+                width: 900,
+                series: {
+                    0: {targetAxisIndex: 0},
+                },
+                title: '<?php echo "Past 5 match {$statToAnalyze} between {$hometeam} and {$awayteam}"; ?>',
+                vAxes: {
+                    // Adds titles to each axis.
+                    0: {title: 'parsecs'},
+                }
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var columnChart = new google.visualization.ColumnChart(document.getElementById('former_fixtures_chart'));
+            columnChart.draw(data, options);
+        }
     </script>
 </body>
 
