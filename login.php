@@ -155,14 +155,12 @@
                     action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php">
                     <div class="field">
                         <label class='label mt-3 has-text-left my_info_colour' for="">Email address:</label>
-                        <label class='label mt-3 has-text-left my_info_colour' for="">masterchef7182@gmail.com</label>
                         <div class="control">
                             <input class='input has-text-left' required type="text" placeholder='email@email.com' name="user_email">
                         </div>
                     </div>
                     <div class="field mt-3">
                         <label class='label has-text-left my_info_colour'>Password:</label>
-                        <label class='label has-text-left my_info_colour'>testtest</label>
                         <div class="control">
                             <input class='input has-text-left' required type="password" placeholder='password' name="user_password">
                         </div>
