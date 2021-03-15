@@ -238,13 +238,15 @@
                 <!-- historic fixtures section -->
                 <div id='my_comparison_stat_list' class='my-6'>
                     <div class='my_info_colour'>
-                        <h2 class='title is-3 pt-5 mb-2 my_info_colour'>Historic statistics.</h2>
-                            <?php
-                                echo "<p class='my_info_colour'>View statistics for the five prior matches between {$hometeam} and {$awayteam} </p>";
-                            ?>
-                        <div class='level mt-1 p-5'>
-                            <p class="level-item">Select a statistic to compare :</p>
-                            <form class='level-item form' 
+                        <?php
+                            echo "<h2 class='title is-4 pt-5 mb-2 my_info_colour'>{$hometeam} vs {$awayteam} - Past Fixture Analysis</h2>";
+                        ?>
+                        <p class='px-6 pt-3 my_info_colour'>View Premier League match statistics (including reverse fixture) for five previous matches</p>
+                        <div class='level py-5'>
+                            <div class='level-item'>
+                                <p>Select a statistic to compare :</p>
+                            </div>
+                            <form class='level-item form p-0'
                                 action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?id=<?php echo "$postedMatchID" ?>" 
                                 method='POST'>
                                 <div class='level-item control has-icons-left'>
@@ -263,10 +265,11 @@
                             </form>
                         </div>
                     </div>
+                </div>
                     
                     <!-- historic results section with selector -->
                     <div class='mt-4 column'>
-                        <h3 class="title is-4 mt-3">Previous 5 matches;</h3>
+                        <h3 class="title is-4 mt-3">Statistics for preceding five matches</h3>
                         <p class="title is-5 mb-0 pb-0">
                             <?php echo "{$statToAnalyze} between {$hometeam} and {$awayteam}"; ?>
                         </p>
