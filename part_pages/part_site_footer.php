@@ -33,7 +33,7 @@
         </button>
     </div>
 </div>
-<footer class='footer my_footer pb-6'>
+<footer class='footer pb-6'>
     <div class='content master_site_width'>
         <div class='has-text-centered'>
             <p id='footer_text' class='mt-3'>© All Content Copyright EPL Match Statistic Finder</p>
