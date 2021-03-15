@@ -106,7 +106,7 @@
                         <button class="button is-info">Go</button>
                     </div>
                 </form>
-                <p class="mb-5"><a href="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_chart_season.php">View Stats as Chart</a></p>
+                <p class="mb-5"><a href="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_chart_season.php">View all clubs statistic chart</a></p>
             </div>
             <div class="tile is-ancestor is-vertical is-10-mobile">
                 <?php

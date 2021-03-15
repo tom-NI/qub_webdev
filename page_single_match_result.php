@@ -285,7 +285,7 @@
     <?php include_once("charts/chart_single_match_stats.php") ?>
 
     <!-- Statistic graph! -->
-    <?php include_once("charts/chart_stats.php") ?>
+    <?php include_once("charts/chart_past_fixture.php") ?>
 </body>
 
 </html>
