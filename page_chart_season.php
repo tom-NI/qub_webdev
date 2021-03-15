@@ -124,8 +124,8 @@
     </section>
 
         <div class='master_site_width'>
-            <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered my_info_colour mt-4'>
-                <p class='my_info_colour title is-5 pt-4'>Select Season and Statistic to customise the chart</p>
+            <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered my_info_colour mt-4 p-5'>
+                <p class='my_info_colour title is-5'>Select Season and Statistic to customise the chart</p>
                 <form class='level-item form' action="page_chart_season.php" method='POST'>
                     <div class='select level-item'>
                         <select name="season_pref" id="season_chart_select">
@@ -159,7 +159,7 @@
         </div>
     </div>
     <?php include('part_pages/part_site_footer.php'); ?>
-    <?php include_once("charts/chart_season.php"); ?>
+    <?php include_once("charts/chart_season_analysis.php"); ?>
     <script src="scripts/my_script.js"></script>
 </body>
 </html>
