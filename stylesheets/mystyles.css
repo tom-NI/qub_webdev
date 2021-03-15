@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 
+/* stop spinners showing up on numberical inputs on most pages */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -33,6 +34,7 @@ input::-webkit-inner-spin-button {
 .my_sticky_div {
     position:-webkit-sticky;
     position: sticky;
+    z-index: 9999;
     top: 100px;
 }
 
