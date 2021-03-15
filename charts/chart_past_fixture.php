@@ -37,7 +37,7 @@
             fontSize: 16,
             width: 800,
             height: 500,
-            chartArea: {left: 100, top:40, 'width': '70%', 'height': '75%'},
+            chartArea: {left: 75, top:40, 'width': '70%', 'height': '75%'},
             series: {
                 0: {targetAxisIndex: 0},
             },
