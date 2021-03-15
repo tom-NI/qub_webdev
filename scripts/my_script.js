@@ -75,7 +75,7 @@ if (document.getElementById("yes_radio") !== null) {
 
 // for the fixture analysis page, 
 // disable the search button if the user hasnt selected two teams
-if ((document.getElementById("ht_selector") !== null) 
+if ((document.getElementById("ht_selector") !== null)
     && (document.getElementById("at_selector") !== null)) {  
     // if both the ht and at selectors are present on the page check their values 
     var htSelectValue = document.getElementById("ht_selector").value;
@@ -141,3 +141,16 @@ if ((document.getElementById("ht_selector") !== null)
 //     }
 //     document.getElementsByClassName("pagination-link").addEventListener("click", paginationButtonChangeStyle);
 // }
+
+// single match page, administrator can delete a match result!
+if (document.getElementById("delete_match_btn") !== null) {
+    function validateDeletion() {
+        var result = confirm("This will delete this match result from the records, are you sure you wish to proceed?\nThis action CANNOT be undone.");
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    document.getElementById("delete_match_btn").addEventListener("click", validateDeletion);
+}
