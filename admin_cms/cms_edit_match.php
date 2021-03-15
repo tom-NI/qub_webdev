@@ -4,7 +4,8 @@
         header("Location: login.php");
     } elseif (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] == "admin") {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_GET['editmatch'])) {
+            // sending match info to the database after editing!
+            if (isset($_GET['finalise_match_edit'])) {
                 $noMatchIDisSelected = false;
                 include_once("../logic_files/allfunctions.php");
                 require("../part_pages/part_post_match.php");
@@ -47,9 +48,9 @@
                 } else {
                     $submissionDisplayToUser = "Match Entry failed, please try again";
                 }
-                
             }
         } elseif (isset($_GET['id'])) {
+            // user is editing the match, so get the matchID and find the match to populate the form
             $noMatchIDisSelected = false;
             // GET AND DISPLAY ALL THE INFORMATION INTO THE FORM FOR THE USER TO EDIT`
             // get all the info from a particular match and load it into the form!
@@ -137,7 +138,7 @@
                         die();
                     }
                 ?>
-                <form method="POST" action="cms_edit_match.php?editmatch">
+                <form method="POST" action="cms_edit_match.php?finalise_match_edit">
                     <div class="mt-5 p-5 my_info_colour">
                         <div>
                             <h2 class="title is-size-4 my_info_colour mb-4">Change Match Details:</h2>
