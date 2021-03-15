@@ -100,7 +100,6 @@
             <!-- EDIT CLUB AND REFEREE NAMES -->
             <div class="mt-5 p-5 my_info_colour p-3">
                 <h2 class="title is-4 mb-2 my_info_colour">Edit Names</h2>
-                <p class='my-5'>Caution - changing names will also amend all current records. <br> If existing records are to retain old names, please ADD a new referee or club instead.</p>
                 <div class="my-4">
                     <form action="" method="POST" class="level">
                         <div class="select is-info my_medium_form_item">
