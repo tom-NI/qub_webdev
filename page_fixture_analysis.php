@@ -432,7 +432,7 @@
     <title>Fixture Analysis</title>
 </head>
 
-<body class="has-navbar-fixed-top is-family-sans-serif">
+<body class="has-navbar-fixed-top is-family-sans-serif my_min_page">
     <?php include("part_pages/part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
@@ -447,8 +447,17 @@
 
     <!-- main site content -->
     <div class="master_site_width">
+        
+        
         <section class="columns is-mobile is-vcentered m-2 mx-5 pt-4">
-            <div class="column is-8-desktop is-offset-2-desktop my_info_colour">
+            <?php
+                // change the layout of the search bar if nothing has been requested!
+                if (!isset($_GET['ht_selector']) && !isset($_GET['at_selector'])) {
+                    echo "<div class='column is-8-desktop is-offset-2-desktop my_info_colour p-3 my-6'>";
+                } else {
+                    echo "<div class='column is-8-desktop is-offset-2-desktop my_info_colour'>";
+                }
+            ?>
                 <div class="column p-4 mx-3">
                     <form class="level columns form" method="GET" action="page_fixture_analysis.php">
                         <div class="column level-item">
@@ -615,12 +624,12 @@
                         </div>
                     </div>
                 </section>
-            </div>";            
+            </div>";
         }
         require('part_pages/part_site_footer.php');
     ?>
 
-    <!-- load all my javscript graphs and pass them data from PHP -->
+    <!-- load all my javascript graphs and pass them data from PHP -->
     <script type="text/javascript" src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/charts/chart_pie_fixture.js"></script>
     <script>drawStatPieChart(<?php print_r(json_encode($finalWinsArray)); ?>, 'wins_chart', 'Total Wins.');</script>
     <script>drawStatPieChart(<?php print_r(json_encode($finalCleanSheetsArray)); ?>, 'clean_sheets_chart', 'Total Clean Sheets.');</script>
