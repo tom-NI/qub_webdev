@@ -83,11 +83,8 @@
     arsort($statisticArray);
     
     // build the subarray for titles etc, add to the main chart data array
-    $jsChartAnnotationNote = "{ role: 'annotation' }";
     $headersArray = array();
-    $headersArray[] = "Club";
-    $headersArray[] = $statToAnalyze;
-    $headersArray[] = $jsChartAnnotationNote;
+    array_push($headersArray, "Club", $statToAnalyze);
     
     // add the headers needed by JS graph to the final sorted Graph array
     $finalSortedGraphArray = array();
@@ -95,9 +92,7 @@
 
     foreach ($statisticArray as $key => $value) {
         $tempArray = array();
-        $tempArray[] = $key;
-        $tempArray[] = $value;
-        $tempArray[] = $value;
+        array_push($tempArray, $key, $value);
         $finalSortedGraphArray[] = $tempArray;
     }
 ?>
