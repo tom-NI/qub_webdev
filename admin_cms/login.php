@@ -74,7 +74,6 @@
                     action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/login.php">
                     <div class="field">
                         <label class='label mt-3 has-text-left my_info_colour' for="">Email address:</label>
-
                         <div class="control">
                             <input class='input has-text-left' required type="text" placeholder='email@email.com' name="user_email">
                         </div>
