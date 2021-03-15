@@ -29,18 +29,14 @@
                     opacity: 1
                 }
             },
-            fontSize: 18,
+            fontSize: 16,
             width: 800,
-            height: 1100,
-            chartArea: {left: 250, top:25, 'width': '70%', 'height': '90%'},
+            height: 1000,
+            chartArea: {left: 300, top:25, 'width': '70%', 'height': '90%'},
             series: {
                 0: {targetAxisIndex: 0},
             },
             titleTextStyle : {fontSize: 24, bold: true },
-            vAxes: {
-                // Add titles to each axis.
-                0: {title: 'Club Name'},
-            }
         };
 
         // Instantiate and draw chart
