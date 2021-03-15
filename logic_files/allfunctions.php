@@ -3,7 +3,7 @@
     use PHPMailer\PHPMailer\PHPMailer;
 
     // query a db and if data doesnt exist, insert it and check its inserted
-    // used for the initial load of flat file to db
+    // used for the initial load of flat CSV file to db, NOT for all prepared statements
     function insertAvoidingDuplicates($sqlQuery, $insertQueryIfNull) {
         require("dbconn.php");
         $conn->set_charset('utf8mb4');
@@ -43,6 +43,7 @@
         }
     }
 
+    // query the db and if successful, return the value asked for
     function dbQueryCheckReturn($sqlQuery) {
         require("dbconn.php");
         $queriedValue = $conn->query($sqlQuery);
@@ -54,6 +55,7 @@
         }
     }
 
+    // calculate and return percentage as a double to 1 decimal place
     function calculatePercentage($valueToDivide, $total) {
         if ($total != 0) {
             $percent = (double) ((double) $valueToDivide / (double)$total) * 100;
@@ -64,6 +66,7 @@
         }
     }
 
+    // calculate percentage and round to the nearest whole int
     function calculatePercentageAsInt($valueToDivide, $total) {
         if ($total != 0) {
             $percent = ((double) $valueToDivide / (double)$total) * 100;
@@ -74,6 +77,7 @@
         }
     }
 
+    // calculate the average as a double to one decimal place
     function calculateAverage($valueToDivide, $total) {
         if ($total != 0) {
             $value = ((double) $valueToDivide / (double)$total);
@@ -83,6 +87,7 @@
         }
     }
 
+    // calculate the average to two DP
     function calculateAverageTwoDP($valueToDivide, $total) {
         if ($total != 0) {
             $value = ((double) $valueToDivide / (double)$total);
@@ -92,6 +97,7 @@
         }
     }
 
+    // get and return the current season via the API
     function getCurrentSeason() {
         $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/seasons?current_season";
         $currentSeasonData = postDevKeyInHeader($currentSeasonURL);
@@ -103,6 +109,7 @@
         return $currentSeason;
     }
     
+    // check the order of season years is correct (for parsing user inputs)
     function checkSeasonYearOrder($fullSeasonEntryToCheck) {
         $seasonEntryArray = explode("-", $fullSeasonEntryToCheck);
         $seasonStartYear = (int) $seasonEntryArray[0];
@@ -114,6 +121,7 @@
         }
     }
     
+    // find the next season (to display the suggested next season to admins when adding seasons)
     function findNextSuggestedSeason() {
         $currentSeason = getCurrentSeason();
         $seasonYearsArray = explode("-", $currentSeason);
@@ -122,12 +130,14 @@
         return "{$seasonEndYear}-{$nextSeasonEndYear}";
     }
 
+    // remove underscores from data
     function removeUnderScores($originalString) {
         $regex = '/[ ]/i';
         $newString = preg_replace($regex, ' ', $originalString);
         return $newString;
     }
 
+    // add underscores to team names for searches
     function addUnderScores($originalString) {
         $trimmedString = trim($originalString);
         $regex = '/[ ]/i';
@@ -135,6 +145,7 @@
         return $newString;
     }
 
+    // find the maximum value in an array and return the equivalent items (same index) from another array
     function findMaxValueAndReturnTeam($arrayToCheck, $arrayTeamNames) {
         $maxVal = max($arrayToCheck);
         $maxIndex = array_search($maxVal, $arrayToCheck);
@@ -153,16 +164,19 @@
         return $date->format('l jS F Y');
     }
 
+    // parse date for short format for presentation
     function parseDateShortFormat($dateFromDB){
         $date = new DateTime($dateFromDB);
         return $date->format('jS M Y');
     }
 
+    // get the time that a users input from HTML and make it consistent for DB entry
     function parseTimeForDBEntry($timeFromHTML){
         $date = new DateTime($timeFromHTML);
         return $date->format('H:i:s');
     }
 
+    // check if an item is in an array and alter the array to suit if not
     function searchAndAddToArray($valueToAdd, array $arrayToCheck, $itemIndex) {
         $valueAsInt = (int) trim($valueToAdd);
         if ((sizeof($arrayToCheck) - 1) >= $itemIndex) {
@@ -173,9 +187,9 @@
         return $arrayToCheck;
     }
 
-    // to do - check how to incorporate posting the key value along with form data?
+    // post the main administrators API key in the header with the endpoint argument given
+    // used for all API requests throughout the website
     function postDevKeyInHeader($endpoint) {
-        // add the dev key to the head of every posted request
         $orgName = "epl_main_site";
         $keyValue = "492dd3-816c61-f89f93-e14f5f-e1566b";
         
@@ -195,7 +209,8 @@
         }
     }
 
-    // take a users Referee Name entry and parse into a format required for the database
+    // take a users Referee Name entry and parse into a strict format required for the database
+    // used to keep data input quality high
     function parseRefereeName($userRefNameEntry) {
         // remove anything not a letter
         $nonLetterRegex = '/[^A-Za-z- .]/';
@@ -213,6 +228,7 @@
         return $finalNameForDB;
     }
 
+    // send an email using PHPMailer
     function sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom) {
         // php mailer will send the user an email
         require '../php_mailer_master/src/PHPMailer.php';
