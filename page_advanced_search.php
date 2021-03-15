@@ -218,7 +218,7 @@
                                 <div class="select is-info is-small">
                                     <select class="my_filter_select_width control is-small level-item" name="club_select">
                                         <?php
-                                            include("part_pages/part_team_selector.php");
+                                            include("part_pages/part_current_season_team_selector.php");
                                         ?>
                                     </select>
                                 </div>
@@ -263,7 +263,7 @@
                         <div class="select is-info is-small level-right">
                             <select name="opposition_selector" id="season_selector" class="my_filter_select_width select level-item">
                                 <?php
-                                    include("part_pages/part_team_selector.php");
+                                    include("part_pages/part_current_season_team_selector.php");
                                 ?>
                             </select>
                         </div>

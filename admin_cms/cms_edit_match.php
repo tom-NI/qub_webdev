@@ -184,7 +184,7 @@
                             <div class="select is-success">
                                 <select class='my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>
                                     <?php
-                                        require("../part_pages/part_team_selector.php");
+                                        require("../part_pages/part_current_season_team_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -196,7 +196,7 @@
                             <div class="select is-danger">
                                 <select class='my_small_form_item mx-2' name='at_selector' id='at_selector'>
                                     <?php
-                                        require("../part_pages/part_team_selector.php");
+                                        require("../part_pages/part_current_season_team_selector.php");
                                     ?>
                                 </select>
                             </div>

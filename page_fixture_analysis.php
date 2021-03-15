@@ -36,7 +36,7 @@
                             <div class="select control is-expanded is-success">
                                 <select required name='ht_selector' id='ht_selector' class=''>
                                     <?php
-                                        require("part_pages/part_team_selector.php");
+                                        require("part_pages/part_allteams_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -48,7 +48,7 @@
                             <div class="select control is-expanded is-danger">
                                 <select required name='at_selector' id='at_selector' class=''>
                                     <?php
-                                        require("part_pages/part_team_selector.php");
+                                        require("part_pages/part_allteams_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -71,7 +71,7 @@
     <?php
         if (isset($_GET['ht_selector']) && isset($_GET['at_selector']) 
                 && $_GET['ht_selector'] != "Select Team" && $_GET['at_selector'] != "Select Team") {
-            require("logic_files/allfunctions.php");
+            include_once("logic_files/allfunctions.php");
             $teamA = $_GET['ht_selector'];
             $teamB = $_GET['at_selector'];
             

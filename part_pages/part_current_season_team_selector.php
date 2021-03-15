@@ -1,6 +1,7 @@
 <?php
     $teamAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/clubs?current_season_clubs";
-    $teamAPIdata = file_get_contents($teamAPIpath, false, $context);
+    include_once("logic_files/allfunctions.php");
+    $teamAPIdata = postDevKeyInHeader($teamAPIpath);
     $teamList = json_decode($teamAPIdata, true);
 
     if (isset($_GET['ht_selector']) && isset($_GET['at_selector'])) {
