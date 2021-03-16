@@ -186,26 +186,26 @@
     <!-- main page starts here -->
         <div class='master_site_width'>
             <div class='mt-6 mx-4'>
-                <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered'>
-                    <div class='container box columns is-centered my_box_border m-2 mb-5 p-3'>
-                    <div class='columns level is-mobile is-centered'>
-                        <div class='column is-narrow level-item'>
-                            <div class='is-pulled-right'>
-                                <?php echo "<img class='image is-96x96 m-4 my_image_maintain_aspect' src='{$hometeamlogoURL}' alt='Home Logo'>"; ?>
+                <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered' >
+                    <div class='container box columns is-centered my_box_border m-2 mb-5 p-3' >
+                        <div class='columns level is-mobile is-centered'>
+                            <div class='column is-narrow level-item'>
+                                <div class='is-pulled-right'>
+                                    <?php echo "<img class='image is-96x96 m-4 my_image_maintain_aspect' src='{$hometeamlogoURL}' alt='Home Logo'>"; ?>
+                                </div>
                             </div>
-                        </div>
-                        <div class='column is-centered level-centre'>
-                            <div class='is-centered is-vertical'>
-                                <p class='p-2 mx-1 is-size-7-mobile'> <?php echo "{$presentableMatchDate}"; ?> </p>
-                                <?php echo "{$kickoffParagraph}"; ?>
-                                <p class='p-2 mx-1 is-size-7-mobile'>Referee : <?php echo "{$refereename}"; ?> </p>
+                            <div class='column is-centered level-centre'>
+                                <div class='is-centered is-vertical'>
+                                    <p class='p-2 mx-1 is-size-7-mobile'> <?php echo "{$presentableMatchDate}"; ?> </p>
+                                    <?php echo "{$kickoffParagraph}"; ?>
+                                    <p class='p-2 mx-1 is-size-7-mobile'>Referee : <?php echo "{$refereename}"; ?> </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class='column is-narrow level-item'>
-                            <?php echo "<img class='image is-96x96 m-4 my_image_maintain_aspect' src='{$awayteamlogoURL}' alt='Away Logo'>"; ?>
+                            <div class='column is-narrow level-item'>
+                                <?php echo "<img class='image is-96x96 m-4 my_image_maintain_aspect' src='{$awayteamlogoURL}' alt='Away Logo'>"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
                 <div class='container box column is-centered my_box_border m-2 mb-5 mt-5 p-1'>
                     <div class='columns is-mobile is-vcentered is-centered'>
                         <div class='column'>
@@ -229,6 +229,35 @@
                         </div>
                     </div>
                 </div>
+                <?php
+                    if (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] === "admin") {
+                        $postedMatchID = htmlentities(trim($_GET['id']));
+                        echo "
+                            <div class='level is-centered my_grey_highlight_para p-5'>
+                                <div class='level-item level-left'>
+                                    <p class='mx-3 subtitle is-5'>Administrate this result :</p>
+                                </div>
+                                <div class='level-item level-right'>
+                                    <form action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_edit_match.php?id={$postedMatchID}' method='GET'>
+                                        <button class='mx-3 button is-rounded is-info'>
+                                            <span class='icon is-left'>
+                                                <i class='fas fa-pen'></i>
+                                            </span>
+                                            <span>Edit Match</span>
+                                        </button>
+                                    </form>
+                                    <form action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_delete_match.php?deletematch&id={$postedMatchID}' method='GET'>
+                                        <button id='delete_match_btn' class='mx-3 button is-rounded is-info'>
+                                            <span class='icon is-left'>
+                                                <i class='fas fa-trash'></i>
+                                            </span>
+                                            <span>Delete Match</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>";
+                        }
+                ?>
 
                 <!-- single match chart -->
                 <div id='my_comparison_stat_list' class='mt-4'>
@@ -281,7 +310,6 @@
     </div>
     
     <?php include('part_pages/part_site_footer.php'); ?>
-    
     <script src="scripts/my_script.js"></script>
 
     <!-- Single Match information -->
