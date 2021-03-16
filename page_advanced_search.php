@@ -2,64 +2,53 @@
     session_start();
 
     if (isset($_GET['userfilter'])) {
-        $rootURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?";
+        $rootURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?&filter";
         $urlPathAddons = "";
 
-        if (isset($_GET['club_checkbox']) && $_GET['club_checkbox'] == "on") {
-            $clubValue = htmlentities(trim($_GET['club_select']));
+        if (isset($_GET['club_select']) && $_GET['club_select'] != "Select Team") {
+            $clubValue = addUnderScores(htmlentities(trim($_GET['club_select'])));
             $urlPathAddons .= "&club={$clubValue}";
         }
 
-        if (isset($_GET['filter_season_checkbox']) && $_GET['filter_season_checkbox'] == "on") {
+        if (isset($_GET['filter_season']) && $_GET['filter_season'] != "none") {
             $seasonValue = htmlentities(trim($_GET['filter_season']));
             $urlPathAddons .= "&season={$seasonValue}";
         }
 
-        // 
-        if (isset($_GET['fixture_checkbox']) && $_GET['fixture_checkbox'] == "on") {
-            $oppositionValue = htmlentities(trim($_GET['opposition_selector']));
+        if (isset($_GET['at_selector']) && $_GET['at_selector'] != "Select Team") {
+            $oppositionValue = htmlentities(trim($_GET['at_selector']));
             $urlPathAddons .= "&fixture={$oppositionValue}";
         }
 
-        if (isset($_GET['result_checkbox']) && $_GET['result_checkbox'] == "on") {
-            $htResultValue = htmlentities(trim($_GET['ht_result']));
-            $atResultValue = htmlentities(trim($_GET['at_result']));
-            if ($htResultValue > 0 && is_numeric($htResultValue) 
-                && $atResultValue > 0 && is_numeric($atResultValue)) {
+        if (isset($_GET['ht_result']) && isset($_GET['at_result'])) {
+            $htResultValue = (int) htmlentities(trim($_GET['ht_result']));
+            $atResultValue = (int) htmlentities(trim($_GET['at_result']));
+            if (is_numeric($htResultValue) && $htResultValue >= 0
+                && is_numeric($atResultValue) && $atResultValue >= 0) {
                     $urlPathAddons .= "&htresult={$htResultValue}&atresult={$atResultValue}";
-            } else {
-                $queryResult1 = "Unknown scores, please reenter match results";
             }
         }
 
-        if (isset($_GET['margin_checkbox']) && $_GET['margin_checkbox'] == "on") {
+        if (isset($_GET['user_margin']) && is_numeric($_GET['user_margin']) && $_GET['user_margin'] > 0) {
             $marginValue = htmlentities(trim($_GET['user_margin']));
-            if (is_numeric($user_margin) && $user_margin > 0) {
-                $urlPathAddons .= "&margin={$marginValue}";
-            }
+            $urlPathAddons .= "&margin={$marginValue}";
         }
 
-        if (isset($_GET['filter_month_search']) && $_GET['filter_month_search'] == "on") {
+        if (isset($_GET['filter_month_selector']) && $_GET['filter_month_selector'] != "none") {
             $monthValue = htmlentities(trim($_GET['filter_month_selector']));
-            if ($monthValue >= 0 && $monthValue <= 11) {
+            if ($monthValue >= 01 && $monthValue <= 12) {
                 $urlPathAddons .= "&month={$monthValue}";
-            } else {
-                $queryResult2 .= "Unknown month";
-                die();
             }
         }
 
-        if (isset($_GET['day_checkbox']) && $_GET['day_checkbox'] == "on") {
+        if (isset($_GET['day_selector']) && $_GET['day_selector'] != "none") {
             $dayValue = htmlentities(trim($_GET['day_selector']));
-            if ($dayValue >= 0 && $dayValue <= 6) {
+            if ($dayValue >= 1 && $dayValue <= 7) {
                 $urlPathAddons .= "&day={$dayValue}";
-            } else {
-                $queryResult3 .= "Unknown day";
-                die();
             }
         }
 
-        if (isset($_GET['referee_selector']) && $_GET['referee_selector'] == "on") {
+        if (isset($_GET['referee_selector']) && $_GET['referee_selector'] != "Select Referee") {
             $refereeValue = htmlentities(trim($_GET['referee_selector']));
             $urlPathAddons .= "&referee={$refereeValue}";
         }
@@ -208,62 +197,30 @@
                     <div>
                         <p class="subtitle my-4">Filter Results:</p>
                     </div>
-                    <div class="field my_grey_border p-2">
-                        <div class="level field">
-                            <div class="level-left">
-                                <input class="checkbox level-item" type="checkbox" name="club_checkbox" id="filter_club_name_checkbox">
-                                <label for="filter_club_name_checkbox" class="label level-item is-small">Club</label>
-                            </div>
-                            <div class="level-right">
-                                <div class="select is-info is-small">
-                                    <select class="my_filter_select_width control is-small level-item" name="club_select">
-                                        <?php
-                                            include("part_pages/part_current_season_team_selector.php");
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="field level">
-                            <div class="level-left">
-                                <input checked class="level-item checkbox control" type="checkbox" name="home_checkbox"
-                                    id="filter_home_checkbox" disabled="true">
-                                <label for="filter_home_checkbox" class="label level-item is-small">Home</label>
-                            </div>
-                            <div class="level-right control">
-                                <input checked class="control checkbox level-item" type="checkbox" name="away_checkbox"
-                                    id="filter_away_checkbox" disabled="true">
-                                <label for="filter_away_checkbox" class="label is-small level-item">Away</label>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="field level">
+                    <div class="level field">
                         <div class="level-left">
-                            <input class="is-small checkbox level-item" type="checkbox" id="filter_season_checkbox" name="filter_season_checkbox">
-                            <label class="label is-small level-item" for="filter_season_checkbox">Season</label>
+                            <p class="label level-item is-small">Club :</p>
                         </div>
                         <div class="level-right">
                             <div class="select is-info is-small">
-                                <select name="filter_season" id="filter_season_selector" class="level-item select control is-small">
+                                <select class="my_filter_select_width control is-small level-item" name="club_select">
                                     <?php
-                                        include("part_pages/part_season_select.php");
+                                        include("part_pages/part_allteams_selector.php");
                                     ?>
                                 </select>
                             </div>
                         </div>
                     </div>
 
-                    <div class="field is-small level">
+                    <div class="field level">
                         <div class="level-left">
-                            <input class="is-small checkbox level-item" type="checkbox" id="filter_fixture_selector_checkbox" name="fixture_checkbox">
-                            <label for="filter_fixture_selector_checkbox" class="label is-small level-item">Fixture</label>
+                            <p class="label is-small level-item">Season :</p>
                         </div>
-                        <div class="select is-info is-small level-right">
-                            <select name="opposition_selector" id="season_selector" class="my_filter_select_width select level-item">
+                            <div class="select is-info is-small level-right">
+                            <select name="filter_season" id="filter_season_selector" class="level-item select control is-small">
+                                <option value='none'>None</option>
                                 <?php
-                                    include("part_pages/part_current_season_team_selector.php");
+                                    include("part_pages/part_season_select.php");
                                 ?>
                             </select>
                         </div>
@@ -271,90 +228,72 @@
 
                     <div class="field is-small level">
                         <div class="level-left">
-                            <input class="checkbox is-small level-item" type="checkbox" id="filter_result_checkbox"
-                                name="result_checkbox">
-                            <label class="label is-small level-item" for="filter_result_checkbox">Result</label>
+                            <p for="filter_fixture_selector_checkbox" class="label is-small level-item">Opposition :</p>
+                        </div>
+                        <div class="select is-info is-small level-right">
+                            <select name="at_selector" id="season_selector" class="my_filter_select_width select level-item">
+                                <?php
+                                    include("part_pages/part_allteams_selector.php");
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field is-small level">
+                        <div class="level-left">
+                            <p class="label is-small level-item" for="filter_result_checkbox">Result :</p>
                         </div>
                         <div class="level-right">
                             <div class="control">
-                                <input name="ht_result" type="number" id="filter_home_score" placeholder="0" min="0" max="20"
+                                <input name="ht_result" type="number" id="filter_home_score" maxlength='2' placeholder="0" min="0" max="20"
                                     class="my_filter_num_entry input is-small is-info level-item">
                             </div>
                             <p class="mx-1"> : </p>
                             <div class="control">
-                                <input name="at_result" type="number" id="filter_away_score" placeholder="0" min="0" max="20"
+                                <input name="at_result" type="number" id="filter_away_score" maxlength='2' placeholder="0" min="0" max="20"
                                     class="my_filter_num_entry input is-small is-info level-item">
                             </div>
                         </div>
                     </div>
 
-
                     <div class="field level">
                         <div class="level-left">
-                            <input class="is-small checkbox level-item" type="checkbox" id="filter_win_margin_checkbox" name="margin_checkbox">
-                            <label for="filter_win_margin_checkbox" class="label is-small level-item">Win Margin (goals)</label>
+                            <p for="filter_win_margin_checkbox" class="label is-small level-item">Win Margin (goals) :</p>
                         </div>
                         <div class="level-right">
                             <input class="input level-item my_filter_num_entry is-info is-small" type="number"
-                                placeholder="0" min="1" max="20" id="filter_win_margin_user_input" name="user_margin">
+                                placeholder="0" min="1" max="20" maxlength='2' id="filter_win_margin_user_input" name="user_margin">
                         </div>
                     </div>
 
-
                     <div class="field level">
                         <div class="level-left">
-                            <input class="checkbox is-small level-item" type="checkbox"
-                                id="filter_month_search_checkbox" name="filter_month_search">
-                            <label for="filter_month_search_checkbox" class="label is-small level-item">Month</label>
+                            <p for="filter_month_search_checkbox" class="label is-small level-item">Month :</p>
                         </div>
                         <div class="select is-info is-small level-right">
                             <div class="select">
-                                <select name="filter_month_selector" id="filter_month_selector"
-                                    class="my_filter_select_width level-item">
-                                    <option value="0">January</option>
-                                    <option value="1">February</option>
-                                    <option value="2">March</option>
-                                    <option value="3">April</option>
-                                    <option value="4">May</option>
-                                    <option value="5">June</option>
-                                    <option value="6">July</option>
-                                    <option selected value="7">August</option>
-                                    <option value="8">September</option>
-                                    <option value="9">October</option>
-                                    <option value="10">November</option>
-                                    <option value="11">December</option>
+                                <select name="filter_month_selector" id="filter_month_selector" class="my_filter_select_width level-item">
+                                    <option selected value="none">Month</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
-
                     <div class="field level">
                         <div class="level-left">
-                            <input class="checkbox is-small level-item" type="checkbox" id="filter_day_search_checkbox" name="day_checkbox">
-                            <label for="filter_day_search_checkbox" class="label is-small level-item">Day</label>
-                        </div>
-                        <div class="select is-info is-small level-right">
-                            <div class="select">
-                                <select name="day_selector" id="filter_day_selector" class="my_filter_select_width level-item">
-                                    <option value="0">Monday</option>
-                                    <option value="1">Tuesday</option>
-                                    <option value="2">Wednesday</option>
-                                    <option value="3">Thursday</option>
-                                    <option value="4">Friday</option>
-                                    <option selected value="5">Saturday</option>
-                                    <option value="6">Sunday</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="field level">
-                        <div class="level-left">
-                            <input class="is-small checkbox level-item" type="checkbox" id="filter_referee_checkbox"
-                                name="filter_referee">
-                            <label for="filter_referee_checkbox" class="label is-small level-item">Referee</label>
+                            <p for="filter_referee_checkbox" class="label is-small level-item">Referee :</p>
                         </div>
                         <div class="select is-info is-small my_inline_divs">
                             <select name="referee_selector" id="filter_referee_selector" class="my_filter_select_width select">
@@ -366,7 +305,7 @@
                     </div>
                     <div class="m-1 p-2 control">
                         <button type="reset" class="m-1 is-small button is-rounded is-info is-outlined">Reset</button>
-                        <button type="submit" class="m-1 is-small button is-rounded is-info">Filter</button>
+                        <button type="submit" name='filter' class="m-1 is-small button is-rounded is-info">Filter</button>
                     </div>
                 </ul>
             </form>
