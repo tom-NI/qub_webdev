@@ -115,7 +115,7 @@ input::-webkit-inner-spin-button {
 /* see if bulma can replace this */
 /* advanced search page - filtering */
 .my_filter_select_width {
-    width: 100px;
+    width: 120px;
 }
 
 .my_send_to_front {
