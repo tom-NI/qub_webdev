@@ -3,6 +3,8 @@
     $recentMatchesAPIData = postDevKeyInHeader($finalURL);
     $recentMatchesList = json_decode($recentMatchesAPIData, true);
 
+    // todo - add display code here if the array is empty! to show user there is no data!
+
     foreach ($recentMatchesList as $summary) {
         $matchID = $summary['id'];
         $matchDate = $summary['matchdate'];
