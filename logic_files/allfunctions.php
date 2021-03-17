@@ -123,8 +123,13 @@
     
     // find the next season (to display the suggested next season to admins when adding seasons)
     function findNextSuggestedSeason() {
-        $currentSeason = getCurrentSeason();
-        $seasonYearsArray = explode("-", $currentSeason);
+        // get current max season in the DB!
+        $currentSeasonURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/seasons?all_seasons_list";
+        $currentSeasonData = postDevKeyInHeader($currentSeasonURL);
+        $currentSeasonArray = json_decode($currentSeasonData, true);
+        $maxSeason = $currentSeasonArray[0]['season'];
+        
+        $seasonYearsArray = explode("-", $maxSeason);
         $seasonEndYear = (int) $seasonYearsArray[1];
         $nextSeasonEndYear = $seasonEndYear + 1;
         return "{$seasonEndYear}-{$nextSeasonEndYear}";
