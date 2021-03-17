@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include_once("logic_files/allfunctions.php");
+    include_once(__DIR__ . "/logic_files/allfunctions.php");
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +20,7 @@
 <body class="has-navbar-fixed-top is-family-sans-serif">
 
     <!-- Full nav bar -->
-    <?php include("part_pages/part_site_navbar.php"); ?>
+    <?php include(__DIR__ . "/part_pages/part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -81,7 +81,7 @@
             <!-- most recent premier league match results -->
             <?php
                 $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?count=8";
-                require("part_pages/part_print_summaries.php");
+                require(__DIR__ . "/part_pages/part_print_summaries.php");
             ?>
         </section>
 
@@ -98,7 +98,7 @@
                     <div class="select control is-expanded is-link level-item">
                         <select name="season_pref" id="season_select">
                             <?php
-                                require("part_pages/part_season_select.php");
+                                require(__DIR__ . "/part_pages/part_season_select.php");
                             ?>
                         </select>
                     </div>
@@ -312,7 +312,7 @@
         </section>
     </div>
     
-    <?php include("part_pages/part_site_footer.php"); ?>
+    <?php include(__DIR__ . "/part_pages/part_site_footer.php"); ?>
     <script src="scripts/my_script.js"></script>
 </body>
 </html>

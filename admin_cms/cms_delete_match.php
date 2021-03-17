@@ -1,6 +1,6 @@
 <?php
-    include_once("../logic_files/allfunctions.php");
-    require("../logic_files/dbconn.php");
+    include_once(__DIR__ . "/../logic_files/allfunctions.php");
+    require(__DIR__ . "/../logic_files/dbconn.php");
     if (isset($_GET['deletematch'])) {
         $matchID = (int) htmlentities(trim($_GET['id']));
 

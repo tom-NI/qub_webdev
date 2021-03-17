@@ -2,7 +2,7 @@
     session_start(); 
     if (isset($_GET['ht_selector']) && isset($_GET['at_selector']) 
                 && $_GET['ht_selector'] != "Select Team" && $_GET['at_selector'] != "Select Team") {
-        include_once("logic_files/allfunctions.php");
+        include_once(__DIR__ . "/logic_files/allfunctions.php");
         $teamA = $_GET['ht_selector'];
         $teamB = $_GET['at_selector'];
         $teamAString = "<h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'><b>{$teamA}</b></h4>";
@@ -462,7 +462,7 @@
 </head>
 
 <body class="has-navbar-fixed-top is-family-sans-serif my_min_page">
-    <?php include("part_pages/part_site_navbar.php"); ?>
+    <?php include(__DIR__ . "/part_pages/part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -493,7 +493,7 @@
                             <div class="select control is-expanded is-success">
                                 <select required name='ht_selector' id='ht_selector' class=''>
                                     <?php
-                                        require("part_pages/part_allteams_selector.php");
+                                        require(__DIR__ . "/part_pages/part_allteams_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -505,7 +505,7 @@
                             <div class="select control is-expanded is-danger">
                                 <select required name='at_selector' id='at_selector' class=''>
                                     <?php
-                                        require("part_pages/part_allteams_selector.php");
+                                        require(__DIR__ . "/part_pages/part_allteams_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -659,7 +659,7 @@
                 </div>";
             }
         }
-        require('part_pages/part_site_footer.php');
+        require(__DIR__ . '/part_pages/part_site_footer.php');
     ?>
 
     <!-- load all my javascript graphs and pass them data from PHP -->

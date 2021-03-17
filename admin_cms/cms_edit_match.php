@@ -1,5 +1,6 @@
 <?php
     session_start();
+    include_once(__DIR__ . "/../logic_files/allfunctions.php");
     if (!isset($_SESSION['sessiontype']) || strlen($_SESSION['sessiontype']) == 0) {
         header("Location: login.php");
     } elseif (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] == "admin") {
@@ -7,8 +8,8 @@
             // sending match info to the database after editing!
             if (isset($_GET['finalise_match_edit'])) {
                 $noMatchIDisSelected = false;
-                include_once("../logic_files/allfunctions.php");
-                require("../part_pages/part_post_match.php");
+                include_once(__DIR__ . "/../logic_files/allfunctions.php");
+                require(__DIR__ . "/../part_pages/part_post_match.php");
                 $matchToChangeID = htmlentities(trim($_POST['id']));
                 $justForChange = htmlentities(trim($_POST['change_justification']));
                 
@@ -41,16 +42,16 @@
                     )
                 );
 
-                $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_match/addmatch/?addnewresult";
+                $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches/?editmatch";
                 $result = postDevKeyInHeader($endpoint, $matchInfoArray);
                 if ($result) {
-                    $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
+                    $submissionDisplayToUser = "Match Edit has been successful. Thank You for adding match results.";
                 } else {
-                    $submissionDisplayToUser = "Match Entry failed, please try again";
+                    $submissionDisplayToUser = "Match Edit failed, please try again";
                 }
             }
         } elseif (isset($_GET['id'])) {
-            // user is editing the match, so get the matchID and find the match to populate the form
+            // user is editing the match, so get all the data from the matchID and populate the form
             $noMatchIDisSelected = false;
             // GET AND DISPLAY ALL THE INFORMATION INTO THE FORM FOR THE USER TO EDIT`
             // get all the info from a particular match and load it into the form!
@@ -105,7 +106,7 @@
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
     <?php
-        include("../part_pages/part_site_navbar.php"); 
+        include(__DIR__ . "/../part_pages/part_site_navbar.php"); 
     ?>
 
     <!-- banner at the top of the page! -->
@@ -129,15 +130,32 @@
                             </div>
                             </div>
                             </div>";
-                            include("../part_pages/part_site_footer.php");
+                            include(__DIR__ . "/../part_pages/part_site_footer.php");
                             
                             echo "<script src='../scripts/my_script.js'></script>
                                 <script src='../scripts/my_editmatch_script.js'></script>
                                 </body>
                             </html>";
                         die();
+                    } elseif (isset($submissionDisplayToUser) && $submissionDisplayToUser != "") {
+                        // return message after the user has edited, and give them a link to return to the match page
+                        echo "<div>
+                                <h3 class='title is-size-3 my_info_colour my-4 p-4'>{$submissionDisplayToUser}</h3>
+                                <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?id={$matchToChangeID}'><h4>Return to Match page</h4></a>
+                            </div>
+                            </div>";
+
+                            include_once(__DIR__ . "/../part_pages/part_site_footer.php");
+
+                        echo "<script src='../scripts/my_script.js'></script>
+                            <script src='../scripts/my_editmatch_script.js'></script>
+                            </body>
+                            </html>";
+                            die();
                     }
                 ?>
+
+
                 <form method="POST" action="cms_edit_match.php?finalise_match_edit">
                     <div class="mt-5 p-5 my_info_colour">
                         <div>
@@ -168,7 +186,7 @@
                                 <div class="select is-info my_small_form_item">
                                     <select class='my_small_form_item' name='select_ref' id='select_ref'>
                                         <?php
-                                            require("../part_pages/part_referee_selector.php");
+                                            require(__DIR__ . "/../part_pages/part_referee_selector.php");
                                         ?>
                                     </select>
                                 </div>
@@ -185,7 +203,7 @@
                             <div class="select is-success">
                                 <select class='my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>
                                     <?php
-                                        require("../part_pages/part_current_season_team_selector.php");
+                                        require(__DIR__ . "/../part_pages/part_current_season_team_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -197,7 +215,7 @@
                             <div class="select is-danger">
                                 <select class='my_small_form_item mx-2' name='at_selector' id='at_selector'>
                                     <?php
-                                        require("../part_pages/part_current_season_team_selector.php");
+                                        require(__DIR__ . "/../part_pages/part_current_season_team_selector.php");
                                     ?>
                                 </select>
                             </div>
@@ -324,7 +342,7 @@
         </div>
     </div>
 
-    <?php include("../part_pages/part_site_footer.php"); ?>
+    <?php include(__DIR__ . "/../part_pages/part_site_footer.php"); ?>
     <script src="../scripts/my_script.js"></script>
     <script src="../scripts/my_editmatch_script.js"></script>
 

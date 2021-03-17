@@ -1,6 +1,6 @@
 <?php
-    require("../dbconn.php");
-    require("../allfunctions.php");
+    require(__DIR__ . "/../logic_files/dbconn.php");
+    require(__DIR__ . "/../logic_files/allfunctions.php");
 
     // get the file name!
     $file = "resultsfinal.csv";

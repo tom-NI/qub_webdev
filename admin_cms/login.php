@@ -1,7 +1,7 @@
 <?php
     session_start();
-    include_once("../logic_files/allfunctions.php");
-    include_once("../logic_files/dbconn.php");
+    include_once(__DIR__ . "/../logic_files/allfunctions.php");
+    include_once(__DIR__ . "/../logic_files/dbconn.php");
 
     // admin sign in 
     if (isset($_POST['signin_btn'])) {
@@ -46,7 +46,7 @@
 </head>
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
-    <?php include("../part_pages/part_site_navbar.php"); ?>
+    <?php include(__DIR__ . "/../part_pages/part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -91,6 +91,6 @@
             </div>
         </div>
     </div>
-    <?php include("../part_pages/part_site_footer.php"); ?>
+    <?php include(__DIR__ . "/../part_pages/part_site_footer.php"); ?>
 </body>
 </html>

@@ -2,8 +2,8 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-    include_once("../logic_files/allfunctions.php");
-    include_once("../logic_files/dbconn.php");
+    include_once(__DIR__ . "/../logic_files/allfunctions.php");
+    include_once(__DIR__ . "/../logic_files/dbconn.php");
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['register_for_api'])) {
@@ -29,7 +29,7 @@ use PHPMailer\PHPMailer\PHPMailer;
                 $emailSubject = "English Premier League - Developer API Key";
                 $emailFrom = "EPL API Team";
                 // body of the full email sent to user
-                require("../email_templates.php/api_key_email.php");
+                require(__DIR__ . "/../email_templates.php/api_key_email.php");
 
                 $emailResult = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);
                 if ($emailResult) {
@@ -65,7 +65,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 </head>
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
-    <?php include("../part_pages/part_site_navbar.php"); ?>
+    <?php include(__DIR__ . "/../part_pages/part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -128,7 +128,7 @@ use PHPMailer\PHPMailer\PHPMailer;
         </div>
 
     </div>
-    <?php include("../part_pages/part_site_footer.php"); ?>
+    <?php include(__DIR__ . "/../part_pages/part_site_footer.php"); ?>
     
 </body>
 </html>

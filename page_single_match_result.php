@@ -1,6 +1,6 @@
 <?php 
     session_start();
-    include_once("logic_files/allfunctions.php");
+    include_once(__DIR__ . "/logic_files/allfunctions.php");
     if (isset($_GET['id'])) {
         $postedMatchID = htmlentities(trim($_GET['id']));
         $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$postedMatchID}";
@@ -174,7 +174,7 @@
         //             <button name='change_stat_btn' class='mx-3 level-item button is-danger'>Go</button>
         //         </form>
         //     }";
-        // include_once('part_pages/part_site_footer.php');
+        // include_once(__DIR__ . '/part_pages/part_site_footer.php');
 
         // echo "
         // </body>
@@ -230,6 +230,7 @@
                     </div>
                 </div>
                 <?php
+                    // add in a box for an admin to administrate this match if signed in as a user
                     if (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] === "admin") {
                         $postedMatchID = htmlentities(trim($_GET['id']));
                         echo "
@@ -238,22 +239,22 @@
                                     <p class='mx-3 subtitle is-5'>Administrate this result :</p>
                                 </div>
                                 <div class='level-item level-right'>
-                                    <form action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_edit_match.php?id={$postedMatchID}' method='GET'>
+                                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_edit_match.php?id={$postedMatchID}'>
                                         <button class='mx-3 button is-rounded is-info'>
                                             <span class='icon is-left'>
                                                 <i class='fas fa-pen'></i>
                                             </span>
                                             <span>Edit Match</span>
                                         </button>
-                                    </form>
-                                    <form action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_delete_match.php?deletematch&id={$postedMatchID}' method='GET'>
+                                    </a>
+                                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_delete_match.php?deletematch&id={$postedMatchID}'>
                                         <button id='delete_match_btn' class='mx-3 button is-rounded is-info'>
                                             <span class='icon is-left'>
                                                 <i class='fas fa-trash'></i>
                                             </span>
                                             <span>Delete Match</span>
                                         </button>
-                                    </form>
+                                    </a>
                                 </div>
                             </div>";
                         }
@@ -282,7 +283,7 @@
                                     <div class='level-item select is-info'>
                                         <select class='level-item' name='analyzed_statistic'>
                                             <?php
-                                                require("part_pages/part_stat_selector.php");
+                                                require(__DIR__ . "/part_pages/part_stat_selector.php");
                                             ?>
                                         </select>
                                     </div>
@@ -309,14 +310,14 @@
         </div>
     </div>
     
-    <?php include('part_pages/part_site_footer.php'); ?>
+    <?php include(__DIR__ . '/part_pages/part_site_footer.php'); ?>
     <script src="scripts/my_script.js"></script>
 
     <!-- Single Match information -->
-    <?php include_once("charts/chart_single_match_stats.php") ?>
+    <?php include_once(__DIR__ . "/charts/chart_single_match_stats.php") ?>
 
     <!-- Statistic graph! -->
-    <?php include_once("charts/chart_past_fixture.php") ?>
+    <?php include_once(__DIR__ . "/charts/chart_past_fixture.php") ?>
 </body>
 
 </html>

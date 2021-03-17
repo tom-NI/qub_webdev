@@ -1,7 +1,7 @@
 <?php  
     session_start();
-    include_once("logic_files/allfunctions.php");
-    include_once("logic_files/dbconn.php");
+    include_once(__DIR__ . "/logic_files/allfunctions.php");
+    include_once(__DIR__ . "/logic_files/dbconn.php");
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['validate_user']) && isset($_GET['num'])) {
         // user trying to validate their user account via the link provided in an email
@@ -32,7 +32,7 @@
     } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // registering or signing in
         if (isset($_POST['user_email'])) {
-            require("part_pages/part_logout.php");
+            require(__DIR__ . "/part_pages/part_logout.php");
             $userEmail = htmlentities(trim($_POST['user_email']));
             $userPassword = htmlentities(trim($_POST['user_password']));
             
@@ -89,7 +89,7 @@
                     $emailFrom = "EPL - Match Statistics Team";
 
                     // body of the full email sent to user
-                    require("../email_templates.php/api_key_email.php"); 
+                    require(__DIR__ . "/email_templates.php/api_key_email.php"); 
                     
                     // send user email confirmation
                     $emailConfirmation = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);
@@ -127,7 +127,7 @@
 </head>
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
-    <?php include("part_pages/part_site_navbar.php"); ?>
+    <?php include(__DIR__ . "/part_pages/part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -215,7 +215,7 @@
         </div>
 
     </div>
-    <?php include("part_pages/part_site_footer.php"); ?>
+    <?php include(__DIR__ . "/part_pages/part_site_footer.php"); ?>
     
 </body>
 </html>

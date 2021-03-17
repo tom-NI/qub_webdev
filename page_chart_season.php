@@ -1,6 +1,6 @@
 <?php 
     session_start();
-    include_once("logic_files/allfunctions.php");
+    include_once(__DIR__ . "/logic_files/allfunctions.php");
 
     // set the requested stat from the user, else default to goals
     if (isset($_POST['stattile_statistic'])) {
@@ -111,7 +111,7 @@
 </head>
 
 <body class="has-navbar-fixed-top is-family-sans-serif">
-    <?php include("part_pages/part_site_navbar.php"); ?>
+    <?php include(__DIR__ . "/part_pages/part_site_navbar.php"); ?>
 
     <!-- banner at the top of the page! -->
     <section class="hero is-info is-bold pt-6">
@@ -130,7 +130,7 @@
                     <div class='select level-item'>
                         <select name="season_pref" id="season_chart_select">
                             <?php
-                                require("part_pages/part_season_select.php");
+                                require(__DIR__ . "/part_pages/part_season_select.php");
                             ?>
                         </select>
                     </div>
@@ -138,7 +138,7 @@
                         <div class='level-item select is-info'>
                             <select class='level-item' name='stattile_statistic'>
                                 <?php
-                                    require("part_pages/part_stattiles_stats_selector.php");
+                                    require(__DIR__ . "/part_pages/part_stattiles_stats_selector.php");
                                 ?>
                             </select>
                         </div>
@@ -158,8 +158,8 @@
             </div>
         </div>
     </div>
-    <?php include('part_pages/part_site_footer.php'); ?>
-    <?php include_once("charts/chart_season_analysis.php"); ?>
+    <?php include(__DIR__ . '/part_pages/part_site_footer.php'); ?>
+    <?php include_once(__DIR__ . "/charts/chart_season_analysis.php"); ?>
     <script src="scripts/my_script.js"></script>
 </body>
 </html>
