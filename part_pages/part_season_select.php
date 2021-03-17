@@ -4,6 +4,8 @@
     $seasonAPIdata = postDevKeyInHeader($seasonAPIpath);
     $seasonList = json_decode($seasonAPIdata, true);
 
+    $currentSeason = getCurrentSeason();
+
     if (isset($_GET['season_pref'])) {
         $seasonSelected = $_GET['season_pref'];
     } else {
@@ -12,6 +14,8 @@
     
     foreach($seasonList as $singleSeason) {
         if ($seasonSelected == $singleSeason['season']) {
+            echo "<option value='{$singleSeason['season']}' selected='selected'>{$singleSeason['season']}</option>";
+        } elseif ($singleSeason['season'] === $currentSeason) {
             echo "<option value='{$singleSeason['season']}' selected='selected'>{$singleSeason['season']}</option>";
         } else {
             echo "<option value='{$singleSeason['season']}'>{$singleSeason['season']}</option>";
