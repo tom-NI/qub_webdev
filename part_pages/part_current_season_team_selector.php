@@ -4,16 +4,16 @@
     $teamAPIdata = postDevKeyInHeader($teamAPIpath);
     $teamList = json_decode($teamAPIdata, true);
 
-    if (isset($_POST['ht_selector']) && isset($_POST['at_selector'])) {
+    if (!isset($homeTeamToEdit) || !isset($awayTeamToEdit)) {
+        echo "<option value='Select Team'>Select Team</option>";
+    }
+    
+    if (isset($homeTeamToEdit) && isset($awayTeamToEdit)) {
         // if on an edit page, dont show the default "select team" option
-        if (!isset($homeTeamToEdit)) {
-            echo "<option value='Select Team'>Select Team</option>";
-        }
-        
         if (!$htSelectorIsSet) {
             foreach($teamList as $singleTeam) {
                 // for edit pages, set the selector to default to the existing team name
-                if (!isset($homeTeamToEdit) || (isset($homeTeamToEdit) && $homeTeamToEdit != $singleTeam['clubname'])) {
+                if (isset($homeTeamToEdit) && $homeTeamToEdit != $singleTeam['clubname']) {
                     echo "<option value='{$singleTeam['clubname']}' >{$singleTeam['clubname']}</option>";
                 } else {
                     echo "<option value='{$singleTeam['clubname']}' selected='selected'>{$singleTeam['clubname']}</option>";
@@ -22,7 +22,7 @@
         } else {
             foreach($teamList as $singleTeam) {
                 // for edit pages, set the selector to default to the existing team name
-                if (!isset($awayTeamToEdit) || (isset($awayTeamToEdit) && $awayTeamToEdit != $singleTeam['clubname'])) {
+                if (isset($awayTeamToEdit) && $awayTeamToEdit != $singleTeam['clubname']) {
                     echo "<option value='{$singleTeam['clubname']}' >{$singleTeam['clubname']}</option>";
                 } else {
                     echo "<option value='{$singleTeam['clubname']}' selected='selected'>{$singleTeam['clubname']}</option>";
