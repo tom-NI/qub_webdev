@@ -190,13 +190,32 @@
     // post the main administrators API key in the header with the endpoint argument given
     // used for all API requests throughout the website
     function postDevKeyInHeader($endpoint) {
-        $orgName = "epl_main_site";
-        $keyValue = "492dd3-816c61-f89f93-e14f5f-e1566b";
-        
+        require(__DIR__ . "/../site_api_auth/auth.php");
         $opts = array(
             'http' => array(
                 'method' => 'POST',
                 'header' => "Authorization: Basic ".base64_encode("$orgName:$keyValue")
+            )
+        );
+
+        $context = stream_context_create($opts);
+        $result = file_get_contents($endpoint, false, $context);
+        if (!$result) {
+            return http_response_code(500);
+        } else {
+            return $result;
+        }
+    }
+
+    // call this function when you need to post an array of data with the dev key
+    function postDevKeyWithData($endpoint, $dataArrayToPost) {
+        require(__DIR__ . "/../site_api_auth/auth.php");
+        $opts = array(
+            'http' => array(
+                'method' => 'POST',
+                'header' => ["Authorization: Basic ".base64_encode("$orgName:$keyValue"), 
+                    'Content-Type: application/x-www-form-urlencoded'],
+                'content' => $dataArrayToPost
             )
         );
 
