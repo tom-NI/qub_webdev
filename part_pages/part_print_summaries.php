@@ -1,5 +1,5 @@
 <?php
-    include_once("logic_files/allfunctions.php");
+    include_once(__DIR__ . "/../logic_files/allfunctions.php");
     $recentMatchesAPIData = postDevKeyInHeader($finalURL);
     $recentMatchesList = json_decode($recentMatchesAPIData, true);
 

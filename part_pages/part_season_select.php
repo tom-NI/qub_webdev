@@ -1,6 +1,6 @@
 <?php
     $seasonAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/seasons?all_seasons_list";
-    include_once("logic_files/allfunctions.php");
+    include_once(__DIR__ . "/../logic_files/allfunctions.php");
     $seasonAPIdata = postDevKeyInHeader($seasonAPIpath);
     $seasonList = json_decode($seasonAPIdata, true);
 

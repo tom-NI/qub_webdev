@@ -1,6 +1,6 @@
 <?php
     $refereeAPIpath = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/referees?ref_list";
-    include_once("logic_files/allfunctions.php");
+    include_once(__DIR__ . "/../logic_files/allfunctions.php");
     $refereeAPIdata = postDevKeyInHeader($refereeAPIpath);
     $refereeList = json_decode($refereeAPIdata, true);
     
