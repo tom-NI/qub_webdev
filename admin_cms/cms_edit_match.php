@@ -152,10 +152,9 @@
                             <script src='../scripts/my_editmatch_script.js'></script>
                             </body>
                             </html>";
-                            die();
+                        die();
                     }
                 ?>
-
 
                 <form method="POST" action="cms_edit_match.php?finalise_match_edit">
                     <div class="mt-5 p-5 my_info_colour">
@@ -205,6 +204,9 @@
                                 <select class='my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>
                                     <?php
                                         require(__DIR__ . "/../part_pages/part_current_season_team_selector.php");
+                                        
+                                        // set a control var to make the second select unique (same code used for both <selects>)
+                                        $htSelectorIsSet = true;
                                     ?>
                                 </select>
                             </div>
