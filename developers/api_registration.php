@@ -28,15 +28,17 @@ use PHPMailer\PHPMailer\PHPMailer;
                 // develop and send the user an email with their details
                 $emailSubject = "English Premier League - Developer API Key";
                 $emailFrom = "EPL API Team";
-                // body of the full email sent to user
+
+                // get the body of the full email sent to user
                 require(__DIR__ . "/../email_templates.php/api_key_email.php");
 
                 $emailResult = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);
                 if ($emailResult) {
-                    $stmt = $conn->prepare("INSERT INTO `epl_api_users` (`id`, `UserFirstName`, `UserSecondName`, `UserKey`, `OrganizationName`) VALUES (NULL, ?, ?, ?, ?); ");
-                    $stmt -> bind_param("sssss", 
+                    $stmt = $conn->prepare("INSERT INTO `epl_api_users` (`id`, `UserFirstName`, `UserSecondName`, `UserEmail`, `UserKey`, `OrganisationName`) VALUES (NULL, ?, ?, ?, ?, ? ); ");
+                    $stmt -> bind_param("sssss",
                                 $userFirstName,
                                 $userSurname,
+                                $userEmail,
                                 $usersKey,
                                 $userOrganisation        
                             );
