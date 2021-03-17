@@ -68,10 +68,17 @@
                 </figure>
             </div>
             <h3 class="title is-4 m-3 mt-6">Most recent Premier League results;</h3>
-            <p class="subtitle is-6 m-3">Click any result to view match details</p>
 
             <!-- most recent premier league match results -->
             <?php
+                // change wording of this paragraph for admins
+                if (isset($_SESSION) && $_SESSION['sessiontype'] == "admin"){
+                    echo "<p class='subtitle is-6 m-3'>Click any result to view match details and edit or delete matches</p>";
+                } else {
+                    echo "<p class='subtitle is-6 m-3'>Click any result to view match details.</p>";
+                }
+                
+                // get all the current matches from the API and print out 
                 $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?count=8";
                 require(__DIR__ . "/part_pages/part_print_summaries.php");
             ?>
