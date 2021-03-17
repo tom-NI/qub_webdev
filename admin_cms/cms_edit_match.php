@@ -143,6 +143,7 @@
                                 <h3 class='title is-size-3 my_info_colour my-4 p-4'>{$submissionDisplayToUser}</h3>
                                 <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?id={$matchToChangeID}'><h4>Return to Match page</h4></a>
                             </div>
+                            </div>
                             </div>";
 
                             include_once(__DIR__ . "/../part_pages/part_site_footer.php");
