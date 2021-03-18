@@ -255,9 +255,9 @@
     // send an email using PHPMailer
     function sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom) {
         // php mailer will send the user an email
-        require '../php_mailer_master/src/PHPMailer.php';
-        require '../php_mailer_master/src/SMTP.php';
-        require '../php_mailer_master/src/Exception.php';
+        require (__DIR__ . '/../php_mailer_master/src/PHPMailer.php');
+        require (__DIR__ . '/../php_mailer_master/src/SMTP.php');
+        require (__DIR__ . '/../php_mailer_master/src/Exception.php');
         $mail = new PHPMailer(TRUE);
 
         try {
