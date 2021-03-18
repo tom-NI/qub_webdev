@@ -1,14 +1,13 @@
 <?php
     session_start();
-    include_once("logic_files/allfunctions.php");
+    include_once(__DIR__ . "/logic_files/allfunctions.php");
     if (!isset($_SESSION['sessiontype']) || strlen($_SESSION['sessiontype']) == 0) {
         header("Location: login.php");
     } else {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
-            
             $submissionDisplayToUser = "";
             if (isset($_POST['submit_main_match'])) {
-                require("part_pages/part_post_match.php");
+                require(__DIR__ . "/part_pages/part_post_match.php");
                 // build the data that has to be sent inside the header, into an assoc array
                 $matchInfoArray = http_build_query(
                     array(
@@ -36,44 +35,37 @@
                         'at_redcards' => $awayTeamRedCards
                     )
                 );
+
                 $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches/?addnewresult";
-                $result = postDevKeyInHeader($endpoint);
-                if ($result) {
-                    $submissionDisplayToUser = "Match Entry has been successful. Thank You for adding match results.";
-                } else {
-                    $submissionDisplayToUser = "Match Entry failed, please try again";
-                }
-                
+                $result = postDevKeyWithData($endpoint, $matchInfoArray);
+
+                //get the API JSON reply and pull into a var for the users
+                $apiJSONReply = json_decode($result, true);
+                $submissionDisplayToUser = $apiJSONReply[0]['reply_message'];
             } elseif (isset($_POST['submit_new_referee'])) {
-                $newRefereeName = parseRefereeName(trim($_POST['newrefname']));
-                $cleanedRefereeName = htmlentities($newRefereeName);
+                $newRefereeName = parseRefereeName(htmlentities(trim($_POST['newrefname'])));
                 $endpoint = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/referees/?addnewref";
                 $newRefArray = http_build_query(
                     array(
                         'refereename' => $newRefereeName,
                         )
                     );
-                $result = postDevKeyInHeader($endpoint);
+                $result = postDevKeyWithData($endpoint, $newRefArray);
 
-                if ($result === false) {
-                    $submissionDisplayToUser = "There has been an problem, the referee has not been added successfully";
-                } else {
-                    $submissionDisplayToUser = "Referee Added Successfully";
-                }
+                //get the API JSON reply and pull into a var for the users
+                $apiJSONReply = json_decode($result, true);
+                $submissionDisplayToUser = $apiJSONReply[0]['reply_message'];
             } elseif (isset($_POST['submit_new_season'])) {
-                $newSeason = htmlentities(trim($_POST['']));
+                $newSeason = htmlentities(trim($_POST['new_season']));
                 $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/seasons/?addnewseason";
                 $newSeasonArray = http_build_query(
                     array(
                         'newseason' => $newSeason,
                         )
                     );
-                $result = postDevKeyInHeader($endpoint);
-                if ($result === false) {
-                    $submissionDisplayToUser = "There has been an problem, the season has not been added";
-                } else {
-                    $submissionDisplayToUser = "New season has been added successfully";
-                }
+                $result = postDevKeyWithData($endpoint, $newSeasonArray);
+                $apiJSONReply = json_decode($result, true);
+                $submissionDisplayToUser = $apiJSONReply[0]['reply_message'];
             } elseif (isset($_POST['submit_new_club'])) {
                 $newClub = htmlentities(trim($_POST['new_club']));
                 $newClubURL = htmlentities(trim($_POST['new_club_img_url']));
@@ -84,12 +76,9 @@
                         'newcluburl' => $newClubURL
                         )
                     );
-                $result = postDevKeyInHeader($endpoint);
-                if ($result === false) {
-                    $submissionDisplayToUser = "There has been an problem, the club has not been added";
-                } else {
-                    $submissionDisplayToUser = "New club has been added successfully";
-                }
+                $result = postDevKeyWithData($endpoint, $newClubArray);
+                $apiJSONReply = json_decode($result, true);
+                $submissionDisplayToUser = $apiJSONReply[0]['reply_message'];
             }
         }
     }
@@ -111,7 +100,7 @@
 <body class="has-navbar-fixed-top is-family-sans-serif">
     <!-- Full nav bar -->
     <?php
-        include("part_pages/part_site_navbar.php"); 
+        include(__DIR__ . "/part_pages/part_site_navbar.php"); 
     ?>
 
     <!-- banner at the top of the page! -->
@@ -137,17 +126,19 @@
                 }
 
 
-                if (isset($_SESSION['sessiontype']) && strlen($_SESSION['sessiontype']) === "admin") {
+                if (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] === "admin") {
+                    // only display the addition of referees, clubs and seasons to admins.
+                    // general website users (joe public) can add matches
+                    
                     $suggestedNextSeason = findNextSuggestedSeason();
-
                     echo "
                     <!-- add new club, ref, season data into db! -->
                     <div class='mt-5 p-5 my_info_colour'>
                         <h2 class='title is-4 my_info_colour'>Add new Clubs, Seasons or Referee Names</h2>
                         <h3 class='title is-5 mt-5 mb-1 my_info_colour'>Add new Referee;</h3>
-                        <div class='>
+                        <div class=''>
                             <p class='p-2'>Please enter Referee's first and last name, with a space between e.g. New Referee</p>
-                            <form method='POST' action='add_data.php?addmatch' class='level columns'>
+                            <form method='POST' action='add_data.php' class='level columns'>
                                 <input type='text' required id='new_referee' name='newrefname' minlength='4' maxlength='30' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Referee Name'>
                                 <div class='my_medium_form_item'>
                                     <button class='button level-item my_medium_form_item is-danger m-3 is-rounded ' name='submit_new_referee'>Add Referee</button>
@@ -160,15 +151,15 @@
                                 <form method='POST' action='add_data.php' class='level columns'>
                                     <input type='text' required id='new_season' name='new_season' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Suggested next season to add : {$suggestedNextSeason}'>
                                     <div class='my_medium_form_item'>
-                                        <button class='button level-item my_medium_form_item is-danger m-3 is-rounded my-3 ' value='submit_new_season'>Add New Season</button>
+                                        <button class='button level-item my_medium_form_item is-danger m-3 is-rounded my-3 ' name='submit_new_season'>Add New Season</button>
                                     </div>
-                                </form>';
+                                </form>
                         </div>
                         <h3 class='title is-5 mt-5 mb-1 my_info_colour'>Add new Club;</h3>
                         <div class='>
-                            <p class=' p-1'>Please use the official club name and do not abbreviate.  Max 2 words.  Adding 'football club' at the end is not required.</p>
+                            <p class=' p-1'>Please use the official club name and do not abbreviate.  Maximum 2 words.</p>
                             <p class='p-1'>Club Logo URL must link directly to a .jpg or .png image file</p>
-                            <form method='POST' action='cms_add_data.php' class='level columns'>
+                            <form method='POST' action='add_data.php' class='level columns'>
                                 <input type='text' required id='new_club' name='new_club' class='input level-item column is-3 mx-2 is-one-third-tablet' maxlength='35' placeholder='Club Name (max 35 Characters)'>
                                 <input type='url' required id='new_club_img_url' name='new_club_img_url' class='input level-item column is-3 mx-5 is-one-third-tablet' placeholder='Club Logo URL'>
                                 <button class='button level-item is-danger is-rounded mt-4 my-3 ' name='submit_new_club'>Add New Club</button>
@@ -180,7 +171,7 @@
 
             <!-- add 1 new match details form  -->
             <div class="field">
-                <form method="POST" action='cms_add_data.php'>
+                <form method="POST" action='add_data.php'>
                     <div class="mt-5 p-5 my_info_colour">
                         <div>
                             <h2 class="title is-4 my_info_colour">Add a new match result below:</h2>
@@ -194,7 +185,7 @@
                                 <div class="select is-info my_medium_form_item">
                                     <select required class='my_medium_form_item' name='select_season' id='select_season'>
                                         <?php
-                                            require("part_pages/part_season_select.php");
+                                            require(__DIR__ . "/part_pages/part_season_select.php");
                                         ?>
                                     </select>
                                 </div>
@@ -225,7 +216,7 @@
                                 <div class="select is-info my_medium_form_item">
                                     <select required class='my_medium_form_item' name='select_ref' id='select_ref'>
                                         <?php
-                                            require("part_pages/part_referee_selector.php");
+                                            require(__DIR__ . "/part_pages/part_referee_selector.php");
                                         ?>
                                     </select>
                                 </div>
@@ -243,7 +234,9 @@
                                 <div class="select is-success level-item">
                                     <select required class='my_medium_form_item mx-2 ' name='ht_selector' id='ht_selector'>
                                         <?php
-                                            require("part_pages/part_current_season_team_selector.php");
+                                            require(__DIR__ . "/part_pages/part_current_season_team_selector.php");
+                                            // control var for the second team <select> to ensure its unique
+                                            $htSelectorIsSet = true;
                                         ?>
                                     </select>
                                 </div>
@@ -255,7 +248,7 @@
                                 <div class="select is-danger level-item">
                                     <select required class='my_medium_form_item mx-2' name='at_selector' id='at_selector'>
                                         <?php
-                                            require("part_pages/part_current_season_team_selector.php");
+                                            require(__DIR__ . "/part_pages/part_current_season_team_selector.php");
                                         ?>
                                     </select>
                                 </div>
@@ -351,7 +344,7 @@
         </div>
     </div>
 
-    <?php include("part_pages/part_site_footer.php"); ?>
+    <?php include(__DIR__ . "/part_pages/part_site_footer.php"); ?>
     <script src="scripts/my_script.js"></script>
 </body>
 
