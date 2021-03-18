@@ -3,10 +3,6 @@
     include_once(__DIR__ . "/../logic_files/allfunctions.php");
     $teamAPIdata = postDevKeyInHeader($teamAPIpath);
     $teamList = json_decode($teamAPIdata, true);
-
-    if (!isset($homeTeamToEdit) || !isset($awayTeamToEdit)) {
-        echo "<option value='Select Team'>Select Team</option>";
-    }
     
     if (isset($homeTeamToEdit) && isset($awayTeamToEdit)) {
         // if on an edit page, dont show the default "select team" option
@@ -21,7 +17,7 @@
             }
         } else {
             foreach($teamList as $singleTeam) {
-                // for edit pages, set the selector to default to the existing team name
+                // away team logic - based on two <select> inputs needing to be on the same page
                 if (isset($awayTeamToEdit) && $awayTeamToEdit != $singleTeam['clubname']) {
                     echo "<option value='{$singleTeam['clubname']}' >{$singleTeam['clubname']}</option>";
                 } else {
