@@ -72,7 +72,7 @@
             <!-- most recent premier league match results -->
             <?php
                 // change wording of this paragraph for admins
-                if (isset($_SESSION) && $_SESSION['sessiontype'] == "admin"){
+                if (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] == "admin"){
                     echo "<p class='subtitle is-6 m-3'>Click any result to view match details and edit or delete matches</p>";
                 } else {
                     echo "<p class='subtitle is-6 m-3'>Click any result to view match details.</p>";
