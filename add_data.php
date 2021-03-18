@@ -324,6 +324,7 @@
                                 </div>";
                             }
                         ?>
+                        <!-- confirm accurate data panel -->
                     <div class="my_grey_highlight_para p-3">
                         <p>I have checked this match data is accurate prior to submitting</p>
                         <input required type="radio" id="yes_radio" name="confirmed_accurate"
@@ -333,6 +334,8 @@
                             class="control my_inline_divs ml-5 my-3 my_radio_button">
                         <label class="my_inline_divs ml-1 my_radio_button" for="no_radio">No</label>
                     </div>
+
+                    <!-- reset / submit button panel -->
                     <div class="field is-grouped is-grouped-centered mt-2 mb-4">
                         <button type="reset" id="new_match_reset_button"
                             class="button m-2 is-rounded is-info is-outlined">Reset Form</button>
