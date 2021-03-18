@@ -217,44 +217,51 @@
                 </div>";
             }
         ?>
-            <!-- EDIT CLUB AND REFEREE NAMES -->
-            <div class="mt-5 p-5 my_info_colour p-3">
-                <h2 class="title is-4 mb-2 my_info_colour">Edit Names</h2>
-                <div class="my-4">
-                    <form action="" method="POST" class="level">
-                        <div class="select is-info my_medium_form_item">
-                            <select required class="level-item my_medium_form_item" name="select_ref" id="edit_ref_select">
-                                <?php
-                                    require("../part_pages/part_referee_selector.php");
-                                ?>
-                            </select>
-                        </div>
-                        <div class='my_medium_textinput_item level-item mx-2'>
-                            <input required class="input" type="text" name="new_ref_name" placeholder="New Referee name">
-                        </div>
-                        <div class='my_medium_form_item level-item'>
-                            <button name="change_ref" class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>Change Referee Name</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="my-4">
-                    <form action="" method="POST" class="level">
-                        <div class="select is-info my_medium_form_item">
-                            <select required class="level-item my_medium_form_item" name="select_club" id="edit_club_select">
-                                <?php
-                                    require("../part_pages/part_allteams_selector.php");
-                                ?>
-                            </select>
-                        </div>
-                        <div class='my_medium_textinput_item level-item mx-2'>
-                            <input required class="input" type="text" name="new_club_name" placeholder="New Club name">
-                        </div>
-                        <div class='my_medium_form_item level-item'>
-                            <button name="change_club" class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>Change Club Name</button>
-                        </div>
-                    </form>
-                </div>
+        <!--  -->
+        <div class="mt-5 p-5 my_info_colour p-3">
+            <h2 class="title is-4 mb-2 my_info_colour">Edit or Delete a Match</h2>
+            <p class='mx-6 px-6'>Select any individual match from the Home Page or Match Search, then select edit or delete from the administration panel on the match detail page</p>
+        </div>
+
+        <!-- EDIT CLUB AND REFEREE NAMES -->
+        <div class="mt-5 p-5 my_info_colour p-3">
+            <h2 class="title is-4 mb-2 my_info_colour">Edit Names</h2>
+            <p>Editing Names will only impact data added in future, not historic results.</p>
+            <div class="my-4">
+                <form action="" method="POST" class="level">
+                    <div class="select is-info my_medium_form_item">
+                        <select required class="level-item my_medium_form_item" name="select_ref" id="edit_ref_select">
+                            <?php
+                                require("../part_pages/part_referee_selector.php");
+                            ?>
+                        </select>
+                    </div>
+                    <div class='my_medium_textinput_item level-item mx-2'>
+                        <input required class="input" type="text" name="new_ref_name" placeholder="New Referee name">
+                    </div>
+                    <div class='my_medium_form_item level-item'>
+                        <button name="change_ref" class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>Change Referee Name</button>
+                    </div>
+                </form>
             </div>
+            <div class="my-4">
+                <form action="" method="POST" class="level">
+                    <div class="select is-info my_medium_form_item">
+                        <select required class="level-item my_medium_form_item" name="select_club" id="edit_club_select">
+                            <?php
+                                require("../part_pages/part_allteams_selector.php");
+                            ?>
+                        </select>
+                    </div>
+                    <div class='my_medium_textinput_item level-item mx-2'>
+                        <input required class="input" type="text" name="new_club_name" placeholder="New Club name">
+                    </div>
+                    <div class='my_medium_form_item level-item'>
+                        <button name="change_club" class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>Change Club Name</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
             <!-- Delete Referees or clubs -->
             <div class="mt-5 p-5 my_info_colour p-3">
