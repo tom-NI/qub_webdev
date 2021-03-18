@@ -26,6 +26,11 @@ input::-webkit-inner-spin-button {
     flex-shrink: 1
 }
 
+.my_collapsing_div {
+    display: none;
+    overflow: hidden;
+}
+
 .my_dont_wrap_text {
     white-space: nowrap;
     overflow: auto;
@@ -124,7 +129,7 @@ input::-webkit-inner-spin-button {
 
 /* all hovering and pseudostates: */
 .master_result_card:hover, .my_nav_menu:hover, .my_social_media_icon:hover,
-.my_radio_button:hover, .my_carousel_buttons:hover, #switch_club_select:hover {
+.my_radio_button:hover, .my_carousel_buttons:hover, #switch_club_select:hover, #collapse_info{
     cursor: pointer;
     transform: scale(1.03);
 }
