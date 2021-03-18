@@ -79,7 +79,7 @@
                 }
                 
                 // get all the current matches from the API and print out 
-                $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?count=8";
+                $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?count=8";
                 require(__DIR__ . "/part_pages/part_print_summaries.php");
             ?>
         </section>
