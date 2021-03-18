@@ -13,6 +13,8 @@
     foreach($refereeList as $singleRef) {
         if (isset($existingRefereeNameToEdit) && $existingRefereeNameToEdit == $singleRef['refname']) {
             echo "<option value='{$singleRef['refname']}' selected='selected'>{$singleRef['refname']}</option>";
+        } elseif(isset($_GET['referee_selector']) && $_GET['referee_selector'] == $singleRef['refname']) {
+            echo "<option value='{$singleRef['refname']}' selected='selected'>{$singleRef['refname']}</option>";
         } else {
             echo "<option value='{$singleRef['refname']}'>{$singleRef['refname']}</option>";
         }
