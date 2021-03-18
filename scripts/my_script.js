@@ -146,7 +146,7 @@ if ((document.getElementById("ht_selector") !== null)
 // single match page, administrator can delete a match result!
 if (document.getElementById("delete_match_btn") !== null) {
     function validateDeletion() {
-        var result = confirm("This will delete this match result from the records, are you sure you wish to proceed?\nThis action CANNOT be undone.");
+        let result = confirm("This will delete this match result from the records, are you sure you wish to proceed?\nThis action CANNOT be undone.");
         if (result) {
             return true;
         } else {
@@ -154,4 +154,17 @@ if (document.getElementById("delete_match_btn") !== null) {
         }
     }
     document.getElementById("delete_match_btn").addEventListener("click", validateDeletion);
+}
+
+if (document.getElementById("collapse_info") !== null) {
+    let collapseBox = document.getElementById("search_info_box");
+    function collapsePanel() {
+        console.log("Thomas Kilpatrick");
+        if (collapseBox.style.display === "block") {
+            collapseBox.style.display = "none";
+        } else {
+            collapseBox.style.display = "block";
+        }
+    }
+    document.getElementById("collapse_info").addEventListener("click", collapsePanel);
 }
