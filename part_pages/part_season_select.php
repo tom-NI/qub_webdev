@@ -7,7 +7,7 @@
     $currentSeason = getCurrentSeason();
 
     // change the <select> state based on the page and user selection
-    if ($findMatchPage && !isset($_GET['season_pref'])) {
+    if (isset($findMatchPage) && $findMatchPage && !isset($_GET['season_pref'])) {
         foreach($seasonList as $singleSeason) {
             echo "<option value='{$singleSeason['season']}'>{$singleSeason['season']}</option>";
         }
