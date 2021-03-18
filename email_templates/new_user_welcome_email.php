@@ -9,7 +9,7 @@
             <title>Document</title>
         </head>
         <body>
-        <h3>Hi {$userFirstName}</h3>.
+        <h3>Hi {$userFirstName}</h3>
         <h3>Welcome to the Match Statistic finder website, thank you for registering.</h3>
         
         <p>Please click the link below to validate your email address and start adding match results to our site.</p>
