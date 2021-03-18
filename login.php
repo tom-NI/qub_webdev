@@ -89,7 +89,7 @@
                     $emailFrom = "EPL - Match Statistics Team";
 
                     // body of the full email sent to user
-                    require(__DIR__ . "/email_templates.php/api_key_email.php"); 
+                    require(__DIR__ . "/email_templates/new_user_welcome_email.php"); 
                     
                     // send user email confirmation
                     $emailConfirmation = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);

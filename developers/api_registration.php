@@ -30,7 +30,7 @@ use PHPMailer\PHPMailer\PHPMailer;
                 $emailFrom = "EPL API Team";
 
                 // get the body of the full email sent to user
-                require(__DIR__ . "/../email_templates.php/api_key_email.php");
+                require(__DIR__ . "/../email_templates/api_key_email.php");
 
                 $emailResult = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);
                 if ($emailResult) {
