@@ -170,6 +170,44 @@
                         }
                     }
                 }
+            } elseif (isset($_POST['create_new_admin_btn'])) {
+                $adminFirstName = htmlentities(trim($_POST['admin_register_firstname']));
+                $adminSurname = htmlentities(trim($_POST['admin_register_surname']));
+                $adminEmail = htmlentities(trim($_POST['admin_register_email']));
+                $adminPassword1 = htmlentities(trim($_POST['admin_register_pw1']));
+                $adminPassword2 = htmlentities(trim($_POST['admin_register_pw2']));
+    
+                if ($adminPassword1 !== $adminPassword2) {
+                    $submissionDisplayToUser = "Passwords Dont Match, please try again";
+                } else {
+                    // check user doesnt already exist first!
+                    $stmt = $conn->prepare("SELECT AdminID FROM `epl_admins` WHERE AdminEmail = ? ;");
+                    $stmt -> bind_param("s", $adminEmail);
+                    $stmt -> execute();
+                    $stmt -> store_result();
+                    if ($stmt->num_rows < 1) {
+                        $securePassword = password_hash($adminPassword1, PASSWORD_DEFAULT);
+                                                
+                        $stmt = $conn->prepare("INSERT INTO `epl_admins` (`AdminID`, `AdminName`, `AdminSurname`, `AdminEmail`, `Password`) VALUES (NULL, ?, ?, ?, ?);");
+                        $stmt -> bind_param("ssss",
+                                        $adminFirstName,
+                                        $adminSurname,
+                                        $adminEmail,
+                                        $securePassword
+                                    );
+                        $stmt -> execute();
+                        $stmt -> store_result();
+    
+                        if($stmt) {
+                            $submissionDisplayToUser = "New Admin Created";
+                        } else {
+                            http_response_code(400);
+                            $submissionDisplayToUser = "Admin creation failed, please try again";
+                        }
+                    } else {
+                        $submissionDisplayToUser = "Account already exists.";
+                    }
+                } 
             } else {
                 $submissionDisplayToUser = "Unknown Request";
             }
@@ -308,6 +346,51 @@
                             <button name="delete_season" class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>Delete Season</button>
                         </div>
                     </form>
+                </div>
+            </div>
+
+            <!-- add a new site administrator -->
+            <div class="my_grey_highlight_para p-3 mt-6">
+                    <div class="column is-6 is-offset-3">
+                    <!-- registration section -->
+                    <div class="mt-3">
+                        <h2 class='title is-4 pt-4'>Add a new Administrator</h2>
+                        <p class='mt-2 has-text-left'>* Required</p>
+                        <form class="form control" 
+                        action="" method="POST">
+                            <div>
+                                <label class="label mt-3 has-text-left" for="">* Admin First Name :</label>
+                                <div class='control'>
+                                    <input class="input" required name="admin_register_firstname" type="text" minlength="3" maxlength="15">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="label mt-3 has-text-left" for="">* Admin Surname :</label>
+                                <div class='control'>
+                                    <input class="input" required name="admin_register_surname" type="text" minlength="3" maxlength="15">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="label mt-3 has-text-left" for="">* Admin Email address :</label>
+                                <div class='control'>
+                                    <input class="input" required name="admin_register_email" type="email">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="label mt-3 has-text-left" for="">* Admin temporary Password :</label>
+                                <div class='control'>
+                                    <input class="input " required name="admin_register_pw1" minlength='8' type="password" placeholder="Enter admin temporary password here">
+                                </div>
+                                <label class="label mt-3 has-text-left" for="">* Please reenter temporary password :</label>
+                                <div class='control'>
+                                    <input class="input" required name="admin_register_pw2" minlength='8' type="password" placeholder="Reenter password here">
+                                </div>
+                            </div>
+                            <div>
+                                <button class="button is-danger m-4" name="create_new_admin_btn">Create New Admin</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

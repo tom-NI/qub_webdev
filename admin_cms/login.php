@@ -17,7 +17,7 @@
 
         if ($stmt->num_rows == 1) {
             // user email exists, check passwords
-            if ($userPassword === $dbPassword) {
+            if (password_verify($userPassword, $dbPassword)) {
                 $_SESSION['sessiontype'] = "admin";
                 $_SESSION['userid'] = $administratorID;
                 $_SESSION['username'] = $userName;
