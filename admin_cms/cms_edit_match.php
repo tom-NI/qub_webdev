@@ -315,9 +315,10 @@
                             }
                         ?>
                     <div class='field'>
+                        <h2 class="title is-size-4 mt-6">Justification for data change:</h2>
                         <textarea class='textarea is-info has-fixed-size my-4' minlength="5" maxlength="100"
                             required name="change_justification" id="reason_for_match_edit" cols="100" rows="3" 
-                            placeholder="Justification for change (100 characters max). &#13; for example: 'Data originally entered incorrectly'"></textarea>
+                            placeholder="e.g. 'Original Date incorrect' (max 100 characters)."></textarea>
                     </div>
                     <div class="my_grey_highlight_para p-3">
                         <p>I have checked the data for correctness prior to submitting</p>
