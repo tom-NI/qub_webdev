@@ -335,7 +335,7 @@
                         <button type="reset" id="new_match_reset_button"
                             class="button m-2 is-rounded is-info is-outlined">Reset Form</button>
                         <button type="submit" disabled id="new_match_submit_button"
-                            class="button m-2 is-rounded is-info">Submit</button>
+                            class="button m-2 is-rounded is-info">Submit Match Edits</button>
                     </div>
                     <div>
                         <input type="hidden" name="id" value="<?php htmlentities(trim($_GET['id'])) ;?>" >
