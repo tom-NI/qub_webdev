@@ -262,15 +262,6 @@
                             </div>";
                         }
                 ?>
-                <!-- div with a button for fixture analysis -->
-                <div class='level is-centered my_info_colour p-5'>
-                    <a type='button' 
-                    <?php echo "href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_fixture_analysis.php?ht_selector={$homeTeamForLinks}&at_selector={$awayTeamForLinks}";?> 
-                    id='analyze_fixture_btn' class='mx-3 button is-rounded is-danger is-narrow level-item level-right'>
-                        <span class="material-icons">insights</span>
-                        <span class='ml-2'>Analyse this fixture</span>
-                    </a>
-                </div>
 
                 <!-- single match chart -->
                 <div id='my_comparison_stat_list' class='mt-4'>
