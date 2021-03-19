@@ -11,8 +11,6 @@
         
         $finalHomeTeamurl = addUnderScores(htmlentities(trim($teamA)));
         $finalAwayTeamurl = addUnderScores(htmlentities(trim($teamB)));
-        print_r($finalHomeTeamurl);
-        print_r($finalAwayTeamurl);
 
         // switch the API request based on whether user wants fixture matching or not
         if (isset($_GET['strict'])) {
