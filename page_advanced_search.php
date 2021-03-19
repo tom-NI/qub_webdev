@@ -86,23 +86,33 @@
         }
 
         if ($pageNumber > 1) {
-            $pageQuery = "&startat={$pageNumber}";
+            if (isset($_GET['totalresults'])) {
+                $resultCount = (int) htmlentities(trim($_GET['totalresults']));
+            } else {
+                $resultCount = 10;
+            }
+            $pageQuery = "&startat{$resultCount}";
         } else {
-            $pageQuery = "&startat=1";
+            $pageQuery = "&startat=0";
         }
 
         if (strlen($urlPathAddons) > 0) {
-            $finalURL = "{$rootURL}{$urlPathAddons}{$numResultsReturnedQuery}{$pageQuery}";
+            $finalDataURL = "{$rootURL}{$urlPathAddons}{$numResultsReturnedQuery}{$pageQuery}";
+            $finalTotalPagesCountURL = "{$rootURL}{$urlPathAddons}";
         } else {
-            $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021{$numResultsReturnedQuery}{$pageQuery}";
+            $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021{$numResultsReturnedQuery}{$pageQuery}";
+            $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021";
         }
     } elseif (isset($_GET['match_search'])) {
         // if the user entered something in the club search bar
         $userSearchItem = htmlentities(trim($_GET['match_search']));
-        $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$defaultResultsAndPage}";
+        $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$userSearchItem}{$numResultsReturnedQuery}{$pageQuery}";
+        $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$userSearchItem}";
     } else {
-        // otherwise just load the last ten premier league 
-        $finalURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021{$defaultResultsAndPage}";
+        // otherwise just load the last ten premier league games
+        $currentSeason = getCurrentSeason();
+        $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season={$currentSeason}&count=10";
+        $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season={$currentSeason}";
     }
 ?>
 
@@ -164,8 +174,8 @@
         <form action="page_advanced_search.php?userfilter" method="GET">
             <div class="columns is-centered">
                 <div class="column is-6">
-                    <div class="level">
-                        <span class="level-item level-left ml-4">Club :</span>
+                    <div class="level ml-4">
+                        <span class="level-item level-left">Club :</span>
                         <div class="level-right">
                             <div class="select is-info">
                                 <select name="ht_selector" class="control level-item my_filter_select_width">
@@ -179,8 +189,8 @@
                         </div>
                     </div>
 
-                    <div class="level">
-                        <span for="filter_fixture_selector_checkbox" class="level-item level-left ml-4">Opposition :</span>
+                    <div class="level ml-4">
+                        <span for="filter_fixture_selector_checkbox" class="level-item level-left">Opposition :</span>
                         <div class="select is-info level-right">
                             <select name="at_selector" id="season_selector" class="level-item my_filter_select_width">
                                 <?php
@@ -190,8 +200,8 @@
                         </div>
                     </div>
 
-                    <div class="level">
-                        <span for="filter_season_selector" class="level-item level-left ml-4">Season :</span>
+                    <div class="level ml-4">
+                        <span for="filter_season_selector" class="level-item level-left">Season :</span>
                         <div class="select is-info level-right">
                             <select name="season_pref" id="filter_season_selector" class="level-item select control my_filter_select_width">
                                 <option value='none'>None</option>
@@ -204,8 +214,8 @@
                         </div>
                     </div>
 
-                    <div class="level">
-                        <span for="filter_home_score" class="level-item level-left ml-4">Home Goals :</span>
+                    <div class="level ml-4">
+                        <span for="filter_home_score" class="level-item level-left">Home Goals :</span>
                         <div>
                             <div class="level-right">
                                 <div class="control">
@@ -224,8 +234,8 @@
                 </div>
 
                 <div class="column is-6">
-                    <div class="level">
-                        <span class="level-item level-left ml-4">Away Goals :</span>
+                    <div class="level mx-4">
+                        <span class="level-item level-left">Away Goals :</span>
                         <div class="level-right">
                             <div class="control">
                             <?php
@@ -239,8 +249,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="level">
-                        <span class="level-item level-left ml-4">Win Margin (Goals) :</span>
+                    <div class="level mx-4">
+                        <span class="level-item level-left">Win Margin (Goals) :</span>
                         <div>
                             <div class="level-right">
                             <?php
@@ -256,8 +266,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="level">
-                        <span class="level-item level-left ml-4">Month :</span>
+                    <div class="level mx-4">
+                        <span class="level-item level-left">Month :</span>
                         <div class="select is-info level-right">
                             <div class="select">
                                 <select name="filter_month_selector" id="filter_month_selector" class="my_filter_select_width level-item">
@@ -268,8 +278,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="level">
-                        <span class="level-item level-left ml-4">Referee :</span>
+                    <div class="level mx-4">
+                        <span class="level-item level-left">Referee :</span>
                         <div class="select is-info my_inline_divs">
                             <select name="referee_selector" id="filter_referee_selector" class="my_filter_select_width select">
                                 <?php
@@ -283,7 +293,12 @@
                 <div class="control column is-12 level my-0 pt-0">
                     <div class="level-item level-right">
                         <button type="reset" class="m-2 button is-rounded is-danger">Reset</button>
-                        <button type="submit" name='userfilter' class="m-2 button is-rounded is-danger">Find Match Results</button>
+                        <button type="submit" name='userfilter' class="m-2 button is-rounded is-danger">
+                            <span class="icon is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <span>Find Match Results</span>    
+                        </button>
                     </div>
                 </div>
             </div>
@@ -326,7 +341,8 @@
             <?php require(__DIR__ . "/part_pages/part_print_summaries.php"); ?>
         </section>
 
-        <nav class="pagination mt-6 mx-3 mb-4">
+    <section class="column is-8 is-offset-2">
+        <nav class="pagination my-2 mx-3">
             <span class="mr-3">
                 <p>Go to Page :</p>
             </span>
@@ -336,31 +352,33 @@
             <!-- total results / results per page - display total as a for loop -->
             <?php
                 // only show page array if there are pages to show
-                if ($totalMatchesCount > 0) {
+                if ($totalMatchesToDisplay > 0) {
                     if (isset($_GET['totalresults'])) {
                         $resultsPerPage = $_GET['totalresults'];
-                        $totalPages = (int) ceil($totalMatchesCount / $resultsPerPage);
+                        $totalPages = (int) ceil($totalMatchesToDisplay / $resultsPerPage);
                         for ($i = 0; $i < $totalPages; $i++) {
-                            if (isset($pageNum)) { // page number is something - set the button to be 
-                                echo "<li><a href='page_advanced_search.php?totalresults?userfilter' 
-                                value={$pageNum} class='pagination-link is-info button'>{$pageNum}</a></li>";
+                            // set the current page to be solid colour dynamically
+                            if (isset($pageNum)) {
+                                echo "<li><a href='page_advanced_search.php?totalresults={$resultsPerPage}&pagenumber={$pageNum}&userfilter' 
+                                class='pagination-link is-info button is-outlined'>{$pageNum}</a></li>";
                             } elseif (!isset($pageNum)) {
                                 $pageNum = $i + 1;
-                                echo "<li><a href='page_advanced_search.php?totalresults?userfilter' 
-                                value={$pageNum} class='pagination-link is-info is-outlined button'>{$pageNum}</a></li>";
+                                echo "<li><a href='page_advanced_search.php?totalresults={$resultsPerPage}&pagenumber={$pageNum}&userfilter' 
+                                class='pagination-link is-info button'>{$pageNum}</a></li>";
                             }
-                        }                    
+                        }
                     } else {
-                        $totalPages = (int) ceil($totalMatchesCount / 10);
+                        $resultsPerPage = 10;
+                        $totalPages = (int) ceil($totalMatchesToDisplay / $resultsPerPage);
                         for ($i = 0; $i < $totalPages; $i++) {
                             if (isset($pageNum)) { // page number is something - set the button to be 
                                 $pageNum = $i + 1;
-                                echo "<li><a href='page_advanced_search.php?totalresults?userfilter' 
-                                value={$pageNum} class='pagination-link is-info button'>{$pageNum}</a></li>";
+                                echo "<li><a href='page_advanced_search.php?totalresults={$resultsPerPage}&pagenumber={$pageNum}&userfilter' 
+                                class='pagination-link is-info button is-outlined'>{$pageNum}</a></li>";
                             } elseif (!isset($pageNum)) {
                                 $pageNum = $i + 1;
-                                echo "<li><a href='page_advanced_search.php?totalresults?userfilter' 
-                                value={$pageNum} class='pagination-link is-info is-outlined button'>{$pageNum}</a></li>";
+                                echo "<li><a href='page_advanced_search.php?totalresults={$resultsPerPage}&pagenumber={$pageNum}&userfilter' 
+                                class='pagination-link is-info button'>{$pageNum}</a></li>";
                             }
                         }
                     }
@@ -369,6 +387,7 @@
                 
             </ul>
         </nav>
+    </section>
     </div>
 
     <?php include(__DIR__ . "/part_pages/part_site_footer.php"); ?>

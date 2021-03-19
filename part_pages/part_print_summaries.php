@@ -1,9 +1,14 @@
 <?php
     include_once(__DIR__ . "/../logic_files/allfunctions.php");
-    $recentMatchesAPIData = postDevKeyInHeader($finalURL);
+    // get the total for this query for page numbering, without getting the data
+    // $queryDataWithoutPagination = postDevKeyInHeader($finalTotalPagesCountURL);
+    // $allDataAsJSON = json_decode($queryDataWithoutPagination, true);
+    // $totalMatchesToDisplay = (int) count($allDataAsJSON);
+    // print_r($totalMatchesToDisplay);
+    
+    // get the data for the query
+    $recentMatchesAPIData = postDevKeyInHeader($finalDataURL);
     $recentMatchesList = json_decode($recentMatchesAPIData, true);
-
-    // todo - add display code here if the array is empty! to show user there is no data!
 
     foreach ($recentMatchesList as $summary) {
         $matchID = $summary['id'];
