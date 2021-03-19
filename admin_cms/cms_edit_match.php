@@ -44,11 +44,9 @@
 
                 $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches/?editmatch";
                 $result = postDevKeyInHeader($endpoint, $matchInfoArray);
-                if ($result) {
-                    $submissionDisplayToUser = "Match Edit has been successful. Thank You for adding match results.";
-                } else {
-                    $submissionDisplayToUser = "Match Edit failed, please try again";
-                }
+                //get the API JSON reply and pull into a var for the users
+                $apiJSONReply = json_decode($result, true);
+                $submissionDisplayToUser = $apiJSONReply[0]['reply_message'];
             }
         } elseif (isset($_GET['id'])) {
             // user is editing the match, so get all the data from the matchID and populate the form
@@ -137,20 +135,20 @@
                                 </body>
                             </html>";
                         die();
-                    } elseif (isset($submissionDisplayToUser) && $submissionDisplayToUser != "") {
+                    } elseif (isset($_GET['finalise_match_edit'])) {
                         // return message after the user has edited, and give them a link to return to the match page
                         echo "<div>
                                 <h3 class='title is-size-3 my_info_colour my-4 p-4'>{$submissionDisplayToUser}</h3>
                                 <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?id={$matchToChangeID}'><h4>Return to Match page</h4></a>
                             </div>
                             </div>
+                            </div>
                             </div>";
-
-                            include_once(__DIR__ . "/../part_pages/part_site_footer.php");
-
-                        echo "<script src='../scripts/my_script.js'></script>
-                            <script src='../scripts/my_editmatch_script.js'></script>
-                            </body>
+                            include(__DIR__ . "/../part_pages/part_site_footer.php");
+                            
+                            echo "<script src='../scripts/my_script.js'></script>
+                                <script src='../scripts/my_editmatch_script.js'></script>
+                                </body>
                             </html>";
                         die();
                     }
