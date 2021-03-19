@@ -208,12 +208,13 @@
                 <form method="POST" action='add_data.php'>
                     <div class="mt-5 p-5 my_info_colour">
                         <div>
-                            <h2 class="title is-4 my_info_colour">Add a new match result below:</h2>
+                            <h2 class="title is-4 my_info_colour">Add a new match result:</h2>
                             <h3 class="title is-size-5 my_info_colour">Match Details:</h3>
                         </div>
                         <div class="mt-4">
                             <div class="my_match_metadata ">
                                 <?php
+                                    // dynamically set the correct current season on the UI
                                     $currentSeason = getCurrentSeason();
                                     echo "<p class='mb-4 subtitle is-6 my_info_colour'>Current Season : {$currentSeason}</p>";
                                 ?>
