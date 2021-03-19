@@ -10,99 +10,67 @@
     $seasonGameList = json_decode($seasonAPIdata, true);
 
     // add all the club names into an array of current season teams
-    $masterClubArray = array();
+    $allSeasonClubNames = array();
+
+    // array that stores the total number of games each team has played
+    // (whose index will then match the allSeasonClubNames) 
+    $allSeasonGamesPlayedByClub = array();
+
+    // store every metric to be measured in an array
+    $allGoals = array();
+    $allConceded = array();
+    $allShots = array();
+    $allShotsOT = array();
+    $allCorners = array();
+    $allFouls = array();
+    $allYellowCards = array();
+    $allRedCards = array();
 
     foreach($seasonGameList as $singleMatch) {
-        $homeTeamName = $singleMatch["hometeam"];
-        $awayTeamName = $singleMatch["awayteam"];
+        $homeTeamName = trim($singleMatch["hometeam"]);
+        $awayTeamName = trim($singleMatch["awayteam"]);
 
-        // search the full master array for club names
-        // store returned result into a list of 
-        $returnedNames = array_column($masterClubArray, 'clubname');
-
-        // add the teams as a new array or the data to the existing team in the master assoc array
-        if (array_search($homeTeamName, $returnedNames) != false) {
-            $homeTeamKey = array_search($homeTeamName, $returnedNames);
-            $masterClubArray[$homeTeamKey]['games_played'] += 1;
-            $masterClubArray[$homeTeamKey]['statistics']['goals_scored'] += $singleMatch['hometeamtotalgoals'];
-            $masterClubArray[$homeTeamKey]['statistics']['goals_conceded'] += $singleMatch['awayteamtotalgoals'];
-            $masterClubArray[$homeTeamKey]['statistics']['shots'] += $singleMatch['hometeamshots'];
-            $masterClubArray[$homeTeamKey]['statistics']['shots_on_target'] += $singleMatch['hometeamshotsontarget'];
-            $masterClubArray[$homeTeamKey]['statistics']['corners'] += $singleMatch['hometeamcorners'];
-            $masterClubArray[$homeTeamKey]['statistics']['fouls'] += $singleMatch['hometeamfouls'];
-            $masterClubArray[$homeTeamKey]['statistics']['yellow_cards'] += $singleMatch['hometeamyellowcards'];
-            $masterClubArray[$homeTeamKey]['statistics']['red_cards'] += $singleMatch['hometeamredcards'];
-        } elseif (array_search($homeTeamName, $returnedNames) == false) {
-            $homeTeamArray = array(
-                'clubname' => $homeTeamName,
-                'games_played' => 1,
-                'statistics' => array(
-                    'goals_scored' => $singleMatch['hometeamtotalgoals'],
-                    'goals_conceded' => $singleMatch['awayteamtotalgoals'],
-                    'shots' => $singleMatch['hometeamshots'],
-                    'shots_on_target' => $singleMatch['hometeamshotsontarget'],
-                    'corners' => $singleMatch['hometeamcorners'],
-                    'fouls' => $singleMatch['hometeamfouls'],
-                    'yellow_cards' => $singleMatch['hometeamyellowcards'],
-                    'red_cards' => $singleMatch['hometeamredcards']
-                ),
-                // these stats will be updated after the full seasons data is added to each club
-                'per_game_stats' => array(
-                    'goals_scored_per_game' => 0.00,
-                    'goals_conceded_per_game' => 0.00,
-                    'shots_per_game' => 0.00,
-                    'shots_on_target_per_game' => 0.00,
-                    'corners_per_game' => 0.00,
-                    'fouls_per_game' => 0.00,
-                    'yellow_cards_per_game' => 0.00,
-                    'red_cards_per_game' => 0.00
-                )
-            );
-            $masterClubArray[] = $homeTeamArray;
+        // check if the team is in the allSeasonClubNames array, if not add.
+        // return club index to use later in the code
+        if (array_search($homeTeamName, $allSeasonClubNames) !== false) {
+            $homeTeamIndex = (int) array_search($homeTeamName, $allSeasonClubNames);
+            $allSeasonGamesPlayedByClub[$homeTeamIndex] += 1;
+        } else {
+            // otherwise add the item to the array, and then return its index
+            array_push($allSeasonClubNames, $homeTeamName);
+            array_push($allSeasonGamesPlayedByClub, 1);
+            $homeTeamIndex = array_search($homeTeamName, $allSeasonClubNames);
+        }
+        if (array_search($awayTeamName, $allSeasonClubNames) !== false) {
+            $awayTeamIndex = (int) array_search($awayTeamName, $allSeasonClubNames);
+            $allSeasonGamesPlayedByClub[$awayTeamIndex] += 1;
+        } else {
+            array_push($allSeasonClubNames, $awayTeamName);
+            array_push($allSeasonGamesPlayedByClub, 1);
+            $awayTeamIndex = array_search($awayTeamName, $allSeasonClubNames);
         }
         
-        if (array_search($awayTeamName, $returnedNames) != false) {
-            $awayTeamKey = array_search($awayTeamName, $returnedNames);
-            $masterClubArray[$awayTeamKey]['games_played'] += 1;
-            $masterClubArray[$awayTeamKey]['statistics']['goals_scored'] += $singleMatch['awayteamtotalgoals'];
-            $masterClubArray[$awayTeamKey]['statistics']['goals_conceded'] += $singleMatch['hometeamtotalgoals'];
-            $masterClubArray[$awayTeamKey]['statistics']['shots'] += $singleMatch['awayteamshots'];
-            $masterClubArray[$awayTeamKey]['statistics']['shots_on_target'] += $singleMatch['awayteamshotsontarget'];
-            $masterClubArray[$awayTeamKey]['statistics']['corners'] += $singleMatch['awayteamcorners'];
-            $masterClubArray[$awayTeamKey]['statistics']['fouls'] += $singleMatch['awayteamfouls'];
-            $masterClubArray[$awayTeamKey]['statistics']['yellow_cards'] += $singleMatch['awayteamyellowcards'];
-            $masterClubArray[$awayTeamKey]['statistics']['red_cards'] += $singleMatch['awayteamredcards'];
-        } elseif (array_search($awayTeamName, $returnedNames) == false) {
-            $awayTeamArray = array(
-                'clubname' => $awayTeamName,
-                'games_played' => 1,
-                'statistics' => array(
-                    'goals_scored' => $singleMatch['awayteamtotalgoals'],
-                    'goals_conceded' => $singleMatch['hometeamtotalgoals'],
-                    'shots' => $singleMatch['awayteamshots'],
-                    'shots_on_target' => $singleMatch['awayteamshotsontarget'],
-                    'corners' => $singleMatch['awayteamcorners'],
-                    'fouls' => $singleMatch['awayteamfouls'],
-                    'yellow_cards' => $singleMatch['awayteamyellowcards'],
-                    'red_cards' => $singleMatch['awayteamredcards']
-                ),
-                // these stats will be updated after the full seasons data is added to each club
-                'per_game_stats' => array(
-                    'goals_scored_per_game' => 0.00,
-                    'goals_conceded_per_game' => 0.00,
-                    'shots_per_game' => 0.00,
-                    'shots_on_target_per_game' => 0.00,
-                    'corners_per_game' => 0.00,
-                    'fouls_per_game' => 0.00,
-                    'yellow_cards_per_game' => 0.00,
-                    'red_cards_per_game' => 0.00
-                )
-            );
-            $masterClubArray[] = $awayTeamArray;
-        }
+        // check if the teams index exists in the array and add on data if so
+        // else, push the data onto the end of the array, array is updated for each func call
+        $allGoals = searchAndAddToArray($singleMatch["hometeamtotalgoals"], $allGoals, $homeTeamIndex);
+        $allConceded = searchAndAddToArray($singleMatch["hometeamtotalgoals"], $allConceded, $awayTeamIndex);
+        $allShots = searchAndAddToArray($singleMatch["hometeamshots"], $allShots, $homeTeamIndex);
+        $allShotsOT = searchAndAddToArray($singleMatch["hometeamshotsontarget"], $allShotsOT, $homeTeamIndex);
+        $allCorners = searchAndAddToArray($singleMatch["hometeamcorners"], $allCorners, $homeTeamIndex);
+        $allFouls = searchAndAddToArray($singleMatch["hometeamfouls"], $allFouls, $homeTeamIndex);
+        $allYellowCards = searchAndAddToArray($singleMatch["hometeamyellowcards"], $allYellowCards, $homeTeamIndex);
+        $allRedCards = searchAndAddToArray($singleMatch["hometeamredcards"], $allRedCards, $homeTeamIndex);
+        
+        $allGoals = searchAndAddToArray($singleMatch["awayteamtotalgoals"], $allGoals, $awayTeamIndex);
+        $allConceded = searchAndAddToArray($singleMatch["awayteamtotalgoals"], $allConceded, $homeTeamIndex);
+        $allShots = searchAndAddToArray($singleMatch["awayteamshots"], $allShots, $awayTeamIndex);
+        $allShotsOT = searchAndAddToArray($singleMatch["awayteamshotsontarget"], $allShotsOT, $awayTeamIndex);
+        $allCorners = searchAndAddToArray($singleMatch["awayteamcorners"], $allCorners, $awayTeamIndex);
+        $allFouls = searchAndAddToArray($singleMatch["awayteamfouls"], $allFouls, $awayTeamIndex);
+        $allYellowCards = searchAndAddToArray($singleMatch["awayteamyellowcards"], $allYellowCards, $awayTeamIndex);
+        $allRedCards = searchAndAddToArray($singleMatch["awayteamredcards"], $allRedCards, $awayTeamIndex);
     }
 
-    // build one array to loop through in a foreach loop for the webpage
     // every tile data array is in the order;
     // tile name, lowest value, highest value, lowest team, highest team
     $allGoalsTileData = array();
@@ -117,63 +85,60 @@
     // main tile array to be looped thru
     $masterArray = array();
 
-    $goalsScoredArray = array_column($masterClubArray, 'goals_scored');
     $allGoalsTileData[] = "Goals Scored";
-    $allGoalsTileData[] = min($goalsScoredArray);
-    $allGoalsTileData[] = max($goalsScoredArray);
-    $minKey = array_search($allGoalsTileData[1], $masterClubArray);
-    $allGoalsTileData[] = $masterClubArray[$minKey]['clubname'];
-    $maxKey = array_search($allGoalsTileData[2], $masterClubArray);
-    $allGoalsTileData[] = $masterClubArray[$maxKey]['clubname'];
+    $allGoalsTileData[] = min($allGoals);
+    $allGoalsTileData[] = max($allGoals);
+    $allGoalsTileData[] = findMinValueAndReturnTeam($allGoals ,$allSeasonClubNames);
+    $allGoalsTileData[] = findMaxValueAndReturnTeam($allGoals ,$allSeasonClubNames);
     $masterArray[] = $allGoalsTileData;
 
-    // $allConcededTileData[] = "Goals Conceded";
-    // $allConcededTileData[] = max($allConceded);
-    // $allConcededTileData[] = min($allConceded);
-    // $allConcededTileData[] = findMaxValueAndReturnTeam($allConceded ,$masterClubArray);
-    // $allConcededTileData[] = findMinValueAndReturnTeam($allConceded ,$masterClubArray);
-    // $masterArray[] = $allConcededTileData;
+    $allConcededTileData[] = "Goals Conceded";
+    $allConcededTileData[] = max($allConceded);
+    $allConcededTileData[] = min($allConceded);
+    $allConcededTileData[] = findMaxValueAndReturnTeam($allConceded ,$allSeasonClubNames);
+    $allConcededTileData[] = findMinValueAndReturnTeam($allConceded ,$allSeasonClubNames);
+    $masterArray[] = $allConcededTileData;
 
-    // $allShotsTileData[] = "Shots";
-    // $allShotsTileData[] = min($allShots);
-    // $allShotsTileData[] = max($allShots);
-    // $allShotsTileData[] = findMinValueAndReturnTeam($allShots ,$masterClubArray);
-    // $allShotsTileData[] = findMaxValueAndReturnTeam($allShots ,$masterClubArray);
-    // $masterArray[] = $allShotsTileData;
+    $allShotsTileData[] = "Shots";
+    $allShotsTileData[] = min($allShots);
+    $allShotsTileData[] = max($allShots);
+    $allShotsTileData[] = findMinValueAndReturnTeam($allShots ,$allSeasonClubNames);
+    $allShotsTileData[] = findMaxValueAndReturnTeam($allShots ,$allSeasonClubNames);
+    $masterArray[] = $allShotsTileData;
 
-    // $allShotsOTTileData[] = "Shots on Target";
-    // $allShotsOTTileData[] = min($allShotsOT);
-    // $allShotsOTTileData[] = max($allShotsOT);
-    // $allShotsOTTileData[] = findMinValueAndReturnTeam($allShotsOT ,$masterClubArray);
-    // $allShotsOTTileData[] = findMaxValueAndReturnTeam($allShotsOT ,$masterClubArray);
-    // $masterArray[] = $allShotsOTTileData;
+    $allShotsOTTileData[] = "Shots on Target";
+    $allShotsOTTileData[] = min($allShotsOT);
+    $allShotsOTTileData[] = max($allShotsOT);
+    $allShotsOTTileData[] = findMinValueAndReturnTeam($allShotsOT ,$allSeasonClubNames);
+    $allShotsOTTileData[] = findMaxValueAndReturnTeam($allShotsOT ,$allSeasonClubNames);
+    $masterArray[] = $allShotsOTTileData;
 
-    // $allCornersTileData[] = "Corners";
-    // $allCornersTileData[] = min($allCorners);
-    // $allCornersTileData[] = max($allCorners);
-    // $allCornersTileData[] = findMinValueAndReturnTeam($allCorners ,$masterClubArray);
-    // $allCornersTileData[] = findMaxValueAndReturnTeam($allCorners ,$masterClubArray);
-    // $masterArray[] = $allCornersTileData;
+    $allCornersTileData[] = "Corners";
+    $allCornersTileData[] = min($allCorners);
+    $allCornersTileData[] = max($allCorners);
+    $allCornersTileData[] = findMinValueAndReturnTeam($allCorners ,$allSeasonClubNames);
+    $allCornersTileData[] = findMaxValueAndReturnTeam($allCorners ,$allSeasonClubNames);
+    $masterArray[] = $allCornersTileData;
 
-    // $allFoulsTileData[] = "Fouls";
-    // $allFoulsTileData[] = max($allFouls);
-    // $allFoulsTileData[] = min($allFouls);
-    // $allFoulsTileData[] = findMaxValueAndReturnTeam($allFouls ,$masterClubArray);
-    // $allFoulsTileData[] = findMinValueAndReturnTeam($allFouls ,$masterClubArray);
-    // $masterArray[] = $allFoulsTileData;
+    $allFoulsTileData[] = "Fouls";
+    $allFoulsTileData[] = max($allFouls);
+    $allFoulsTileData[] = min($allFouls);
+    $allFoulsTileData[] = findMaxValueAndReturnTeam($allFouls ,$allSeasonClubNames);
+    $allFoulsTileData[] = findMinValueAndReturnTeam($allFouls ,$allSeasonClubNames);
+    $masterArray[] = $allFoulsTileData;
 
-    // $allYellowCardsTileData[] = "Yellow Cards";
-    // $allYellowCardsTileData[] = max($allYellowCards);
-    // $allYellowCardsTileData[] = min($allYellowCards);
-    // $allYellowCardsTileData[] = findMaxValueAndReturnTeam($allYellowCards ,$masterClubArray);
-    // $allYellowCardsTileData[] = findMinValueAndReturnTeam($allYellowCards ,$masterClubArray);
-    // $masterArray[] = $allYellowCardsTileData;
+    $allYellowCardsTileData[] = "Yellow Cards";
+    $allYellowCardsTileData[] = max($allYellowCards);
+    $allYellowCardsTileData[] = min($allYellowCards);
+    $allYellowCardsTileData[] = findMaxValueAndReturnTeam($allYellowCards ,$allSeasonClubNames);
+    $allYellowCardsTileData[] = findMinValueAndReturnTeam($allYellowCards ,$allSeasonClubNames);
+    $masterArray[] = $allYellowCardsTileData;
 
-    // $allRedCardsTileData[] = "Red Cards";
-    // $allRedCardsTileData[] = max($allRedCards);
-    // $allRedCardsTileData[] = min($allRedCards);
-    // $allRedCardsTileData[] = findMaxValueAndReturnTeam($allRedCards ,$masterClubArray);
-    // $allRedCardsTileData[] = findMinValueAndReturnTeam($allRedCards ,$masterClubArray);
-    // $masterArray[] = $allRedCardsTileData;
+    $allRedCardsTileData[] = "Red Cards";
+    $allRedCardsTileData[] = max($allRedCards);
+    $allRedCardsTileData[] = min($allRedCards);
+    $allRedCardsTileData[] = findMaxValueAndReturnTeam($allRedCards ,$allSeasonClubNames);
+    $allRedCardsTileData[] = findMinValueAndReturnTeam($allRedCards ,$allSeasonClubNames);
+    $masterArray[] = $allRedCardsTileData;
 
 ?>
