@@ -166,8 +166,40 @@
                             </form>
                         </div>
                     </div>";
+                } elseif (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] === "user") {
+                    // if a user is signed in, show the bar allowing them to email a referee change request to admins
+                    echo"
+                        <div class='mt-5 p-3 my_info_colour '>
+                            <div><h3 class='title is-4 p-4 my_info_colour'>Request a new Season, Club or Referee</h3></div>
+                            <div class='level'>
+                                <a href='mailto:tkilpatrick01@qub.ac.uk?subject=StatFinder Website - Referee Change Request &body=Dear Admin, Could the following referee be add/removed from the database as they no longer officiate at Premier League Matches, Many thanks'>
+                                    <button class='ml-5 level-item button is-danger m-3 is-rounded my-3'>
+                                    <span class='material-icons'>sports</span>
+                                    <span class='ml-3'>Request Referee Changes</span>
+                                    </button>
+                                </a>
+                                <a href='mailto:tkilpatrick01@qub.ac.uk?subject=StatFinder Website - New Season Request &body=Dear Admin, Can a new Season be added to the statfinder website so new season match results can be added, Many thanks'>
+                                    <button class='level-item button is-danger m-3 is-rounded my-3'>
+                                    <span>
+                                        <i class='far fa-calendar-alt'></i>
+                                    </span>
+                                    <span class='ml-3'>Request New Season</span>
+                                    </button>
+                                </a>
+                                <a href='mailto:tkilpatrick01@qub.ac.uk?subject=StatFinder Website - Club Change Request &body=Dear Admin, Can i request the following club to be added/removed from the site club listing as they have been promoted/relegated from the Premier League, Many thanks'>
+                                    <button class='mr-5 level-item button is-danger m-3 is-rounded my-3'>
+                                    <span>
+                                        <i class='far fa-futbol'></i>
+                                    </span>
+                                    <span class='ml-3'>Request Club Changes</span>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>";  
                 }
             ?>
+
+            
 
             <!-- add 1 new match details form  -->
             <div class="field">
