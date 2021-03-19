@@ -1,16 +1,19 @@
 <?php
-    session_start(); 
+    session_start();
     if (isset($_GET['ht_selector']) && isset($_GET['at_selector']) 
                 && $_GET['ht_selector'] != "Select Team" && $_GET['at_selector'] != "Select Team") {
         include_once(__DIR__ . "/logic_files/allfunctions.php");
+        // both these unfiltered vars only use for website display
         $teamA = $_GET['ht_selector'];
         $teamB = $_GET['at_selector'];
         $teamAString = "<h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'><b>{$teamA}</b></h4>";
         $teamBString = "<h4 class='is-size-4 is-size-5-mobile has-text-left team_b_name_colour'><b>{$teamB}</b></h4>";
         
-        $finalHomeTeamurl = addUnderScores($teamA);
-        $finalAwayTeamurl = addUnderScores($teamB);
-        
+        $finalHomeTeamurl = addUnderScores(htmlentities(trim($teamA)));
+        $finalAwayTeamurl = addUnderScores(htmlentities(trim($teamB)));
+        print_r($finalHomeTeamurl);
+        print_r($finalAwayTeamurl);
+
         // switch the API request based on whether user wants fixture matching or not
         if (isset($_GET['strict'])) {
             $fixtureAPIurl = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fixture={$finalHomeTeamurl}~{$finalAwayTeamurl}";
@@ -24,7 +27,7 @@
 
         // import huge logic file to read every fixture
         require(__DIR__ . "/logic_files/fixture_analysis.php");
-    }   
+    }
 ?>
 
 <!DOCTYPE html>
@@ -116,7 +119,7 @@
                 && $_GET['ht_selector'] != "Select Team" && $_GET['at_selector'] != "Select Team") {
             echo "
             <div class='column is-8 is-offset-2 my_sticky_div'>
-                <div class='container column box is-centered my_sticky_div pt-4 mx-5'>
+                <div class='container column is-8 is-offset-2 box is-centered my_sticky_div pt-4'>
                     <div class='columns is-mobile is-vcentered is-centered'>
                         <div class='column mb-2'>
                             <h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'>
