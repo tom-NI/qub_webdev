@@ -6,6 +6,9 @@
     } else {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $submissionDisplayToUser = "";
+            if (isset($_SESSION['userid'])) {
+                $userID = $_SESSION['userid'];
+            }
             if (isset($_POST['submit_main_match'])) {
                 require(__DIR__ . "/part_pages/part_post_match.php");
                 // build the data that has to be sent inside the header, into an assoc array
@@ -32,7 +35,8 @@
                         'at_corners' => $awayTeamCorners,
                         'at_fouls' => $awayTeamFouls,
                         'at_yellowcards' => $awayTeamYellowCards,
-                        'at_redcards' => $awayTeamRedCards
+                        'at_redcards' => $awayTeamRedCards,
+                        'userid' => $userID
                     )
                 );
 
@@ -372,7 +376,7 @@
                         <button type="reset" id="new_match_reset_button"
                             class="button m-2 is-rounded is-info is-outlined">Reset Form</button>
                         <button type="submit" disabled name='submit_main_match' id="new_match_submit_button"
-                            class="button m-2 is-rounded is-info">Submit</button>
+                            class="button m-2 is-rounded is-info">Submit Match Result</button>
                     </div>
                 </form>
             </div>
