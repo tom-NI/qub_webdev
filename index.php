@@ -109,7 +109,7 @@
             </div>
             <div class="tile is-ancestor is-vertical is-10-mobile">
                 <?php
-                    require(__DIR__ . "/../logic_files/stattiles_logic.php");
+                    require(__DIR__ . "/logic_files/stattiles_logic.php");
 
                     foreach ($masterArray as $tileData) {
                         // tile name, lowest value, highest value, lowest team, highest team
