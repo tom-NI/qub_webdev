@@ -203,8 +203,6 @@
                 }
             ?>
 
-            
-
             <!-- add 1 new match details form  -->
             <div class="field">
                 <form method="POST" action='add_data.php'>
@@ -214,17 +212,11 @@
                             <h3 class="title is-size-5 my_info_colour">Match Details:</h3>
                         </div>
                         <div class="mt-4">
-                            <div class="my_match_metadata has-text-right">
-                                <label for="referee" class="my_small_form_item ">Select Season :</label>
-                            </div>
-                            <div class="my_match_metadata">
-                                <div class="select is-info my_medium_form_item">
-                                    <select required class='my_medium_form_item' name='select_season' id='select_season'>
-                                        <?php
-                                            require(__DIR__ . "/part_pages/part_season_select.php");
-                                        ?>
-                                    </select>
-                                </div>
+                            <div class="my_match_metadata ">
+                                <?php
+                                    $currentSeason = getCurrentSeason();
+                                    echo "<p class='mb-4 subtitle is-6 my_info_colour'>Current Season : {$currentSeason}</p>";
+                                ?>
                             </div>
                         </div>
                         <div>
@@ -238,15 +230,15 @@
                         </div>
                         <div>
                             <div class="my_match_metadata has-text-right">
-                                <label for="kick_off_time" class="my_small_form_item">Kick Off Time :</label>
+                                <label for="kickoff_time" class="my_small_form_item">Kick Off Time :</label>
                             </div>
                             <div class="my_match_metadata my_medium_form_item">
-                                <input type="time" class="my_medium_form_item my-1 input is-info" name="kickoff_time">
+                                <input type="time" class="my_medium_form_item my-1 input is-info" id='kickoff_time' name="kickoff_time">
                             </div>
                         </div>
                         <div>
                             <div class="my_match_metadata has-text-right">
-                                <label for="referee" class="my_small_form_item ">Referee :</label>
+                                <label for="select_ref" class="my_small_form_item ">Referee :</label>
                             </div>
                             <div class="my_match_metadata">
                                 <div class="select is-info my_medium_form_item">
