@@ -169,6 +169,9 @@
                     }
                 ?>
             </div>
+            <div>
+                <p class="mt-6 subtitle is-7">Stat Tiles best and worst clubs are based on the absolute statistic, not the per match statistic, which may have a higher or lower number per game in the current season based on the total matches played.</p>
+            </div>
         </section>
     </div>
     
