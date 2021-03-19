@@ -101,7 +101,7 @@
                             ?>
                         </select>
                     </div>
-                    <div class="level-item">
+                    <div class="ml-2 level-item">
                         <button class="button is-info">Go</button>
                     </div>
                 </form>
