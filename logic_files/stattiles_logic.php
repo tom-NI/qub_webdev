@@ -102,26 +102,30 @@
         }
     }
 
+    // build one array to loop through in a foreach loop for the webpage
     // every tile data array is in the order;
     // tile name, lowest value, highest value, lowest team, highest team
-    // $allGoalsTileData = array();
-    // $allConcededTileData = array();
-    // $allShotsTileData = array();
-    // $allShotsOTTileData = array();
-    // $allCornersTileData = array();
-    // $allFoulsTileData = array();
-    // $allYellowCardsTileData = array();
-    // $allRedCardsTileData = array();
+    $allGoalsTileData = array();
+    $allConcededTileData = array();
+    $allShotsTileData = array();
+    $allShotsOTTileData = array();
+    $allCornersTileData = array();
+    $allFoulsTileData = array();
+    $allYellowCardsTileData = array();
+    $allRedCardsTileData = array();
 
     // main tile array to be looped thru
-    // $masterArray = array();
+    $masterArray = array();
 
-    // $allGoalsTileData[] = "Goals Scored";
-    // $allGoalsTileData[] = min(array_column($masterClubArray, 'goals_scored');
-    // $allGoalsTileData[] = max(array_column($masterClubArray, 'goals_scored');
-    // $allGoalsTileData[] = findMinValueAndReturnTeam($allGoals ,$masterClubArray);
-    // $allGoalsTileData[] = findMaxValueAndReturnTeam($allGoals ,$masterClubArray);
-    // $masterArray[] = $allGoalsTileData;
+    $goalsScoredArray = array_column($masterClubArray, 'goals_scored');
+    $allGoalsTileData[] = "Goals Scored";
+    $allGoalsTileData[] = min($goalsScoredArray);
+    $allGoalsTileData[] = max($goalsScoredArray);
+    $minKey = array_search($allGoalsTileData[1], $masterClubArray);
+    $allGoalsTileData[] = $masterClubArray[$minKey]['clubname'];
+    $maxKey = array_search($allGoalsTileData[2], $masterClubArray);
+    $allGoalsTileData[] = $masterClubArray[$maxKey]['clubname'];
+    $masterArray[] = $allGoalsTileData;
 
     // $allConcededTileData[] = "Goals Conceded";
     // $allConcededTileData[] = max($allConceded);
