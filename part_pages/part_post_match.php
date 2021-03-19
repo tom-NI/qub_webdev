@@ -1,5 +1,5 @@
 <?php
-    $seasonName = htmlentities(trim($_POST['select_season']));
+    $seasonName = getCurrentSeason();
     $matchDate = htmlentities(trim($_POST['match_date']));
     $kickOffTime = htmlentities(trim($_POST['kickoff_time']));
     $kickOffTime = parseTimeForDBEntry($kickOffTime);
