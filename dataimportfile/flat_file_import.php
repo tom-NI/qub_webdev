@@ -73,7 +73,7 @@
         insertAvoidingDuplicates($sqlQueryReferee, $sqlInsertReferee, "s", $cleanReferee);
 
         $sqlQueryClubname = "SELECT * FROM `epl_clubs` WHERE ClubName = ? ;";
-        $sqlInsertClubname = "INSERT INTO `epl_clubs` (ClubName) VALUES ( ? );";
+        $sqlInsertClubname = "INSERT INTO `epl_clubs` (`ClubID`, `ClubName`, `ClubLogoURL`) VALUES (NULL, ?, NULL); ";
         insertAvoidingDuplicates($sqlQueryClubname, $sqlInsertClubname, "s", $homeTeam);
         insertAvoidingDuplicates($sqlQueryClubname, $sqlInsertClubname, "s", $awayTeam);
 
