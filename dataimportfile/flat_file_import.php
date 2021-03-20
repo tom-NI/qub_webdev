@@ -34,15 +34,6 @@
         $homeRedCards = trim($line[21]);
         $awayRedCards = trim($line[22]);
 
-        // skip a row if the row is largely empty of data, if so dont bother adding this particular match
-        if (($halfTimeHomeGoals == "NA") && ($halfTimeAwayGoals == "NA") && ($homeShots == "NA") 
-                && ($awayShots == "NA") && ($homeShotsOnTarget == "NA") && ($awayShotsOnTarget == "NA") 
-                && ($homeCorners == "NA") && ($awayCorners == "NA") && ($homeFouls == "NA") 
-                && ($awayFouls == "NA") && ($homeYellowCards == "NA") && ($awayYellowCards == "NA") 
-                && ($homeRedCards == "NA") && ($referee == "NA") && ($awayRedCards == "NA")) {
-                    continue;
-        }
-
         // split the date and time for each row and assign into a var
         // used later on down the script to file the info into db match info!
         trim($dateTime);
