@@ -4,19 +4,22 @@
 
     // query a db and if data doesnt exist, insert it and check its inserted
     // used for the initial load of flat CSV file to db, NOT for all prepared statements
-    function insertAvoidingDuplicates($sqlQuery, $insertQueryIfNull) {
+    function insertAvoidingDuplicates($checkingStatement, $insertStatement, $datatype, $valueToCheck) {
         require("dbconn.php");
         $conn->set_charset('utf8mb4');
-        
-        $sqlQuery = $mysqli->real_escape_string($sqlQuery);
-        $finalSqlQuery = htmlentities($sqlQuery);
-        $insertQueryIfNull = $mysqli->real_escape_string($insertQueryIfNull);
-        $finalInsertQueryIfNull = htmlentities($insertQueryIfNull);
 
-        $databaseReturnedObject = $conn->query($finalSqlQuery);
-        if (mysqli_num_rows($databaseReturnedObject) == 0) {
-            dbQueryAndCheck($finalInsertQueryIfNull);
+        $stmt = $conn->prepare($checkingStatement);
+        $stmt -> bind_param($datatype, $valueToCheck);
+        $stmt -> execute();
+        $stmt -> store_result();
+        $stmt -> fetch();
+        if ($stmt->num_rows == 0) {
+            $insertStmt = $conn->prepare($insertStatement);
+            $insertStmt -> bind_param($datatype, $valueToCheck);
+            $insertStmt -> execute();
+            $insertStmt->close();
         }
+        $stmt->close();
     }
 
     // query database for info and return the variable
