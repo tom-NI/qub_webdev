@@ -3,15 +3,15 @@
     include_once(__DIR__ . "/logic_files/allfunctions.php");
 
     // set the requested stat from the user, else default to goals
-    if (isset($_POST['stattile_statistic'])) {
-        $statToAnalyze = htmlentities(trim($_POST['stattile_statistic']));
+    if (isset($_GET['stattile_statistic'])) {
+        $statToAnalyze = htmlentities(trim($_GET['stattile_statistic']));
     } else {
         $statToAnalyze = "Goals";
     }
 
     // get the requested season data from the user, else default to the current season and retrieve it!
-    if (isset($_POST['season_pref'])) {
-        $season = htmlentities(trim($_POST['season_pref']));
+    if (isset($_GET['season_pref'])) {
+        $season = htmlentities(trim($_GET['season_pref']));
         $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fullseason={$season}";
     } else {
         $season = getCurrentSeason();
@@ -126,7 +126,7 @@
         <div class='master_site_width'>
             <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered my_info_colour mt-4 p-5'>
                 <p class='my_info_colour title is-5'>Select Season and Statistic to customise the chart</p>
-                <form class='level-item form' action="page_chart_season.php" method='POST'>
+                <form class='level-item form' action="page_chart_season.php" method='GET'>
                     <div class='select level-item'>
                         <select name="season_pref" id="season_chart_select">
                             <?php
@@ -146,7 +146,12 @@
                             <i class="far fa-chart-bar"></i>
                         </div>
                     </div>
-                    <button name='change_statistic' class='ml-5 level-item button is-danger is-rounded'>Draw Chart</button>
+                    <button name='' class='ml-5 level-item button is-danger is-rounded'>
+                        <span class="icon is-left">
+                            <i class="fas fa-drafting-compass"></i>
+                        </span>
+                        <span>Draw Chart</span>                    
+                    </button>
                 </form>
             </div>
 
