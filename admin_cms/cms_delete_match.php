@@ -6,7 +6,7 @@
         header("Location: login.php");
     } elseif (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] == "admin") {
         if (isset($_GET['deletematch'])) {
-            $matchID = (int) htmlentities(trim($_GET['id']));
+            $matchID = (int) htmlentities(trim($_GET['num']));
 
             // get check match exists first to prevent any oddness
             $stmt = $conn->prepare("SELECT MatchID FROM `epl_matches` WHERE MatchID = ? ");

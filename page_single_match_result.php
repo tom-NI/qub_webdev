@@ -1,8 +1,8 @@
 <?php 
     session_start();
     include_once(__DIR__ . "/logic_files/allfunctions.php");
-    if (isset($_GET['id'])) {
-        $postedMatchID = htmlentities(trim($_GET['id']));
+    if (isset($_GET['num'])) {
+        $postedMatchID = htmlentities(trim($_GET['num']));
         $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$postedMatchID}";
         $singleMatchData = postDevKeyInHeader($singleMatchURL);
         $singleMatchList = json_decode($singleMatchData, true);
@@ -235,14 +235,14 @@
                 <?php
                     // add in a box for an admin to administrate this match if signed in as a user
                     if (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] === "admin") {
-                        $postedMatchID = htmlentities(trim($_GET['id']));
+                        $postedMatchID = htmlentities(trim($_GET['num']));
                         echo "
                             <div class='level is-centered my_grey_highlight_para p-5'>
                                 <div class='level-item level-left'>
                                     <p class='mx-3 subtitle is-5'>Administrate this result :</p>
                                 </div>
                                 <div class='level-item level-right'>
-                                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_edit_match.php?id={$postedMatchID}'>
+                                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_edit_match.php?num={$postedMatchID}'>
                                         <button class='mx-3 button is-rounded is-info'>
                                             <span class='icon is-left'>
                                                 <i class='fas fa-pen'></i>
@@ -250,7 +250,7 @@
                                             <span>Edit Match</span>
                                         </button>
                                     </a>
-                                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_delete_match.php?deletematch&id={$postedMatchID}'>
+                                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_delete_match.php?deletematch&num={$postedMatchID}'>
                                         <button id='delete_match_btn' class='mx-3 button is-rounded is-info'>
                                             <span class='icon is-left'>
                                                 <i class='fas fa-trash'></i>

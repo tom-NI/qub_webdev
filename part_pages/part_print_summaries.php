@@ -25,7 +25,7 @@
             $finalMatchDate = parseDateLongFormat($matchDate);
 
             echo "
-            <a href='page_single_match_result.php?id={$matchID}'>
+            <a href='page_single_match_result.php?num={$matchID}'>
                     <div id='' class='master_result_card container box column is-centered my_box_border m-2 mb-5 mt-5 p-1'>
                         <div class='columns' >
                             <div class='column'>
@@ -78,8 +78,8 @@
                         <div>
                             <h3 class='title is-5'>Sorry, theres nothing in here. </h3>
                             <p class=''>Try selecting less search items</p>
-                            </div>
-                            </div>
+                        </div>
+                    </div>
                 </div>";
             }
             

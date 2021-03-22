@@ -45,15 +45,20 @@
                 $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches/?editmatch";
                 $result = postDevKeyInHeader($endpoint, $matchInfoArray);
                 //get the API JSON reply and pull into a var for the users
-                $apiJSONReply = json_decode($result, true);
-                $submissionDisplayToUser = $apiJSONReply[0]['reply_message'];
+                if (http_response_code(201)) {
+                    $submissionDisplayToUser = "Match Edit Successful";
+                } else {
+                    $apiJSONReply = json_decode($result, true);
+                    $submissionDisplayToUser = $apiJSONReply[0]['reply_message'];
+                }
+                print_r($submissionDisplayToUser);
             }
-        } elseif (isset($_GET['id'])) {
+        } elseif (isset($_GET['num'])) {
             // user is editing the match, so get all the data from the matchID and populate the form
             $noMatchIDisSelected = false;
             // GET AND DISPLAY ALL THE INFORMATION INTO THE FORM FOR THE USER TO EDIT`
             // get all the info from a particular match and load it into the form!
-            $matchID = htmlentities(trim($_GET['id']));
+            $matchID = htmlentities(trim($_GET['num']));
             $matchInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$matchID}";
             $matchData = postDevKeyInHeader($matchInfoURL);
             $matchList = json_decode($matchData, true);
@@ -118,42 +123,42 @@
 
     <div class="has-text-centered master_site_width container columns" id="my_upload_result_form">
         <div class="column is-8 is-offset-2">
-            <!-- edit a matches details form  -->
-            <div class="field">
-                <?php 
-                    if ($noMatchIDisSelected){
-                        echo "<div>
-                                    <h2 class='title is-size-3 my_info_colour my-4 p-4'>Select a match from the website to edit</h2>
-                                </div>
+            <?php
+                if ($noMatchIDisSelected){
+                    echo "<div>
+                                <h2 class='title is-size-3 my_info_colour my-4 p-4'>Select a match from the website to edit</h2>
                             </div>
-                            </div>
-                            </div>";
-                            include(__DIR__ . "/../part_pages/part_site_footer.php");
-                            
-                            echo "<script src='../scripts/my_script.js'></script>
-                                <script src='../scripts/my_editmatch_script.js'></script>
-                                </body>
-                            </html>";
-                        die();
-                    } elseif (isset($_GET['finalise_match_edit'])) {
-                        // return message after the user has edited, and give them a link to return to the match page
-                        echo "<div>
-                                <h3 class='title is-size-3 my_info_colour my-4 p-4'>{$submissionDisplayToUser}</h3>
-                                <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?id={$matchToChangeID}'><h4>Return to Match page</h4></a>
-                            </div>
-                            </div>
-                            </div>
-                            </div>";
-                            include(__DIR__ . "/../part_pages/part_site_footer.php");
-                            
-                            echo "<script src='../scripts/my_script.js'></script>
-                                <script src='../scripts/my_editmatch_script.js'></script>
-                                </body>
-                            </html>";
-                        die();
-                    }
-                ?>
+                        </div>
+                        </div>
+                        </div>";
+                        include(__DIR__ . "/../part_pages/part_site_footer.php");
+                        
+                        echo "<script src='../scripts/my_script.js'></script>
+                            <script src='../scripts/my_editmatch_script.js'></script>
+                            </body>
+                        </html>";
+                    die();
+                } elseif (isset($_GET['finalise_match_edit'])) {
+                    // return message after the user has edited, and give them a link to return to the match page
+                    echo "{$submissionDisplayToUser}";
+                    echo "<div>
+                            <h3 class='title is-size-3 my_info_colour my-4 p-4'>{$submissionDisplayToUser}</h3>
+                            <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?id={$matchToChangeID}'><h4>Return to Match page</h4></a>
+                        </div>
+                        </div>
+                        </div>
+                        </div>";
+                        include(__DIR__ . "/../part_pages/part_site_footer.php");
+                        
+                        echo "<script src='../scripts/my_script.js'></script>
+                            <script src='../scripts/my_editmatch_script.js'></script>
+                            </body>
+                        </html>";
+                    die();
+                }
+            ?>
 
+                <!-- edit a matches details form  -->
                 <form method="POST" action="cms_edit_match.php?finalise_match_edit">
                     <div class="mt-5 p-5 my_info_colour">
                         <div>
@@ -231,88 +236,7 @@
                         </div>
                     </div>
                         <?php   
-                            // used for placeholder data and minimum entry values
-                            // loop to create all the input fields from preset arrays
-                            $zero = 0;
-
-                            $sectionTitles = array(
-                                "Half Time Goals:",
-                                "Full Time Goals:",
-                                "Total Shots:",
-                                "Shots on Target:",
-                                "Corners:",
-                                "Total Fouls:",
-                                "Yellow Cards:",
-                                "Red Cards:"
-                            );
-                        
-                            $maxValues = array(
-                                50,
-                                50,
-                                50,
-                                50,
-                                200,
-                                100,
-                                22,
-                                5
-                            );
-                            $homeNameIDs = array(
-                                "ht_ht_goals",
-                                "ht_ft_goals",
-                                "ht_total_shots",
-                                "ht_shots_on_target",
-                                "ht_corners",
-                                "ht_total_fouls",
-                                "ht_yellow_cards",
-                                "ht_red_cards",
-                            );
-
-                            $awayNameIDs = array(
-                                "at_ht_goals",
-                                "at_ft_goals",
-                                "at_total_shots",
-                                "at_shots_on_target",
-                                "at_corners",
-                                "at_total_fouls",
-                                "at_yellow_cards",
-                                "at_red_cards",
-                            );
-
-                            $homeValues = array(
-                                $hometeamtotalgoals,
-                                $hometeamhalftimegoals,
-                                $hometeamshots,
-                                $hometeamshotsontarget,
-                                $hometeamcorners,
-                                $hometeamfouls,
-                                $hometeamyellowcards,
-                                $hometeamredcards
-                            );
-
-                            $awayValues = array(
-                                $awayteamtotalgoals,
-                                $awayteamhalftimegoals,
-                                $awayteamshots,
-                                $awayteamshotsontarget,
-                                $awayteamcorners,
-                                $awayteamfouls,
-                                $awayteamyellowcards,
-                                $awayteamredcards
-                            );
-
-                            for ($i = 0; $i < 8; $i++) {
-                                echo "<div class='field'>
-                                    <p>{$sectionTitles[$i]}</p>
-                                    <div class='my_inline_divs m-1 p-1'>
-                                        <input required class='my_small_num_entry input is-success' type='number' placeholder='{$zero}'
-                                            min='{$zero}' max='{$maxValues[$i]}' value='{$homeValues[$i]}' id='{$homeNameIDs[$i]}' name='{$homeNameIDs[$i]}'>
-                                    </div>
-                                    <div class='my_inline_divs m-1 p-1'>
-                                        <input class='my_small_num_entry input is-danger' type='number' required placeholder='{$zero}'
-                                            min='{$zero}' max='{$maxValues[$i]}' value='{$awayValues[$i]}' id='{$awayNameIDs[$i]}' name='{$awayNameIDs[$i]}'>
-                                    </div>
-                                </div>";
-                            }
+                            require(__DIR__ . "/../part_pages/part_fill_match_edit_form.php");
                         ?>
                     <div class='field'>
                         <h2 class="title is-size-4 mt-6">Justification for data change:</h2>
@@ -337,7 +261,7 @@
                             class="button m-2 is-rounded is-info">Submit Match Edits</button>
                     </div>
                     <div>
-                        <input type="hidden" name="id" value="<?php htmlentities(trim($_GET['id'])) ;?>" >
+                        <input type="hidden" name="id" value="<?php htmlentities(trim($_GET['num'])) ;?>" >
                     </div>
                 </form>
             </div>
