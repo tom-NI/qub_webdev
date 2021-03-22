@@ -4,8 +4,8 @@
     $teamAPIdata = postDevKeyInHeader($teamAPIpath);
     $teamList = json_decode($teamAPIdata, true);
 
-    echo "<option value=''>Select Team</option>";
-    if (!$htSelectorIsSet) {
+    echo "<option value='Select Team'>Select Team</option>";
+    if (!isset($htSelectorIsSet)) {
         foreach($teamList as $singleTeam) {
             if (isset($_GET['ht_selector']) && $_GET['ht_selector'] == $singleTeam['club']) {
                 echo "<option value='{$singleTeam['club']}' selected='selected'>{$singleTeam['club']}</option>";

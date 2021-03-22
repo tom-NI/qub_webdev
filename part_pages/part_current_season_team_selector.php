@@ -26,7 +26,7 @@
             }
         }
     } else {
-        echo "<option value=''>Select Team</option>";
+        echo "<option value='Select Team'>Select Team</option>";
         foreach($teamList as $singleTeamHome) {
             echo "<option value='{$singleTeamHome['clubname']}'>{$singleTeamHome['clubname']}</option>";
         }

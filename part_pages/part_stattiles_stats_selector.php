@@ -2,8 +2,8 @@
     $statValues = array();
     array_push($statValues, "Goals", "Goals Conceded", "Shots", "Shots On Target", "Corners", "Fouls", "Yellow Cards", "Red Cards");
 
-    if (isset($_POST['stattile_statistic'])) {
-        $statSelected = htmlentities(trim($_POST['stattile_statistic']));
+    if (isset($_GET['stattile_statistic'])) {
+        $statSelected = htmlentities(trim($_GET['stattile_statistic']));
     } else {
         $statSelected = null;
     }
