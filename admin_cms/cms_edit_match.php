@@ -257,7 +257,7 @@
                     <div class="field is-grouped is-grouped-centered mt-2 mb-4">
                         <button type="reset" id="new_match_reset_button"
                             class="button m-2 is-rounded is-info is-outlined">Reset Form</button>
-                        <button type="submit" disabled id="new_match_submit_button"
+                        <button type="submit" disabled id="edit_match_submit_button"
                             class="button m-2 is-rounded is-info">Submit Match Edits</button>
                     </div>
                     <div>
