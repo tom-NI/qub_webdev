@@ -75,7 +75,10 @@ if (document.getElementById("yes_radio") !== null) {
 
 // for the fixture analysis page, 
 // disable the search button if the user hasnt selected two teams
-if ((document.getElementById("fixture_search_btn") !== null)) { 
+if ((document.getElementById("fixture_search_btn") !== null) 
+    || (document.getElementById("userfilter_btn") !== null)
+    || (document.getElementById("new_match_submit_button") !== null)
+    || (document.getElementById("edit_match_submit_button") !== null)) {
     // if both the ht and at selectors are present on the page check their values 
     var htSelectValue = document.getElementById("ht_selector").value;
     var atSelectValue = document.getElementById("at_selector").value;
@@ -88,7 +91,7 @@ if ((document.getElementById("fixture_search_btn") !== null)) {
             let atSelectValue = document.getElementById("at_selector").value;
             
             // if either select values are default, disable the search button
-            if (htSelectValue === "Select Team" || atSelectValue === "Select Team") {
+            if (htSelectValue === atSelectValue) {
                 document.getElementById("fixture_search_btn").disabled = true;
             } else {
                 document.getElementById("fixture_search_btn").disabled = false;
@@ -123,7 +126,7 @@ if ((document.getElementById("fixture_search_btn") !== null)) {
         let atSelectValue = document.getElementById("at_selector").value;
 
         if (htSelectValue === atSelectValue) {
-            document.getElementById("ht_selector").value = "default";
+            document.getElementById("ht_selector").value = "Select Team";
         }
     }
     document.getElementById("ht_selector").addEventListener("change", disallowDuplicateSelection);
