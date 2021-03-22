@@ -278,7 +278,12 @@
                         <input required class="input" type="text" name="new_ref_name" placeholder="New Referee name">
                     </div>
                     <div class='my_medium_form_item level-item'>
-                        <button name="change_ref" class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>Change Referee Name</button>
+                        <button name="change_ref" class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>
+                            <span class='icon has-text-left'>
+                                <i class="fas fa-pen"></i>
+                            </span>
+                            <span>Change Referee Name</span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -295,7 +300,12 @@
                         <input required class="input" type="text" name="new_club_name" placeholder="New Club name">
                     </div>
                     <div class='my_medium_form_item level-item'>
-                        <button name="change_club" class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>Change Club Name</button>
+                        <button name="change_club" class='button my_medium_form_item mx-3 is-rounded is-danger level-item'>
+                            <span class='icon has-text-left'>
+                                <i class="fas fa-pen"></i>
+                            </span>
+                            <span>Change Club Name</span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -315,7 +325,12 @@
                             </select>
                         </div>
                         <div class=''>
-                            <button name="delete_club" class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>Delete Club</button>
+                            <button name="delete_club" class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>
+                                <span class='icon has-text-left'>
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                                <span>Delete Club</span>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -329,7 +344,12 @@
                             </select>
                         </div>
                         <div class=''>
-                            <button name="delete_ref" class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>Delete Referee</button>
+                            <button name="delete_ref" class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>
+                                <span class='icon has-text-left'>
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                                <span>Delete Referee</span>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -343,7 +363,12 @@
                             </select>
                         </div>
                         <div class=''>
-                            <button name="delete_season" class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>Delete Season</button>
+                            <button name="delete_season" class='is-pulled-left mx-3 button my_medium_form_item is-rounded is-danger level-item'>
+                                <span class='icon has-text-left'>
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                                <span>Delete Season</span>
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -145,7 +145,12 @@
                             <form method='POST' action='add_data.php' class='level columns'>
                                 <input type='text' required id='new_referee' name='newrefname' minlength='4' maxlength='30' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Referee Name'>
                                 <div class='my_medium_form_item'>
-                                    <button class='button level-item my_medium_form_item is-danger m-3 is-rounded ' name='submit_new_referee'>Add Referee</button>
+                                    <button class='button level-item my_medium_form_item is-danger m-3 is-rounded ' name='submit_new_referee'>
+                                        <span class='icon'>
+                                            <i class='fas fa-plus'></i>
+                                        </span>
+                                        <span>Add Referee</span>
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -155,7 +160,12 @@
                                 <form method='POST' action='add_data.php' class='level columns'>
                                     <input type='text' required id='new_season' name='new_season' class='input level-item column is-5 mx-5 is-half-tablet' placeholder='Suggested next season to add : {$suggestedNextSeason}'>
                                     <div class='my_medium_form_item'>
-                                        <button class='button level-item my_medium_form_item is-danger m-3 is-rounded my-3 ' name='submit_new_season'>Add New Season</button>
+                                        <button class='button level-item my_medium_form_item is-danger m-3 is-rounded my-3 ' name='submit_new_season'>
+                                            <span class='icon'>
+                                                <i class='fas fa-plus'></i>
+                                            </span>
+                                            <span>Add New Season</span>
+                                        </button>
                                     </div>
                                 </form>
                         </div>
@@ -166,7 +176,12 @@
                             <form method='POST' action='add_data.php' class='level columns'>
                                 <input type='text' required id='new_club' name='new_club' class='input level-item column is-3 mx-2 is-one-third-tablet' maxlength='35' placeholder='Club Name (max 35 Characters)'>
                                 <input type='url' required id='new_club_img_url' name='new_club_img_url' class='input level-item column is-3 mx-5 is-one-third-tablet' placeholder='Club Logo URL'>
-                                <button class='button level-item is-danger is-rounded mt-4 my-3 ' name='submit_new_club'>Add New Club</button>
+                                <button class='button level-item is-danger is-rounded mt-4 my-3 ' name='submit_new_club'>
+                                    <span class='icon'>
+                                        <i class='fas fa-plus'></i>
+                                    </span>
+                                    <span>Add New Club</span>
+                                </button>
                             </form>
                         </div>
                     </div>";
@@ -369,7 +384,10 @@
                         <button type="reset" id="new_match_reset_button"
                             class="button m-2 is-rounded is-info is-outlined">Reset Form</button>
                         <button type="submit" disabled name='submit_main_match' id="new_match_submit_button"
-                            class="button m-2 is-rounded is-info">Submit Match Result</button>
+                            class="button m-2 is-rounded is-info">
+                                <span class="material-icons">send</span>
+                                <span class='ml-3'>Submit Match Result</span>
+                        </button>
                     </div>
                 </form>
             </div>
