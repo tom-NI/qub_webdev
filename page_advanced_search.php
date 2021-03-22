@@ -178,7 +178,7 @@
                         <span class="level-item level-left">Club :</span>
                         <div class="level-right">
                             <div class="select is-info">
-                                <select name="ht_selector" class="control level-item my_filter_select_width">
+                                <select name="ht_selector" id='ht_selector' class="control level-item my_filter_select_width">
                                     <?php
                                         include(__DIR__ . "/part_pages/part_allteams_selector.php");
                                         // control variable below for the allteams selector to make one select menu change to two clubs
@@ -192,7 +192,7 @@
                     <div class="level ml-4">
                         <span for="filter_fixture_selector_checkbox" class="level-item level-left">Opposition :</span>
                         <div class="select is-info level-right">
-                            <select name="at_selector" id="season_selector" class="level-item my_filter_select_width">
+                            <select name="at_selector" id="at_selector" class="level-item my_filter_select_width">
                                 <?php
                                     include(__DIR__ . "/part_pages/part_allteams_selector.php");
                                 ?>
@@ -292,7 +292,7 @@
                 </div>
                 <div class="control column is-12 level my-0 pt-0">
                     <div class="level-item level-right">
-                        <button type="reset" class="m-2 button is-rounded is-danger">Reset</button>
+                        <input type="reset" class="m-2 button is-rounded is-danger">
                         <button type="submit" name='userfilter' class="m-2 button is-rounded is-danger">
                             <span class="icon is-left">
                                 <i class="fas fa-search"></i>

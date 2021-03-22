@@ -61,9 +61,9 @@
             <?php
                 // change the layout of the search bar if nothing has been requested!
                 if (!isset($_GET['ht_selector']) && !isset($_GET['at_selector'])) {
-                    echo "<div class='column is-8-desktop is-offset-2-desktop my_info_colour p-3 my-6'>";
+                    echo "<div class='column is-10-desktop is-offset-1-desktop my_info_colour p-3 my-6'>";
                 } else {
-                    echo "<div class='column is-8-desktop is-offset-2-desktop my_info_colour'>";
+                    echo "<div class='column is-10-desktop is-offset-1-desktop my_info_colour'>";
                 }
             ?>
                 <div class="column p-4 mx-3">
@@ -104,7 +104,12 @@
                         </div>
                         <div class="column is-centered mt-0 level-item">
                             <div class="m-1">
-                                <button type="submit" id="fixture_search_btn" class="button is-rounded is-danger">Search</button>
+                                <button type="submit" id="fixture_search_btn" class="button is-rounded is-danger">
+                                    <span class="icon is-left">
+                                        <i class="fas fa-calculator"></i>
+                                    </span>
+                                    <span>Analyze</span>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -117,7 +122,7 @@
                 && $_GET['ht_selector'] != "Select Team" && $_GET['at_selector'] != "Select Team") {
             echo "
             <div class='column is-8 is-offset-2 my_sticky_div'>
-                <div class='container column is-8 is-offset-2 box is-centered my_sticky_div pt-4'>
+                <div class='container column is-6 is-offset-3 box is-centered my_sticky_div pt-4'>
                     <div class='columns is-mobile is-vcentered is-centered'>
                         <div class='column mb-2'>
                             <h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'>
