@@ -33,8 +33,11 @@
             <?php
                 if (isset($_SESSION['sessiontype']) && strlen($_SESSION['sessiontype']) > 0) {
                     $username = $_SESSION['username'];
-                    echo "<p class='mx-5 my_info_colour'>Signed in as {$username}</p>";
-
+                    if ($_SESSION['sessiontype'] == "admin") {
+                        echo "<p class='mx-5 my_info_colour'>Admin - Signed in as {$username}</p>";
+                    } else {
+                        echo "<p class='mx-5 my_info_colour'>Signed in as {$username}</p>";
+                    }
                     // logout button (goes to a seperate php logout script)
                     echo "
                     <form action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/part_pages/part_logout.php?logout' method='POST'>
