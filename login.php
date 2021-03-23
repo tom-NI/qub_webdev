@@ -3,9 +3,10 @@
     include_once(__DIR__ . "/logic_files/allfunctions.php");
     include_once(__DIR__ . "/logic_files/dbconn.php");
 
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['validate_user']) && isset($_GET['num'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['validate_user']) && isset($_GET['id'])) {
         // user trying to validate their user account via the link provided in an email
-        $userID = htmlentities(trim($_GET['num']));
+        // i dont know any other way in an email link to validate the account only using GET
+        $userID = htmlentities(trim($_GET['id']));
         $stmt = $conn->prepare("SELECT id, UserEmailConfirmed FROM `epl_site_users` WHERE id = ? ;");
         $stmt -> bind_param("i", $userID);
         $stmt -> execute();
