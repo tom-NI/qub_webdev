@@ -154,14 +154,14 @@
                         <span class="icon is-left">
                             <i class="fas fa-drafting-compass"></i>
                         </span>
-                        <span>Draw Chart</span>                    
+                        <span class='ml-1'>Draw Chart</span>                    
                     </button>
                 </form>
             </div>
             <?php 
                 // if there is any data, draw the chart, otherwise display a warning!
                 if ($noMatchesToAnalyse) {
-                    echo "<div class='column is-desktop is-8 is-offset-2 is-12-mobile my-3 p-5 has-background-warning'>
+                    echo "<div class='column is-desktop is-8 is-offset-2 is-12-mobile my-6 p-5 has-background-warning'>
                             <h3 class='is-size-5 has-text-weight-semibold'>No matches exist for this Season</h3>
                             <p class='is-size-6'>Please modify the season above and try again</p>
                         </div>";
