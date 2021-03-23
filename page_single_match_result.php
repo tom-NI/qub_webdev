@@ -55,82 +55,88 @@
     // now GET the previous 5 fixtures of this match for the JS graph!
     $homeTeamSearched = addUnderScores($hometeam);
     $awayTeamSearched = addUnderScores($awayteam);
-    $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fixture={$homeTeamSearched}~{$awayTeamSearched}&count=5&startat=2";
+    $pastFixturesURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fixture={$homeTeamSearched}~{$awayTeamSearched}&pre_date={$matchdate}&count=5";
     $pastFixturesData = postDevKeyInHeader($pastFixturesURL);
     $pastFixturesList = json_decode($pastFixturesData, true);
 
-    if (isset($_POST['change_stat_btn'])) {
-        $statToAnalyze = htmlentities(trim($_POST['analyzed_statistic']));
-    } else {
-        $statToAnalyze = "Goals";
-    }
-
-    // build the subarray for titles etc, add to the main chart data array
-    $mainStatGraphData = array();
-    $headersArray = array();
-    $headersArray[] = $statToAnalyze;
-    $headersArray[] = $hometeam;
-    $headersArray[] = $awayteam;
-    $mainStatGraphData[0] = $headersArray;
-
-    $percentNeedsCalculated = false;
-    
-    // get the JSON statistic keys based only on the info requested
-    switch ($statToAnalyze) {
-        case "Goals":
-            $homeStatKey = 'hometeamtotalgoals';
-            $awayStatKey = 'awayteamtotalgoals';
-            break;
-        case "Half Time Goals":
-            $homeStatKey = 'hometeamhalftimegoals';
-            $awayStatKey = 'awayteamhalftimegoals';
-            break;
-        case "Shots":
-            $homeStatKey = 'hometeamshots';
-            $awayStatKey = 'awayteamshots';
-            break;
-        case "Shots On Target":
-            $homeStatKey = 'hometeamshotsontarget';
-            $awayStatKey = 'awayteamshotsontarget';
-            break;
-        case "% Shots On Target":
-            $percentNeedsCalculated = true;          
-            break;
-        case "Corners":
-            $homeStatKey = 'hometeamcorners';
-            $awayStatKey = 'awayteamcorners';
-            break;
-        case "Fouls":
-            $homeStatKey = 'hometeamfouls';
-            $awayStatKey = 'awayteamfouls';
-            break;
-        case "Yellow Cards":
-            $homeStatKey = 'hometeamyellowcards';
-            $awayStatKey = 'awayteamyellowcards';
-            break;
-        case "Red Cards":
-            $homeStatKey = 'hometeamredcards';
-            $awayStatKey = 'awayteamredcards';
-            break;
-        default :
-            $homeStatKey = 'hometeamtotalgoals';
-            $awayStatKey = 'awayteamtotalgoals';
-            break;
-    }
-
-    // build a final array from the keys decided above to pass to JS chart
-    foreach($pastFixturesList as $fixture) {
-        $singleMatchData = array();
-        $dbDate = $fixture['matchdate'];
-        $singleMatchData[] = parseDateShortFormat($dbDate);
-        if ($percentNeedsCalculated) {
-            $singleMatchData[] = calculatePercentageAsInt($fixture['hometeamshotsontarget'], $fixture['hometeamshots']);
-            $singleMatchData[] = calculatePercentageAsInt($fixture['awayteamshotsontarget'], $fixture['awayteamshots']);
+    // only build the recent stats if there are stats to show!
+    if (count($pastFixturesList) > 0) {
+        $noPreviousMatchesToShow = false;
+        if (isset($_POST['change_stat_btn'])) {
+            $statToAnalyze = htmlentities(trim($_POST['analyzed_statistic']));
         } else {
-            $singleMatchData[] = (int) $fixture[$homeStatKey];
-            $singleMatchData[] = (int) $fixture[$awayStatKey];
+            $statToAnalyze = "Goals";
         }
-        $mainStatGraphData[] = $singleMatchData;
+
+        // build the subarray for titles etc, add to the main chart data array
+        $mainStatGraphData = array();
+        $headersArray = array();
+        $headersArray[] = $statToAnalyze;
+        $headersArray[] = $hometeam;
+        $headersArray[] = $awayteam;
+        $mainStatGraphData[0] = $headersArray;
+
+        $percentNeedsCalculated = false;
+        
+        // get the JSON statistic keys based only on the info requested
+        switch ($statToAnalyze) {
+            case "Goals":
+                $homeStatKey = 'hometeamtotalgoals';
+                $awayStatKey = 'awayteamtotalgoals';
+                break;
+            case "Half Time Goals":
+                $homeStatKey = 'hometeamhalftimegoals';
+                $awayStatKey = 'awayteamhalftimegoals';
+                break;
+            case "Shots":
+                $homeStatKey = 'hometeamshots';
+                $awayStatKey = 'awayteamshots';
+                break;
+            case "Shots On Target":
+                $homeStatKey = 'hometeamshotsontarget';
+                $awayStatKey = 'awayteamshotsontarget';
+                break;
+            case "% Shots On Target":
+                $percentNeedsCalculated = true;          
+                break;
+            case "Corners":
+                $homeStatKey = 'hometeamcorners';
+                $awayStatKey = 'awayteamcorners';
+                break;
+            case "Fouls":
+                $homeStatKey = 'hometeamfouls';
+                $awayStatKey = 'awayteamfouls';
+                break;
+            case "Yellow Cards":
+                $homeStatKey = 'hometeamyellowcards';
+                $awayStatKey = 'awayteamyellowcards';
+                break;
+            case "Red Cards":
+                $homeStatKey = 'hometeamredcards';
+                $awayStatKey = 'awayteamredcards';
+                break;
+            default :
+                $homeStatKey = 'hometeamtotalgoals';
+                $awayStatKey = 'awayteamtotalgoals';
+                break;
+        }
+
+        // build a final array from the keys decided above to pass to JS chart
+        foreach($pastFixturesList as $fixture) {
+            $singleMatchData = array();
+            $dbDate = $fixture['matchdate'];
+            $singleMatchData[] = parseDateShortFormat($dbDate);
+            if ($percentNeedsCalculated) {
+                $singleMatchData[] = calculatePercentageAsInt($fixture['hometeamshotsontarget'], $fixture['hometeamshots']);
+                $singleMatchData[] = calculatePercentageAsInt($fixture['awayteamshotsontarget'], $fixture['awayteamshots']);
+            } else {
+                $singleMatchData[] = (int) $fixture[$homeStatKey];
+                $singleMatchData[] = (int) $fixture[$awayStatKey];
+            }
+            $mainStatGraphData[] = $singleMatchData;
+        }
+    } else {
+        $noPreviousMatchesToShow = true;
     }
 ?>
 
@@ -271,13 +277,13 @@
                 <!-- div with a button for fixture analysis -->
                 <div class='level is-mobile is-centered my_grey_highlight_para p-4 mt-6'>
                     <div class="level-item level-left p-4 pb-0 ml-4">
-                        <h2 class='is-size-4 '>Full fixture analysis</h2>
+                        <h2 class='is-size-4 has-text-weight-semibold'>Full fixture analysis</h2>
                     </div>
                     <form action="page_fixture_analysis.php?" method='GET' class='level-item level-right'>
                         <input type="hidden" name='ht_selector' value=<?php echo $hometeam ?>>
                         <input type="hidden" name='at_selector' value=<?php echo $awayteam ?>>
                         <input type="hidden" name='strict' value='on'>
-                        <button type='submit' class='mx-3 button is-rounded is-danger is-narrow mr-4'>
+                        <button type='submit' class='mx-3 button is-rounded is-danger is-narrow mr-5'>
                             <span class="material-icons">insights</span>
                             <span class='ml-2'>Analyse this fixture</span>
                         </button>
@@ -317,13 +323,25 @@
                 </div>
                     
                     <!-- historic results section with selector -->
-                    <div class='mt-4 column'>
-                        <h3 class="title is-4 mt-3">Statistics for preceding five matches</h3>
-                        <p class="title is-5 mb-0 pb-0">
-                            <?php echo "{$statToAnalyze} between {$hometeam} and {$awayteam}"; ?>
-                        </p>
-                        <div class='column' id='former_fixtures_chart'></div>
-                    </div>
+                    <?php
+                        // only draw the graph if there are previous results to show, otherwise show warning
+                        if ($noPreviousMatchesToShow) {
+                            echo "<div class='my-3 p-5 has-background-warning'>
+                                    <h3 class='is-size-5 has-text-weight-semibold'>No Previous Matches exist for Statistic Chart</h3>
+                                </div>";
+                        } else {
+                            echo"
+                            <div class='mt-4 column'>
+                                <h3 class='title is-4 mt-3'>Statistics for preceding five matches</h3>
+                                <p class='title is-5 mb-0 pb-0'>
+                                    <?php echo '{$statToAnalyze} between {$hometeam} and {$awayteam}'; ?>
+                                </p>
+                                <div class='column' id='former_fixtures_chart'></div>
+                            </div>";
+                            include_once(__DIR__ . "/charts/chart_past_fixture.php");
+                        }
+                    ?>
+                    
                 </div>
             </div>
         </div>
@@ -334,9 +352,5 @@
 
     <!-- Single Match information -->
     <?php include_once(__DIR__ . "/charts/chart_single_match_stats.php") ?>
-
-    <!-- Statistic graph! -->
-    <?php include_once(__DIR__ . "/charts/chart_past_fixture.php") ?>
 </body>
-
 </html>
