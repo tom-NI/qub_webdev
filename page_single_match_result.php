@@ -61,7 +61,13 @@
 
     // only build the recent stats if there are stats to show!
     if (count($pastFixturesList) > 0) {
+        // var to count the previous number of matches
+        $previousMatchCount = 0;
+
+        // control var for the UI
         $noPreviousMatchesToShow = false;
+
+        // decide the stat from user input, or if not set, defaults to goals
         if (isset($_POST['change_stat_btn'])) {
             $statToAnalyze = htmlentities(trim($_POST['analyzed_statistic']));
         } else {
@@ -123,6 +129,7 @@
 
         // build a final array from the keys decided above to pass to JS chart
         foreach($pastFixturesList as $fixture) {
+            $previousMatchCount++;
             $singleMatchData = array();
             $dbDate = $fixture['matchdate'];
             $singleMatchData[] = parseDateShortFormat($dbDate);
@@ -302,7 +309,7 @@
                                 <p>Select a statistic to compare :</p>
                             </div>
                             <form class='level-item form p-0'
-                                action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?id=<?php echo "$postedMatchID" ?>" 
+                                action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?num=<?php echo "$postedMatchID" ?>"
                                 method='POST'>
                                 <div class='level-item control has-icons-left'>
                                     <div class='level-item select is-info'>
@@ -332,16 +339,13 @@
                         } else {
                             echo"
                             <div class='mt-4 column'>
-                                <h3 class='title is-4 mt-3'>Statistics for preceding five matches</h3>
-                                <p class='title is-5 mb-0 pb-0'>
-                                    <?php echo '{$statToAnalyze} between {$hometeam} and {$awayteam}'; ?>
-                                </p>
+                                <h3 class='title is-4 mt-3'>Statistics for preceding {$previousMatchCount} matches</h3>
+                                <p class='title is-5 mb-0 pb-0'>{$statToAnalyze} between {$hometeam} and {$awayteam}</p>
                                 <div class='column' id='former_fixtures_chart'></div>
                             </div>";
                             include_once(__DIR__ . "/charts/chart_past_fixture.php");
                         }
                     ?>
-                    
                 </div>
             </div>
         </div>
