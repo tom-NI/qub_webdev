@@ -26,41 +26,41 @@
         // get the JSON statistic keys based only on the info requested by the user
         switch ($statToAnalyze) {
             case "Goals":
-                $homeStatKey = 'hometeamtotalgoals';
-                $awayStatKey = 'awayteamtotalgoals';
+                $homeStatKey = 'home_team_total_goals';
+                $awayStatKey = 'away_team_total_goals';
                 break;
             case "Goals Conceded":
                 $goalsConcededStatisticRequested = true;
-                $homeStatKey = 'awayteamtotalgoals';
-                $awayStatKey = 'hometeamtotalgoals';
+                $homeStatKey = 'away_team_total_goals';
+                $awayStatKey = 'home_team_total_goals';
                 break;
             case "Shots":
-                $homeStatKey = 'hometeamshots';
-                $awayStatKey = 'awayteamshots';
+                $homeStatKey = 'home_team_shots';
+                $awayStatKey = 'away_team_shots';
                 break;
             case "Shots On Target":
-                $homeStatKey = 'hometeamshotsontarget';
-                $awayStatKey = 'awayteamshotsontarget';
+                $homeStatKey = 'home_team_shots_on_target';
+                $awayStatKey = 'away_team_shots_on_target';
                 break;
             case "Corners":
-                $homeStatKey = 'hometeamcorners';
-                $awayStatKey = 'awayteamcorners';
+                $homeStatKey = 'home_team_corners';
+                $awayStatKey = 'away_team_corners';
                 break;
             case "Fouls":
-                $homeStatKey = 'hometeamfouls';
-                $awayStatKey = 'awayteamfouls';
+                $homeStatKey = 'home_team_fouls';
+                $awayStatKey = 'away_team_fouls';
                 break;
             case "Yellow Cards":
-                $homeStatKey = 'hometeamyellowcards';
-                $awayStatKey = 'awayteamyellowcards';
+                $homeStatKey = 'home_team_yellow_cards';
+                $awayStatKey = 'away_team_yellow_cards';
                 break;
             case "Red Cards":
-                $homeStatKey = 'hometeamredcards';
-                $awayStatKey = 'awayteamredcards';
+                $homeStatKey = 'home_team_red_cards';
+                $awayStatKey = 'away_team_red_cards';
                 break;
             default :
-                $homeStatKey = 'hometeamtotalgoals';
-                $awayStatKey = 'awayteamtotalgoals';
+                $homeStatKey = 'home_team_total_goals';
+                $awayStatKey = 'away_team_total_goals';
                 break;
         }
     
@@ -68,8 +68,8 @@
         $statisticArray = array();
         
         foreach($seasonGameList as $match) {
-            $homeTeam = $match['hometeam'];
-            $awayTeam = $match['awayteam'];
+            $homeTeam = $match['home_team'];
+            $awayTeam = $match['away_team'];
     
             if (!array_key_exists($homeTeam, $statisticArray)) {
                 $statisticArray[$homeTeam] = 0;
@@ -128,7 +128,7 @@
     </section>
 
         <div class='master_site_width'>
-            <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered my_info_colour mt-4 p-5'>
+            <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered my_info_colour mt-6 p-5'>
                 <p class='my_info_colour title is-5'>Select Season and Statistic to customise the chart</p>
                 <form class='level-item form' action="page_chart_season.php" method='GET'>
                     <div class='select level-item'>

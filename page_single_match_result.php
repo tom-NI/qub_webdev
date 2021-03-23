@@ -8,31 +8,31 @@
         $singleMatchList = json_decode($singleMatchData, true);
 
         foreach($singleMatchList as $singleMatchInfo) {
-            $matchdate = $singleMatchInfo['matchdate'];
-            $kickofftime = $singleMatchInfo['kickofftime'];
-            $refereename = $singleMatchInfo['refereename'];
-            $hometeam = $singleMatchInfo['hometeam'];
-            $awayteam = $singleMatchInfo['awayteam'];
-            $hometeamlogoURL = $singleMatchInfo['hometeamlogoURL'];
-            $awayteamlogoURL = $singleMatchInfo['awayteamlogoURL'];
+            $matchdate = $singleMatchInfo['match_date'];
+            $kickofftime = $singleMatchInfo['kick_off_time'];
+            $refereename = $singleMatchInfo['referee_name'];
+            $hometeam = $singleMatchInfo['home_team'];
+            $awayteam = $singleMatchInfo['away_team'];
+            $hometeamlogoURL = $singleMatchInfo['home_team_logo_URL'];
+            $awayteamlogoURL = $singleMatchInfo['away_team_logo_URL'];
 
-            $hometeamtotalgoals = $singleMatchInfo['hometeamtotalgoals'];
-            $hometeamhalftimegoals = $singleMatchInfo['hometeamhalftimegoals'];
-            $hometeamshots = $singleMatchInfo['hometeamshots'];
-            $hometeamshotsontarget = $singleMatchInfo['hometeamshotsontarget'];
-            $hometeamcorners = $singleMatchInfo['hometeamcorners'];
-            $hometeamfouls = $singleMatchInfo['hometeamfouls'];
-            $hometeamyellowcards = $singleMatchInfo['hometeamyellowcards'];
-            $hometeamredcards = $singleMatchInfo['hometeamredcards'];
+            $hometeamtotalgoals = $singleMatchInfo['home_team_total_goals'];
+            $hometeamhalftimegoals = $singleMatchInfo['home_team_half_time_goals'];
+            $hometeamshots = $singleMatchInfo['home_team_shots'];
+            $hometeamshotsontarget = $singleMatchInfo['home_team_shots_on_target'];
+            $hometeamcorners = $singleMatchInfo['home_team_corners'];
+            $hometeamfouls = $singleMatchInfo['home_team_fouls'];
+            $hometeamyellowcards = $singleMatchInfo['home_team_yellow_cards'];
+            $hometeamredcards = $singleMatchInfo['home_team_red_cards'];
 
-            $awayteamtotalgoals = $singleMatchInfo['awayteamtotalgoals'];
-            $awayteamhalftimegoals = $singleMatchInfo['awayteamhalftimegoals'];
-            $awayteamshots = $singleMatchInfo['awayteamshots'];
-            $awayteamshotsontarget = $singleMatchInfo['awayteamshotsontarget'];
-            $awayteamcorners = $singleMatchInfo['awayteamcorners'];
-            $awayteamfouls = $singleMatchInfo['awayteamfouls'];
-            $awayteamyellowcards = $singleMatchInfo['awayteamyellowcards'];
-            $awayteamredcards = $singleMatchInfo['awayteamredcards'];
+            $awayteamtotalgoals = $singleMatchInfo['away_team_total_goals'];
+            $awayteamhalftimegoals = $singleMatchInfo['away_team_half_time_goals'];
+            $awayteamshots = $singleMatchInfo['away_team_shots'];
+            $awayteamshotsontarget = $singleMatchInfo['away_team_shots_on_target'];
+            $awayteamcorners = $singleMatchInfo['away_team_corners'];
+            $awayteamfouls = $singleMatchInfo['away_team_fouls'];
+            $awayteamyellowcards = $singleMatchInfo['away_team_yellow_cards'];
+            $awayteamredcards = $singleMatchInfo['away_team_red_cards'];
         }
 
         $homeTeamForLinks = addUnderScores(trim($hometeam));
@@ -87,43 +87,43 @@
         // get the JSON statistic keys based only on the info requested
         switch ($statToAnalyze) {
             case "Goals":
-                $homeStatKey = 'hometeamtotalgoals';
-                $awayStatKey = 'awayteamtotalgoals';
+                $homeStatKey = 'home_team_total_goals';
+                $awayStatKey = 'away_team_total_goals';
                 break;
             case "Half Time Goals":
-                $homeStatKey = 'hometeamhalftimegoals';
-                $awayStatKey = 'awayteamhalftimegoals';
+                $homeStatKey = 'home_team_half_time_goals';
+                $awayStatKey = 'away_team_half_time_goals';
                 break;
             case "Shots":
-                $homeStatKey = 'hometeamshots';
-                $awayStatKey = 'awayteamshots';
+                $homeStatKey = 'home_team_shots';
+                $awayStatKey = 'away_team_shots';
                 break;
             case "Shots On Target":
-                $homeStatKey = 'hometeamshotsontarget';
-                $awayStatKey = 'awayteamshotsontarget';
+                $homeStatKey = 'home_team_shots_on_target';
+                $awayStatKey = 'away_team_shots_on_target';
                 break;
             case "% Shots On Target":
                 $percentNeedsCalculated = true;          
                 break;
             case "Corners":
-                $homeStatKey = 'hometeamcorners';
-                $awayStatKey = 'awayteamcorners';
+                $homeStatKey = 'home_team_corners';
+                $awayStatKey = 'away_team_corners';
                 break;
             case "Fouls":
-                $homeStatKey = 'hometeamfouls';
-                $awayStatKey = 'awayteamfouls';
+                $homeStatKey = 'home_team_fouls';
+                $awayStatKey = 'away_team_fouls';
                 break;
             case "Yellow Cards":
-                $homeStatKey = 'hometeamyellowcards';
-                $awayStatKey = 'awayteamyellowcards';
+                $homeStatKey = 'home_team_yellow_cards';
+                $awayStatKey = 'away_team_yellow_cards';
                 break;
             case "Red Cards":
-                $homeStatKey = 'hometeamredcards';
-                $awayStatKey = 'awayteamredcards';
+                $homeStatKey = 'home_team_red_cards';
+                $awayStatKey = 'away_team_red_cards';
                 break;
             default :
-                $homeStatKey = 'hometeamtotalgoals';
-                $awayStatKey = 'awayteamtotalgoals';
+                $homeStatKey = 'home_team_total_goals';
+                $awayStatKey = 'away_team_total_goals';
                 break;
         }
 
@@ -131,7 +131,7 @@
         foreach($pastFixturesList as $fixture) {
             $previousMatchCount++;
             $singleMatchData = array();
-            $dbDate = $fixture['matchdate'];
+            $dbDate = $fixture['match_date'];
             $singleMatchData[] = parseDateShortFormat($dbDate);
             if ($percentNeedsCalculated) {
                 $singleMatchData[] = calculatePercentageAsInt($fixture['hometeamshotsontarget'], $fixture['hometeamshots']);

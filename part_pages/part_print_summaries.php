@@ -13,13 +13,13 @@
     if (count($recentMatchesList) > 0) {
         foreach ($recentMatchesList as $summary) {
             $matchID = $summary['id'];
-            $matchDate = $summary['matchdate'];
-            $homeTeam = $summary['hometeam'];
-            $awayTeam = $summary['awayteam'];
-            $homeScore = $summary['homescore'];
-            $awayScore = $summary['awayscore'];
-            $homeLogo = $summary['hometeamlogoURL'];
-            $awayLogo = $summary['awayteamlogoURL'];
+            $matchDate = $summary['match_date'];
+            $homeTeam = $summary['home_team'];
+            $awayTeam = $summary['away_team'];
+            $homeScore = $summary['home_score'];
+            $awayScore = $summary['away_score'];
+            $homeLogo = $summary['home_team_logo_URL'];
+            $awayLogo = $summary['away_team_logo_URL'];
 
             // make the date decent looking!
             $finalMatchDate = parseDateLongFormat($matchDate);

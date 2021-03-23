@@ -28,8 +28,8 @@
 
     if (count($seasonGameList) > 0) {
         foreach($seasonGameList as $singleMatch) {
-            $homeTeamName = trim($singleMatch["hometeam"]);
-            $awayTeamName = trim($singleMatch["awayteam"]);
+            $homeTeamName = trim($singleMatch["home_team"]);
+            $awayTeamName = trim($singleMatch["away_team"]);
 
             // check if the team is in the allSeasonClubNames array, if not add.
             // return club index to use later in the code
@@ -53,23 +53,23 @@
             
             // check if the teams index exists in the array and add on data if so
             // else, push the data onto the end of the array, array is updated for each func call
-            $allGoals = searchAndAddToArray($singleMatch["hometeamtotalgoals"], $allGoals, $homeTeamIndex);
-            $allConceded = searchAndAddToArray($singleMatch["hometeamtotalgoals"], $allConceded, $awayTeamIndex);
-            $allShots = searchAndAddToArray($singleMatch["hometeamshots"], $allShots, $homeTeamIndex);
-            $allShotsOT = searchAndAddToArray($singleMatch["hometeamshotsontarget"], $allShotsOT, $homeTeamIndex);
-            $allCorners = searchAndAddToArray($singleMatch["hometeamcorners"], $allCorners, $homeTeamIndex);
-            $allFouls = searchAndAddToArray($singleMatch["hometeamfouls"], $allFouls, $homeTeamIndex);
-            $allYellowCards = searchAndAddToArray($singleMatch["hometeamyellowcards"], $allYellowCards, $homeTeamIndex);
-            $allRedCards = searchAndAddToArray($singleMatch["hometeamredcards"], $allRedCards, $homeTeamIndex);
+            $allGoals = searchAndAddToArray($singleMatch["home_team_total_goals"], $allGoals, $homeTeamIndex);
+            $allConceded = searchAndAddToArray($singleMatch["home_team_total_goals"], $allConceded, $awayTeamIndex);
+            $allShots = searchAndAddToArray($singleMatch["home_team_shots"], $allShots, $homeTeamIndex);
+            $allShotsOT = searchAndAddToArray($singleMatch["home_team_shots_on_target"], $allShotsOT, $homeTeamIndex);
+            $allCorners = searchAndAddToArray($singleMatch["home_team_corners"], $allCorners, $homeTeamIndex);
+            $allFouls = searchAndAddToArray($singleMatch["home_team_fouls"], $allFouls, $homeTeamIndex);
+            $allYellowCards = searchAndAddToArray($singleMatch["home_team_yellow_cards"], $allYellowCards, $homeTeamIndex);
+            $allRedCards = searchAndAddToArray($singleMatch["home_team_red_cards"], $allRedCards, $homeTeamIndex);
             
-            $allGoals = searchAndAddToArray($singleMatch["awayteamtotalgoals"], $allGoals, $awayTeamIndex);
-            $allConceded = searchAndAddToArray($singleMatch["awayteamtotalgoals"], $allConceded, $homeTeamIndex);
-            $allShots = searchAndAddToArray($singleMatch["awayteamshots"], $allShots, $awayTeamIndex);
-            $allShotsOT = searchAndAddToArray($singleMatch["awayteamshotsontarget"], $allShotsOT, $awayTeamIndex);
-            $allCorners = searchAndAddToArray($singleMatch["awayteamcorners"], $allCorners, $awayTeamIndex);
-            $allFouls = searchAndAddToArray($singleMatch["awayteamfouls"], $allFouls, $awayTeamIndex);
-            $allYellowCards = searchAndAddToArray($singleMatch["awayteamyellowcards"], $allYellowCards, $awayTeamIndex);
-            $allRedCards = searchAndAddToArray($singleMatch["awayteamredcards"], $allRedCards, $awayTeamIndex);
+            $allGoals = searchAndAddToArray($singleMatch["away_team_total_goals"], $allGoals, $awayTeamIndex);
+            $allConceded = searchAndAddToArray($singleMatch["away_team_total_goals"], $allConceded, $homeTeamIndex);
+            $allShots = searchAndAddToArray($singleMatch["away_team_shots"], $allShots, $awayTeamIndex);
+            $allShotsOT = searchAndAddToArray($singleMatch["away_team_shots_on_target"], $allShotsOT, $awayTeamIndex);
+            $allCorners = searchAndAddToArray($singleMatch["away_team_corners"], $allCorners, $awayTeamIndex);
+            $allFouls = searchAndAddToArray($singleMatch["away_team_fouls"], $allFouls, $awayTeamIndex);
+            $allYellowCards = searchAndAddToArray($singleMatch["away_team_yellow_cards"], $allYellowCards, $awayTeamIndex);
+            $allRedCards = searchAndAddToArray($singleMatch["away_team_red_cards"], $allRedCards, $awayTeamIndex);
         }
 
         // every tile data array is in the order;

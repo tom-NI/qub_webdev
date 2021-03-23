@@ -107,7 +107,7 @@
         $currentSeasonArray = json_decode($currentSeasonData, true);
 
         foreach($currentSeasonArray as $row){
-            $currentSeason = $row["currentSeason"];
+            $currentSeason = $row["current_season"];
         }
         return $currentSeason;
     }

@@ -11,12 +11,12 @@
 
     // modify the output based on the page type (edit or add new)
     foreach($refereeList as $singleRef) {
-        if (isset($existingRefereeNameToEdit) && $existingRefereeNameToEdit == $singleRef['refname']) {
-            echo "<option value='{$singleRef['refname']}' selected='selected'>{$singleRef['refname']}</option>";
-        } elseif(isset($_GET['referee_selector']) && $_GET['referee_selector'] == $singleRef['refname']) {
-            echo "<option value='{$singleRef['refname']}' selected='selected'>{$singleRef['refname']}</option>";
+        if (isset($existingRefereeNameToEdit) && $existingRefereeNameToEdit == $singleRef['referee_name']) {
+            echo "<option value='{$singleRef['referee_name']}' selected='selected'>{$singleRef['referee_name']}</option>";
+        } elseif(isset($_GET['referee_selector']) && $_GET['referee_selector'] == $singleRef['referee_name']) {
+            echo "<option value='{$singleRef['referee_name']}' selected='selected'>{$singleRef['referee_name']}</option>";
         } else {
-            echo "<option value='{$singleRef['refname']}'>{$singleRef['refname']}</option>";
+            echo "<option value='{$singleRef['referee_name']}'>{$singleRef['referee_name']}</option>";
         }
     }
 ?>
