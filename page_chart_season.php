@@ -12,88 +12,92 @@
     // get the requested season data from the user, else default to the current season and retrieve it!
     if (isset($_GET['season_pref'])) {
         $season = htmlentities(trim($_GET['season_pref']));
-        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fullseason={$season}";
     } else {
         $season = getCurrentSeason();
-        $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fullseason={$season}";
     }
+    $seasonInfoURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?fullseason={$season}";
     $seasonAPIdata = postDevKeyInHeader($seasonInfoURL);
     $seasonGameList = json_decode($seasonAPIdata, true);
 
-    $goalsConcededStatisticRequested = false;
-
-    // get the JSON statistic keys based only on the info requested by the user
-    switch ($statToAnalyze) {
-        case "Goals":
-            $homeStatKey = 'hometeamtotalgoals';
-            $awayStatKey = 'awayteamtotalgoals';
-            break;
-        case "Goals Conceded":
-            $goalsConcededStatisticRequested = true;
-            $homeStatKey = 'awayteamtotalgoals';
-            $awayStatKey = 'hometeamtotalgoals';
-            break;
-        case "Shots":
-            $homeStatKey = 'hometeamshots';
-            $awayStatKey = 'awayteamshots';
-            break;
-        case "Shots On Target":
-            $homeStatKey = 'hometeamshotsontarget';
-            $awayStatKey = 'awayteamshotsontarget';
-            break;
-        case "Corners":
-            $homeStatKey = 'hometeamcorners';
-            $awayStatKey = 'awayteamcorners';
-            break;
-        case "Fouls":
-            $homeStatKey = 'hometeamfouls';
-            $awayStatKey = 'awayteamfouls';
-            break;
-        case "Yellow Cards":
-            $homeStatKey = 'hometeamyellowcards';
-            $awayStatKey = 'awayteamyellowcards';
-            break;
-        case "Red Cards":
-            $homeStatKey = 'hometeamredcards';
-            $awayStatKey = 'awayteamredcards';
-            break;
-        default :
-            $homeStatKey = 'hometeamtotalgoals';
-            $awayStatKey = 'awayteamtotalgoals';
-            break;
-    }
-
-    // array to hold the full seasons stats (assoc array, clubname is the key)
-    $statisticArray = array();
+    if (count($seasonGameList) > 0) {
+        $noMatchesToAnalyse = false;
+        $goalsConcededStatisticRequested = false;
     
-    foreach($seasonGameList as $match) {
-        $homeTeam = $match['hometeam'];
-        $awayTeam = $match['awayteam'];
-
-        if (!array_key_exists($homeTeam, $statisticArray)) {
-            $statisticArray[$homeTeam] = 0;
+        // get the JSON statistic keys based only on the info requested by the user
+        switch ($statToAnalyze) {
+            case "Goals":
+                $homeStatKey = 'hometeamtotalgoals';
+                $awayStatKey = 'awayteamtotalgoals';
+                break;
+            case "Goals Conceded":
+                $goalsConcededStatisticRequested = true;
+                $homeStatKey = 'awayteamtotalgoals';
+                $awayStatKey = 'hometeamtotalgoals';
+                break;
+            case "Shots":
+                $homeStatKey = 'hometeamshots';
+                $awayStatKey = 'awayteamshots';
+                break;
+            case "Shots On Target":
+                $homeStatKey = 'hometeamshotsontarget';
+                $awayStatKey = 'awayteamshotsontarget';
+                break;
+            case "Corners":
+                $homeStatKey = 'hometeamcorners';
+                $awayStatKey = 'awayteamcorners';
+                break;
+            case "Fouls":
+                $homeStatKey = 'hometeamfouls';
+                $awayStatKey = 'awayteamfouls';
+                break;
+            case "Yellow Cards":
+                $homeStatKey = 'hometeamyellowcards';
+                $awayStatKey = 'awayteamyellowcards';
+                break;
+            case "Red Cards":
+                $homeStatKey = 'hometeamredcards';
+                $awayStatKey = 'awayteamredcards';
+                break;
+            default :
+                $homeStatKey = 'hometeamtotalgoals';
+                $awayStatKey = 'awayteamtotalgoals';
+                break;
         }
-        if (!array_key_exists($awayTeam, $statisticArray)) {
-            $statisticArray[$awayTeam] = 0;
+    
+        // array to hold the full seasons stats (assoc array, clubname is the key)
+        $statisticArray = array();
+        
+        foreach($seasonGameList as $match) {
+            $homeTeam = $match['hometeam'];
+            $awayTeam = $match['awayteam'];
+    
+            if (!array_key_exists($homeTeam, $statisticArray)) {
+                $statisticArray[$homeTeam] = 0;
+            }
+            if (!array_key_exists($awayTeam, $statisticArray)) {
+                $statisticArray[$awayTeam] = 0;
+            }
+            $statisticArray[$homeTeam] += (int)$match[$homeStatKey];
+            $statisticArray[$awayTeam] += (int)$match[$awayStatKey];
         }
-        $statisticArray[$homeTeam] += (int)$match[$homeStatKey];
-        $statisticArray[$awayTeam] += (int)$match[$awayStatKey];
-    }
-    // sort the array to get the highest value first, then in desc order!
-    arsort($statisticArray);
+        // sort the array to get the highest value first, then in desc order!
+        arsort($statisticArray);
+        
+        // build the subarray for titles etc, add to the main chart data array
+        $headersArray = array();
+        array_push($headersArray, "Club", $statToAnalyze);
+        
+        // add the headers needed by JS graph to the final sorted Graph array
+        $finalSortedGraphArray = array();
+        $finalSortedGraphArray[] = $headersArray;
     
-    // build the subarray for titles etc, add to the main chart data array
-    $headersArray = array();
-    array_push($headersArray, "Club", $statToAnalyze);
-    
-    // add the headers needed by JS graph to the final sorted Graph array
-    $finalSortedGraphArray = array();
-    $finalSortedGraphArray[] = $headersArray;
-
-    foreach ($statisticArray as $key => $value) {
-        $tempArray = array();
-        array_push($tempArray, $key, $value);
-        $finalSortedGraphArray[] = $tempArray;
+        foreach ($statisticArray as $key => $value) {
+            $tempArray = array();
+            array_push($tempArray, $key, $value);
+            $finalSortedGraphArray[] = $tempArray;
+        }
+    } else {
+        $noMatchesToAnalyse = true;
     }
 ?>
 
@@ -154,17 +158,27 @@
                     </button>
                 </form>
             </div>
-
-            <!-- chart div -->
-            <div id='my_comparison_stat_list' class='mt-4'>
-                <h3 class="title is-4 mt-6"><?php echo "{$season}" ?> Season Analysis Chart</h3>
-                <p class="title is-5 mb-0 pb-0">Total <?php echo "{$statToAnalyze}"; ?></p>
-                <div class='column' id='season_analysis_chart'></div>
-            </div>
+            <?php 
+                // if there is any data, draw the chart, otherwise display a warning!
+                if ($noMatchesToAnalyse) {
+                    echo "<div class='column is-desktop is-8 is-offset-2 is-12-mobile my-3 p-5 has-background-warning'>
+                            <h3 class='is-size-5 has-text-weight-semibold'>No matches exist for this Season</h3>
+                            <p class='is-size-6'>Please modify the season above and try again</p>
+                        </div>";
+                } else {
+                    echo "
+                        <div id='my_comparison_stat_list' class='mt-4'>
+                            <h3 class='title is-4 mt-6'>{$season} Season Analysis Chart</h3>
+                            <p class='title is-5 mb-0 pb-0'>Total {$statToAnalyze}</p>
+                            <div class='column' id='season_analysis_chart'></div>
+                        </div>";
+                    include_once(__DIR__ . "/charts/chart_season_analysis.php"); 
+                }
+            ?>
         </div>
     </div>
     <?php include(__DIR__ . '/part_pages/part_site_footer.php'); ?>
-    <?php include_once(__DIR__ . "/charts/chart_season_analysis.php"); ?>
+    
     <script src="scripts/my_script.js"></script>
 </body>
 </html>
