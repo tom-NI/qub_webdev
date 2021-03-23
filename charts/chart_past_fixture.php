@@ -1,4 +1,4 @@
-<!-- google charts statistic graph -->
+<!-- stat graph for previous 5 matches between 2 clubs -->
 <script>
     google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawStatisticChart);
