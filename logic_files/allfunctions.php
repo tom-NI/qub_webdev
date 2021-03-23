@@ -140,7 +140,7 @@
 
     // remove underscores from data
     function removeUnderScores($originalString) {
-        $regex = '/[ ]/i';
+        $regex = '/[_]/i';
         $newString = preg_replace($regex, ' ', $originalString);
         return $newString;
     }

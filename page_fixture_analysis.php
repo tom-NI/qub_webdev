@@ -4,8 +4,8 @@
                 && $_GET['ht_selector'] != "Select Team" && $_GET['at_selector'] != "Select Team") {
         include_once(__DIR__ . "/logic_files/allfunctions.php");
         // both these unfiltered vars only use for website display
-        $teamA = $_GET['ht_selector'];
-        $teamB = $_GET['at_selector'];
+        $teamA = removeUnderScores($_GET['ht_selector']);
+        $teamB = removeUnderScores($_GET['at_selector']);
         $teamAString = "<h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'><b>{$teamA}</b></h4>";
         $teamBString = "<h4 class='is-size-4 is-size-5-mobile has-text-left team_b_name_colour'><b>{$teamB}</b></h4>";
         

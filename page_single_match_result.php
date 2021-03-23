@@ -175,30 +175,6 @@
         </div>
     </section>
 
-    <?php
-        // if (!isset($_GET['id'])) {
-        //     echo "
-        //         <p class='level-item'>Select a statistic to compare :</p>
-        //         <form class='level-item form' 
-        //             action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?id=??' method='POST'>
-        //             <div class='level-item control has-icons-left'>
-        //                 <div class='level-item select is-info'>
-        //                     <label name='requested_id' for=''></label>
-        //                     <input name='enter_match_id' id='enter_match_id' type='number'>
-        //                 </div>
-        //             </div>
-        //             <button name='change_stat_btn' class='mx-3 level-item button is-danger'>Go</button>
-        //         </form>
-        //     }";
-        // include_once(__DIR__ . '/part_pages/part_site_footer.php');
-
-        // echo "
-        // </body>
-        // </html>
-        // ";
-        // die();
-    ?>
-
     <!-- main page starts here -->
         <div class='master_site_width'>
             <div class='mt-6 mx-4'>
@@ -287,8 +263,8 @@
                         <h2 class='is-size-4 has-text-weight-semibold'>Full fixture analysis</h2>
                     </div>
                     <form action="page_fixture_analysis.php?" method='GET' class='level-item level-right'>
-                        <input type="hidden" name='ht_selector' value=<?php echo $hometeam ?>>
-                        <input type="hidden" name='at_selector' value=<?php echo $awayteam ?>>
+                        <input type="hidden" name='ht_selector' value=<?php echo $homeTeamSearched ?>>
+                        <input type="hidden" name='at_selector' value=<?php echo $awayTeamSearched ?>>
                         <input type="hidden" name='strict' value='on'>
                         <button type='submit' class='mx-3 button is-rounded is-danger is-narrow mr-5'>
                             <span class="material-icons">insights</span>
@@ -309,7 +285,7 @@
                                 <p>Select a statistic to compare :</p>
                             </div>
                             <form class='level-item form p-0'
-                                action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?num=<?php echo "$postedMatchID" ?>"
+                                action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?num=<?php echo "$postedMatchID" ?>" 
                                 method='POST'>
                                 <div class='level-item control has-icons-left'>
                                     <div class='level-item select is-info'>
