@@ -20,14 +20,11 @@
                 $stmt -> close();
 
                 // get the user ID to insert into the DB
-                $userID = (string) htmlentities(trim($_POST['userid']));
+                $userID = $_SESSION['userid'];
                 
                 // record the user is making a deletion first!
                 $currentDateTime = date("Y-m-d H:i:s");
                 $justificationForChange = "Match Deleted";
-
-                // INSERT INTO `epl_match_edits` (`EditID`, `MatchID`, `EditedByUserID`, `EditDescription`, `EditedDate`) 
-                // VALUES (NULL, 7900, '10', 'Deletion', '2020-03-22' )
                 
                 $editMatchStmt = $conn->prepare("INSERT INTO `epl_match_edits` (`EditID`, `MatchID`, `EditedByUserID`, `EditDescription`, `EditedDate`) VALUES (NULL, ?, ?, ?, ? ); ");
                 $editMatchStmt -> bind_param("isss",
