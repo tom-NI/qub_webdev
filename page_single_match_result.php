@@ -268,13 +268,29 @@
                     <div class='column' id='match_stat_chart'></div>
                 </div>
 
+                <!-- div with a button for fixture analysis -->
+                <div class='level is-mobile is-centered my_grey_highlight_para p-4 mt-6'>
+                    <div class="level-item level-left p-4 pb-0 ml-4">
+                        <h2 class='is-size-4 '>Full fixture analysis</h2>
+                    </div>
+                    <form action="page_fixture_analysis.php?" method='GET' class='level-item level-right'>
+                        <input type="hidden" name='ht_selector' value=<?php echo $hometeam ?>>
+                        <input type="hidden" name='at_selector' value=<?php echo $awayteam ?>>
+                        <input type="hidden" name='strict' value='on'>
+                        <button type='submit' class='mx-3 button is-rounded is-danger is-narrow mr-4'>
+                            <span class="material-icons">insights</span>
+                            <span class='ml-2'>Analyse this fixture</span>
+                        </button>
+                    </form>
+                </div>
+
                 <!-- historic fixtures section -->
                 <div id='my_comparison_stat_list' class='my-6'>
                     <div class='my_info_colour'>
                         <?php
-                            echo "<h2 class='title is-4 pt-5 mb-2 my_info_colour'>{$hometeam} vs {$awayteam} - Past Fixture Analysis</h2>";
+                            echo "<h2 class='title is-4 pt-5 mb-2 my_info_colour'>{$hometeam} vs {$awayteam} - Recent Fixture Analysis</h2>";
                         ?>
-                        <p class='px-6 pt-3 my_info_colour'>View Premier League match statistics (including reverse fixture) for five previous matches</p>
+                        <p class='px-6 pt-3 my_info_colour'>Draw a Graph of Premier League match statistics (including the reverse fixture) for five previous meetings</p>
                         <div class='level py-5'>
                             <div class='level-item'>
                                 <p>Select a statistic to compare :</p>
