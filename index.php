@@ -45,7 +45,7 @@
                                     name="ht_selector" id="main_page_search">
                             </div>
                             <div class="control">
-                                <button name='search_btn' class="button is-rounded is-info">
+                                <button class="button is-rounded is-info">
                                     <span class="icon is-left">
                                         <i class="fas fa-search"></i>
                                     </span>
