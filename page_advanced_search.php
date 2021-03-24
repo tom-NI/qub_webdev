@@ -3,6 +3,32 @@
     include_once(__DIR__ . "/logic_files/allfunctions.php");
     $defaultResultsAndPage = "&count=10&startat=0";
 
+    // todo add in pagination parameters
+    // get the total number of results required!
+    if (isset($_GET['totalresults'])) {
+        $resultCount = (int) htmlentities(trim($_GET['totalresults']));
+        $numResultsReturnedQuery = "&count={$resultCount}";
+    } else {
+        $numResultsReturnedQuery = "&count=10";
+    }
+
+    if (isset($_GET['pagenumber'])) {
+        $pageNumber = (int) htmlentities(trim($_GET['pagenumber']));
+    } else {
+        $pageNumber = 1;
+    }
+
+    if ($pageNumber > 1) {
+        if (isset($_GET['totalresults'])) {
+            $resultCount = (int) htmlentities(trim($_GET['totalresults']));
+        } else {
+            $resultCount = 10;
+        }
+        $pageQuery = "&startat{$resultCount}";
+    } else {
+        $pageQuery = "&startat=0";
+    }
+
     if (isset($_GET['userfilter'])) {
         // if the user checked the filter panel items - do this;
         $rootURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?filter";
@@ -70,49 +96,27 @@
             $urlPathAddons .= "&referee={$refereeValue}";
         }
 
-        // todo add in pagination parameters
-        // get the total number of results required!
-        if (isset($_GET['totalresults'])) {
-            $resultCount = (int) htmlentities(trim($_GET['totalresults']));
-            $numResultsReturnedQuery = "&count={$resultCount}";
-        } else {
-            $numResultsReturnedQuery = "&count=10";
-        }
-
-        if (isset($_GET['pagenumber'])) {
-            $pageNumber = (int) htmlentities(trim($_GET['pagenumber']));
-        } else {
-            $pageNumber = 1;
-        }
-
-        if ($pageNumber > 1) {
-            if (isset($_GET['totalresults'])) {
-                $resultCount = (int) htmlentities(trim($_GET['totalresults']));
-            } else {
-                $resultCount = 10;
-            }
-            $pageQuery = "&startat{$resultCount}";
-        } else {
-            $pageQuery = "&startat=0";
-        }
-
         if (strlen($urlPathAddons) > 0) {
-            $finalDataURL = "{$rootURL}{$urlPathAddons}{$numResultsReturnedQuery}{$pageQuery}";
-            $finalTotalPagesCountURL = "{$rootURL}{$urlPathAddons}";
+            $finalDataURL = "{$rootURL}{$urlPathAddons}";
+
+            // add on to the code above for the final pagination;
+            // {$numResultsReturnedQuery}{$pageQuery}
+
+            // $finalTotalPagesCountURL = "{$rootURL}{$urlPathAddons}";
         } else {
             $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021{$numResultsReturnedQuery}{$pageQuery}";
-            $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021";
+            // $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021";
         }
-    } elseif (isset($_GET['match_search'])) {
+    } elseif (isset($_GET['ht_selector'])) {
         // if the user entered something in the club search bar
-        $userSearchItem = htmlentities(trim($_GET['match_search']));
+        $userSearchItem = addUnderScores(htmlentities(trim($_GET['ht_selector'])));
         $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$userSearchItem}{$numResultsReturnedQuery}{$pageQuery}";
-        $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$userSearchItem}";
+        // $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$userSearchItem}";
     } else {
         // otherwise just load the last ten premier league games
         $currentSeason = getCurrentSeason();
         $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season={$currentSeason}&count=10";
-        $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season={$currentSeason}";
+        // $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season={$currentSeason}";
     }
 ?>
 
@@ -293,7 +297,7 @@
                 <div class="control column is-12 level my-0 pt-0">
                     <div class="level-item level-right">
                         <input type="reset" class="m-2 button is-rounded is-danger">
-                        <button type="submit" name='userfilter' class="m-2 button is-rounded is-danger">
+                        <button type="submit" name='userfilter' id='userfilter_btn' class="m-2 button is-rounded is-danger">
                             <span class="icon is-left">
                                 <i class="fas fa-search"></i>
                             </span>
@@ -314,79 +318,17 @@
                     <p class="subtitle is-6 m-3 has-text-left">Click any result to view match details</p>
                 </div>
             </div>
-            <div class="my_inline_divs p-4 level-left">
-                <div class="level-item">
-                    <p class="pr-3">Number of results:</p>
-                    <div class="field has-addons">
-                        <p class="control">
-                            <button action="page_advanced_search.php?totalresults?userfilter" method='GET' value='10' class="button is-small is-info">
-                                <p>10</p>
-                            </button>
-                        </p>
-                        <p class="control">
-                            <button action="page_advanced_search.php?totalresults?userfilter" method='GET' value='25' class="button is-outlined is-small is-info ">
-                                <p>25</p>
-                            </button>
-                        </p>
-                        <p class="control">
-                            <button action="page_advanced_search.php?totalresults?userfilter" method='GET' value='50' class="button is-outlined is-small is-info">
-                                <p>50</p>
-                            </button>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <?php
+                // modularized results bar
+                require(__DIR__ . "/part_pages/part_num_results_bar.php"); 
+            ?>
         </div>
             <!-- print out all match summaries as requested based on the final URL variable-->
             <?php require(__DIR__ . "/part_pages/part_print_summaries.php"); ?>
         </section>
 
     <section class="column is-8 is-offset-2">
-        <nav class="pagination my-2 mx-3">
-            <span class="mr-3">
-                <p>Go to Page :</p>
-            </span>
-            <a href="" class="pagination-previous is-outlined button is-info" disabled>Previous</a>
-            <a href="" class="pagination-next is-outlined button is-info">Next</a>
-            <ul class="pagination-list is-centered">
-            <!-- total results / results per page - display total as a for loop -->
-            <?php
-                // only show page array if there are pages to show
-                if ($totalMatchesToDisplay > 0) {
-                    if (isset($_GET['totalresults'])) {
-                        $resultsPerPage = $_GET['totalresults'];
-                        $totalPages = (int) ceil($totalMatchesToDisplay / $resultsPerPage);
-                        for ($i = 0; $i < $totalPages; $i++) {
-                            // set the current page to be solid colour dynamically
-                            if (isset($pageNum)) {
-                                echo "<li><a href='page_advanced_search.php?totalresults={$resultsPerPage}&pagenumber={$pageNum}&userfilter' 
-                                class='pagination-link is-info button is-outlined'>{$pageNum}</a></li>";
-                            } elseif (!isset($pageNum)) {
-                                $pageNum = $i + 1;
-                                echo "<li><a href='page_advanced_search.php?totalresults={$resultsPerPage}&pagenumber={$pageNum}&userfilter' 
-                                class='pagination-link is-info button'>{$pageNum}</a></li>";
-                            }
-                        }
-                    } else {
-                        $resultsPerPage = 10;
-                        $totalPages = (int) ceil($totalMatchesToDisplay / $resultsPerPage);
-                        for ($i = 0; $i < $totalPages; $i++) {
-                            if (isset($pageNum)) { // page number is something - set the button to be 
-                                $pageNum = $i + 1;
-                                echo "<li><a href='page_advanced_search.php?totalresults={$resultsPerPage}&pagenumber={$pageNum}&userfilter' 
-                                class='pagination-link is-info button is-outlined'>{$pageNum}</a></li>";
-                            } elseif (!isset($pageNum)) {
-                                $pageNum = $i + 1;
-                                echo "<li><a href='page_advanced_search.php?totalresults={$resultsPerPage}&pagenumber={$pageNum}&userfilter' 
-                                class='pagination-link is-info button'>{$pageNum}</a></li>";
-                            }
-                        }
-                    }
-                }
-            ?>
-                
-            </ul>
-        </nav>
+        <?php require(__DIR__ . "/part_pages/part_pagination.php"); ?>
     </section>
     </div>
 
