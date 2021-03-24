@@ -205,12 +205,9 @@
                 'header' => "Authorization: Basic ".base64_encode("$orgName:$keyValue")
             )
         );
-
         $context = stream_context_create($opts);
-        $result = file_get_contents($endpoint, false, $context);
-        if (!$result) {
-            return http_response_code(500);
-        } else {
+        $result = @file_get_contents($endpoint, false, $context);
+        if ($result !== FALSE) {
             return $result;
         }
     }
