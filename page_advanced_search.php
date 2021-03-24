@@ -3,35 +3,12 @@
     include_once(__DIR__ . "/logic_files/allfunctions.php");
     $defaultResultsAndPage = "&count=10&startat=0";
 
-    // todo add in pagination parameters
-    // get the total number of results required!
-    if (isset($_GET['totalresults'])) {
-        $resultCount = (int) htmlentities(trim($_GET['totalresults']));
-        $numResultsReturnedQuery = "&count={$resultCount}";
-    } else {
-        $numResultsReturnedQuery = "&count=10";
-    }
-
-    if (isset($_GET['pagenumber'])) {
-        $pageNumber = (int) htmlentities(trim($_GET['pagenumber']));
-    } else {
-        $pageNumber = 1;
-    }
-
-    if ($pageNumber > 1) {
-        if (isset($_GET['totalresults'])) {
-            $resultCount = (int) htmlentities(trim($_GET['totalresults']));
-        } else {
-            $resultCount = 10;
-        }
-        $pageQuery = "&startat{$resultCount}";
-    } else {
-        $pageQuery = "&startat=0";
-    }
-
+    // do the main page loading functions - either filtering, searching, or loading recent results
     if (isset($_GET['userfilter'])) {
         // if the user checked the filter panel items - do this;
         $rootURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?filter";
+        
+        // empty string to add on all dynamic user queries for API request
         $urlPathAddons = "";
 
         // club select (labelled as home team)
@@ -96,27 +73,28 @@
             $urlPathAddons .= "&referee={$refereeValue}";
         }
 
+        // get the total number of results required!
+        if (isset($_GET['totalresults'])) {
+            $resultCount = (int) htmlentities(trim($_GET['totalresults']));
+            $numResultsReturnedQuery = "&count={$resultCount}";
+        } else {
+            $numResultsReturnedQuery = "&count=10";
+            $pageQuery = "&startat=0";
+        }
+
         if (strlen($urlPathAddons) > 0) {
-            $finalDataURL = "{$rootURL}{$urlPathAddons}";
-
-            // add on to the code above for the final pagination;
-            // {$numResultsReturnedQuery}{$pageQuery}
-
-            // $finalTotalPagesCountURL = "{$rootURL}{$urlPathAddons}";
+            $finalDataURL = "{$rootURL}{$urlPathAddons}{$numResultsReturnedQuery}{$pageQuery}";
         } else {
             $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021{$numResultsReturnedQuery}{$pageQuery}";
-            // $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021";
         }
     } elseif (isset($_GET['ht_selector'])) {
         // if the user entered something in the club search bar
         $userSearchItem = addUnderScores(htmlentities(trim($_GET['ht_selector'])));
         $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$userSearchItem}{$numResultsReturnedQuery}{$pageQuery}";
-        // $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$userSearchItem}";
     } else {
         // otherwise just load the last ten premier league games
         $currentSeason = getCurrentSeason();
         $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season={$currentSeason}&count=10";
-        // $finalTotalPagesCountURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season={$currentSeason}";
     }
 ?>
 
@@ -296,7 +274,7 @@
                 </div>
                 <div class="control column is-12 level my-0 pt-0">
                     <div class="level-item level-right">
-                        <input type="reset" class="m-2 button is-rounded is-danger">
+                        <a type='button' href="page_advanced_search.php" class="m-2 button is-rounded is-danger">Reset</a>
                         <button type="submit" name='userfilter' id='userfilter_btn' class="m-2 button is-rounded is-danger">
                             <span class="icon is-left">
                                 <i class="fas fa-search"></i>
