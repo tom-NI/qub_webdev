@@ -83,7 +83,13 @@
 
             <?php    
                 // get current matches from the API and print out
-                $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?count=8";
+                // change if the user has changed total of matches per request
+                if (isset($_GET['totalresults'])) {
+                    $totalReturned = htmlentities(trim($_GET['totalresults']));
+                    $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?count={$totalReturned}";
+                } else {
+                    $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?count=10";
+                }
                 require(__DIR__ . "/part_pages/part_print_summaries.php");
             ?>
             <?php require(__DIR__ . "/part_pages/part_pagination.php"); ?>
