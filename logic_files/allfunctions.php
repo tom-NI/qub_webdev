@@ -287,4 +287,13 @@
             return false;
         }
     }
+
+    function getCurrentPageURL() {
+        // next two lines of code copied from
+        // https://www.tutorialrepublic.com/faq/how-to-get-current-page-url-in-php.php
+        // get the current page url and store for pagination (to store what user searched for!)
+        $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $currentPageURL = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        return $currentPageURL;
+    }
 ?>
