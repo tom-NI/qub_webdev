@@ -38,11 +38,11 @@
             <div class="container is-centered">
                 <!-- search bar -->
                 <div>
-                    <form action="index.php" method="GET">
+                    <form action="page_advanced_search.php" method="GET">
                         <div class="field has-addons">
                             <div class="control is-expanded">
-                                <input class="input is-rounded" type="text" placeholder="Search for clubs to view results"
-                                    name="search" id="main_page_search">
+                                <input class="input is-rounded" type="text" placeholder="Search for clubs to view most recent results"
+                                    name="ht_selector" id="main_page_search">
                             </div>
                             <div class="control">
                                 <button name='search_btn' class="button is-rounded is-info">
@@ -67,21 +67,26 @@
                     </caption>
                 </figure>
             </div>
-            <h3 class="title is-4 m-3 mt-6">Most recent Premier League results;</h3>
+            
+            <div class="level mt-6 p-2">
+                <div class="level-left">
+                    <div>
+                        <h3 class="title is-4 m-3 has-text-left">Recent results;</h3>
+                        <p class='subtitle is-6 m-3 has-text-left'>Click any result to view match details.</p>
+                    </div>
+                </div>
+                <?php
+                    // modularized results bar
+                    require(__DIR__ . "/part_pages/part_num_results_bar.php"); 
+                ?>
+            </div>
 
-            <!-- most recent premier league match results -->
-            <?php
-                // change wording of this paragraph for admins
-                if (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] == "admin"){
-                    echo "<p class='subtitle is-6 m-3'>Click any result to view match details and edit or delete matches</p>";
-                } else {
-                    echo "<p class='subtitle is-6 m-3'>Click any result to view match details.</p>";
-                }
-                
-                // get all the current matches from the API and print out 
+            <?php    
+                // get current matches from the API and print out
                 $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?count=8";
                 require(__DIR__ . "/part_pages/part_print_summaries.php");
             ?>
+            <?php require(__DIR__ . "/part_pages/part_pagination.php"); ?>
         </section>
 
         <!-- stat tiles section -->
