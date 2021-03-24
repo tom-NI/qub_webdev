@@ -67,20 +67,19 @@
                         </div>
                     </div>
                 </a>";
-                }
-            } else {
-                echo "
-                <div id='' class='master_result_card column is-centered m-2 mb-5 mt-5 p-1'> 
+            } 
+        } else {
+            echo "
+            <div id='' class='master_result_card column is-centered m-2 mb-5 mt-5 p-1'> 
+                <div>
+                    <img src='__DIR__ . /../images/nothing_in_here.png' alt='exploded football' width='300' height='300'>
+                </div>
+                <div class='my-3 p-5 has-background-warning'>
                     <div>
-                        <img src='__DIR__ . /../images/nothing_in_here.png' alt='exploded football' width='300' height='300'>
+                        <h3 class='title is-5'>Sorry, theres nothing in here. </h3>
+                        <p class=''>Try selecting less search items</p>
                     </div>
-                    <div class='my-3 p-5 has-background-warning'>
-                        <div>
-                            <h3 class='title is-5'>Sorry, theres nothing in here. </h3>
-                            <p class=''>Try selecting less search items</p>
-                        </div>
-                    </div>
-                </div>";
-            }
-            
+                </div>
+            </div>";
+        }
 ?>
