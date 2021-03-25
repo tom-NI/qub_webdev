@@ -80,20 +80,20 @@
         }
 
         if (strlen($urlPathAddons) > 0) {
-            $finalDataURL = "{$rootURL}{$urlPathAddons}{$numResultsReturnedQuery}{$pageQuery}";
+            $finalDataURL = "{$rootURL}{$urlPathAddons}{$numResultsReturnedQuery}";
         } else {
-            $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021{$numResultsReturnedQuery}{$pageQuery}";
+            $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021{$numResultsReturnedQuery}";
         }
     } elseif (isset($_GET['ht_selector'])) {
         // if the user entered something in the club search bar on the homepage!
         $loadingRecentResults = false;
         $userSearchItem = addUnderScores(htmlentities(trim($_GET['ht_selector'])));
-        $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$userSearchItem}{$numResultsReturnedQuery}{$pageQuery}";
+        $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$userSearchItem}{$numResultsReturnedQuery}";
     } else {
         // otherwise just load the last ten premier league games
         $currentSeason = getCurrentSeason();
         $loadingRecentResults = true;
-        $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season={$currentSeason}{$numResultsReturnedQuery}{$pageQuery}";
+        $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season={$currentSeason}{$numResultsReturnedQuery}";
     }
 ?>
 

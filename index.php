@@ -81,7 +81,7 @@
                 ?>
             </div>
 
-            <?php    
+            <?php
                 // get current matches from the API and print out
                 // change if the user has changed total of matches per request
                 require(__DIR__ . "/logic_files/pagination_logic.php");

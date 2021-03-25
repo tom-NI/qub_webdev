@@ -6,8 +6,11 @@
             <nav class='pagination mx-1'>
             <span class='mr-3'>
                 <p>Page :</p>
-            </span>
-            <a href='' id='previous_page_btn' class='pagination-previous is-outlined button is-info' disabled>Prev</a>
+            </span>";
+            if (isset($_GET['count'])) {
+                echo "<a href='' id='previous_page_btn' class='pagination-previous is-outlined button is-info' disabled>Prev</a>";
+            }
+            echo "
             <a href='' id='next_page_btn' class='pagination-next is-outlined button is-info'>Next</a>
             <ul class='pagination-list is-centered'>";
 
