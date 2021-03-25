@@ -1,3 +1,5 @@
+// when editing a match, if a user changes one of the inputs, make the value of the input red
+
 function changeTextColour() {
     this.style.color = "red";
 }
