@@ -5,36 +5,38 @@
             $currentPageURL = getCurrentPageURL();
             $buttonValues = array(10, 20, 30);
             
-            // remove any old queries from the current URL, before adding new. 
+            // remove any old pagination queries from the current URL, before adding new. 
             // means the URL cannot accumulate requests!
             if (isset($_GET['totalresults'])) {
-                if (strpos($currentPageURL, "totalresults=") !== false) {
-                    str_replace("totalresults=", '', $currentPageURL);
+                $num = (int) htmlentities(trim($_GET['totalresults']));
+                if (strpos($currentPageURL, "?totalresults=") !== false) {
+                    $cleanedURL = str_replace("?totalresults=", '', $currentPageURL);
+                    $finalURL = str_replace($num, '', $cleanedURL);
                 }
+            } else {
+                $finalURL = $currentPageURL;
             }
 
             for ($i = 0; $i < 3; $i++) {
                 if (isset($_GET['totalresults'])) {
-                    $result = (int) htmlentities(trim($_GET['totalresults']));
+                    $resultsPerPage = (int) htmlentities(trim($_GET['totalresults']));
                 } else {
-                    $result = 10;
+                    $resultsPerPage = 10;
                 }
 
-                if ($buttonValues[$i] == $result) {
-                    echo "
-                        <p class=control>
-                            <a type='button' href='{$currentPageURL}?totalresults={$buttonValues[$i]}'>
-                                <p class='button is-small is-info'>{$buttonValues[$i]}</p>
-                            </a>-
-                        </p>";
+                // display the button as outlined or not - control variable for loop below
+                if ($buttonValues[$i] === $resultsPerPage) {
+                    $buttonOutline = "";
                 } else {
-                    echo "
-                        <p class=control>
-                            <a type='button' href='{$currentPageURL}?totalresults={$buttonValues[$i]}'>
-                                <p class='button is-small is-info is-outlined'>{$buttonValues[$i]}</p>
-                            </a>
-                        </p>";
+                    $buttonOutline = "is-outlined";
                 }
+                // finally print the buttons with dynamic generated links and numbers
+                echo "
+                    <p class='control'>
+                        <a href='{$finalURL}?totalresults={$buttonValues[$i]}'>
+                            <span type='button' class='button is-small {$buttonOutline} is-info'>{$buttonValues[$i]}</span>
+                        </a>
+                    </p>";
             }
         ?>
     </div>
