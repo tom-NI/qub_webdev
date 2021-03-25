@@ -84,9 +84,11 @@
                     </a>";
                 } 
             } else {
+                $totalMatchesToDisplay = 0;
                 echo $errorString;
             }
         } else {
+            $totalMatchesToDisplay = 0;
             echo $errorString;
         }
 ?>

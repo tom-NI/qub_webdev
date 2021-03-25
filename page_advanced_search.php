@@ -1,11 +1,17 @@
 <?php 
     session_start();
     include_once(__DIR__ . "/logic_files/allfunctions.php");
-    $defaultResultsAndPage = "&count=10&startat=0";
+    require(__DIR__ . "/logic_files/pagination_logic.php");
 
-    // do the main page loading functions - either filtering, searching, or loading recent results
+    // control variable for pagination numbers with the recent matches list
+    $loadingRecentResults = false;
+    
+    // select the main page summary data
+    // either filtering, searching, or loading recent results
     if (isset($_GET['userfilter'])) {
-        // if the user checked the filter panel items - do this;
+        $loadingRecentResults = false;
+
+        // if the user checked the filter panel items
         $rootURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?filter";
         
         // empty string to add on all dynamic user queries for API request
@@ -73,28 +79,21 @@
             $urlPathAddons .= "&referee={$refereeValue}";
         }
 
-        // get the total number of results required!
-        if (isset($_GET['totalresults'])) {
-            $resultCount = (int) htmlentities(trim($_GET['totalresults']));
-            $numResultsReturnedQuery = "&count={$resultCount}";
-        } else {
-            $numResultsReturnedQuery = "&count=10";
-            $pageQuery = "&startat=0";
-        }
-
         if (strlen($urlPathAddons) > 0) {
             $finalDataURL = "{$rootURL}{$urlPathAddons}{$numResultsReturnedQuery}{$pageQuery}";
         } else {
             $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season=2020-2021{$numResultsReturnedQuery}{$pageQuery}";
         }
     } elseif (isset($_GET['ht_selector'])) {
-        // if the user entered something in the club search bar
+        // if the user entered something in the club search bar on the homepage!
+        $loadingRecentResults = false;
         $userSearchItem = addUnderScores(htmlentities(trim($_GET['ht_selector'])));
         $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?usersearch={$userSearchItem}{$numResultsReturnedQuery}{$pageQuery}";
     } else {
         // otherwise just load the last ten premier league games
         $currentSeason = getCurrentSeason();
-        $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season={$currentSeason}&count=10";
+        $loadingRecentResults = true;
+        $finalDataURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/match_summaries?season={$currentSeason}{$numResultsReturnedQuery}{$pageQuery}";
     }
 ?>
 
@@ -306,7 +305,7 @@
         </section>
 
     <section class="column is-8 is-offset-2">
-        <?php require(__DIR__ . "/part_pages/part_pagination.php"); ?>
+        <?php require(__DIR__ . "/part_pages/part_pagination_bar_echo.php"); ?>
     </section>
     </div>
 
