@@ -299,31 +299,4 @@
         $currentPageURL = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         return $currentPageURL;
     }
-
-    // function to remove existing pagination parameters from the URL.
-    // means other aspects of user filter search are retained in the URL
-    function cleanExistingURL($keyToRemove, $existingURL) {
-        // then remove extranenous ? operators to leave only 1!
-        if (substr_count($existingURL, "?") > 1) {
-            $count = substr_count($existingURL, "?");
-            $questionMarks = ".php";
-            for ($i = 0; $i < $count; $i++) {
-                $questionMarks .= "?";
-            }
-            $cleanedURL = str_replace($questionMarks, '.php?', $existingURL);
-        } else {
-            $cleanedURL = $existingURL;
-        }
-        echo "<p>{$cleanedURL}</p>";
-
-        if (substr_count($cleanedURL, $keyToRemove) != 0) {
-            parse_str(parse_url($cleanedURL, PHP_URL_QUERY), $queriesArray);
-            parse_str(parse_url($cleanedURL, PHP_URL_PATH), $path);
-            print_r($queriesArray);
-            unset($queriesArray[$keyToRemove]);
-        }
-
-        $finalCleanedURL = http_build_query($queriesArray);
-        return $finalCleanedURL;
-    }
 ?>
