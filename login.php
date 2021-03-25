@@ -33,7 +33,7 @@
     } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // registering or signing in
         if (isset($_POST['user_email'])) {
-            require(__DIR__ . "/part_pages/part_logout.php");
+            require(__DIR__ . "/logic_files/logout_logic.php");
             $userEmail = htmlentities(trim($_POST['user_email']));
             $userPassword = htmlentities(trim($_POST['user_password']));
             

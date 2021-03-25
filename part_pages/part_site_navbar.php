@@ -40,7 +40,7 @@
                     }
                     // logout button (goes to a seperate php logout script)
                     echo "
-                    <form action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/part_pages/part_logout.php?logout' method='POST'>
+                    <form action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/logic_files/logout_logic.php?logout' method='POST'>
                         <button class='button is-outline is-danger' type='submit'>
                             <span class='icon'>
                                 <i class='fas fa-sign-out-alt'></i>

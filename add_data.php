@@ -10,7 +10,7 @@
                 $userID = $_SESSION['userid'];
             }
             if (isset($_POST['submit_main_match'])) {
-                require(__DIR__ . "/part_pages/part_post_match.php");
+                require(__DIR__ . "/logic_files/post_match_logic.php");
                 // build the data that has to be sent inside the header, into an assoc array
                 $matchInfoArray = http_build_query(
                     array(

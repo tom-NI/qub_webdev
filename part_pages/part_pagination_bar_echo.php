@@ -8,6 +8,7 @@
                 <p>Page :</p>
             </span>";
             if (isset($_GET['count'])) {
+                // only show prevuious button if 
                 echo "<a href='' id='previous_page_btn' class='pagination-previous is-outlined button is-info' disabled>Prev</a>";
             }
             echo "
@@ -17,8 +18,10 @@
         // set a single control var for max page items to display on pagination bar
         $maxNumberOfPagesToDisplay = 8;
         
+        // load modularized pagination logic!
         require(__DIR__ . "/../logic_files/pagination_logic.php");
 
+        // alter the total pages if checking recent queries
         if ($loadingRecentResults) {
             $totalPages = $maxNumberOfPagesToDisplay;
         } else {
@@ -39,12 +42,15 @@
                 $displayNumber = $i;
             }
 
-            if (is_numeric($displayNumber) && ($displayNumber / $resultsPerPage) === $i) {
+            // alter page button to be solid if the user has previously selected it
+            if (is_numeric($displayNumber) && isset($_GET['startat'])
+                     && ($_GET['startat'] / $resultsPerPage) === $i) {
                 $buttonOutline = "";
             } else {
                 $buttonOutline = "is-outlined";
             }
 
+            // dynamically alter the URL for each button based on the for loop
             $startAtValue = (($i * $resultsPerPage) - $resultsPerPage);
             $startAtQuery = "&startat={$startAtValue}";
 

@@ -11,7 +11,6 @@
             echo "<option value='{$monthValuesToMatchDB[$i]}' selected >{$monthNames[$i]}</option>";
         } else {
             echo "<option value='{$monthValuesToMatchDB[$i]}'>{$monthNames[$i]}</option>";
-
         }
     }
 ?>

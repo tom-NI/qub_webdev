@@ -9,7 +9,7 @@
             if (isset($_GET['finalise_match_edit'])) {
                 $noMatchIDisSelected = false;
                 include_once(__DIR__ . "/../logic_files/allfunctions.php");
-                require(__DIR__ . "/../part_pages/part_post_match.php");
+                require(__DIR__ . "/../logic_files/post_match_logic.php");
                 $matchToChangeID = htmlentities(trim($_POST['id']));
                 $justForChange = htmlentities(trim($_POST['change_justification']));
                 
