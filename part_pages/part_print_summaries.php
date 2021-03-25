@@ -1,10 +1,5 @@
 <?php
     include_once(__DIR__ . "/../logic_files/allfunctions.php");
-    // get the total for this query for page numbering, without getting the data
-    // $queryDataWithoutPagination = postDevKeyInHeader($finalTotalPagesCountURL);
-    // $allDataAsJSON = json_decode($queryDataWithoutPagination, true);
-    // $totalMatchesToDisplay = (int) count($allDataAsJSON);
-    // print_r($totalMatchesToDisplay);
 
     // error string to be echoed depending on multiple states
     $errorString = "
@@ -30,7 +25,7 @@
             // create a var for pagination!
             $totalMatchesToDisplay = count($recentMatchesList);
 
-            // go thru each 
+            // go thru each match and echo out a match summary!
             foreach ($recentMatchesList as $summary) {
                 $matchID = $summary['id'];
                 $matchDate = $summary['match_date'];
@@ -45,7 +40,7 @@
                 $finalMatchDate = parseDateLongFormat($matchDate);
 
                 echo "
-                <a href='page_single_match_result.php?num={$matchID}'>
+                    <a href='page_single_match_result.php?num={$matchID}'>
                         <div id='' class='master_result_card container box column is-centered my_box_border m-2 mb-5 mt-5 p-1'>
                             <div class='columns' >
                                 <div class='column'>
