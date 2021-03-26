@@ -20,7 +20,13 @@
 
     // only proceed if a string of data is returned, and that string has items in it!
     if (is_string($recentMatchesAPIData)) {
-        $recentMatchesList = json_decode($recentMatchesAPIData, true);    
+        // now get the total count for the users query and on filter pages use for pagination
+        $totalCountURL = cleanURLofPageParams($finalDataURL);
+        $totalCountData = postDevKeyInHeader($totalCountURL);
+        $totalCountList = json_decode($totalCountData, true);
+        $totalQueryCount = count($totalCountList);
+
+        $recentMatchesList = json_decode($recentMatchesAPIData, true);
         if (count($recentMatchesList) > 0) {
             // create a var for pagination!
             $totalMatchesToDisplay = count($recentMatchesList);
