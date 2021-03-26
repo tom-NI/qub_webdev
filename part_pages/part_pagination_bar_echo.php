@@ -2,7 +2,8 @@
     // only show page array if there are pages to show
     // $totalMatchesToDisplay comes from part_print_summaries.php
     if ($totalMatchesToDisplay > 0) {
-        // set a single control var for max page items to display on pagination bar
+
+        // set a single control var for max buttons
         $maxNumberOfPagesToDisplay = 8;
         
         // load modularized pagination logic!
@@ -31,14 +32,25 @@
                 <p>Page :</p>
             </span>";
             if (isset($_GET['startat']) && $_GET['startat'] != 0) {
-                // only show prev button on all pages except first!
+                // only show prev button on all pages except first page!
                 echo "<a href='?{$previousPageQuery}' id='previous_page_btn' class='pagination-previous is-outlined button is-info'>Prev</a>";
             }
             echo "
             <a href='?{$nextPageQuery}' id='next_page_btn' class='pagination-next is-outlined button is-info'>Next</a>
             <ul class='pagination-list is-centered'>";
         
-        for ($i = 1; $i <= $totalPages; $i++) {       
+        // remove existing pagination URL parameters from URL (to stop them accumulating)
+        $cleanedURL = cleanURLofPageParams(getCurrentPageURL());
+
+        // set current page calc based on URL
+        if (isset($_GET['startat']) && isset($_GET['count'])) {
+            $currentPageCalculation = (($_GET['startat'] + $_GET['count']) / $resultsPerPage);
+        } else {
+            $currentPageCalculation = 1;
+        }
+
+        // print out each page button using a loop
+        for ($i = 1; $i <= $totalPages; $i++) {     
             if ($i === $maxNumberOfPagesToDisplay) {
                 $displayNumber = "...";
             } else {
@@ -46,10 +58,7 @@
             }
 
             // alter page button to be solid if the user has previously selected it
-            if (isset($_GET['startat']) && isset($_GET['count'])
-                     && (($_GET['startat'] + $_GET['count']) / $resultsPerPage) === $i) {
-                $buttonOutline = "";
-            } elseif (!isset($_GET['startat']) && $i === 1) {
+            if ($currentPageCalculation == $i || (!isset($_GET['startat']) && $i === 1)) {
                 $buttonOutline = "";
             } else {
                 $buttonOutline = "is-outlined";
@@ -59,10 +68,7 @@
             $startAtValue = (($i * $resultsPerPage) - $resultsPerPage);
             $startAtQuery = "&startat={$startAtValue}";
 
-            // use a cleaner function to remove existing count and startat URL parameters!
-            $cleanedURL = cleanURLofPageParams(getCurrentPageURL());
-
-            $currentPageURL = getCurrentPageURL();
+            // finally, echo out each page button with a custom URL link for each button
             echo "<li><a href='{$cleanedURL}{$resultsQuery}{$startAtQuery}' class='pagination-link is-info button {$buttonOutline}'>{$displayNumber}</a></li>";
         }
         echo "</ul></nav>"; 
