@@ -1,7 +1,6 @@
 <?php  
     session_start();
     include_once(__DIR__ . "/logic_files/allfunctions.php");
-    include_once(__DIR__ . "/logic_files/dbconn.php");
     require(__DIR__ . "/logic_files/login_logic.php");
 ?>
 

@@ -1,5 +1,6 @@
 <?php
-
+    include_once(__DIR__ . "/logic_files/dbconn.php");
+    
     if ($_SERVER['REQUEST_METHOD'] === 'GET'
             && isset($_GET['validate_user']) && isset($_GET['id'])) {
         // user trying to validate their user account via the link provided in an email
