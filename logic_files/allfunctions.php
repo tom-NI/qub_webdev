@@ -301,22 +301,22 @@
     }
 
     // function to strip existing pagination params out of the current page URL.
-    // used to provide cleaned up links for new pagination URLs, without losing user filter GET info
-    function removeExistingURLPageInfo($currentPageURL, Array $keysArrayToStrip){
-        // strip the provided key:value off the URL
+    function cleanURLofPageParams($currentPageURL) {
+        // define the pagination parameters to strip from the URL
+        $keysArrayToStrip = array('count', 'startat');
+
+        // get the root url (by stripping all queries)
+        $fullRootURL = strtok($currentPageURL, '?');
+        
+        // strip all provided page key:value pairs off the URL and leave the remainder
         parse_str(parse_url($currentPageURL, PHP_URL_QUERY), $leftOverUserQueries);
         foreach ($keysArrayToStrip as $key) {
             unset($leftOverUserQueries[$key]);
         }
-        
-        // get the root url (by stripping all queries)
-        $fullRootURL = parse_url($currentPageURL);
-        unset($fullRootURL['query']);
 
         // build root URL and all remaining queries back together
-        $root = http_build_query($fullRootURL);
         $leftOverQueriesURL = http_build_query($leftOverUserQueries);
-        $finalURL = "{$root}?{$leftOverQueriesURL}";
+        $finalURL = "{$fullRootURL}?{$leftOverQueriesURL}";
         return urldecode($finalURL);
     }
 ?>
