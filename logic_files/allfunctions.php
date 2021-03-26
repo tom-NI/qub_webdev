@@ -220,6 +220,7 @@
                 'method' => 'POST',
                 'header' => ["Authorization: Basic ".base64_encode("$orgName:$keyValue"), 
                     'Content-Type: application/x-www-form-urlencoded'],
+                'ignore_errors' => true,
                 'content' => $dataArrayToPost
             )
         );

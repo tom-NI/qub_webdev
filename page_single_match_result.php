@@ -95,7 +95,7 @@
                                             <span>Edit Match</span>
                                         </button>
                                     </a>
-                                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_delete_match.php?deletematch&num={$postedMatchID}'>
+                                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/logic_files/delete_match_logic.php?deletematch&num={$postedMatchID}'>
                                         <button id='delete_match_btn' class='mx-3 button is-rounded is-info'>
                                             <span class='icon is-left'>
                                                 <i class='fas fa-trash'></i>
