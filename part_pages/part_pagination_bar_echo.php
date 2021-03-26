@@ -69,7 +69,7 @@
             $startAtQuery = "&startat={$startAtValue}";
 
             // finally, echo out each page button with a custom URL link for each button
-            echo "<li><a href='{$cleanedURL}{$resultsQuery}{$startAtQuery}' class='pagination-link is-info button {$buttonOutline}'>{$displayNumber}</a></li>";
+            echo "<li><a href='{$cleanedURL}&{$resultsQuery}{$startAtQuery}' class='pagination-link is-info button {$buttonOutline}'>{$displayNumber}</a></li>";
         }
         echo "</ul></nav>"; 
     }
