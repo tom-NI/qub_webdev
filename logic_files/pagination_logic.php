@@ -8,10 +8,24 @@
     }
     $numResultsReturnedQuery = "&count={$resultsPerPage}";
 
+    // now finalise the starting point query
     if (isset($_GET['startat'])) {
         $startAtValue = (int) htmlentities(trim($_GET['startat']));
     } else {
         $startAtValue = 0;
     }
+
+    //build the "next page" and "prev page" button links queries
+    if ($startAtValue >= $resultsPerPage) {
+        $previousStartAtValue = $startAtValue - $resultsPerPage;
+    } else {
+        $previousStartAtValue = 0;
+    }
+    $nextStartAtValue = $resultsPerPage + $startAtValue;
+    $previousPageQuery = "{$numResultsReturnedQuery}&startat={$previousStartAtValue}";
+    $nextPageQuery = "{$numResultsReturnedQuery}&startat={$nextStartAtValue}";
+
+    // then set the final page query for count and startat for each individual page button
     $numResultsReturnedQuery .= "&startat={$startAtValue}";
+    
 ?>
