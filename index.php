@@ -123,7 +123,7 @@
             <div class="tile is-ancestor is-vertical is-10-mobile">
                 <?php
                     // analyze the entire season and load the stattiles
-                    require(__DIR__ . "/logic_files/stattiles_logic.php");
+                    require(__DIR__ . "/part_pages/part_stattiles.php");
                 ?>
             </div>
             <div>
