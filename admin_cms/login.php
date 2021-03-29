@@ -25,7 +25,7 @@
     <section class="hero is-info is-bold pt-6">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-4">Administrator Login</h1>
+                <h1 class="title mt-4 is-size-3 is-size-5-mobile">Administrator Login</h1>
             </div>
         </div>
     </section>
@@ -42,7 +42,7 @@
                 }
             ?>
             <div class="my_info_colour p-3">
-                <h2 class='title is-4 pt-4 my_info_colour'>Login :</h2>
+                <h2 class='title is-4 pt-4 is-size-5-mobile my_info_colour'>Login :</h2>
                 <form class='form control' method="POST"
                     action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/login.php">
                     <div class="field">
@@ -58,7 +58,12 @@
                         </div>
                     </div>
                     <div class="">
-                        <button class='button is-danger m-3' name='signin_btn'>Sign in</button>
+                        <button class='button is-danger m-3' name='signin_btn'>
+                            <span class="icon">
+                                <i class="fas fa-pen-fancy"></i>
+                            </span>
+                            <span>Sign in</span>
+                        </button>
                     </div>
                 </form>
             </div>

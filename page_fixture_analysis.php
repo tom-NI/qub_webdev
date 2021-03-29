@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/mystyles.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
     <title>Fixture Analysis</title>
 </head>
 
@@ -24,8 +25,8 @@
     <section class="hero is-info is-bold pt-6">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-4">Fixture Analysis</h1>
-                <p class="subtitle is-5 mt-1">Select teams to analyse all previous meetings</p>
+                <h1 class="title mt-4 is-size-3 is-size-5-mobile">Fixture Analysis</h1>
+                <p class="subtitle is-5 is-size-6-mobile mt-1">Select home and away teams to analyse all previous meetings</p>
             </div>
         </div>
     </section>
@@ -94,11 +95,12 @@
 
     <?php
         if (isset($_GET['ht_selector']) && isset($_GET['at_selector'])
-                && $_GET['ht_selector'] != "Select Team" && $_GET['at_selector'] != "Select Team") {
+                && $_GET['ht_selector'] != "Select Team" 
+                && $_GET['at_selector'] != "Select Team") {
             echo "
             <div class='column is-8 is-offset-2 my_sticky_div'>
                 <div class='container column is-6 is-offset-3 box is-centered my_sticky_div pt-4'>
-                    <div class='columns is-mobile is-vcentered is-centered'>
+                    <div class='columns is-mobile is-vcentered is-centered m-0'>
                         <div class='column mb-2'>
                             <h4 class='is-size-4 is-size-5-mobile has-text-right team_a_name_colour'>
                                 <b>{$teamAString}</b>
@@ -122,7 +124,7 @@
                 <section class='column is-centered is-offset-one-fifth mx-5'>
                     <!-- main stat section of the page -->
                     <div class='columns level my-2 mt-5'>
-                        <h2 class='title is-4'>Key Statistics:</h2>
+                        <h2 class='title is-4 is-size-5-mobile'>Key Statistics:</h2>
                     </div>";
 
                     for ($i = 0; $i < count($keyTileTitles); $i++) {
@@ -130,24 +132,24 @@
                         $title = $keyTileTitles[$i];
                         $calcValue = $keyTileData[$i];
                         echo "
-                            <div class='columns is-vcentered is-mobile level m-4 my_fixture_stat_level'>
+                            <div class='columns is-vcentered is-mobile level my-4 my_fixture_stat_level'>
                                 <div class='image is-24x24 ml-5'>
                                     {$currentIcon}
                                 </div>
                                 <div class='column is-half'>
                                     <p class='subtitle is-6 has-text-left ml-3'>{$title}</p>
                                 </div>
-                                <div class='column my_info_colour box my_dont_wrap_text m-3 mx-5'>
-                                    <p class='subtitle is-5 m-0 my_stat_font is-one-fifth' id='fixture_total_meets_amount'><b>{$calcValue}</b>
+                                <div class='column my_info_colour box my_dont_wrap_text m-2'>
+                                    <p class='subtitle is-5 is-size-6-mobile m-0 my_stat_font is-one-fifth' id='fixture_total_meets_amount'><b>{$calcValue}</b>
                                     </p>
                                 </div>
                             </div>";
                     };
 
                     echo "
-                    <div class='columns level my-2 mt-6'>
-                        <h2 class='title is-4 '>Highest all Time statistics by match:</h2>
-                    </div>";
+                        <div class='columns level my-2 mt-6'>
+                            <h2 class='title is-4 is-size-5-mobile'>Highest all Time statistics by match:</h2>
+                        </div>";
 
                     for ($i = 0; $i < count($allTimeTileTitles); $i++) {
                         $currentWords = $allTimeTileTitles[$i];
@@ -156,15 +158,15 @@
                         $teamBStatistic = $allTimeTileAwayData[$i + $i];
                         $teamBDate = $allTimeTileAwayData[($i + $i) + 1];
                         echo "
-                            <div class='columns is-vcentered is-mobile level m-4 my_fixture_stat_level'>
-                            <div class='column team_a_colour box my_dont_wrap_text m-3 mx-5'>
+                            <div class='columns is-vcentered is-mobile level my-4 my_fixture_stat_level'>
+                            <div class='column team_a_colour box my_dont_wrap_text m-2 p-2'>
                                 <p class='subtitle is-6 m-0 my_stat_font' id='team_a_goals_amount'><b>{$teamAStatistic}</b></p>
                                 <p class='m-0 mt-1 subtitle is-7 my_stat_font' id='team_a_goals_scored_date'>{$teamADate}</p>
                             </div>
                             <div class='column is-one-third'>
                                 <p class='subtitle is-6'>{$currentWords}</p>
                             </div>
-                            <div class='column team_b_colour box my_dont_wrap_text m-3 mx-5'>
+                            <div class='column team_b_colour box my_dont_wrap_text m-2 p-2'>
                                 <p class='subtitle is-6 m-0 my_stat_font' id='team_b_goals_amount'><b>{$teamBStatistic}</b></p>
                                 <p class='m-0 mt-1 subtitle is-7 my_stat_font' id='team_b_goals_scored_date'>{$teamBDate}</p>
                             </div>
@@ -176,7 +178,7 @@
                         <section class='column mx-5'>
                             <!-- section header -->
                             <div class='columns level my-2 mt-5'>
-                                <h2 class='title is-4'>Metric Comparison:</h2>
+                                <h2 class='title is-4 is-size-5-mobile'>Metric Comparison:</h2>
                             </div>";
 
                         for ($i = 0; $i < count($metricTileTitles); $i++) {
@@ -185,18 +187,19 @@
                             $teamBstat = $metricTileTitlesAwayData[$i];
                             
                             echo "
-                                <div class='columns is-vcentered is-mobile level m-4 my_fixture_stat_level'>
-                                    <div class='column team_a_colour box my_dont_wrap_text m-3 mx-5'>
+                                <div class='columns is-vcentered is-mobile level my-4 my_fixture_stat_level'>
+                                    <div class='column team_a_colour box my_dont_wrap_text m-2'>
                                         <p class='subtitle is-6 m-0 my_stat_font'><b>{$teamAstat}</b></p>
                                     </div>
                                     <div class='column is-one-third'>
                                         <p class='subtitle is-6'>{$currentWording}</p>
                                     </div>
-                                    <div class='column team_b_colour box my_dont_wrap_text m-3 mx-5'>
+                                    <div class='column team_b_colour box my_dont_wrap_text m-2'>
                                         <p class='subtitle is-6 m-0 my_stat_font'><b>{$teamBstat}</b></p>
                                     </div>
                                 </div>";
                         };
+
             echo "
                 </section>
             </div>";
@@ -204,31 +207,31 @@
             // only print out graphs if the teams have met!
             if (count($fixtureList) > 0) {
                 echo "
-                <!-- all graphs -->
-                <div class='master_site_width'>
-                    <div>
-                        <h2 class='title is-3 mt-5 p-5'>Key Statistic Charts</h2>
+                    <!-- all graphs -->
+                    <div class='master_site_width'>
+                        <div>
+                            <h2 class='title is-3 is-size-4-mobile mt-5 p-5'>Key Statistic Charts</h2>
+                        </div>
+                        <section class='columns is-vcentered mx-5' >
+                            <div class='mt-4 column is-6 is-4-mobile'>
+                                <div class='m-2'>
+                                    <div class='level my_pie_chart' id='wins_chart'></div>
+                                </div>
+                                <div class='m-2 mt-6'>
+                                    <div class='level my_pie_chart' id='clean_sheets_chart'></div>
+                                </div>
+                            </div>
+                            <div class='mt-4 column is-6 is-4-mobile'>
+                                <div  class='m-2'>
+                                    <div class='level my_pie_chart' id='goals_chart'></div>
+                                </div>
+                                <div class='m-2 mt-6'>
+                                    <div class='level my_pie_chart' id='total_cards_chart'></div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                    <section class='columns is-vcentered mx-5'>
-                        <div class='mt-4 column is-6 '>
-                            <div class='m-2'>
-                                <div class='level' id='wins_chart'></div>
-                            </div>
-                            <div class='m-2 mt-6'>
-                                <div class='level' id='clean_sheets_chart'></div>
-                            </div>
-                        </div>
-                        <div class='mt-4 column is-6'>
-                            <div  class='m-2'>
-                                <div class='level' id='goals_chart'></div>
-                            </div>
-                            <div class='m-2 mt-6'>
-                                <div class='level' id='total_cards_chart'></div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                </div>";
+                    </div>";
             }
         }
         require(__DIR__ . '/part_pages/part_site_footer.php');

@@ -44,7 +44,7 @@ input::-webkit-inner-spin-button {
 }
 
 .my_small_form_item {
-    width: 150px;
+    width: 170px;
     padding: 2px;
 }
 
@@ -80,7 +80,7 @@ input::-webkit-inner-spin-button {
     display: inline-block;
     padding: 5px;
     margin: 0 5px;
-    min-width: 200px;
+    min-width: 180px;
 }
 
 .my_result_centre_stat_text {
@@ -89,12 +89,17 @@ input::-webkit-inner-spin-button {
 }
 
 .result_box{
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     text-align: center;
     background-color: hsl(204, 86%, 53%);
     font-weight: bold;
     color: white;
+}
+
+.score_box {
+    margin: 20px;
+    padding: 0px;
 }
 
 .my_main_result_box {
@@ -112,9 +117,30 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
+.my_pie_chart {
+    display: block;
+    margin: 0 auto;
+}
+
+.my_google_chart {
+    width: 100%;
+    min-height: 500px;
+}
+
+.my_google_season_chart {
+    width: 100%;
+    min-height: 1000px;
+}
+
 .my_image_maintain_aspect {
     width: 100%;
     height: auto;
+}
+
+.my_club_logo {
+    width: 96px;
+    height: 96px;
+    margin: 20px;
 }
 
 /* see if bulma can replace this */
@@ -209,13 +235,43 @@ a:hover {
         vertical-align: middle;
     }
 
+    .my_stat_select {
+        width: 150px;
+    }
+
+    .my_small_form_item {
+        width: 125px;
+        padding: 2px;
+    }
+
+    .my_medium_form_item {
+        min-width: 170px;
+        padding: 2px;
+    }
+
+    .my_pie_chart{
+        max-width: 300px;
+        height: 300px;
+    }
+
+    .my_club_logo {
+        width: 48px;
+        height: 48px;
+        margin: 10px;
+    }
+
     .result_box{
-        width: 20px;
-        height: 20px;
+        width: 30px;
+        height: 30px;
         text-align: center;
         background-color: hsl(204, 86%, 53%);
         font-weight: bold;
         color: white;
+    }
+
+    .score_box {
+        margin: 5px;
+        padding: 0px;
     }
 
     #my_site_logo {

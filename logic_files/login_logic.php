@@ -1,5 +1,5 @@
 <?php
-    include_once(__DIR__ . "/logic_files/dbconn.php");
+    include_once(__DIR__ . "/dbconn.php");
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET'
             && isset($_GET['validate_user']) && isset($_GET['id'])) {
@@ -32,7 +32,7 @@
     } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // registering or signing in
         if (isset($_POST['user_email'])) {
-            require(__DIR__ . "/logic_files/logout_logic.php");
+            require(__DIR__ . "/logout_logic.php");
             $userEmail = htmlentities(trim($_POST['user_email']));
             $userPassword = htmlentities(trim($_POST['user_password']));
             

@@ -26,18 +26,18 @@
     <section class="hero is-info is-bold pt-6">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-4">The home of English Premier League Match Statistics</h1>
-                <p class="subtitle is-5 mt-2">Search below to get started</p>
+                <h1 class="title mt-4 is-size-3 is-size-5-mobile">The home of English Premier League Match Statistics</h1>
+                <p class="subtitle is-5 is-size-6-mobile mt-2">Search below to get started</p>
             </div>
         </div>
     </section>
 
     <!-- home page split into two -->
     <div class="columns is-desktop master_site_width">
-        <section class="section column is-three-fifths-desktop mx-2">
+        <section class="column is-three-fifths-desktop mx-1">
             <div class="container is-centered">
                 <!-- search bar -->
-                <div>
+                <div class="mt-6">
                     <form action="page_advanced_search.php?count=10" method="GET">
                         <div class="field has-addons">
                             <div class="control is-expanded">
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                     </form>
-                    <p class="mb-5 m-2"><a href="page_advanced_search.php">Advanced Match Search</a></p>
+                    <p class="mb-5 m-2 is-size-6 is-size-6-mobile"><a href="page_advanced_search.php">Advanced Match Search</a></p>
                 </div>
             </div>
 
@@ -62,16 +62,14 @@
             <div class="my_image_maintain_aspect">
                 <figure>
                     <img src="https://i.imgur.com/Ok815ec.jpg" alt="" class="box">
-                    <caption>
-                        Manchester United and Liverpool are neck and neck this season in the title race
-                    </caption>
+                    <caption class="subtitle is-6 is-size-7-mobile">Manchester United and Liverpool are neck and neck this season in the title race</caption>
                 </figure>
             </div>
             
             <div class="level mt-6 p-2">
                 <div class="level-left">
                     <div>
-                        <h3 class="title is-4 m-3 has-text-left">Recent results;</h3>
+                        <h3 class="title is-4 is-size-5-mobile m-3 has-text-left">Recent results;</h3>
                         <p class='subtitle is-6 m-3 has-text-left'>Click any result to view match details.</p>
                     </div>
                 </div>
@@ -100,14 +98,14 @@
         <!-- stat tiles section -->
         <section class="section column container my_grey_highlight_para mx-5">
             <div class="container">
-                <h3 class="title is-4 mb-5">Season StatTiles</h3>
+                <h3 class="title is-4 is-size-5-mobile mb-5">Season StatTiles</h3>
             </div>
             <div class="container my-5">
-                <form method="GET" action="index.php" class="level ">
-                    <div class="p-2 level-item">
-                        <label for="season_select"><b>Select Season :</b></label>
+                <form method="GET" action="index.php" class="level is-mobile mb-2">
+                    <div class="p-2">
+                        <label for="season_select" class="mr-2"><b>Season</b></label>
                     </div>
-                    <div class="select control is-expanded is-link level-item">
+                    <div class="select control is-expanded is-link mt-3">
                         <select name="season_pref" id="season_select">
                             <?php
                                 require(__DIR__ . "/part_pages/part_season_select.php");
@@ -115,10 +113,10 @@
                         </select>
                     </div>
                     <div class="ml-2 level-item">
-                        <button class="button is-info">Go</button>
+                        <button class="button is-info mt-3 mx-1">Go</button>
                     </div>
                 </form>
-                <p class="mb-5"><a href="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_chart_season.php">View all clubs statistic chart</a></p>
+                <p class="mb-5 is-size-6-mobile"><a href="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_chart_season.php">View all clubs statistic chart</a></p>
             </div>
             <div class="tile is-ancestor is-vertical is-10-mobile">
                 <?php

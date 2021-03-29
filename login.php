@@ -25,7 +25,7 @@
     <section class="hero is-info is-bold pt-6">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-4">User Login</h1>
+                <h1 class="title mt-4 is-size-3 is-size-5-mobile">User Login</h1>
             </div>
         </div>
     </section>
@@ -42,7 +42,7 @@
                 }
             ?>
             <div class="my_info_colour p-3">
-                <h2 class='title is-4 pt-4 my_info_colour'>Sign In:</h2>
+                <h2 class='title is-4 is-size-5-mobile pt-4 my_info_colour'>Sign In:</h2>
                 <form class='form control' method="POST"
                     action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php">
                     <div class="field">
@@ -58,15 +58,19 @@
                         </div>
                     </div>
                     <div class="">
-                        <button class='button is-danger m-3' name='signin_btn'>Sign in</button>
+                        <button class="button is-danger m-4" name="register_btn">
+                            <span class="icon">
+                                <i class="fas fa-pen-fancy"></i>
+                            </span>
+                            <span>Sign in</span>
+                        </button>
                     </div>
                 </form>
             </div>
             <div class="my_grey_highlight_para p-3 mt-6">
                 <!-- registration section -->
                 <div class="mt-3">
-                    <h2 class='title is-4 pt-4'>Not yet a registered user?</h2>
-                    <p class='mt-2'>Register here</p>
+                    <h2 class='title is-4 is-size-5-mobile pt-4'>Register here</h2>
                     <p class='mt-2 has-text-left'>* Required</p>
                     <form class="form control" 
                     action="" method="POST">
@@ -99,7 +103,12 @@
                             </div>
                         </div>
                         <div>
-                            <button class="button is-danger m-4" name="register_btn">Register</button>
+                        <button class="button is-danger m-4" name="register_btn">
+                            <span class="icon">
+                                <i class="far fa-clipboard"></i>
+                            </span>
+                            <span>Register</span>
+                        </button>
                         </div>
                     </form>
                 </div>

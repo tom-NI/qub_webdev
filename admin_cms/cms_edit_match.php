@@ -27,7 +27,7 @@
     <section class="hero is-info is-bold pt-6">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-4">Edit a match result</h1>
+                <h1 class="title mt-4 is-size-3 is-size-5-mobile">Edit a match result</h1>
             </div>
         </div>
     </section>
@@ -73,30 +73,30 @@
                 <form method="POST" action="cms_edit_match.php?finalise_match_edit">
                     <div class="mt-5 p-5 my_info_colour">
                         <div>
-                            <h2 class="title is-size-4 my_info_colour mb-4">Change Match Details:</h2>
+                            <h2 class="title is-size-4 my_info_colour mb-4 is-size-5-mobile">Change Match Details:</h2>
                         </div>
-                        <div>
-                            <div class="my_match_metadata control has-text-right">
+                        <div class="columns is-mobile is-vcentered">
+                            <div class="column is-6 has-text-right">
                                 <label for="match_date" class="my_small_form_item">Match Date:</label>
                             </div>
-                            <div class="my_match_metadata">
+                            <div class="column is-6 has-text-left">
                                 <?php echo"<input type='date' value='{$matchdate}' id='users_match_date_entry'
                                     class='my_small_form_item my-1 input is-info' name='match_date'>"; ?>
                             </div>
-                        </div>
-                        <div>
-                            <div class="my_match_metadata has-text-right">
+                        </div> 
+                        <div class="columns is-mobile is-vcentered">
+                            <div class="column is-6 has-text-right">
                                 <label for="kick_off_time" class="my_small_form_item">Kick Off Time:</label>
                             </div>
-                            <div class="my_match_metadata">
+                            <div class="column is-6 has-text-left">
                                 <?php echo "<input type='time' value='{$kickofftime}' id='userkickofftime' class='my_small_form_item my-1 input is-info' name='kickoff_time'>"; ?>
                             </div>
                         </div>
-                        <div>
-                            <div class="my_match_metadata has-text-right">
+                        <div class="columns is-mobile is-vcentered">
+                            <div class="column is-6 has-text-right">
                                 <label for="referee" class="my_small_form_item ">Referee:</label>
                             </div>
-                            <div class="my_match_metadata">
+                            <div class="column is-6 has-text-left">
                                 <div class="select is-info my_small_form_item">
                                     <select class='my_small_form_item' name='select_ref' id='select_ref'>
                                         <?php
@@ -110,15 +110,14 @@
 
                     <div class="field p-4 pt-5 mt-5 my_grey_highlight_para">
                         <div class="field">
-                            <h2 class="title is-size-4 my_grey_highlight_para">Change Teams:</h2>
+                            <h2 class="title is-size-4 my_grey_highlight_para is-size-5-mobile">Change Teams:</h2>
                         </div>
                         <div class="my_inline_divs m-1 mt-4">
-                            <label class="is-size-5 mx-3" id="ht_selector_text" for="ht_selector"><b>Home Team</b></label>
+                            <label class="is-size-5 mx-3 is-size-6-mobile" id="ht_selector_text" for="ht_selector"><b>Home Team</b></label>
                             <div class="select is-success">
                                 <select class='my_small_form_item mx-2 ' name='ht_selector' id='ht_selector'>
                                     <?php
                                         require(__DIR__ . "/../part_pages/part_current_season_team_selector.php");
-                                        
                                         // set a control var to make the second select unique (same code used for both <selects>)
                                         $htSelectorIsSet = true;
                                     ?>
@@ -136,21 +135,21 @@
                                     ?>
                                 </select>
                             </div>
-                            <label class="is-size-5 mx-3" id="at_selector_text" for="at_selector"><b>Away Team</b></label>
+                            <label class="is-size-5 mx-3 is-size-6-mobile" id="at_selector_text" for="at_selector"><b>Away Team</b></label>
                         </div>
                     </div>
 
                     <!-- entry boxes -->
                     <div class="field ">
                         <div class="field">
-                            <h2 class="title is-size-4 mt-6">Change Match statistics:</h2>
+                            <h2 class="title is-size-4 mt-6 is-size-5-mobile">Change Match statistics:</h2>
                         </div>
                     </div>
                         <?php   
                             require(__DIR__ . "/../part_pages/part_fill_match_edit_form.php");
                         ?>
                     <div class='field'>
-                        <h2 class="title is-size-4 mt-6">Justification for data change:</h2>
+                        <h2 class="title is-size-4 mt-6 is-size-5-mobile">Justification for data change:</h2>
                         <textarea class='textarea is-info has-fixed-size my-4' minlength="5" maxlength="100"
                             required name="change_justification" id="reason_for_match_edit" cols="100" rows="3" 
                             placeholder="e.g. 'Original Date incorrect' (max 100 characters)."></textarea>
@@ -166,10 +165,11 @@
                     </div>
                     
                     <div class="field is-grouped is-grouped-centered mt-2 mb-4">
-                        <button type="reset" id="new_match_reset_button"
-                            class="button m-2 is-rounded is-info is-outlined">Reset Form</button>
-                        <button type="submit" disabled id="edit_match_submit_button"
-                            class="button m-2 is-rounded is-info">Submit Match Edits</button>
+                        <button type="reset" id="new_match_reset_button" class="button m-2 is-rounded is-info is-outlined">Reset Form</button>
+                        <button type="submit" disabled id="new_match_submit_button" class="button m-2 is-rounded is-info">
+                            <span class="material-icons">send</span>
+                            <span class="ml-2 ">Submit Edits</span>
+                        </button>
                     </div>
                     <div>
                         <input type="hidden" name="id" value="<?php htmlentities(trim($_GET['num'])) ;?>" >

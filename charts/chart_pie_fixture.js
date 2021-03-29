@@ -9,8 +9,8 @@ function drawStatPieChart(winsArray, idOfElementToFill, providedTitle) {
         reverseCategories : true,
         colors: ['#FF6347', '#48c774'],
         fontSize: 16,
-        width: 350,
-        height: 350,
+        width: 260,
+        height: 260,
         is3D: true,
         legend: 'none',
         title: providedTitle,
@@ -19,9 +19,9 @@ function drawStatPieChart(winsArray, idOfElementToFill, providedTitle) {
             fontName: "Arial",
             fontSize: 20,
             bold: true,
-            italic: false 
+            italic: false
         },
-        chartArea: {left: 100, top: 25, 'width': '100%', 'height': '100%'},
+        chartArea: {left: 0, top: 50, 'width': '100%', 'height': '100%'},
         annotations: {
             textStyle: {
                 fontName: 'Arial',

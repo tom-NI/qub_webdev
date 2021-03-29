@@ -26,7 +26,7 @@
     <section class="hero is-info is-bold pt-6">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-4">Manage Data:</h1>
+                <h1 class="title mt-4 is-size-3 is-size-5-mobile">Manage Data</h1>
             </div>
         </div>
     </section>
@@ -45,18 +45,18 @@
         ?>
         <!--  -->
         <div class="mt-5 p-5 my_info_colour p-3">
-            <h2 class="title is-4 mb-2 my_info_colour">Edit or Delete a Match</h2>
-            <p class='mx-6 px-6'>Select any individual match from the Home Page or Match Search, then select edit or delete from the administration panel on the match detail page</p>
+            <h2 class="title is-4 mb-2 my_info_colour is-size-5-mobile">Edit or Delete a Match</h2>
+            <p class='is-size-7-mobile'>Select any individual match from the Home Page or Match Search, then select edit or delete from the administration panel on the match detail page</p>
         </div>
 
         <!-- EDIT CLUB AND REFEREE NAMES -->
         <div class="mt-5 p-5 my_info_colour p-3">
-            <h2 class="title is-4 mb-2 my_info_colour">Edit Names</h2>
-            <p>Editing Names will only impact data added in future, not historic results.</p>
+            <h2 class="title is-4 mb-2 my_info_colour is-size-5-mobile">Edit Names</h2>
+            <p class="is-size-6-mobile">Editing Names will only impact data added in future, not historic results.</p>
             <div class="my-4">
                 <form action="" method="POST" class="level">
                     <div class="select is-info my_medium_form_item">
-                        <select required class="level-item my_medium_form_item" name="select_ref" id="edit_ref_select">
+                        <select required class=" my_medium_form_item" name="select_ref" id="edit_ref_select">
                             <?php
                                 require("../part_pages/part_referee_selector.php");
                             ?>
@@ -101,7 +101,7 @@
 
             <!-- Delete Referees or clubs -->
             <div class="mt-5 p-5 my_info_colour p-3">
-                <h2 class="title is-4 mb-2 my_info_colour">Delete Data</h2>
+                <h2 class="title is-4 mb-2 my_info_colour is-size-5-mobile">Delete Data</h2>
                 <p class='my-4'>Data cannot be deleted if it currently forms part of any match record</p>
                 <div class='my-4 level-item'>
                     <form action="" method="POST" class="level">
@@ -124,7 +124,7 @@
                 </div>
                 <div class='my-4 level-item'>
                     <form action="" method="POST" class="level">
-                        <div class="select is-info ">
+                        <div class="select is-info level-item">
                             <select required class="my_medium_form_item" name="select_delete_ref" id="delete_ref_select">
                                 <?php
                                     require("../part_pages/part_referee_selector.php");
@@ -143,7 +143,7 @@
                 </div>
                 <div class='my-4 level-item'>
                     <form action="" method="POST" class="level">
-                        <div class="select is-info ">
+                        <div class="select is-info level-item">
                             <select required class="my_medium_form_item" name="delete_season_select" id="delete_season_select">
                                 <?php
                                     require("../part_pages/part_season_select.php");
@@ -167,12 +167,11 @@
                     <div class="column is-6 is-offset-3">
                     <!-- registration section -->
                     <div class="mt-3">
-                        <h2 class='title is-4 pt-4'>Add a new Administrator</h2>
-                        <p class='mt-2 has-text-left'>* Required</p>
-                        <form class="form control" 
-                        action="" method="POST">
+                        <h2 class='title is-4 pt-4 is-size-5-mobile'>Add a new Administrator</h2>
+                        <p class='subtitle is-6 mt-2 has-text-left'>* Required</p>
+                        <form class="form control" action="" method="POST">
                             <div>
-                                <label class="label mt-3 has-text-left" for="">* Admin First Name :</label>
+                                <label class="label is-size-6-mobile mt-3 has-text-left" for="">* Admin First Name :</label>
                                 <div class='control'>
                                     <input class="input" required name="admin_register_firstname" type="text" minlength="3" maxlength="15">
                                 </div>
@@ -194,7 +193,7 @@
                                 <div class='control'>
                                     <input class="input " required name="admin_register_pw1" minlength='8' type="password" placeholder="Enter admin temporary password here">
                                 </div>
-                                <label class="label mt-3 has-text-left" for="">* Please reenter temporary password :</label>
+                                <label class="label mt-3 has-text-left" for="">* Please reenter password :</label>
                                 <div class='control'>
                                     <input class="input" required name="admin_register_pw2" minlength='8' type="password" placeholder="Reenter password here">
                                 </div>

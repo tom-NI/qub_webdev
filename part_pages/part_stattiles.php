@@ -163,9 +163,9 @@
                 <div class='tile is-12 pt-5'>
                     <p><b>{$finalTitle}:</b></p>
                 </div>
-                <div class='tile is-12 is-mobile is-parent'>
-                    <div class='is-child box tile'>
-                        <div class='level my-2 is-mobile'>
+                <div class='tile is-12 is-parent level is-mobile'>
+                    <div class='box tile is-child'>
+                        <div class='level my-2'>
                             <div class='level-left level-item my_level_wrap'>
                                 <p class='has-text-left p-1'>{$lowTeamName}</p>
                             </div>
@@ -180,8 +180,8 @@
                             <p class='subtitle is-7'>{$lowRatioPG} per match</p>
                         </div>
                     </div>
-                    <div class='is-child box tile'>
-                        <div class='level my-2 is-mobile'>
+                    <div class='box tile is-child'>
+                        <div class='level my-2'>
                             <div class='level-left level-item my_level_wrap'>
                                 <p class='has-text-left p-1'>{$highTeamName}</p>
                             </div>

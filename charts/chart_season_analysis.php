@@ -30,9 +30,7 @@
                 }
             },
             fontSize: 16,
-            width: 800,
-            height: 1000,
-            chartArea: {left: 300, top:25, 'width': '70%', 'height': '90%'},
+            chartArea: {left:150, top: 10, bottom: 100, 'width': '100%', 'height': '100%'},
             series: {
                 0: {targetAxisIndex: 0},
             },
@@ -42,5 +40,9 @@
         // Instantiate and draw chart
         var seasonChart = new google.visualization.BarChart(document.getElementById('season_analysis_chart'));
         seasonChart.draw(view, options);
+
+        $(window).resize(function(){
+            drawSeasonChart();
+        });
     }
 </script>

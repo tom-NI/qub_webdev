@@ -45,7 +45,7 @@
 
         $presentableMatchDate = parseDateLongFormat($matchdate);
         if (strlen($kickofftime) > 0) {
-            $kickoffParagraph = "<p class='p-2 mx-1 is-size-7-mobile'>Kick Off : {$kickofftime}</p>";
+            $kickoffParagraph = "<p class='p-2 mx-1 is-size-7-mobile'>Kick Off: {$kickofftime}</p>";
         } else {
             $kickoffParagraph = "";
         }
@@ -133,8 +133,8 @@
             $dbDate = $fixture['match_date'];
             $singleMatchData[] = parseDateShortFormat($dbDate);
             if ($percentNeedsCalculated) {
-                $singleMatchData[] = calculatePercentageAsInt($fixture['hometeamshotsontarget'], $fixture['hometeamshots']);
-                $singleMatchData[] = calculatePercentageAsInt($fixture['awayteamshotsontarget'], $fixture['awayteamshots']);
+                $singleMatchData[] = calculatePercentageAsInt($fixture['home_team_shots_on_target'], $fixture['home_team_shots']);
+                $singleMatchData[] = calculatePercentageAsInt($fixture['away_team_shots_on_target'], $fixture['away_team_shots']);
             } else {
                 $singleMatchData[] = (int) $fixture[$homeStatKey];
                 $singleMatchData[] = (int) $fixture[$awayStatKey];

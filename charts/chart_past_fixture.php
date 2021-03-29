@@ -35,9 +35,7 @@
                 }
             },
             fontSize: 16,
-            width: 800,
-            height: 500,
-            chartArea: {left: 75, top:40, 'width': '70%', 'height': '75%'},
+            chartArea: {left: 75, top:15, bottom:160, 'width': '95%', 'height': '75%'},
             series: {
                 0: {targetAxisIndex: 0},
             },
@@ -51,5 +49,9 @@
         // Instantiate and draw our chart, passing in some options.
         var columnChart = new google.visualization.ColumnChart(document.getElementById('former_fixtures_chart'));
         columnChart.draw(dataView, options);
+
+        $(window).resize(function(){
+            drawStatisticChart();
+        });
     }
 </script>

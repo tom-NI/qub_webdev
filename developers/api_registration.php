@@ -25,7 +25,7 @@
     <section class="hero is-info is-bold pt-6">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-4">Developer API Registration</h1>
+                <h1 class="title mt-4 is-size-3 is-size-5-mobile">Developer API Registration</h1>
             </div>
         </div>
     </section>
@@ -45,36 +45,41 @@
             <!-- registration section -->
             <div class="my_grey_highlight_para p-3 mt-1">
                 <div class="mt-3">
-                    <h2 class='title is-4 p-4'>Register for a developer API key</h2>
-                    <p class="has-text-left">* Required Fields</p>
+                    <h2 class='title is-4 is-size-5-mobile p-4'>Register for a developer API key</h2>
+                    <p class="has-text-left is-size-6-mobile">* Required Fields</p>
                     <form class="form control" action="api_registration.php" method="POST">
                         <div>
-                            <label class="label mt-3 has-text-left" for="">* First Name :</label>
+                            <label class="label mt-3 has-text-left is-size-6-mobile" for="">* First Name :</label>
                             <div class='control'>
                                 <input class="input" required name="developer_firstname" type="text" minlength="3" maxlength="15">
                             </div>
                         </div>
                         <div>
-                            <label class="label mt-3 has-text-left" for="">* Surname :</label>
+                            <label class="label mt-3 has-text-left is-size-6-mobile" for="">* Surname :</label>
                             <div class='control'>
                                 <input class="input" required name="developer_surname" type="text" minlength="1" maxlength="15">
                             </div>
                         </div>
                         <div>
-                            <label class="label mt-3 has-text-left" for="">* Email address :</label>
-                            <p class="has-text-left m-2">The key will be sent to the email address entered here.</p>
+                            <label class="label mt-3 has-text-left is-size-6-mobile" for="">* Email address :</label>
+                            <p class="has-text-left m-2 is-size-7-mobile">The key will be sent to the email address entered here.</p>
                             <div class='control'>
                                 <input class="input" required name="developer_email" type="email">
                             </div>
                         </div>
                         <div>
-                            <label class="label mt-3 has-text-left" for="">* Organisation Name : (max 20 characters)</label>
+                            <label class="label mt-3 has-text-left is-size-6-mobile" for="">* Organisation Name : (max 20 characters)</label>
                             <div class='control'>
                                 <input class="input" required minlength='4' maxlength='20' name="developer_org" type="text">
                             </div>
                         </div>
                         <div>
-                            <button class="button is-danger m-4" name="register_for_api">Register</button>
+                        <button class="button is-danger m-4" name="register_for_api">
+                            <span class="icon">
+                                <i class="far fa-clipboard"></i>
+                            </span>
+                            <span>Register</span>
+                        </button>
                         </div>
                     </form>
                 </div>

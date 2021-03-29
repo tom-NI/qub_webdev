@@ -14,7 +14,7 @@
     </div>
     <div class='navbar-menu'>
         <div class='navbar-start'>
-            <a class='navbar-item my_nav_menu m-2 ml-6' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/index.php'>Home</a>
+            <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/index.php'>Home</a>
             <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_advanced_search.php'>Match Search</a>
             <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_fixture_analysis.php'>Analyse Fixtures</a>
             <a class='navbar-item my_nav_menu m-2' href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_chart_season.php'>Chart Season Stats</a>
@@ -34,10 +34,11 @@
                 if (isset($_SESSION['sessiontype']) && strlen($_SESSION['sessiontype']) > 0) {
                     $username = $_SESSION['username'];
                     if ($_SESSION['sessiontype'] == "admin") {
-                        echo "<p class='mx-5 my_info_colour'>Admin - Signed in as {$username}</p>";
+                        echo "<p class='mx-5 m-2'>Admin - Signed in as {$username}</p>";
                     } else {
-                        echo "<p class='mx-5 my_info_colour'>Signed in as {$username}</p>";
+                        echo "<p class='mx-5 m-2'>Signed in as {$username}</p>";
                     }
+
                     // logout button (goes to a seperate php logout script)
                     echo "
                     <form action='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/logic_files/logout_logic.php?logout' method='POST'>

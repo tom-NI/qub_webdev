@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="stylesheets/mystyles.css">
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
     <title>EPL Match Result</title>
 </head>
 
@@ -24,16 +25,15 @@
     <section class="hero is-info is-bold pt-6">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-2">Chart Past Season Statistics</h1>
-                
+                <h1 class="title mt-2 is-size-3 is-size-5-mobile">Chart Past Season Statistics</h1>
             </div>
         </div>
     </section>
 
         <div class='master_site_width'>
             <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered my_info_colour mt-6 p-5'>
-                <p class='my_info_colour title is-5'>Select Season and Statistic to customise the chart</p>
-                <form class='level-item form' action="page_chart_season.php" method='GET'>
+                <p class='my_info_colour title is-5 is-size-6-mobile'>Select Season and Statistic to customise the chart</p>
+                <form class='level form' action="page_chart_season.php" method='GET'>
                     <div class='select level-item'>
                         <select name="season_pref" id="season_chart_select">
                             <?php
@@ -41,9 +41,9 @@
                             ?>
                         </select>
                     </div>
-                    <div class='level-item control has-icons-left mx-4'>
-                        <div class='level-item select is-info'>
-                            <select class='level-item' name='stattile_statistic'>
+                    <div class='level-item control has-icons-left mx-3'>
+                        <div class='select is-info'>
+                            <select class='' name='stattile_statistic'>
                                 <?php
                                     require(__DIR__ . "/part_pages/part_stattiles_stats_selector.php");
                                 ?>
@@ -70,11 +70,15 @@
                         </div>";
                 } else {
                     echo "
-                        <div id='my_comparison_stat_list' class='mt-4'>
-                            <h3 class='title is-4 mt-6'>{$season} Season Analysis Chart</h3>
-                            <p class='title is-5 mb-0 pb-0'>Total {$statToAnalyze}</p>
-                            <div class='column' id='season_analysis_chart'></div>
+                        <div id='my_comparison_stat_list' class='mt-4 column is-10 is-offset-1'>
+                            <h3 class='title is-4 is-size-5-mobile mt-6'>{$season} Season Analysis Chart</h3>
+                            <p class='title is-5 is-size-6-mobile mb-0 pb-0'>Total {$statToAnalyze}</p>
+                        </div>
+
+                        <div id='my_comparison_stat_list' class='mt-4 column is-8 is-offset-1'>
+                            <div class='column my_google_season_chart' id='season_analysis_chart'></div>
                         </div>";
+
                     include_once(__DIR__ . "/charts/chart_season_analysis.php"); 
                 }
             ?>

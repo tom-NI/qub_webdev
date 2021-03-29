@@ -26,8 +26,8 @@
     <section class="hero is-info is-bold pt-4">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-2">Search Matches</h1>
-                <p class="subtitle is-5 mt-2">Filter results on the panel provided</p>
+                <h1 class="title mt-3 is-size-3 is-size-5-mobile">Search Matches</h1>
+                <p class="subtitle is-5 is-size-6-mobile mt-2">Filter results on the panel provided</p>
             </div>
         </div>
     </section>
@@ -36,10 +36,10 @@
         <!-- filter panel -->
         <div>
         <div class="p-3 mt-5 my_info_colour column is-8 is-offset-2">
-            <div class="column level mt-2 is-12 is-centered mb-3">
-                <div class='level'>
-                    <span class="level-item level-left ">
-                        <span class="title is-4 my_info_colour ml-4">Find Matches :</span>
+            <div class="column my-3 is-12 is-centered mb-5">
+                <div class='level is-mobile'>
+                    <span class="level-item level-left">
+                        <span class="title is-4 is-size-5-mobile my_info_colour ml-4">Find Matches :</span>
                     </span>
                     <span id='collapse_info' class="level-item level-right mr-4">
                         <i class="fas fa-info"></i>
@@ -48,14 +48,14 @@
             </div>
             <div id='search_info_box' class="column is-12 is-centered my_collapsing_div">
                 <ul>
-                    <li class="subtitle is-5 my_info_colour has-text-left ml-4">
+                    <li class="subtitle is-5 is-size-6-mobile my_info_colour has-text-left ml-4">
                     Search Information:
                     </li>
-                    <li class="subtitle is-6 my_info_colour has-text-left ml-4">
+                    <li class="subtitle is-6 is-size-7-mobile my_info_colour has-text-left ml-4">
                     1) Searching for two clubs without home and way goals will show all matches for both clubs.</li>
-                    <li class="subtitle is-6 my_info_colour has-text-left ml-4">
+                    <li class="subtitle is-6 is-size-7-mobile my_info_colour has-text-left ml-4">
                     2) Searching for two clubs with home and away goals will strictly match the fixture.</li>
-                    <li class="subtitle is-6 mb-5 my_info_colour has-text-left ml-4">
+                    <li class="subtitle is-6 is-size-7-mobile mb-5 my_info_colour has-text-left ml-4">
                     3) Searching for two clubs with either home or away goals will return any result of those two clubs where the home/away result matches.</li>
                 </ul>
             </div>
@@ -63,7 +63,7 @@
         <form action="page_advanced_search.php?userfilter" method="GET">
             <div class="columns is-centered">
                 <div class="column is-6">
-                    <div class="level ml-4">
+                    <div class="level is-mobile mx-4">
                         <span class="level-item level-left">Club :</span>
                         <div class="level-right">
                             <div class="select is-info">
@@ -78,7 +78,7 @@
                         </div>
                     </div>
 
-                    <div class="level ml-4">
+                    <div class="level is-mobile mx-4">
                         <span for="filter_fixture_selector_checkbox" class="level-item level-left">Opposition :</span>
                         <div class="select is-info level-right">
                             <select name="at_selector" id="at_selector" class="level-item my_filter_select_width">
@@ -89,7 +89,7 @@
                         </div>
                     </div>
 
-                    <div class="level ml-4">
+                    <div class="level is-mobile mx-4">
                         <span for="filter_season_selector" class="level-item level-left">Season :</span>
                         <div class="select is-info level-right">
                             <select name="season_pref" id="filter_season_selector" class="level-item select control my_filter_select_width">
@@ -103,7 +103,7 @@
                         </div>
                     </div>
 
-                    <div class="level ml-4">
+                    <div class="level is-mobile mx-4">
                         <span for="filter_home_score" class="level-item level-left">Home Goals :</span>
                         <div>
                             <div class="level-right">
@@ -123,7 +123,7 @@
                 </div>
 
                 <div class="column is-6">
-                    <div class="level mx-4">
+                    <div class="level is-mobile mx-4">
                         <span class="level-item level-left">Away Goals :</span>
                         <div class="level-right">
                             <div class="control">
@@ -138,7 +138,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="level mx-4">
+                    <div class="level is-mobile mx-4">
                         <span class="level-item level-left">Win Margin (Goals) :</span>
                         <div>
                             <div class="level-right">
@@ -155,7 +155,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="level mx-4">
+                    <div class="level is-mobile mx-4">
                         <span class="level-item level-left">Month :</span>
                         <div class="select is-info level-right">
                             <div class="select">
@@ -167,7 +167,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="level mx-4">
+                    <div class="level is-mobile mx-4">
                         <span class="level-item level-left">Referee :</span>
                         <div class="select is-info my_inline_divs">
                             <select name="referee_selector" id="filter_referee_selector" class="my_filter_select_width select">
@@ -186,7 +186,7 @@
                             <span class="icon is-left">
                                 <i class="fas fa-search"></i>
                             </span>
-                            <span>Find Match Results</span>    
+                            <span>Find Matches</span>
                         </button>
                     </div>
                 </div>

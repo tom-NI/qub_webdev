@@ -16,6 +16,7 @@
     <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
     <title>EPL Match Result</title>
 </head>
 
@@ -26,54 +27,58 @@
     <section class="hero is-info is-bold pt-6">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title mt-2">Match Result</h1>
+                <h1 class="title mt-2 is-size-3 is-size-5-mobile">Match Result</h1>
             </div>
         </div>
     </section>
 
     <!-- main page starts here -->
         <div class='master_site_width'>
-            <div class='mt-6 mx-4'>
-                <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered' >
-                    <div class='container box columns is-centered my_box_border m-2 mb-5 p-3' >
-                        <div class='columns level is-mobile is-centered'>
-                            <div class='column is-narrow level-item'>
-                                <div class='is-pulled-right'>
-                                    <?php echo "<img class='image is-96x96 m-4 my_image_maintain_aspect' src='{$hometeamlogoURL}' alt='Home Logo'>"; ?>
-                                </div>
+            <div class='mt-3 mx-4'>
+                <div class='column is-mobile is-8 is-offset-2 is-12-mobile is-vcentered' >
+                    <div class='container box columns is-centered my_box_border m-2 mb-5 p-3'>
+                        <div class="column is-12">
+                            <div class='mx-1 is-12'>
+                                <p class="is-size-7-mobile pb-3"><?php echo "{$presentableMatchDate}"; ?></p>
                             </div>
-                            <div class='column is-centered level-centre'>
-                                <div class='is-centered is-vertical'>
-                                    <p class='p-2 mx-1 is-size-7-mobile'> <?php echo "{$presentableMatchDate}"; ?> </p>
-                                    <?php echo "{$kickoffParagraph}"; ?>
-                                    <p class='p-2 mx-1 is-size-7-mobile'>Referee : <?php echo "{$refereename}"; ?> </p>
+                            <div class='columns level is-mobile is-centered'>
+                                <div class='column is-narrow level-item m-1'>
+                                    <div class='is-pulled-right'>
+                                        <?php echo "<img class='image ml-4 m-2 my_club_logo' src='{$hometeamlogoURL}' alt='Home Logo'>"; ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class='column is-narrow level-item'>
-                                <?php echo "<img class='image is-96x96 m-4 my_image_maintain_aspect' src='{$awayteamlogoURL}' alt='Away Logo'>"; ?>
+                                <div class='column is-one-desktop is-half-tablet is-centered level-centre mx-3 my-0 p-0'>
+                                    <div class='is-centered is-vertical'>
+                                        <?php echo "{$kickoffParagraph}"; ?>
+                                        <p class='p-2 mx-1 is-size-7-mobile'>Referee: <?php echo "{$refereename}"; ?> </p>
+                                    </div>
+                                </div>
+                                <div class='column is-narrow level-item m-1'>
+                                    <?php echo "<img class='image mr-4 m-2 my_club_logo' src='{$awayteamlogoURL}' alt='Away Logo'>"; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
                 <div class='container box column is-centered my_box_border m-2 mb-5 mt-5 p-1'>
                     <div class='columns is-mobile is-vcentered is-centered'>
-                        <div class='column'>
-                            <h4 class='is-size-5 is-size-6-mobile has-text-right mx-3'><b> <?php echo "{$hometeam}"; ?></b>
+                        <div class='column mt-3 pr-1'>
+                            <h4 class='is-size-5 is-size-6-mobile has-text-right mx-1'><b> <?php echo "{$hometeam}"; ?></b>
                             </h4>
                         </div>
-                        <div class='column level is-narrow m-3 mt-6 p-0'>
+                        <div class='column level is-narrow m-1 mt-6 p-0'>
                             <div class='my_inline_divs result_box level-left'>
                                 <p class='column is-size-5 is-size-6-mobile level-item p-1'> <?php echo "{$hometeamtotalgoals}"; ?></p>
                             </div>
                             <div class='my_inline_divs level-centre'>
-                                <h4 class='level-item mx-2'>vs.</h4>
+                                <h4 class='level-item mx-1 is-size-7-mobile'>vs.</h4>
                             </div>
                             <div class='my_inline_divs result_box level-right'>
                                 <p class='is-size-5 column is-size-6-mobile level-item p-1'> <?php echo "{$awayteamtotalgoals}"; ?></p>
                             </div>
-                            <p class='m-2 subtitle is-6'>Full Time</p>
+                            <p class='m-2 subtitle is-6 is-size-7-mobile'>Full Time</p>
                         </div>
-                        <div class='column'>
-                            <h4 class='is-size-5 is-size-6-mobile has-text-left mx-3'><b> <?php echo "{$awayteam}"; ?><b></h4>
+                        <div class='column mt-3 pl-1'>
+                            <h4 class='is-size-5 is-size-6-mobile has-text-left mx-1'><b> <?php echo "{$awayteam}"; ?><b></h4>
                         </div>
                     </div>
                 </div>
@@ -84,25 +89,31 @@
                         echo "
                             <div class='level is-centered my_grey_highlight_para p-5'>
                                 <div class='level-item level-left'>
-                                    <p class='mx-3 subtitle is-5'>Administrate this result :</p>
+                                    <p class='mb-3 subtitle is-5 is-size-6-mobile has-text-weight-semibold'>Administrate this result :</p>
                                 </div>
-                                <div class='level-item level-right'>
-                                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_edit_match.php?num={$postedMatchID}'>
-                                        <button class='mx-3 button is-rounded is-info'>
-                                            <span class='icon is-left'>
-                                                <i class='fas fa-pen'></i>
-                                            </span>
-                                            <span>Edit Match</span>
-                                        </button>
-                                    </a>
-                                    <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/logic_files/delete_match_logic.php?deletematch&num={$postedMatchID}'>
-                                        <button id='delete_match_btn' class='mx-3 button is-rounded is-info'>
-                                            <span class='icon is-left'>
-                                                <i class='fas fa-trash'></i>
-                                            </span>
-                                            <span>Delete Match</span>
-                                        </button>
-                                    </a>
+                                <div class='level-item'>
+                                    <div class='level'>
+                                        <div class='level-item'>
+                                        <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/admin_cms/cms_edit_match.php?num={$postedMatchID}'>
+                                            <button class='mx-3 button is-rounded is-info'>
+                                                <span class='icon is-left'>
+                                                    <i class='fas fa-pen'></i>
+                                                </span>
+                                                <span>Edit Match</span>
+                                            </button>
+                                            </a>
+                                        </div>
+                                        <div class='level-item'>
+                                            <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/logic_files/delete_match_logic.php?deletematch&num={$postedMatchID}'>
+                                                <button id='delete_match_btn' class='mx-3 button is-rounded is-info'>
+                                                    <span class='icon is-left'>
+                                                        <i class='fas fa-trash'></i>
+                                                    </span>
+                                                    <span>Delete Match</span>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>";
                         }
@@ -114,9 +125,9 @@
                 </div>
 
                 <!-- div with a button for fixture analysis -->
-                <div class='level is-mobile is-centered my_grey_highlight_para p-4 mt-6'>
-                    <div class="level-item level-left p-4 pb-0 ml-4">
-                        <h2 class='is-size-4 has-text-weight-semibold'>Full fixture analysis</h2>
+                <div class='level is-centered my_grey_highlight_para p-4 mt-6'>
+                    <div class="level-item level-left ml-4">
+                        <h2 class='is-size-4 is-size-6-mobile has-text-weight-semibold'>Full fixture analysis</h2>
                     </div>
                     <form action="page_fixture_analysis.php?" method='GET' class='level-item level-right'>
                         <input type="hidden" name='ht_selector' value=<?php echo $homeTeamSearched ?>>
@@ -133,9 +144,9 @@
                 <div id='my_comparison_stat_list' class='my-6'>
                     <div class='my_info_colour'>
                         <?php
-                            echo "<h2 class='title is-4 pt-5 mb-2 my_info_colour'>{$hometeam} vs {$awayteam} - Recent Fixture Analysis</h2>";
+                            echo "<h2 class='title is-4 is-size-5-mobile pt-5 mb-2 my_info_colour'>{$hometeam} vs {$awayteam} - Recent Fixture Analysis</h2>";
                         ?>
-                        <p class='px-6 pt-3 my_info_colour'>Draw a Graph of Premier League match statistics (including the reverse fixture) for five previous meetings</p>
+                        <p class='px-6 pt-3 is-5 is-size-7-mobile my_info_colour'>Draw a Graph of Premier League match statistics (including the reverse fixture) for five previous meetings</p>
                         <div class='level py-5'>
                             <div class='level-item'>
                                 <p>Select a statistic to compare :</p>
@@ -143,9 +154,9 @@
                             <form class='level-item form p-0'
                                 action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?num=<?php echo "$postedMatchID" ?>" 
                                 method='POST'>
-                                <div class='level-item control has-icons-left'>
+                                <div class='level-item control has-icons-left m-0 p-0'>
                                     <div class='level-item select is-info'>
-                                        <select class='level-item' name='analyzed_statistic'>
+                                        <select class='level-item my_stat_select' name='analyzed_statistic'>
                                             <?php
                                                 require(__DIR__ . "/part_pages/part_stat_selector.php");
                                             ?>
@@ -171,10 +182,10 @@
                         } else {
                             echo"
                             <div class='mt-4 column'>
-                                <h3 class='title is-4 mt-3'>Statistics for preceding {$previousMatchCount} matches</h3>
-                                <p class='title is-5 mb-0 pb-0'>{$statToAnalyze} between {$hometeam} and {$awayteam}</p>
-                                <div class='column' id='former_fixtures_chart'></div>
-                            </div>";
+                                <h3 class='title is-4 is-size-5-mobile mt-3'>Statistics for preceding {$previousMatchCount} matches</h3>
+                                <p class='title is-5 is-size-6-mobile mb-0 pb-0'>{$statToAnalyze} between {$hometeam} and {$awayteam}</p>
+                                </div>
+                            <div class='column my_google_chart' id='former_fixtures_chart'></div>";
                             include_once(__DIR__ . "/charts/chart_past_fixture.php");
                         }
                     ?>

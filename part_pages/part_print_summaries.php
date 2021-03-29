@@ -50,7 +50,7 @@
                         <div id='' class='master_result_card container box column is-centered my_box_border m-2 mb-5 mt-5 p-1'>
                             <div class='columns' >
                                 <div class='column'>
-                                    <div class='is-size-6 mt-3 is-size-7-mobile my_inline_divs level-item'>{$finalMatchDate}</div>
+                                    <div class='is-6 is-size-7-mobile mt-3 my_inline_divs level-item'>{$finalMatchDate}</div>
                                 </div>
                             </div>
                             <div class='columns is-mobile is-vcentered is-centered'>
@@ -59,26 +59,22 @@
                                         <img class='image is-48x48 m-1 mb-5 my_image_maintain_aspect' src='{$homeLogo}' alt='Home Logo'>
                                     </div>
                                 </div>
-                                <div class='column'>
-                                    <h4 class='is-size-6 is-size-6-mobile has-text-right is-narrow'>
-                                        <b>{$homeTeam}</b>
-                                    </h4>
+                                <div class='column p-1'>
+                                    <h4 class='is-size-6 is-size-7-mobile has-text-right is-narrow has-text-weight-semibold pb-2 ml-1'>{$homeTeam}</h4>
                                 </div>
-                                <div class='column level mt-4 is-narrow'>
+                                <div class='column level mt-3 score_box is-narrow'>
                                     <div class='my_inline_divs result_box level-left'>
                                         <p class='column is-size-5 is-size-6-mobile level-item p-1'>{$homeScore}</p>
                                     </div>
                                     <div class='my_inline_divs level-centre'>
-                                        <h4 class='level-item mx-2 is-size-7-mobile'>vs.</h4>
+                                        <h4 class='level-item mx-1 is-size-7-mobile'>vs.</h4>
                                     </div>
                                     <div class='my_inline_divs result_box level-right'>
                                         <p class='is-size-5 is-size-6-mobile column level-item p-1'>{$awayScore}</p>
                                     </div>
                                 </div>
-                                <div class='column'>
-                                    <h4 class='is-size-6 is-size-6-mobile has-text-left is-narrow'>
-                                        <b>{$awayTeam}</b>
-                                    </h4>
+                                <div class='column p-1'>
+                                    <h4 class='is-size-6 is-size-7-mobile has-text-left is-narrow has-text-weight-semibold pb-2 mr-1'>{$awayTeam}</h4>
                                 </div>
                                 <div class='column is-2 is-hidden-mobile is-narrow'>
                                     <img class='image is-48x48 m-1 mb-5 my_image_maintain_aspect'
