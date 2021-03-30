@@ -141,7 +141,9 @@
 
         // only calculate the stats if there is data to display
         if (count($fixtureList) > 0) {
+            // now loop through every match and calculate statistics
             foreach($fixtureList as $singleMatch) {
+                // count major statistics regardless of clubs
                 $pastMeetingCount++;
                 $overallTotalGoalsScored += $singleMatch['home_team_total_goals'];
                 $overallTotalGoalsScored += $singleMatch['away_team_total_goals'];
@@ -154,185 +156,131 @@
                 if ($singleMatch['home_team_total_goals'] == $singleMatch['away_team_total_goals']) {
                     $totalDraws++;
                 }
-                
-                // count the correct team stats based on name
+
+                // check teams order and set $singlematch [keys] accordingly for checking each match
                 if ($teamA === $singleMatch['home_team']) {
-                    // check the teams (for reverse fixtures) for each match and switch logic to correct team;
-                    if ($singleMatch['home_team_total_goals'] > $singleMatch['away_team_total_goals']) {
-                        $teamAwinCount++;
-                    } elseif ($singleMatch['home_team_total_goals'] < $singleMatch['away_team_total_goals']) {
-                        $teamBwinCount++;
-                    }
-                    // analyse all home team goals
-                    if ($singleMatch['home_team_total_goals'] == 0) {
-                        $teamBcleanSheetCount++;
-                    } else {
-                        $teamAgoalsScored += $singleMatch['home_team_total_goals'];
-                        if ($singleMatch['home_team_total_goals'] > $teamAGoalsMax) {
-                            $teamAGoalsMax = $singleMatch['home_team_total_goals'];
-                            $teamAGoalsDate = $singleMatch['match_date'];
-                        }
-                    }
-                    if ($singleMatch['away_team_total_goals'] == 0) {
-                        $teamAcleanSheetCount++;
-                    } else {
-                        $teamBgoalsScored += $singleMatch['away_team_total_goals'];
-                        if ($singleMatch['away_team_total_goals'] > $teamBGoalsMax) {
-                            $teamBGoalsMax = $singleMatch['away_team_total_goals'];
-                            $teamBGoalsDate = $singleMatch['match_date'];
-                        }
-                    }
-                    // analyze shots
-                    if ($singleMatch['home_team_shots'] > $teamAShotsMax) {
-                        $teamAShotsMax = $singleMatch['home_team_shots'];
-                        $teamAShotsMaxDate = $singleMatch['match_date'];
-                    }
-                    if ($singleMatch['away_team_shots'] > $teamBShotsMax) {
-                        $teamBShotsMax = $singleMatch['away_team_shots'];
-                        $teamBShotsMaxDate = $singleMatch['match_date'];
-                    }
-                    // yellow cards
-                    if ($singleMatch['home_team_yellow_cards'] > $teamAYellowCardsMax) {
-                        $teamAYellowCardsMax = $singleMatch['home_team_yellow_cards'];
-                        $teamAYellowCardsMaxDate = $singleMatch['match_date'];
-                    }
-                    if ($singleMatch['away_team_yellow_cards'] > $teamBYellowCardsMax) {
-                        $teamBYellowCardsMax = $singleMatch['away_team_yellow_cards'];
-                        $teamBYellowCardsMaxDate = $singleMatch['match_date'];
-                    }
-
-                    // red cards
-                    if ($singleMatch['home_team_red_cards'] > $teamARedCardsMax) {
-                        $teamARedCardsMax = $singleMatch['home_team_red_cards'];
-                        $teamARedCardsMaxDate = $singleMatch['match_date'];
-                    }
-                    if ($singleMatch['away_team_red_cards'] > $teamBRedCardsMax) {
-                        $teamBRedCardsMax = $singleMatch['away_team_red_cards'];
-                        $teamBRedCardsMaxDate = $singleMatch['match_date'];
-                    }
-
-                    // calculate "won by half time" logic
-                    if (($singleMatch['home_team_half_time_goals'] > $singleMatch['away_team_half_time_goals']) 
-                    && ($singleMatch['home_team_total_goals'] > $singleMatch['away_team_total_goals'])) {
-                        $teamAwonHalfTimeCount++;
-                    }
-                    if (($singleMatch['home_team_half_time_goals'] < $singleMatch['away_team_half_time_goals']) 
-                        && ($singleMatch['home_team_total_goals'] < $singleMatch['away_team_total_goals'])) {
-                            $teamBwonHalfTimeCount++;
-                    }
-
-                    // now count max fouls and set the date for both teams
-                    if (($singleMatch['home_team_fouls'] > $teamAFoulsMax)) {
-                        $teamAFoulsMax = $singleMatch['home_team_fouls'];
-                        $teamAFoulsMaxDate = $singleMatch['match_date'];
-                    }
-                    if (($singleMatch['away_team_fouls'] > $teamBFoulsMax)) {
-                        $teamBFoulsMax = $singleMatch['away_team_fouls'];
-                        $teamBFoulsMaxDate = $singleMatch['match_date'];
-                    }
-
-                    // count up simple metrics
-                    $teamAShots += $singleMatch['home_team_shots'];
-                    $teamBShots += $singleMatch['away_team_shots'];
-                    $teamAShotsOnTarget += $singleMatch['home_team_shots_on_target'];
-                    $teamBShotsOnTarget += $singleMatch['away_team_shots_on_target'];
-                    $teamAcorners += $singleMatch['home_team_corners'];
-                    $teamBcorners += $singleMatch['away_team_corners'];
-                    $teamAfouls += $singleMatch['home_team_fouls'];
-                    $teamBfouls += $singleMatch['away_team_fouls'];
-                    $teamAyellowCards += $singleMatch['home_team_yellow_cards'];
-                    $teamByellowCards += $singleMatch['away_team_yellow_cards'];
-                    $teamARedCards += $singleMatch['home_team_red_cards'];
-                    $teamBRedCards += $singleMatch['away_team_red_cards'];
+                    $teamATotalGoalsKey = 'home_team_total_goals';
+                    $teamBTotalGoalsKey = 'away_team_total_goals';
+                    $teamAHtGoalsKey = 'home_team_half_time_goals';
+                    $teamBHtGoalsKey = 'away_team_half_time_goals';
+                    $teamAShotsKey = 'home_team_shots';
+                    $teamBShotsKey = 'away_team_shots';
+                    $teamAShotsOTKey = 'home_team_shots_on_target';
+                    $teamBShotsOTKey = 'away_team_shots_on_target';
+                    $teamACornersKey = 'home_team_corners';
+                    $teamBCornersKey = 'away_team_corners';
+                    $teamAFoulsKey = 'home_team_fouls';
+                    $teamBFoulsKey = 'away_team_fouls';
+                    $teamAYellowCardsKey = 'home_team_yellow_cards';
+                    $teamBYellowCardsKey = 'away_team_yellow_cards';
+                    $teamARedCardsKey = 'home_team_red_cards';
+                    $teamBRedCardsKey = 'away_team_red_cards';
                 } elseif ($teamA === $singleMatch['away_team']) {
-                    // its a reverse fixture, so count the other way round!!    
-                    if ($singleMatch['away_team_total_goals'] > $singleMatch['home_team_total_goals']) {
-                        $teamAwinCount++;
-                    } elseif ($singleMatch['away_team_total_goals'] < $singleMatch['home_team_total_goals']) {
-                        $teamBwinCount++;
-                    }
-                    // analyse all home team goals
-                    if ($singleMatch['away_team_total_goals'] == 0) {
-                        $teamBcleanSheetCount++;
-                    } else {
-                        $teamAgoalsScored += $singleMatch['away_team_total_goals'];
-                        if ($singleMatch['away_team_total_goals'] > $teamAGoalsMax) {
-                            $teamAGoalsMax = $singleMatch['away_team_total_goals'];
-                            $teamAGoalsDate = $singleMatch['match_date'];
-                        }
-                    }
-                    if ($singleMatch['home_team_total_goals'] == 0) {
-                        $teamAcleanSheetCount++;
-                    } else {
-                        $teamBgoalsScored += $singleMatch['home_team_total_goals'];
-                        if ($singleMatch['home_team_total_goals'] > $teamBGoalsMax) {
-                            $teamBGoalsMax = $singleMatch['home_team_total_goals'];
-                            $teamBGoalsDate = $singleMatch['match_date'];
-                        }
-                    }
-                    // analyze shots
-                    if ($singleMatch['away_team_shots'] > $teamAShotsMax) {
-                        $teamAShotsMax = $singleMatch['away_team_shots'];
-                        $teamAShotsMaxDate = $singleMatch['match_date'];
-                    }
-                    if ($singleMatch['home_team_shots'] > $teamBShotsMax) {
-                        $teamBShotsMax = $singleMatch['home_team_shots'];
-                        $teamBShotsMaxDate = $singleMatch['match_date'];
-                    }
-                    // yellow cards
-                    if ($singleMatch['away_team_yellow_cards'] > $teamAYellowCardsMax) {
-                        $teamAYellowCardsMax = $singleMatch['away_team_yellow_cards'];
-                        $teamAYellowCardsMaxDate = $singleMatch['match_date'];
-                    }
-                    if ($singleMatch['home_team_yellow_cards'] > $teamBYellowCardsMax) {
-                        $teamBYellowCardsMax = $singleMatch['home_team_yellow_cards'];
-                        $teamBYellowCardsMaxDate = $singleMatch['match_date'];
-                    }
-
-                    // red cards
-                    if ($singleMatch['away_team_red_cards'] > $teamARedCardsMax) {
-                        $teamARedCardsMax = $singleMatch['away_team_red_cards'];
-                        $teamARedCardsMaxDate = $singleMatch['match_date'];
-                    }
-                    if ($singleMatch['home_team_red_cards'] > $teamBRedCardsMax) {
-                        $teamBRedCardsMax = $singleMatch['home_team_red_cards'];
-                        $teamBRedCardsMaxDate = $singleMatch['match_date'];
-                    }
-
-                    // won by half time logic
-                    if (($singleMatch['away_team_half_time_goals'] > $singleMatch['home_team_half_time_goals']) 
-                    && ($singleMatch['away_team_total_goals'] > $singleMatch['home_team_total_goals'])) {
-                        $teamAwonHalfTimeCount++;
-                    }
-                    if (($singleMatch['away_team_half_time_goals'] < $singleMatch['home_team_half_time_goals']) 
-                        && ($singleMatch['away_team_total_goals'] < $singleMatch['home_team_total_goals'])) {
-                            $teamBwonHalfTimeCount++;
-                    }
-
-                    // now count max fouls and set the date for both teams
-                    if (($singleMatch['away_team_fouls'] > $teamAFoulsMax)) {
-                        $teamAFoulsMax = $singleMatch['away_team_fouls'];
-                        $teamAFoulsMaxDate = $singleMatch['match_date'];
-                    }
-                    if (($singleMatch['home_team_fouls'] > $teamBFoulsMax)) {
-                        $teamBFoulsMax = $singleMatch['home_team_fouls'];
-                        $teamBFoulsMaxDate = $singleMatch['match_date'];
-                    }
-
-                    // count up simple metrics
-                    $teamAShots += $singleMatch['away_team_shots'];
-                    $teamBShots += $singleMatch['home_team_shots'];
-                    $teamAShotsOnTarget += $singleMatch['away_team_shots_on_target'];
-                    $teamBShotsOnTarget += $singleMatch['home_team_shots_on_target'];
-                    $teamAcorners += $singleMatch['away_team_corners'];
-                    $teamBcorners += $singleMatch['home_team_corners'];
-                    $teamAfouls += $singleMatch['away_team_fouls'];
-                    $teamBfouls += $singleMatch['home_team_fouls'];
-                    $teamAyellowCards += $singleMatch['away_team_yellow_cards'];
-                    $teamByellowCards += $singleMatch['home_team_yellow_cards'];
-                    $teamARedCards += $singleMatch['away_team_red_cards'];
-                    $teamBRedCards += $singleMatch['home_team_red_cards'];
+                    $teamATotalGoalsKey = 'away_team_total_goals';
+                    $teamBTotalGoalsKey = 'home_team_total_goals';
+                    $teamAHtGoalsKey = 'away_team_half_time_goals';
+                    $teamBHtGoalsKey = 'home_team_half_time_goals';
+                    $teamAShotsKey = 'away_team_shots';
+                    $teamBShotsKey = 'home_team_shots';
+                    $teamAShotsOTKey = 'away_team_shots_on_target';
+                    $teamBShotsOTKey = 'home_team_shots_on_target';
+                    $teamACornersKey = 'away_team_corners';
+                    $teamBCornersKey = 'home_team_corners';
+                    $teamAFoulsKey = 'away_team_fouls';
+                    $teamBFoulsKey = 'home_team_fouls';
+                    $teamAYellowCardsKey = 'away_team_yellow_cards';
+                    $teamBYellowCardsKey = 'home_team_yellow_cards';
+                    $teamARedCardsKey = 'away_team_red_cards';
+                    $teamBRedCardsKey = 'home_team_red_cards';
                 }
+                
+                // check the teams (for reverse fixtures) for each match and switch logic to correct team;
+                if ($singleMatch[$teamATotalGoalsKey] > $singleMatch[$teamBTotalGoalsKey]) {
+                    $teamAwinCount++;
+                } elseif ($singleMatch[$teamATotalGoalsKey] < $singleMatch[$teamBTotalGoalsKey]) {
+                    $teamBwinCount++;
+                }
+                // analyse all home team goals
+                if ($singleMatch[$teamATotalGoalsKey] == 0) {
+                    $teamBcleanSheetCount++;
+                } else {
+                    $teamAgoalsScored += $singleMatch[$teamATotalGoalsKey];
+                    if ($singleMatch[$teamATotalGoalsKey] > $teamAGoalsMax) {
+                        $teamAGoalsMax = $singleMatch[$teamATotalGoalsKey];
+                        $teamAGoalsDate = $singleMatch['match_date'];
+                    }
+                }
+                if ($singleMatch[$teamBTotalGoalsKey] == 0) {
+                    $teamAcleanSheetCount++;
+                } else {
+                    $teamBgoalsScored += $singleMatch[$teamBTotalGoalsKey];
+                    if ($singleMatch[$teamBTotalGoalsKey] > $teamBGoalsMax) {
+                        $teamBGoalsMax = $singleMatch[$teamBTotalGoalsKey];
+                        $teamBGoalsDate = $singleMatch['match_date'];
+                    }
+                }
+                // analyze shots
+                if ($singleMatch[$teamAShotsKey] > $teamAShotsMax) {
+                    $teamAShotsMax = $singleMatch[$teamAShotsKey];
+                    $teamAShotsMaxDate = $singleMatch['match_date'];
+                }
+                if ($singleMatch[$teamBShotsKey] > $teamBShotsMax) {
+                    $teamBShotsMax = $singleMatch[$teamBShotsKey];
+                    $teamBShotsMaxDate = $singleMatch['match_date'];
+                }
+                // yellow cards
+                if ($singleMatch[$teamAYellowCardsKey] > $teamAYellowCardsMax) {
+                    $teamAYellowCardsMax = $singleMatch[$teamAYellowCardsKey];
+                    $teamAYellowCardsMaxDate = $singleMatch['match_date'];
+                }
+                if ($singleMatch[$teamBYellowCardsKey] > $teamBYellowCardsMax) {
+                    $teamBYellowCardsMax = $singleMatch[$teamBYellowCardsKey];
+                    $teamBYellowCardsMaxDate = $singleMatch['match_date'];
+                }
+
+                // red cards
+                if ($singleMatch[$teamARedCardsKey] > $teamARedCardsMax) {
+                    $teamARedCardsMax = $singleMatch[$teamARedCardsKey];
+                    $teamARedCardsMaxDate = $singleMatch['match_date'];
+                }
+                if ($singleMatch[$teamBRedCardsKey] > $teamBRedCardsMax) {
+                    $teamBRedCardsMax = $singleMatch[$teamBRedCardsKey];
+                    $teamBRedCardsMaxDate = $singleMatch['match_date'];
+                }
+
+                // calculate "won by half time" logic
+                if (($singleMatch[$teamAHtGoalsKey] > $singleMatch[$teamBHtGoalsKey]) 
+                && ($singleMatch[$teamATotalGoalsKey] > $singleMatch[$teamBTotalGoalsKey])) {
+                    $teamAwonHalfTimeCount++;
+                }
+                if (($singleMatch[$teamAHtGoalsKey] < $singleMatch[$teamBHtGoalsKey]) 
+                    && ($singleMatch[$teamATotalGoalsKey] < $singleMatch[$teamBTotalGoalsKey])) {
+                        $teamBwonHalfTimeCount++;
+                }
+
+                // now count max fouls and set the date for both teams
+                if (($singleMatch[$teamAFoulsKey] > $teamAFoulsMax)) {
+                    $teamAFoulsMax = $singleMatch[$teamAFoulsKey];
+                    $teamAFoulsMaxDate = $singleMatch['match_date'];
+                }
+                if (($singleMatch[$teamBFoulsKey] > $teamBFoulsMax)) {
+                    $teamBFoulsMax = $singleMatch[$teamBFoulsKey];
+                    $teamBFoulsMaxDate = $singleMatch['match_date'];
+                }
+
+                // count up simple metrics
+                $teamAShots += $singleMatch[$teamAShotsKey];
+                $teamBShots += $singleMatch[$teamBShotsKey];
+                $teamAShotsOnTarget += $singleMatch[$teamAShotsOTKey];
+                $teamBShotsOnTarget += $singleMatch[$teamBShotsOTKey];
+                $teamAcorners += $singleMatch[$teamACornersKey];
+                $teamBcorners += $singleMatch[$teamBCornersKey];
+                $teamAfouls += $singleMatch[$teamAFoulsKey];
+                $teamBfouls += $singleMatch[$teamBFoulsKey];
+                $teamAyellowCards += $singleMatch[$teamAYellowCardsKey];
+                $teamByellowCards += $singleMatch[$teamBYellowCardsKey];
+                $teamARedCards += $singleMatch[$teamARedCardsKey];
+                $teamBRedCards += $singleMatch[$teamBRedCardsKey];
             }
         };
             
