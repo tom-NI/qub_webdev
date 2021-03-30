@@ -142,6 +142,7 @@
         $allRedCardsTileData[] = findMinValueAndReturnTeam($allRedCards ,$allSeasonClubNames);
         $masterArray[] = $allRedCardsTileData;
         
+        // loop through the data arrays and echo the data from each array
         foreach ($masterArray as $tileData) {
             // tile name, lowest value, highest value, lowest team, highest team
             $finalTitle = $tileData[0];
@@ -199,6 +200,7 @@
                 </div>";
         }
     } else {
+        // season has no data, so show an error box
         echo "
         <div class='tile is-12 is-mobile is-parent'>
             <div class='is-child box tile'>
