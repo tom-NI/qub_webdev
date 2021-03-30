@@ -168,18 +168,21 @@
 
     // parse the date from the database into a presentable long format
     function parseDateLongFormat($dateFromDB){
+        // outputs in format Monday 20th September 2020
         $date = new DateTime($dateFromDB);
         return $date->format('l jS F Y');
     }
 
     // parse date for short format for presentation
     function parseDateShortFormat($dateFromDB){
+        // outputs in format 20th Sept 2020
         $date = new DateTime($dateFromDB);
         return $date->format('jS M Y');
     }
 
     // get the time that a users input from HTML and make it consistent for DB entry
     function parseTimeForDBEntry($timeFromHTML){
+        // Takes HH:MM and makes it HH:MM:SS
         $date = new DateTime($timeFromHTML);
         return $date->format('H:i:s');
     }
@@ -301,7 +304,7 @@
         return $currentPageURL;
     }
 
-    // function to strip existing pagination params out of the current page URL.
+    // function to strip existing pagination keys:values out of the current page URL.
     function cleanURLofPageParams($currentPageURL) {
         // define the pagination parameters to strip from the URL
         $keysArrayToStrip = array('count', 'startat');
