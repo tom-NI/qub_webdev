@@ -27,5 +27,4 @@
 
     // then set the final page query for count and startat for each individual page button
     $numResultsReturnedQuery .= "&startat={$startAtValue}";
-    
 ?>
