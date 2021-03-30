@@ -3,6 +3,12 @@
     // $totalMatchesToDisplay comes from part_print_summaries.php
     if ($totalMatchesToDisplay > 0) {
 
+        // now get the total count for the users query and use for total page numbers
+        $totalCountURL = cleanURLofPageParams($finalDataURL);
+        $totalCountData = postDevKeyInHeader($totalCountURL);
+        $totalCountList = json_decode($totalCountData, true);
+        $totalQueryCount = count($totalCountList);
+
         // set a single control var for max buttons
         $maxNumberOfPagesToDisplay = 8;
         
@@ -35,9 +41,10 @@
                 // only show prev button on all pages except first page!
                 echo "<a href='?{$previousPageQuery}' id='previous_page_btn' class='pagination-previous is-outlined button is-info'>Prev</a>";
             }
-            echo "
-            <a href='?{$nextPageQuery}' id='next_page_btn' class='pagination-next is-outlined button is-info'>Next</a>
-            <ul class='pagination-list is-centered'>";
+            if ($totalPages > 1) {
+                echo "<a href='?{$nextPageQuery}' id='next_page_btn' class='pagination-next is-outlined button is-info'>Next</a>
+                <ul class='pagination-list is-centered'>";
+            }
         
         // remove existing pagination URL parameters from URL (to stop them accumulating)
         $cleanedURL = cleanURLofPageParams(getCurrentPageURL());
