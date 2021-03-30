@@ -1,34 +1,36 @@
 <div class='level master_site_width mt-6'>
-    <div class='mx-5 level level-left'>
-        <div class="level-item">
-            <p class="">Follow us on social media:</p>
-        </div>
-        <div class="level-item">
-            <div class="level is-mobile">
-                <div class='my_inline_divs mr-5 my_social_media_icon'>
-                    <a href='https://www.facebook.com/' target='_blank'>
-                        <i class='fab fa-facebook fa-2x'></i>
-                    </a>
-                </div>
-                <div class='my_inline_divs mr-5 level-item my_social_media_icon'>
-                    <a href='https://www.youtube.com/' target='_blank'>
-                        <i class='fab fa-youtube fa-2x'></i>
-                    </a>
-                </div>
-                <div class='my_inline_divs mr-5 level-item my_social_media_icon'>
-                    <a href='https://twitter.com/' target='_blank'>
-                        <i class='fab fa-twitter fa-2x'></i>
-                    </a>
-                </div>
-                <div class='my_inline_divs mr-5 level-item my_social_media_icon'>
-                    <a href='https://www.instagram.com/' target='_blank'>
-                        <i class='fab fa-instagram fa-2x'></i>
-                    </a>
+    <div class="level-item">
+        <div class='mx-5 level'>
+            <div class="level-item">
+                <p class="">Follow us on social media:</p>
+            </div>
+            <div class="level-item">
+                <div class="level is-mobile">
+                    <div class='my_inline_divs mx-5 my_social_media_icon'>
+                        <a href='https://www.facebook.com/' target='_blank'>
+                            <i class='fab fa-facebook fa-2x'></i>
+                        </a>
+                    </div>
+                    <div class='my_inline_divs mr-5 level-item my_social_media_icon'>
+                        <a href='https://www.youtube.com/' target='_blank'>
+                            <i class='fab fa-youtube fa-2x'></i>
+                        </a>
+                    </div>
+                    <div class='my_inline_divs mr-5 level-item my_social_media_icon'>
+                        <a href='https://twitter.com/' target='_blank'>
+                            <i class='fab fa-twitter fa-2x'></i>
+                        </a>
+                    </div>
+                    <div class='my_inline_divs mr-5 level-item my_social_media_icon'>
+                        <a href='https://www.instagram.com/' target='_blank'>
+                            <i class='fab fa-instagram fa-2x'></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class='mr-5 level-item level-right'>
+    <div class='level-item'>
         <button class='button is-rounded is-dark' id='back_to_top_button'>
             <span class='icon is-left'>
                 <i class='material-icons'>arrow_upward</i>

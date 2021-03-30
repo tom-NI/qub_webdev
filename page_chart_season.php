@@ -34,31 +34,37 @@
             <div class='column is-desktop is-8 is-offset-2 is-12-mobile is-vcentered my_info_colour mt-6 p-5'>
                 <p class='my_info_colour title is-5 is-size-6-mobile'>Select Season and Statistic to customise the chart</p>
                 <form class='level form' action="page_chart_season.php" method='GET'>
-                    <div class='select level-item'>
-                        <select name="season_pref" id="season_chart_select">
-                            <?php
-                                require(__DIR__ . "/part_pages/part_season_select.php");
-                            ?>
-                        </select>
-                    </div>
-                    <div class='level-item control has-icons-left mx-3'>
-                        <div class='select is-info'>
-                            <select class='' name='stattile_statistic'>
+                    <div class="level-item">
+                        <div class='select'>
+                            <select name="season_pref" id="season_chart_select">
                                 <?php
-                                    require(__DIR__ . "/part_pages/part_stattiles_stats_selector.php");
+                                    require(__DIR__ . "/part_pages/part_season_select.php");
                                 ?>
                             </select>
                         </div>
-                        <div class="icon is-left">
-                            <i class="far fa-chart-bar"></i>
+                    </div>
+                    <div class="level-item level-centre">
+                        <div class='control has-icons-left mx-3'>
+                            <div class='select is-info'>
+                                <select class='' name='stattile_statistic'>
+                                    <?php
+                                        require(__DIR__ . "/part_pages/part_stattiles_stats_selector.php");
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="icon is-left">
+                                <i class="far fa-chart-bar"></i>
+                            </div>
                         </div>
                     </div>
-                    <button name='' class='ml-5 level-item button is-danger is-rounded'>
-                        <span class="icon is-left">
-                            <i class="fas fa-drafting-compass"></i>
-                        </span>
-                        <span class='ml-1'>Draw Chart</span>                    
-                    </button>
+                    <div class="level-item">
+                        <button name='' class='button is-danger is-rounded'>
+                            <span class="icon is-left">
+                                <i class="fas fa-drafting-compass"></i>
+                            </span>
+                            <span class='ml-1'>Draw Chart</span>                    
+                        </button>
+                    </div>
                 </form>
             </div>
             <?php 
@@ -76,7 +82,7 @@
                         </div>
 
                         <div id='my_comparison_stat_list' class='mt-4 column is-8 is-offset-1'>
-                            <div class='column my_google_season_chart' id='season_analysis_chart'></div>
+                            <div class='column my_google_season_chart m-0 p-0' id='season_analysis_chart'></div>
                         </div>";
 
                     include_once(__DIR__ . "/charts/chart_season_analysis.php"); 
