@@ -30,6 +30,7 @@
         $overallTotalShots = 0;
         $overallTotalFouls = 0;
 
+        // all the variables needed to store "Highest all Time statistics by match:" section on page
         $teamAGoalsMax = 0;
         $teamBGoalsMax = 0;
         $teamAGoalsDate = null;
@@ -51,6 +52,7 @@
         $teamARedCardsMaxDate = null;
         $teamBRedCardsMaxDate = null;
 
+        // all variables needed for "Metric Comparison:" section
         $teamAwinCount = 0;
         $teamBwinCount = 0;
         $teamAcleanSheetCount = 0;
@@ -71,6 +73,7 @@
         $teamByellowCards = 0;
         $teamARedCards = 0;
         $teamBRedCards = 0;
+
 
         $averageGoalsPG = 0;
         $averageShotsPG = 0;
@@ -97,6 +100,7 @@
         $teamARedCardsPerGame = 0;
         $teamBRedCardsPerGame = 0;
 
+        // store icons in an array to be looped thru later
         $keyIcons = array(
             "<i class='fas fa-user-friends'></i>",
             "<i class='fas fa-equals'></i>",
@@ -105,6 +109,7 @@
             "<span class='material-icons'>sports</span>"
         );
 
+        // store titles into arrays to be looped thru later
         $allTimeTileTitles = array(
             "Goals Scored",
             "Shots on Goal",
@@ -112,7 +117,6 @@
             "Yellow Cards",
             "Red Cards"
         );
-
         $keyTileTitles = array(
             "Past Meetings",
             "Total Draws",
@@ -120,7 +124,6 @@
             "Average total shots per game",
             "Average total fouls per game"
         );
-
         $metricTileTitles = array(
             "Percentage wins",
             "Win count",
@@ -147,10 +150,12 @@
                 $overallTotalFouls += $singleMatch['home_team_fouls'];
                 $overallTotalFouls += $singleMatch['away_team_fouls'];
                 
+                // count draws logically
                 if ($singleMatch['home_team_total_goals'] == $singleMatch['away_team_total_goals']) {
                     $totalDraws++;
                 }
                 
+                // count the correct team stats based on name
                 if ($teamA === $singleMatch['home_team']) {
                     // check the teams (for reverse fixtures) for each match and switch logic to correct team;
                     if ($singleMatch['home_team_total_goals'] > $singleMatch['away_team_total_goals']) {
@@ -206,7 +211,7 @@
                         $teamBRedCardsMaxDate = $singleMatch['match_date'];
                     }
 
-                    // won by half time logic
+                    // calculate "won by half time" logic
                     if (($singleMatch['home_team_half_time_goals'] > $singleMatch['away_team_half_time_goals']) 
                     && ($singleMatch['home_team_total_goals'] > $singleMatch['away_team_total_goals'])) {
                         $teamAwonHalfTimeCount++;
@@ -215,6 +220,18 @@
                         && ($singleMatch['home_team_total_goals'] < $singleMatch['away_team_total_goals'])) {
                             $teamBwonHalfTimeCount++;
                     }
+
+                    // now count max fouls and set the date for both teams
+                    if (($singleMatch['home_team_fouls'] > $teamAFoulsMax)) {
+                        $teamAFoulsMax = $singleMatch['home_team_fouls'];
+                        $teamAFoulsMaxDate = $singleMatch['match_date'];
+                    }
+                    if (($singleMatch['away_team_fouls'] > $teamBFoulsMax)) {
+                        $teamBFoulsMax = $singleMatch['away_team_fouls'];
+                        $teamBFoulsMaxDate = $singleMatch['match_date'];
+                    }
+
+                    // count up simple metrics
                     $teamAShots += $singleMatch['home_team_shots'];
                     $teamBShots += $singleMatch['away_team_shots'];
                     $teamAShotsOnTarget += $singleMatch['home_team_shots_on_target'];
@@ -291,6 +308,18 @@
                         && ($singleMatch['away_team_total_goals'] < $singleMatch['home_team_total_goals'])) {
                             $teamBwonHalfTimeCount++;
                     }
+
+                    // now count max fouls and set the date for both teams
+                    if (($singleMatch['away_team_fouls'] > $teamAFoulsMax)) {
+                        $teamAFoulsMax = $singleMatch['away_team_fouls'];
+                        $teamAFoulsMaxDate = $singleMatch['match_date'];
+                    }
+                    if (($singleMatch['home_team_fouls'] > $teamBFoulsMax)) {
+                        $teamBFoulsMax = $singleMatch['home_team_fouls'];
+                        $teamBFoulsMaxDate = $singleMatch['match_date'];
+                    }
+
+                    // count up simple metrics
                     $teamAShots += $singleMatch['away_team_shots'];
                     $teamBShots += $singleMatch['home_team_shots'];
                     $teamAShotsOnTarget += $singleMatch['away_team_shots_on_target'];
