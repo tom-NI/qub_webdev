@@ -39,7 +39,7 @@
                     <div class='container box columns is-centered my_box_border m-2 mb-5 p-3'>
                         <div class="column is-12">
                             <div class='mx-1 is-12'>
-                                <p class="is-size-7-mobile pb-3"><?php echo "{$presentableMatchDate}"; ?></p>
+                                <p class="is-size-7-mobile"><?php echo "{$presentableMatchDate}"; ?></p>
                             </div>
                             <div class='columns level is-mobile is-centered'>
                                 <div class='column is-narrow level-item m-1'>
