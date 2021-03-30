@@ -30,7 +30,6 @@
             echo $conn->error;
             die();
         } else {
-            // TODO - NEEDS TO HAVE THE INDEX OF THE COLUMN ADDED
             $int = (int) $queryValue->fetch_row();
             return $int;
         }

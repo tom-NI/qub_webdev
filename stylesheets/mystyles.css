@@ -11,7 +11,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-/* problem todo - check master site width this is responsive - bulma column might be better? */
 .master_site_width {
     max-width: 1100px;
     margin: 0 auto;

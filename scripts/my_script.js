@@ -6,7 +6,6 @@ function burgerMenuSwitch() {
 let burger = document.getElementById("nav_burger");
 burger.addEventListener("click", burgerMenuSwitch);
 
-
 // scroll back to the top of the page code!
 if (document.getElementById("back_to_top_button") !== null) {
     let backToTopButton = document.getElementById("back_to_top_button");
@@ -132,18 +131,6 @@ if ((document.getElementById("fixture_search_btn") !== null)
     document.getElementById("ht_selector").addEventListener("change", disallowDuplicateSelection);
     document.getElementById("at_selector").addEventListener("change", disallowDuplicateSelection);
 }
-
-// TODO pagination!!!!
-// if (document.getElementById("pagination_first_page") !== null) {
-//     function paginationButtonChangeStyle(pageButtonID) {
-//         if (pageButtonID == "pagination_page_button_1") {
-//             document.getElementById("pagination_prev_button").disabled = true;
-//         } else {
-//             document.getElementById("pagination_prev_button").disabled = false;
-//         }
-//     }
-//     document.getElementsByClassName("pagination-link").addEventListener("click", paginationButtonChangeStyle);
-// }
 
 // single match page, administrator can delete a match result!
 if (document.getElementById("delete_match_btn") !== null) {
