@@ -36,24 +36,28 @@
         <div class='master_site_width'>
             <div class='mt-3 mx-4'>
                 <div class='column is-mobile is-8 is-offset-2 is-12-mobile is-vcentered' >
-                    <div class='container box columns is-centered my_box_border m-2 mb-5 p-3'>
-                        <div class="column is-12">
+                    <div class='container box columns is-centered my_box_border m-2 mb-5 p-4'>
+                        <div class="column is-12 pt-1">
                             <div class='mx-1 is-12'>
-                                <p class="is-size-7-mobile"><?php echo "{$presentableMatchDate}"; ?></p>
+                                <p class="is-size-7-mobile mb-2"><?php echo "{$presentableMatchDate}"; ?></p>
                             </div>
                             <div class='columns level is-mobile is-centered'>
-                                <div class='column is-narrow level-item m-1'>
+                                <div class='column is-narrow level-item m-0 p-0'>
                                     <div class='is-pulled-right'>
                                         <?php echo "<img class='image ml-4 m-2 my_club_logo' src='{$hometeamlogoURL}' alt='Home Logo'>"; ?>
                                     </div>
                                 </div>
                                 <div class='column is-one-desktop is-half-tablet is-centered level-centre mx-3 my-0 p-0'>
                                     <div class='is-centered is-vertical'>
-                                        <?php echo "{$kickoffParagraph}"; ?>
-                                        <p class='p-2 mx-1 is-size-7-mobile'>Referee: <?php echo "{$refereename}"; ?> </p>
+                                        <?php 
+                                            if (strlen($kickofftime) > 0) {
+                                                echo "<p class='p-2 mx-1 is-size-7-mobile mt-2'>Kick Off: {$kickofftime}</p>";
+                                            }
+                                        ?>
+                                        <p class='mx-1 is-size-7-mobile'>Referee: <?php echo "{$refereename}"; ?> </p>
                                     </div>
                                 </div>
-                                <div class='column is-narrow level-item m-1'>
+                                <div class='column is-narrow level-item m-0 p-0'>
                                     <?php echo "<img class='image mr-4 m-2 my_club_logo' src='{$awayteamlogoURL}' alt='Away Logo'>"; ?>
                                 </div>
                             </div>
@@ -151,41 +155,45 @@
                             <div class='level-item'>
                                 <p>Select a statistic to compare :</p>
                             </div>
-                            <form class='level-item form p-0'
+                            <form class='level-item'
                                 action="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?num=<?php echo "$postedMatchID" ?>" 
                                 method='POST'>
-                                <div class='level-item control has-icons-left m-0 p-0'>
-                                    <div class='level-item select is-info'>
-                                        <select class='level-item my_stat_select' name='analyzed_statistic'>
-                                            <?php
-                                                require(__DIR__ . "/part_pages/part_stat_selector.php");
-                                            ?>
-                                        </select>
+                                <div class="level is-mobile">
+                                    <div class='level-item control has-icons-left m-0 p-0'>
+                                        <div class='select is-info'>
+                                            <select class='my_stat_select' name='analyzed_statistic'>
+                                                <?php
+                                                    require(__DIR__ . "/part_pages/part_stat_selector.php");
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="icon is-left">
+                                            <i class="far fa-chart-bar"></i>
+                                        </div>
                                     </div>
-                                    <div class="icon is-left">
-                                        <i class="far fa-chart-bar"></i>
+                                    <div class="level-item">
+                                        <button name='change_stat_btn' class='ml-5 level-item button is-danger'>Go</button>
                                     </div>
                                 </div>
-                                <button name='change_stat_btn' class='ml-5 level-item button is-danger'>Go</button>
                             </form>
                         </div>
                     </div>
                 </div>
                     
-                    <!-- historic results section with selector -->
                     <?php
+                        //  historic results section with selector 
                         // only draw the graph if there are previous results to show, otherwise show warning
                         if ($noPreviousMatchesToShow) {
                             echo "<div class='my-3 p-5 has-background-warning'>
                                     <h3 class='is-size-5 has-text-weight-semibold'>No Previous Matches exist for Statistic Chart</h3>
                                 </div>";
                         } else {
-                            echo"
+                            echo "
                             <div class='mt-4 column'>
-                                <h3 class='title is-4 is-size-5-mobile mt-3'>Statistics for preceding {$previousMatchCount} matches</h3>
+                                <h3 class='title is-4 is-size-5-mobile mt-3'>Statistics for {$previousMatchCount} matches before {$presentShortDate}</h3>
                                 <p class='title is-5 is-size-6-mobile mb-0 pb-0'>{$statToAnalyze} between {$hometeam} and {$awayteam}</p>
                                 </div>
-                            <div class='column my_google_chart' id='former_fixtures_chart'></div>";
+                            <div class='column my_google_chart m-0 p-0' id='former_fixtures_chart'></div>";
                             include_once(__DIR__ . "/charts/chart_past_fixture.php");
                         }
                     ?>

@@ -44,11 +44,7 @@
         $atStatsForGraph = array($awayteamhalftimegoals,$awayteamshots,$awayteamshotsontarget,$atPercentShotsOT,$awayteamcorners,$awayteamfouls,$awayteamyellowcards,$awayteamredcards);
 
         $presentableMatchDate = parseDateLongFormat($matchdate);
-        if (strlen($kickofftime) > 0) {
-            $kickoffParagraph = "<p class='p-2 mx-1 is-size-7-mobile'>Kick Off: {$kickofftime}</p>";
-        } else {
-            $kickoffParagraph = "";
-        }
+        $presentShortDate = parseDateShortFormat($matchdate);
     }
 
     // now GET the previous 5 fixtures of this match for the JS graph!
