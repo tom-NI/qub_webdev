@@ -84,14 +84,14 @@
                         <div id='my_comparison_stat_list' class='mt-4 column is-8 is-offset-1'>
                             <div class='column my_google_season_chart m-0 p-0' id='season_analysis_chart'></div>
                         </div>";
-
-                    include_once(__DIR__ . "/charts/chart_season_analysis.php"); 
                 }
             ?>
         </div>
     </div>
     <?php include(__DIR__ . '/part_pages/part_site_footer.php'); ?>
     
+    <script type="text/javascript" src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/charts/chart_season_analysis.js"></script>
+    <script>drawSeasonAnalysisChart(<?php print_r(json_encode($finalSortedGraphArray)); ?>, 'season_analysis_chart');</script>
     <script src="scripts/my_script.js"></script>
 </body>
 </html>

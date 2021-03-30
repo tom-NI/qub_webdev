@@ -1,10 +1,10 @@
-<script>
+function drawSeasonAnalysisChart(dataArray, idOfElementToFill) {
     google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawSeasonChart);
 
     function drawSeasonChart() {
         // Create the data table.
-        var data = google.visualization.arrayToDataTable(<?php print_r(json_encode($finalSortedGraphArray)); ?>);
+        var data = google.visualization.arrayToDataTable(dataArray);
 
         // set chart annotations on the bar (gets the data from the chart data array)
         var view = new google.visualization.DataView(data);
@@ -38,11 +38,13 @@
         };
 
         // Instantiate and draw chart
-        var seasonChart = new google.visualization.BarChart(document.getElementById('season_analysis_chart'));
+        var seasonChart = new google.visualization.BarChart(document.getElementById(idOfElementToFill));
         seasonChart.draw(view, options);
 
+        // make the graph resize itself when the screen is adjusted (responsive).
+        // code from https://codepen.io/flopreynat/pen/BfLkA?editors=0010
         $(window).resize(function(){
             drawSeasonChart();
         });
     }
-</script>
+}

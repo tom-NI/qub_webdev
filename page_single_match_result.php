@@ -194,7 +194,6 @@
                                 <p class='title is-5 is-size-6-mobile mb-0 pb-0'>{$statToAnalyze} between {$hometeam} and {$awayteam}</p>
                                 </div>
                             <div class='column my_google_chart m-0 p-0' id='former_fixtures_chart'></div>";
-                            include_once(__DIR__ . "/charts/chart_past_fixture.php");
                         }
                     ?>
                 </div>
@@ -206,6 +205,14 @@
     <script src="scripts/my_script.js"></script>
 
     <!-- Single Match information -->
-    <?php include_once(__DIR__ . "/charts/chart_single_match_stats.php") ?>
+    <script type="text/javascript" src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/charts/chart_single_match_stats.js"></script>
+    <script> drawSingleMatchStatisticChart(<?php echo "'{$hometeam}'"; ?>, <?php echo "'{$awayteam}'"; ?>,
+            <?php print_r(json_encode($htStatsForGraph)); ?>,
+            <?php print_r(json_encode($atStatsForGraph)); ?>,
+            '#match_stat_chart');
+    </script>
+
+    <script type="text/javascript" src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/charts/chart_past_fixture.js"></script>
+    <script>drawPastFixtureStatsChart(<?php print_r(json_encode($mainStatGraphData)); ?>, 'former_fixtures_chart')</script>
 </body>
 </html>

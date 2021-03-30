@@ -1,6 +1,7 @@
-<!-- apex charts graph to show the one matches statistics in full -->
-<!-- if linking, must include all dependencies in the head -->
-<script>
+// apex charts graph to show the one matches statistics in full
+// if linking, must include all apexchart dependencies in the head of the parent page
+
+function drawSingleMatchStatisticChart(homeTeamName, awayTeamName, homeDataArray, awayDataArray, idOfElementToFill) {
     let matchStatChart = {
         colors: ['#48c774', '#FF6347'],
         legend: {
@@ -21,11 +22,11 @@
             },
         },
         series: [{
-            name: <?php echo "'{$hometeam}'"; ?>,
-            data: <?php print_r(json_encode($htStatsForGraph)); ?>
+            name: homeTeamName,
+            data: homeDataArray
         }, {
-            name: <?php echo "'{$awayteam}'"; ?>,
-            data: <?php print_r(json_encode($atStatsForGraph)); ?>
+            name: awayTeamName,
+            data: awayDataArray
         }],
         chart: {
             animations: {
@@ -76,6 +77,6 @@
         },
     };
 
-    var chart = new ApexCharts(document.querySelector("#match_stat_chart"), matchStatChart);
+    var chart = new ApexCharts(document.querySelector(idOfElementToFill), matchStatChart);
     chart.render();
-</script>
+}

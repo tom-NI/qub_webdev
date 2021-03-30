@@ -1,15 +1,15 @@
-<!-- stat graph for previous 5 matches between 2 clubs -->
-<script>
+//  stat graph for previous 5 matches between 2 clubs
+function drawPastFixtureStatsChart(dataArray, idOfElementToFill) {
     google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawStatisticChart);
 
     function drawStatisticChart() {
         // Create the data table.
-        var data = google.visualization.arrayToDataTable(<?php print_r(json_encode($mainStatGraphData)); ?>);
+        var data = google.visualization.arrayToDataTable(dataArray);
 
         // set chart annotations on the bar (gets the data from the chart data array)
         var dataView = new google.visualization.DataView(data);
-        dataView.setColumns([0, 
+        dataView.setColumns([0,
                         1, { calc: "stringify",
                             sourceColumn: 1,
                             type: "string",
@@ -47,11 +47,11 @@
         };
 
         // Instantiate and draw our chart, passing in some options.
-        var columnChart = new google.visualization.ColumnChart(document.getElementById('former_fixtures_chart'));
+        var columnChart = new google.visualization.ColumnChart(document.getElementById(idOfElementToFill));
         columnChart.draw(dataView, options);
 
         $(window).resize(function(){
             drawStatisticChart();
         });
     }
-</script>
+}

@@ -237,14 +237,12 @@
         require(__DIR__ . '/part_pages/part_site_footer.php');
     ?>
 
-    <!-- load all my javascript graphs and pass them data from PHP -->
     <script type="text/javascript" src="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/charts/chart_pie_fixture.js"></script>
     <script>drawStatPieChart(<?php print_r(json_encode($finalWinsArray)); ?>, 'wins_chart', 'Total Wins.');</script>
     <script>drawStatPieChart(<?php print_r(json_encode($finalCleanSheetsArray)); ?>, 'clean_sheets_chart', 'Total Clean Sheets.');</script>
     <script>drawStatPieChart(<?php print_r(json_encode($finalGoalsArray)); ?>, 'goals_chart', 'Total Goals.');</script>
     <script>drawStatPieChart(<?php print_r(json_encode($finalTotalCardsArray)); ?>, 'total_cards_chart', 'Total Cards.');</script>
 
-    <!-- load general javascript file -->
     <script src="scripts/my_script.js"></script>
 </body>
 </html>
