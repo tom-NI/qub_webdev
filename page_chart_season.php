@@ -7,13 +7,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="stylesheets/mystyles.css">
-    <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <?php require_once(__DIR__ . "/part_pages/all_page_dependencies.php"); ?>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://www.google.com/jsapi"></script>
     <title>EPL Match Result</title>
 </head>
