@@ -7,13 +7,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="stylesheets/mystyles.css">
-    <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+    <?php require_once(__DIR__ . "/part_pages/all_page_dependencies.php"); ?>
+    <link rel="stylesheet" href="stylesheets/embla_styles.css">
+    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
     <title>EPL Match Statistic Finder</title>
 </head>
 
@@ -58,14 +54,11 @@
                 </div>
             </div>
 
-            <!-- image carousel! -->
-            <div class="my_image_maintain_aspect">
-                <figure>
-                    <img src="https://i.imgur.com/Ok815ec.jpg" alt="" class="box">
-                    <caption class="subtitle is-6 is-size-7-mobile">Manchester United and Liverpool are neck and neck this season in the title race</caption>
-                </figure>
-            </div>
-            
+            <?php
+                // load the home page image carousel
+                require(__DIR__ . "/part_pages/part_home_img_carousel.php");
+            ?>
+
             <div class="level mt-6 p-2">
                 <div class="level-left">
                     <div>
@@ -131,6 +124,7 @@
     </div>
     
     <?php include(__DIR__ . "/part_pages/part_site_footer.php"); ?>
+    <script src="scripts/embla.js"></script>
     <script src="scripts/my_script.js"></script>
 </body>
 </html>

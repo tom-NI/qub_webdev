@@ -63,10 +63,7 @@
     <script src="scripts/embla.js"></script>
     <script src="scripts/my_script.js"></script>
     <script type="text/javascript">
-    var emblaNode = document.querySelector('.embla')
-    var options = { loop: true }
-
-    var embla = EmblaCarousel(emblaNode, options)
+    
     </script>
 </html>
 

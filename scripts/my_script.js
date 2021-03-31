@@ -134,7 +134,7 @@ if ((document.getElementById("fixture_search_btn") !== null)
     document.getElementById("at_selector").addEventListener("change", disallowDuplicateSelection);
 }
 
-// single match page, administrator can delete a match result!
+// single match page, validate an administrator when deleting a match result!
 if (document.getElementById("delete_match_btn") !== null) {
     function validateDeletion() {
         let result = confirm("This will delete this match result from the records, are you sure you wish to proceed?\nThis action CANNOT be undone.");
@@ -147,10 +147,10 @@ if (document.getElementById("delete_match_btn") !== null) {
     document.getElementById("delete_match_btn").addEventListener("click", validateDeletion);
 }
 
+// setup the collapsing information panel on advanced search page show/hide
 if (document.getElementById("collapse_info") !== null) {
     let collapseBox = document.getElementById("search_info_box");
     function collapsePanel() {
-        console.log("Thomas Kilpatrick");
         if (collapseBox.style.display === "block") {
             collapseBox.style.display = "none";
         } else {
@@ -158,4 +158,13 @@ if (document.getElementById("collapse_info") !== null) {
         }
     }
     document.getElementById("collapse_info").addEventListener("click", collapsePanel);
+}
+
+// copied from embla website - to make the embla scroll work
+// https://codesandbox.io/s/embla-carousel-default-vanilla-gqh0n
+// https://www.embla-carousel.com/examples/basic/
+if (document.getElementById("embla") !== null) {
+    var emblaNode = document.querySelector('.embla');
+    var options = { loop: true };
+    var embla = EmblaCarousel(emblaNode, options);
 }
