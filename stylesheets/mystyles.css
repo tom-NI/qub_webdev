@@ -4,6 +4,20 @@
     box-sizing: border-box;
 }
 
+/* embla code from 
+https://www.embla-carousel.com/get-started/cdn/
+ */
+.embla {
+overflow: hidden;
+}
+.embla__container {
+display: flex;
+}
+.embla__slide {
+position: relative;
+flex: 0 0 100%;
+}
+
 /* stop spinners showing up on numberical inputs on most pages */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
