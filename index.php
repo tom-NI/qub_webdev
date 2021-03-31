@@ -50,7 +50,6 @@
                             </div>
                         </div>
                     </form>
-                    <p class="mb-5 m-2 is-size-6 is-size-6-mobile"><a href="page_advanced_search.php">Advanced Match Search</a></p>
                 </div>
             </div>
 
