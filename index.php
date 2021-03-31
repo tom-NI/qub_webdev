@@ -33,7 +33,7 @@
         <section class="column is-three-fifths-desktop mx-1">
             <div class="container is-centered">
                 <!-- search bar -->
-                <div class="mt-6">
+                <div class="my-6">
                     <form action="page_advanced_search.php?count=10" method="GET">
                         <div class="field has-addons">
                             <div class="control is-expanded">

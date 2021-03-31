@@ -279,8 +279,6 @@
             $mail->Port = 587;
         
             $mail->send();
-        } catch (Exception $e) {
-            // $displayMessage = $e->errorMessage();
         } catch (\Exception $e) {
             $displayMessage = $e->getMessage();
         }
@@ -305,19 +303,22 @@
 
     // function to strip existing pagination keys:values out of the current page URL.
     function cleanURLofPageParams($currentPageURL) {
-        // define the pagination parameters to strip from the URL
+        // define the pagination parameters to remove from the URL
         $keysArrayToStrip = array('count', 'startat');
 
         // get the root url (by stripping all queries)
         $fullRootURL = strtok($currentPageURL, '?');
         
-        // strip all provided page key:value pairs off the URL and leave the remainder
+        // now get the queries off the end of the URL
         parse_str(parse_url($currentPageURL, PHP_URL_QUERY), $leftOverUserQueries);
+        
+        // strip all provided page key:value pairs off the URL and leave the remainder
         foreach ($keysArrayToStrip as $key) {
             unset($leftOverUserQueries[$key]);
         }
 
-        // build root URL and all remaining queries back together
+        // rebuild and return a new cleaned URL with any user GET queries, 
+        // excludes current pagination keys
         $leftOverQueriesURL = http_build_query($leftOverUserQueries);
         $finalURL = "{$fullRootURL}?{$leftOverQueriesURL}";
         return urldecode($finalURL);
