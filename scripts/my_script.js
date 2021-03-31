@@ -1,10 +1,12 @@
 
-// nav bar burger - activate and deactivate nav menu;
-function burgerMenuSwitch() {
-    document.querySelector('.navbar-menu').classList.toggle('is-active');
+if (document.getElementById("nav_burger") !== null) {
+    // nav bar burger - activate and deactivate nav menu;
+    function burgerMenuSwitch() {
+        document.querySelector('.navbar-menu').classList.toggle('is-active');
+    }
+    let burger = document.getElementById("nav_burger");
+    burger.addEventListener("click", burgerMenuSwitch);
 }
-let burger = document.getElementById("nav_burger");
-burger.addEventListener("click", burgerMenuSwitch);
 
 // scroll back to the top of the page code!
 if (document.getElementById("back_to_top_button") !== null) {
