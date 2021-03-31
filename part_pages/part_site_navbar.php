@@ -34,9 +34,9 @@
                 if (isset($_SESSION['sessiontype']) && strlen($_SESSION['sessiontype']) > 0) {
                     $username = $_SESSION['username'];
                     if ($_SESSION['sessiontype'] == "admin") {
-                        echo "<p class='mx-5 m-2'>Admin - Signed in as {$username}</p>";
+                        echo "<p class='navbar-item mx-5 m-2'>Admin - Signed in as {$username}</p>";
                     } else {
-                        echo "<p class='mx-5 m-2'>Signed in as {$username}</p>";
+                        echo "<p class='navbar-item mx-5 m-2'>Signed in as {$username}</p>";
                     }
 
                     // logout button (goes to a seperate php logout script)

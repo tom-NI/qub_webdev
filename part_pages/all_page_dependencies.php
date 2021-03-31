@@ -6,4 +6,4 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://kit.fontawesome.com/06c5b011c2.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/stylesheets/mystyles.css">
-<link rel="shortcut icon" href="images/favicon.png" type="image/png">
+<link defer rel="shortcut icon" href="images/favicon.png" type="image/png">
