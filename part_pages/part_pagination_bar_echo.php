@@ -2,14 +2,13 @@
     // only show page array if there are pages to show
     // $totalMatchesToDisplay comes from part_print_summaries.php
     if ($totalMatchesToDisplay > 0) {
-        // load modularized pagination logic!
-        require(__DIR__ . "/../logic_files/pagination_logic.php");
 
         // remove existing pagination URL parameters from URL (to stop them accumulating)
-        $cleanedURL = cleanURLofPageParams(getCurrentPageURL());
+        $keysArrayToRemoveFromURL = array('count', 'startat');
+        $cleanedURL = cleanURLofPageParams(getCurrentPageURL(), $keysArrayToRemoveFromURL);
 
         // get the total match count for the user query and use for total page numbers
-        $totalCountURL = cleanURLofPageParams($finalDataURL);
+        $totalCountURL = cleanURLofPageParams($finalDataURL, $keysArrayToRemoveFromURL);
         $totalCountData = postDevKeyInHeader($totalCountURL);
         $totalCountList = json_decode($totalCountData, true);
         $totalQueryCount = count($totalCountList);
@@ -49,6 +48,13 @@
         } else {
             $currentPageCalculation = 1;
         }
+
+        if (isset($_GET['count'])) {
+            $resultsPerPage = (int) htmlentities(trim($_GET['count']));
+        } else {
+            $resultsPerPage = 10;
+        }
+        $numResultsReturnedQuery = "&count={$resultsPerPage}";
 
         // set initial string value for button being solid
         $buttonOutline = "is-outlined";

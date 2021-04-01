@@ -302,10 +302,7 @@
     }
 
     // function to strip existing pagination keys:values out of the current page URL.
-    function cleanURLofPageParams($currentPageURL) {
-        // define the pagination parameters to remove from the URL
-        $keysArrayToStrip = array('count', 'startat');
-
+    function cleanURLofPageParams($currentPageURL, $arrayOfKeysToRemove) {
         // get the root url (by stripping all queries)
         $fullRootURL = strtok($currentPageURL, '?');
         
@@ -313,7 +310,7 @@
         parse_str(parse_url($currentPageURL, PHP_URL_QUERY), $leftOverUserQueries);
         
         // strip all provided page key:value pairs off the URL and leave the remainder
-        foreach ($keysArrayToStrip as $key) {
+        foreach ($arrayOfKeysToRemove as $key) {
             unset($leftOverUserQueries[$key]);
         }
 
