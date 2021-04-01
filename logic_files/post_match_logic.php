@@ -1,4 +1,6 @@
 <?php
+    // modularized file to get all of a users inputs from a form for a match 
+    // for sending them on to the API
     $seasonName = getCurrentSeason();
     $matchDate = htmlentities(trim($_POST['match_date']));
     $kickOffTime = htmlentities(trim($_POST['kickoff_time']));

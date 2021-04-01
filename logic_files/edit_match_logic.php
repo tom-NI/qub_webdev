@@ -1,5 +1,6 @@
 <?php
     include_once(__DIR__ . "/allfunctions.php");
+
     if (!isset($_SESSION['sessiontype']) || strlen($_SESSION['sessiontype']) == 0) {
         header("Location: login.php");
     } elseif (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] == "admin") {
@@ -9,8 +10,9 @@
             if (isset($_GET['finalise_match_edit'])) {
                 $noMatchIDisSelected = false;
                 
+                // build each form parameter into a variable
                 require(__DIR__ . "/post_match_logic.php");
-                $matchToChangeID = htmlentities(trim($_POST['id']));
+                $matchToChangeID = (int) htmlentities(trim($_POST['id']));
                 $justForChange = htmlentities(trim($_POST['change_justification']));
                 
                 // build the data that has to be sent inside the header, into an assoc array
@@ -43,14 +45,12 @@
                 );
 
                 $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches/?editmatch";
-                $result = postDevKeyInHeader($endpoint, $matchInfoArray);
+                $result = postDevKeyWithData($endpoint, $matchInfoArray);
+                print_r($result);
+                
                 //get the API JSON reply and pull into a var for the users
-                if (http_response_code(201)) {
-                    $submissionDisplayToUser = "Match Edit Successful";
-                } else {
-                    $apiJSONReply = json_decode($result, true);
-                    $submissionDisplayToUser = $apiJSONReply[0]['reply_message'];
-                }
+                $apiJSONReply = json_decode($result, true);
+                $submissionDisplayToUser = $apiJSONReply[0]['reply_message'];
                 print_r($submissionDisplayToUser);
             }
         } elseif (isset($_GET['num'])) {

@@ -2,6 +2,10 @@
     session_start();
     include_once(__DIR__ . "/../logic_files/allfunctions.php");
     require(__DIR__ . "/../logic_files/edit_match_logic.php");
+
+    if (isset($_GET['num'])) {
+        $matchIdToPost = (int) htmlentities(trim($_GET['num']));
+    }
 ?>
 
 <!DOCTYPE html>
@@ -46,10 +50,8 @@
                     die();
                 } elseif (isset($_GET['finalise_match_edit'])) {
                     // return message after the user has edited, and give them a link to return to the match page
-                    echo "{$submissionDisplayToUser}";
                     echo "<div>
-                            <h3 class='title is-size-3 my_info_colour my-4 p-4'>{$submissionDisplayToUser}</h3>
-                            <a href='http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/page_single_match_result.php?id={$matchToChangeID}'><h4>Return to Match page</h4></a>
+                            <h3 class='title is-size-5 is-size-6-mobile has-background-warning my-6 p-6'>{$submissionDisplayToUser}</h3>
                         </div>
                         </div>
                         </div>
@@ -140,7 +142,7 @@
                             <h2 class="title is-size-4 mt-6 is-size-5-mobile">Change Match statistics:</h2>
                         </div>
                     </div>
-                        <?php   
+                        <?php
                             require(__DIR__ . "/../part_pages/part_fill_match_edit_form.php");
                         ?>
                     <div class='field'>
@@ -167,7 +169,7 @@
                         </button>
                     </div>
                     <div>
-                        <input type="hidden" name="id" value="<?php htmlentities(trim($_GET['num'])) ;?>" >
+                        <input type="hidden" name="id" value="<?php echo"{$matchIdToPost}"; ?>" >
                     </div>
                 </form>
             </div>

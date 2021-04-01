@@ -46,8 +46,8 @@
     );
 
     $homeValues = array(
-        $hometeamtotalgoals,
         $hometeamhalftimegoals,
+        $hometeamtotalgoals,
         $hometeamshots,
         $hometeamshotsontarget,
         $hometeamcorners,
@@ -57,8 +57,8 @@
     );
 
     $awayValues = array(
-        $awayteamtotalgoals,
         $awayteamhalftimegoals,
+        $awayteamtotalgoals,
         $awayteamshots,
         $awayteamshotsontarget,
         $awayteamcorners,
