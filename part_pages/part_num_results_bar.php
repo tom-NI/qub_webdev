@@ -5,11 +5,21 @@
         $buttonValues = array(10, 20, 30);
         $currentURL = getCurrentPageURL();
 
-        if (isset($_GET['count'])) {
+        // handle all 4 page states for the results count bar
+        if (isset($_GET['count']) && isset($_GET['ht_selector']) ) {
             $resultsPerPage = (int) htmlentities(trim($_GET['count']));
             $countQuery = "&count=";
             // remove any old pagination queries so the URL cannot accumulate pagination requests
             $keysArrayToStrip = array('count');
+            $cleanedURL = cleanURLofPageParams($currentURL, $keysArrayToStrip);
+        } elseif (isset($_GET['ht_selector'])) {
+            $countQuery = "&count=";
+            $resultsPerPage = 10;
+            $cleanedURL = $currentURL;
+        } elseif (isset($_GET['count'])) {
+            $resultsPerPage = (int) htmlentities(trim($_GET['count']));
+            $keysArrayToStrip = array('count');
+            $countQuery = "?count=";
             $cleanedURL = cleanURLofPageParams($currentURL, $keysArrayToStrip);
         } else {
             $resultsPerPage = 10;

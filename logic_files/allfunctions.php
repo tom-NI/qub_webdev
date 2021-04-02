@@ -315,10 +315,20 @@
             unset($leftOverUserQueries[$key]);
         }
 
+        $leftOverQueriesURL = http_build_query($leftOverUserQueries);
+        if (count($leftOverUserQueries) == 0 && strpos($fullRootURL, '?') === false) {
+            $finalURL = "{$fullRootURL}";
+        } else {
+            $finalURL = "{$fullRootURL}?{$leftOverQueriesURL}";
+        }
+
         // rebuild and return a new cleaned URL with any user GET queries, 
         // excludes current pagination keys
-        $leftOverQueriesURL = http_build_query($leftOverUserQueries);
-        $finalURL = "{$fullRootURL}?{$leftOverQueriesURL}";
+        
+        if (strpos($leftOverQueriesURL, '?') !== false) {
+        } else {
+        }
+        
         return urldecode($finalURL);
     }
 ?>
