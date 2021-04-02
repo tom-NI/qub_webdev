@@ -1,0 +1,890 @@
+{
+	"info": {
+		"_postman_id": "3700d711-d22a-4e7e-bdd1-567b88ed7cda",
+		"name": "QUB Webdev API 8March",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "DONE List - Add a new club test",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "newclubname",
+							"value": "Arsenal",
+							"type": "text"
+						},
+						{
+							"key": "newcluburl",
+							"value": "https://i.imgur.com/ocvI6Kk.jpg",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/clubs/?addnewclub",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs",
+						""
+					],
+					"query": [
+						{
+							"key": "addnewclub",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONE - List - Add new season",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "newseason",
+							"value": "2025-2026",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/seasons/?addnewseason",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"seasons",
+						""
+					],
+					"query": [
+						{
+							"key": "addnewseason",
+							"value": null
+						}
+					]
+				},
+				"description": "NOT WORKING 26 FEB 2021"
+			},
+			"response": []
+		},
+		{
+			"name": "DONE List - Add new referee",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "refereename",
+							"value": "THOMAS KILPATRICK",
+							"description": "This will be trimmed strictly to match the format 'First Initial.[space]Surname'",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/referees/?addnewref",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"referees",
+						""
+					],
+					"query": [
+						{
+							"key": "addnewref",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONE full match - ADD new result",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "season",
+							"value": "2020-2021",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "2021-03-21",
+							"type": "text"
+						},
+						{
+							"key": "time",
+							"value": "18:00:00",
+							"type": "text"
+						},
+						{
+							"key": "referee_name",
+							"value": "R. Harris",
+							"type": "text"
+						},
+						{
+							"key": "home_club",
+							"value": "Bolton",
+							"type": "text"
+						},
+						{
+							"key": "away_club",
+							"value": "Manchester City",
+							"type": "text"
+						},
+						{
+							"key": "ht_total_goals",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "ht_half_time_goals",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "ht_shots",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "ht_shots_on_target",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "ht_corners",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "ht_fouls",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "ht_yellow_cards",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "ht_red_cards",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "at_total_goals",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "at_half_time_goals",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "at_shots",
+							"value": "8",
+							"type": "text"
+						},
+						{
+							"key": "at_shots_on_target",
+							"value": "7",
+							"type": "text"
+						},
+						{
+							"key": "at_corners",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "at_fouls",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "at_yellow_cards",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "at_red_cards",
+							"value": "0",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/full_matches/?addnewresult",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"full_matches",
+						""
+					],
+					"query": [
+						{
+							"key": "addnewresult",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONE full match - EDIT result Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "7910",
+							"type": "text"
+						},
+						{
+							"key": "change_justification",
+							"value": "checking return codes debugging",
+							"type": "text"
+						},
+						{
+							"key": "season",
+							"value": "2020-2021",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "2021-03-20",
+							"type": "text"
+						},
+						{
+							"key": "time",
+							"value": "10:00:00",
+							"type": "text"
+						},
+						{
+							"key": "referee_name",
+							"value": "R. Harris",
+							"type": "text"
+						},
+						{
+							"key": "home_club",
+							"value": "Arsenal",
+							"type": "text"
+						},
+						{
+							"key": "away_club",
+							"value": "Chelsea",
+							"type": "text"
+						},
+						{
+							"key": "ht_total_goals",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "ht_half_time_goals",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "ht_shots",
+							"value": "8",
+							"type": "text"
+						},
+						{
+							"key": "ht_shots_on_target",
+							"value": "8",
+							"type": "text"
+						},
+						{
+							"key": "ht_corners",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "ht_fouls",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "ht_yellow_cards",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "ht_red_cards",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "at_total_goals",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "at_half_time_goals",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "at_shots",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "at_shots_on_target",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "at_corners",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "at_fouls",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "at_yellow_cards",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "at_red_cards",
+							"value": "0",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/full_matches/?editmatch",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"full_matches",
+						""
+					],
+					"query": [
+						{
+							"key": "editmatch",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONE list - UPDATE referee name",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "ref_to_change",
+							"value": "A. Durso",
+							"description": "current ref name",
+							"type": "text"
+						},
+						{
+							"key": "new_ref_name",
+							"value": "A. Dursoxxx",
+							"description": "new name for referee selected",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/referees/?edit",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"referees",
+						""
+					],
+					"query": [
+						{
+							"key": "edit",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONE list - CHANGE clubname",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "club_to_change",
+							"value": "Man U",
+							"type": "text"
+						},
+						{
+							"key": "new_club_name",
+							"value": "Manchester United",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/clubs/?edit",
+					"protocol": "http",
+					"host": [
+						"tkilpatrick01",
+						"lampt",
+						"eeecs",
+						"qub",
+						"ac",
+						"uk"
+					],
+					"path": [
+						"epl_api_v1",
+						"clubs",
+						""
+					],
+					"query": [
+						{
+							"key": "edit",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONE list - all referees in DB",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{baseURL}}/referees?ref_list",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"referees"
+					],
+					"query": [
+						{
+							"key": "ref_list",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONE - list - get all clubs in DB",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/clubs?all_clubs",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs"
+					],
+					"query": [
+						{
+							"key": "all_clubs",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONE - list - current_seasons_clubs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/clubs?current_season_clubs",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs"
+					],
+					"query": [
+						{
+							"key": "current_season_clubs",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONE - list - all seasons in DB",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/seasons?all_seasons_list",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"seasons"
+					],
+					"query": [
+						{
+							"key": "all_seasons_list",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONE - list - current season",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/seasons?current_season",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"seasons"
+					],
+					"query": [
+						{
+							"key": "current_season",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ENTIRE - full_match fixture",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/full_matches?fixture=Arsenal~Chelsea&pre_date=2010-03-21&count=2&startat=0&strict",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"full_matches"
+					],
+					"query": [
+						{
+							"key": "fixture",
+							"value": "Arsenal~Chelsea"
+						},
+						{
+							"key": "pre_date",
+							"value": "2010-03-21"
+						},
+						{
+							"key": "count",
+							"value": "2"
+						},
+						{
+							"key": "startat",
+							"value": "0"
+						},
+						{
+							"key": "strict",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ENTIRE - full_match / full season",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/full_matches?fullseason=2020-2021",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"full_matches"
+					],
+					"query": [
+						{
+							"key": "fullseason",
+							"value": "2020-2021"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ENTIRE - full_match / onematch",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/full_matches?onematch=6001",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"full_matches"
+					],
+					"query": [
+						{
+							"key": "onematch",
+							"value": "6001"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ENTIRE match_summary - season",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/match_summaries?season=2000-2001",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"match_summaries"
+					],
+					"query": [
+						{
+							"key": "season",
+							"value": "2000-2001"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ENTIRE match_summary usersearch query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/match_summaries?usersearch=Manchester+city&count=10&startat=0",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"match_summaries"
+					],
+					"query": [
+						{
+							"key": "usersearch",
+							"value": "Manchester+city"
+						},
+						{
+							"key": "count",
+							"value": "10"
+						},
+						{
+							"key": "startat",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ENTIRE match_summary filter query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/match_summaries?filter&club=Arsenal&opposition_team=Chelsea&season=2020-2021&margin=2",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"match_summaries"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": null,
+							"description": "KEY REQUIRED!  No Value necessary."
+						},
+						{
+							"key": "club",
+							"value": "Arsenal",
+							"description": "a football club"
+						},
+						{
+							"key": "opposition_team",
+							"value": "Chelsea",
+							"description": "when combined with a club, forms a fixture!  Without a club, is just searched as if it was a club"
+						},
+						{
+							"key": "season",
+							"value": "2020-2021",
+							"description": "The season the match was played in"
+						},
+						{
+							"key": "htresult",
+							"value": "1",
+							"description": "the result of the team that played at home",
+							"disabled": true
+						},
+						{
+							"key": "atresult",
+							"value": null,
+							"description": "the result of the team that played away from home",
+							"disabled": true
+						},
+						{
+							"key": "month",
+							"value": "11",
+							"description": "the month the match was played in",
+							"disabled": true
+						},
+						{
+							"key": "referee",
+							"value": "A.+DUrso",
+							"description": "the name of the referee - format first initial.[space]Surname e.g. 'A. Durso'",
+							"disabled": true
+						},
+						{
+							"key": "count",
+							"value": "10",
+							"description": "how many total results do you want returned",
+							"disabled": true
+						},
+						{
+							"key": "startat",
+							"value": "0",
+							"description": "of the results returned, which do you want to be displayed first?",
+							"disabled": true
+						},
+						{
+							"key": "margin",
+							"value": "2",
+							"description": "Winners goal margin"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "492dd3-816c61-f89f93-e14f5f-e1566b",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "epl_main_site",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1"
+		},
+		{
+			"key": "dev keyname",
+			"value": "dev_key"
+		},
+		{
+			"key": "dev_key_value",
+			"value": "492dd3-816c61-f89f93-e14f5f-e1566b"
+		}
+	]
+}
