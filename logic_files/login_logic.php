@@ -2,10 +2,10 @@
     include_once(__DIR__ . "/dbconn.php");
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET'
-            && isset($_GET['validate_user']) && isset($_GET['id'])) {
+            && isset($_GET['validate_user']) && isset($_GET['num'])) {
         // user trying to validate their user account via the link provided in an email
         // i dont know any other way in an email link to validate the account only using GET
-        $userID = htmlentities(trim($_GET['id']));
+        $userID = htmlentities(trim($_GET['num']));
         $stmt = $conn->prepare("SELECT id, UserEmailConfirmed FROM `epl_site_users` WHERE id = ? ;");
         $stmt -> bind_param("i", $userID);
         $stmt -> execute();
@@ -54,7 +54,7 @@
                     $replyMessage = "Password Doesnt match, please try again";
                 }
             } else {
-                $replyMessage = "Login failed, please try again";
+                $replyMessage = "User not recognised, please register first";
             }
         } elseif (isset($_POST['register_btn'])) {
             $userFirstName = htmlentities(trim($_POST['register_firstname']));
@@ -64,7 +64,7 @@
             $userPassword2 = htmlentities(trim($_POST['register_pw2']));
 
             if ($userPassword1 !== $userPassword2) {
-                $displayMessage = "Passwords Dont Match, please try again";
+                $replyMessage = "Passwords Dont Match, please try again";
             } else {
                 // check user doesnt already exist first!
                 $stmt = $conn->prepare("SELECT id FROM `epl_site_users` WHERE UserEmail = ? ;");
@@ -83,27 +83,28 @@
                     $stmt -> execute();
                     $stmt -> store_result();
                     $lastID = $conn -> insert_id;
-                    
-                    // send user an email
-                    $emailSubject = "EPL Match Statistic Finder";
-                    $emailFrom = "EPL - Match Statistics Team";
-
-                    // body of the full email sent to user
-                    require(__DIR__ . "/email_templates/new_user_welcome_email.php"); 
-                    
-                    // send user email confirmation
-                    $emailConfirmation = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);
 
                     if($stmt) {
-                        $replyMessage = "Check your inbox to validate your account.";
-                        header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php");
+                        // send user an email
+                        $emailSubject = "EPL Match Statistic Finder";
+                        $emailFrom = "EPL - Match Statistics Team";
+    
+                        // body of the full email sent to user
+                        require(__DIR__ . "/../email_templates/new_user_welcome_email.php"); 
+                        
+                        // send user email confirmation
+                        $emailConfirmation = sendEmail($userEmail, $userFirstName, $emailBody, $emailSubject, $emailFrom);
+    
+                        if($emailConfirmation) {
+                            $replyMessage = "Thank you for registering, please check your inbox to validate your account.";
+                        } else {
+                            $replyMessage = "Registration failed, please try again";
+                        }
                     } else {
-                        http_response_code(400);
-                        $replyMessage = "Login failed, please try again";
+                        $replyMessage = "Registration failed, please try again";
                     }
                 } else {
                     $replyMessage = "Account already exists, please login";
-                    header("Location: http://tkilpatrick01.lampt.eeecs.qub.ac.uk/a_assignment_code/login.php");
                 }
             }
         } else {

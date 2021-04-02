@@ -269,7 +269,6 @@
             $mail->Subject = $emailSubject;
             $mail->Body = $emailBody;
             $mail->isHTML(true);
-
             $mail->isSMTP();
             $mail->Host = 'smtp.office365.com';
             $mail->SMTPAuth = TRUE;
@@ -277,8 +276,10 @@
             $mail->Username = '40314543@ads.qub.ac.uk';
             $mail->Password = 'LearnMore*-2020*';
             $mail->Port = 587;
-        
+
             $mail->send();
+        } catch (Exception $e) {
+            // $displayMessage = $e->errorMessage();
         } catch (\Exception $e) {
             $displayMessage = $e->getMessage();
         }

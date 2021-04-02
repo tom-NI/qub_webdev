@@ -27,7 +27,7 @@
     <div class="columns is-desktop master_site_width mt-6 ">
         <div class="column is-6 is-offset-3">
             <?php 
-                if(isset($replyMessage)) {
+                if (isset($replyMessage)) {
                 echo "<div class='my-3 p-5 has-background-warning'>
                         <div>
                             <h3 class='title is-5'>{$replyMessage}</h3>
@@ -66,8 +66,7 @@
                 <div class="mt-3">
                     <h2 class='title is-4 is-size-5-mobile pt-4'>Register here</h2>
                     <p class='mt-2 has-text-left'>* Required</p>
-                    <form class="form control" 
-                    action="" method="POST">
+                    <form class="form control" action="login.php" method="POST">
                         <div>
                             <label class="label mt-3 has-text-left" for="">* First Name :</label>
                             <div class='control'>
