@@ -686,7 +686,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseURL}}/full_matches?onematch=6001",
+					"raw": "{{baseURL}}/full_matches?onematch=",
 					"host": [
 						"{{baseURL}}"
 					],
@@ -696,7 +696,7 @@
 					"query": [
 						{
 							"key": "onematch",
-							"value": "6001"
+							"value": ""
 						}
 					]
 				}
@@ -709,7 +709,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseURL}}/match_summaries?season=2000-2001",
+					"raw": "{{baseURL}}/match_summaries?season=2000-2001&count=2&startat=0",
 					"host": [
 						"{{baseURL}}"
 					],
@@ -720,6 +720,14 @@
 						{
 							"key": "season",
 							"value": "2000-2001"
+						},
+						{
+							"key": "count",
+							"value": "2"
+						},
+						{
+							"key": "startat",
+							"value": "0"
 						}
 					]
 				}
@@ -763,7 +771,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseURL}}/match_summaries?filter&club=Arsenal&opposition_team=Chelsea&season=2020-2021&margin=2",
+					"raw": "{{baseURL}}/match_summaries?filter&club=Everton&season=2020-2021",
 					"host": [
 						"{{baseURL}}"
 					],
@@ -774,17 +782,16 @@
 						{
 							"key": "filter",
 							"value": null,
-							"description": "KEY REQUIRED!  No Value necessary."
+							"description": "KEYWORD NEEDED FOR FILTERING SUMMARIES"
 						},
 						{
 							"key": "club",
-							"value": "Arsenal",
-							"description": "a football club"
+							"value": "Everton"
 						},
 						{
 							"key": "opposition_team",
 							"value": "Chelsea",
-							"description": "when combined with a club, forms a fixture!  Without a club, is just searched as if it was a club"
+							"disabled": true
 						},
 						{
 							"key": "season",
@@ -799,8 +806,13 @@
 						},
 						{
 							"key": "atresult",
-							"value": null,
+							"value": "",
 							"description": "the result of the team that played away from home",
+							"disabled": true
+						},
+						{
+							"key": "margin",
+							"value": "2",
 							"disabled": true
 						},
 						{
@@ -826,11 +838,6 @@
 							"value": "0",
 							"description": "of the results returned, which do you want to be displayed first?",
 							"disabled": true
-						},
-						{
-							"key": "margin",
-							"value": "2",
-							"description": "Winners goal margin"
 						}
 					]
 				}
