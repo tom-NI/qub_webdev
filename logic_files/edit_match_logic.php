@@ -12,7 +12,7 @@
                 
                 // build each form parameter into a variable
                 require(__DIR__ . "/post_match_logic.php");
-                $matchToChangeID = htmlentities(trim($_POST['id']));
+                $matchToChangeID = urlencode($_POST['id']);
                 
                 $justForChange = htmlentities(trim($_POST['change_justification']));
                 
@@ -47,12 +47,10 @@
 
                 $endpoint ="http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches/?editmatch";
                 $result = postDevKeyWithData($endpoint, $matchInfoArray);
-                print_r($result);
                 
                 //get the API JSON reply and pull into a var for the users
                 $apiJSONReply = json_decode($result, true);
                 $submissionDisplayToUser = $apiJSONReply[0]['reply_message'];
-                print_r($submissionDisplayToUser);
             }
         } elseif (isset($_GET['num'])) {
             // user is editing the match, so get all the data from the matchID and populate the form

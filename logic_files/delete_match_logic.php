@@ -10,7 +10,7 @@
     } elseif (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] == "admin") {
         require(__DIR__ . "/../logic_files/dbconn.php");
         if (isset($_GET['deletematch'])) {
-            $capturedID = htmlentities(trim($_GET['num']));
+            $capturedID = urldecode($_GET['num']);
             $matchID = openssl_decrypt($capturedID, "AES-128-ECB", "epl_match_id");
             
             // get check match exists first to prevent any oddness

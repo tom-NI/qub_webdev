@@ -1,7 +1,7 @@
 <?php
     // logic for a single match - used on single match page only.
     if (isset($_GET['num'])) {
-        $postedMatchID = htmlentities(trim($_GET['num']));
+        $postedMatchID = $_GET['num'];
         $singleMatchURL = "http://tkilpatrick01.lampt.eeecs.qub.ac.uk/epl_api_v1/full_matches?onematch={$postedMatchID}";
         $singleMatchData = postDevKeyInHeader($singleMatchURL);
         $singleMatchList = json_decode($singleMatchData, true);
