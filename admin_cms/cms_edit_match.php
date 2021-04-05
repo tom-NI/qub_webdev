@@ -4,7 +4,7 @@
     require(__DIR__ . "/../logic_files/edit_match_logic.php");
 
     if (isset($_GET['num'])) {
-        $matchIdToPost = (int) htmlentities(trim($_GET['num']));
+        $matchIdToPost = htmlentities(trim($_GET['num']));
     }
 ?>
 

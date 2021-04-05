@@ -12,7 +12,8 @@
                 
                 // build each form parameter into a variable
                 require(__DIR__ . "/post_match_logic.php");
-                $matchToChangeID = (int) htmlentities(trim($_POST['id']));
+                $matchToChangeID = htmlentities(trim($_POST['id']));
+                
                 $justForChange = htmlentities(trim($_POST['change_justification']));
                 
                 // build the data that has to be sent inside the header, into an assoc array

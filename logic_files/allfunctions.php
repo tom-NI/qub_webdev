@@ -320,15 +320,7 @@
             $finalURL = "{$fullRootURL}";
         } else {
             $finalURL = "{$fullRootURL}?{$leftOverQueriesURL}";
-        }
-
-        // rebuild and return a new cleaned URL with any user GET queries, 
-        // excludes current pagination keys
-        
-        if (strpos($leftOverQueriesURL, '?') !== false) {
-        } else {
-        }
-        
+        }    
         return urldecode($finalURL);
     }
 ?>

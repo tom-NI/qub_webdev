@@ -4,12 +4,14 @@
 
     include_once(__DIR__ . "/../logic_files/allfunctions.php");
     require(__DIR__ . "/../logic_files/dbconn.php");
+
     if (!isset($_SESSION['sessiontype']) || strlen($_SESSION['sessiontype']) == 0) {
         header("Location: login.php");
     } elseif (isset($_SESSION['sessiontype']) && $_SESSION['sessiontype'] == "admin") {
         require(__DIR__ . "/../logic_files/dbconn.php");
         if (isset($_GET['deletematch'])) {
-            $matchID = (int) htmlentities(trim($_GET['num']));
+            $capturedID = htmlentities(trim($_GET['num']));
+            $matchID = openssl_decrypt($capturedID, "AES-128-ECB", "epl_match_id");
             
             // get check match exists first to prevent any oddness
             $stmt = $conn->prepare("SELECT MatchID FROM `epl_matches` WHERE MatchID = ? ");
