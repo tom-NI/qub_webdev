@@ -38,9 +38,9 @@
                 echo "<a href='{$cleanedURL}?{$previousPageQuery}' id='previous_page_btn' class='pagination-previous is-outlined button is-info'>Prev</a>";
             }
             if ($totalPages > 1) {
-                echo "<a href='{$cleanedURL}?{$nextPageQuery}' id='next_page_btn' class='pagination-next is-outlined button is-info'>Next</a>
-                <ul class='pagination-list is-centered'>";
+                echo "<a href='{$cleanedURL}?{$nextPageQuery}' id='next_page_btn' class='pagination-next is-outlined button is-info'>Next</a>";
             }
+            echo "<ul class='pagination-list is-centered'>";
 
         // dynamically calculate current page number based on URL
         if (isset($_GET['startat']) && isset($_GET['count'])) {
