@@ -1,5 +1,4 @@
-# Queens University Belfast 
-## Masters Web Development Module - code repository.
+# Masters Web Development Module - code repository.
 
 This Repository is the main Full Stack Website, Written in PHP.
 Please refer to the REST API and SQL repositories for the remainder of this projects code.
