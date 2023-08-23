@@ -3,7 +3,7 @@
 This Repository is the main Full Stack Website, Written in PHP.
 Please refer to the REST API and SQL repositories for the remainder of this projects code.
 
-## Entire Projects Requirements;
+## Project Requirements;
 - Choose a publicly available dataset from Kaggle.com and decide on the websites core design and functionality.
 - Create & design database table(s) (MySQL) using your chosen dataset.
 - Design & develop a REST API (PHP and SQL) that queries the above MySQL table(s).
